@@ -1,45 +1,24 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
-import mgl.ContainingElement
-import mgl.Edge
+import graphmodel.ModelElement
+import java.util.List
 import mgl.GraphModel
-import mgl.ModelElement
-import mgl.Node
-import org.eclipse.graphiti.datatypes.ILocation
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.IFeatureProvider
-import org.eclipse.graphiti.features.IMoveShapeFeature
-import org.eclipse.graphiti.features.IReconnectionFeature
-import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
+import org.eclipse.graphiti.features.IUpdateFeature
+import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
-import org.eclipse.graphiti.features.context.impl.MoveShapeContext
-import org.eclipse.graphiti.features.context.impl.ReconnectionContext
-import org.eclipse.graphiti.mm.pictograms.Anchor
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer
+import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.ui.services.GraphitiUi
-import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
-import org.eclipse.emf.ecore.util.EcoreUtil
-import java.util.List
 import org.eclipse.graphiti.services.Graphiti
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
-import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
-import org.eclipse.graphiti.features.context.impl.DeleteContext
-import org.eclipse.graphiti.features.IDeleteFeature
-import org.eclipse.graphiti.features.context.impl.UpdateContext
-import org.eclipse.graphiti.features.IUpdateFeature
-import org.eclipse.graphiti.features.context.impl.AddContext
-import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
-import graphmodel.IdentifiableElement
-import mgl.NodeContainer
+import org.eclipse.graphiti.ui.services.GraphitiUi
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -80,8 +59,8 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(GraphModel me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» 
-	«IF !me.allSuperTypes.empty» implements «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName»  implements «CModelElement.name»
+	«IF !me.allSuperTypes.empty» ,«FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;
 	
@@ -96,7 +75,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
+	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
 	
@@ -182,7 +161,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («Diagram.name») curr;
 	}
 	
-	public «PictogramElement.name» fetchPictogramElement(«graphmodel.ModelElement.name» me) {
+	public «PictogramElement.name» fetchPictogramElement(«ModelElement.name» me) {
 		«List.name»<«PictogramElement.name»> pes = «Graphiti.name».getLinkService().getPictogramElements(getDiagram(), me.getInternalElement());
 		if (pes != null && pes.size() > 0 )
 			return pes.get(0);

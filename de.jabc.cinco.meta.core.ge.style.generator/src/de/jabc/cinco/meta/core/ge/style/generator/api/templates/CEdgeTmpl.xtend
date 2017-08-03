@@ -16,6 +16,8 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import graphmodel.Node
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -37,7 +39,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
+	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
 	
@@ -102,6 +104,21 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«ENDFOR»
 		
 		return null;
+	}
+	
+	@Override
+	public <T extends «graphmodel.Edge.name»> T clone(«Node.name» source, «Node.name» target) {
+		«graphmodel.Edge.name» clone = super.clone(source, target);
+		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
+		«PictogramElement.name» clonePE = copier.copy(this.getPictogramElement());
+		copier.relink(clonePE, clone.getInternalElement());
+		if (clone instanceof «CModelElement.name»)
+			((«CModelElement.name») clone).setPictogramElement(clonePE);
+		if (source.getRootElement() instanceof «CModelElement.name») {
+			«Diagram.name» d = ((«CModelElement.name») source.getRootElement()).getPictogramElement();
+			d.getConnections().add((«Connection.name») clonePE);
+		}
+		return (T) clone;
 	}
 	
 	«me.updateContent»

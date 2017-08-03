@@ -22,10 +22,7 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.model.preprocessors,
    org.eclipse.emf.ecore,
    style,
    org.eclipse.emf.common.notify.impl,
-   org.eclipse.emf.common.notify",
- graphicalgraphmodel,
- graphicalgraphmodel.impl,
- graphicalgraphmodel.util
+   org.eclipse.emf.common.notify"
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.graphiti.mm;visibility:=reexport,

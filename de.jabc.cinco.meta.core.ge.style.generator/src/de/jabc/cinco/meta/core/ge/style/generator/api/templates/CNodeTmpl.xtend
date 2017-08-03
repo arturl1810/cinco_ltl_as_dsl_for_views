@@ -28,6 +28,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 
 class CNodeTmpl extends APIUtils {
 
@@ -37,7 +39,7 @@ extension CModelElementTmpl = new CModelElementTmpl
 def doGenerateImpl(Node me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CModelElement.name»
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CNode.name»
 	«IF !me.allSuperTypes.empty», «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF» {
 	
 	private «PictogramElement.name» pe;
@@ -50,7 +52,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
+	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
 	
@@ -230,6 +232,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		else {
 			«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
 			«PictogramElement.name» peClone = copier.copyPE(this.getPictogramElement());
+			((«AnchorContainer.name») peClone).getAnchors().clear();
+			((«AnchorContainer.name») peClone).getAnchors().add(«PictogramsFactory.name».eINSTANCE.createChopboxAnchor());
 			«ContainerShape.name» parentContainerShape = null;
 			copier.relink(peClone, clone.getInternalElement());
 			if (targetContainer instanceof «CModelElement.name»)
