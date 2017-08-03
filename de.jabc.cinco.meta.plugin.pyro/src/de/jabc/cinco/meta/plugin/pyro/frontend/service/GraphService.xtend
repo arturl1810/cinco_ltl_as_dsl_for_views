@@ -14,11 +14,9 @@ class GraphService extends Generatable {
 	def contentGraphService()
 	'''
 	import 'dart:async';
-	import 'dart:math';
 	
 	import 'package:angular2/angular2.dart';
 	import '../model/core.dart';
-	import '../model/command.dart';
 	import '../model/message.dart';
 	«FOR g:gc.graphMopdels»
 	import 'package:«gc.projectName.escapeDart»/model/«g.name.lowEscapeDart».dart' as «g.name.lowEscapeDart»;
@@ -26,69 +24,98 @@ class GraphService extends Generatable {
 	«ENDFOR»
 	
 	import 'dart:html' as html;
+	import 'dart:convert';
 	
 	@Injectable()
 	class GraphService {
 		
-	   Future<Message> sendMessage(Message m) async{
-	    print("[SEND] message ${m}");
-        html.window.console.log(m);
-        if(m is CompoundCommandMessage){
-        if(m.cmd.queue.first is CreateNodeCommand || m.cmd.queue.first is CreateEdgeCommand){
-          return new ValidCreatedMessage(m.senderDywaId,new Random().nextInt(999999));
-        }
-      }
-    	return new ValidMessage(m.senderDywaId);
-	}
+	  Map requestHeaders = {'Content-Type':'application/json'};
+		
+	  Future<Message> sendMessage(Message m,String graphModelType,int graphModelId) async{
+	     print("[SEND] message ${m}");
+	     return html.HttpRequest.request("rest/${graphModelType}/message/${graphModelId.toString()}/private",sendData:m.toJSON(),method: "POST",requestHeaders: requestHeaders).then((response){
+	       var p = Message.fromJSON(response.responseText);
+	       print("[PYRO] send command ${p.messageType}");
+	       return p;
+	     });
+	  }
 	
+	  Future<PyroProject> loadProjectStructure(PyroProject project) async {
+	    return html.HttpRequest.request("rest/project/structure/${project.dywaId}/private",method: "GET",requestHeaders: requestHeaders).then((response){
+	      var p = PyroProject.fromJSON(response.responseText);
+	      print("[PYRO] load project ${p.name}");
+	      return p;
+	    });
+	  }
 	
 	  Future<PyroFolder> createFolder(PyroFolder folder,dynamic parent) async {
-	    folder.dywaId = new Random().nextInt(999999);
-	    parent.innerFolders.add(folder);
-	    print("[SEND] new folder ${folder.name}");
-	    return new Future.value(folder);
+	    var data = {
+	      'parentId':parent.dywaId,
+	      'name':folder.name
+	    };
+	    return html.HttpRequest.request("rest/graph/create/folder/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
+	      var newFolder = PyroFolder.fromJSON(response.responseText);
+	      parent.innerFolders.add(newFolder);
+	      print("[PYRO] new folder ${folder.name} in folder ${parent.name}");
+	      return newFolder;
+	    });
 	  }
 	
 	  Future<PyroFolder> updateFolder(PyroFolder folder) async {
-	  	print("[SEND] update folder name ${folder.name}");
-	    return new Future.value(folder);
+	    var data = {
+	      'dywaId':folder.dywaId,
+	      'name':folder.name
+	    };
+	    return html.HttpRequest.request("rest/graph/update/folder/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
+	      print("[PYRO] update folder ${folder.name}");
+	      return folder;
+	    });
 	  }
 	
 	  Future<Null> removeFolder(PyroFolder folder,PyroFolder parent) async {
-		print("[SEND] remove folder ${folder.name}");
-	    parent.innerFolders.remove(folder);
-	    
-	    return;
+	    return html.HttpRequest.request("rest/graph/remove/folder/${folder.dywaId}/${parent.dywaId}/private", method: "GET",requestHeaders: requestHeaders).then((response){
+	      print("[PYRO] remove folder ${folder.name}");
+	      parent.innerFolders.remove(folder);
+	    });
 	  }
 	
 	  Future<Null> removeGraph(GraphModel graph,PyroFolder parent) async {
-		print("[SEND] remove graph ${graph.filename}");
-	    parent.graphModels.remove(graph);
-	    
-	    return;
+	    return html.HttpRequest.request("rest/${graph.runtimeType.toString().toLowerCase()}/remove/${graph.dywaId}/${parent.dywaId}/private", method: "GET",requestHeaders: requestHeaders).then((response){
+	      print("[PYRO] remove graphmodel ${graph.filename}");
+	      parent.graphModels.remove(graph);
+	    });
 	  }
 	
 	  Future<GraphModel> updateGraphModel(GraphModel graph) async {
-	    return new Future.value(graph);
-	  }
-	«FOR g:gc.graphMopdels»
-	  Future<«g.name.lowEscapeDart».«g.name.fuEscapeDart»> create«g.name.escapeDart»(«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph,PyroFolder parent) async {
-	    graph.dywaId = new Random().nextInt(999999);
-		print("[SEND] new graph ${graph.filename}");
-	    parent.graphModels.add(graph);
-	    
-	    return new Future.value(graph);
+	    return html.HttpRequest.request("rest/graph/update/graphmodel/private",sendData:JSON.encode(graph.toJSOG(new Map())),method: "POST",requestHeaders: requestHeaders).then((response){
+	      print("[PYRO] update graphmodel ${graph.filename}");
+	      return graph;
+	    });
 	  }
 	
-	  Future<«g.name.lowEscapeDart».«g.name.fuEscapeDart»> update«g.name.escapeDart»(«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph) async {
-	  	print("[SEND] update graph ${graph.filename}");
-	    return new Future.value(graph);
+	
+	«FOR g:gc.graphMopdels»
+	  Future<«g.name.lowEscapeDart».«g.name.fuEscapeDart»> create«g.name.escapeDart»(«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph,PyroFolder parent) async {
+	    var data = {
+	        'parentId':parent.dywaId,
+	        'filename':graph.filename
+	    };
+	    return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/create/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
+	        var newGraph = «g.name.lowEscapeDart».«g.name.fuEscapeDart».fromJSOG(JSON.decode(response.responseText),new Map());
+	        print("[PYRO] created «g.name.fuEscapeDart» ${graph.filename}");
+	        parent.graphModels.add(newGraph);
+	        return newGraph;
+	    });
 	  }
+
 	  
 	  Future<«g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph> loadCommandGraph«g.name.fuEscapeDart»(«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph) async{
-	      print("[RECEIVE] load «g.name.lowEscapeDart» command graph ${graph.dywaId}");
-	      var cg = new «g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph(graph);
-	      return new Future.value(cg);
+	      return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/read/${graph.dywaId}/private",method: "GET",requestHeaders: requestHeaders).then((response){
+	          var newGraph = «g.name.lowEscapeDart».«g.name.fuEscapeDart».fromJSOG(JSON.decode(response.responseText),new Map());
+	          print("[PYRO] load «g.name.lowEscapeDart» ${newGraph.filename}");
+	          var cg = new «g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph(newGraph);
+	          return cg;
+	      });
 	  }
 	«ENDFOR»
 	

@@ -21,14 +21,14 @@ class CompoundCommand {
   static CompoundCommand fromJSOG(jsog)
   {
     CompoundCommand cc = new CompoundCommand();
-    cc.queue = jsog['queue'].map((n) => CommandPropertyDeserializer.deserialize(n));
+    cc.queue = jsog['queue'].map((n) => CommandPropertyDeserializer.deserialize(n)).toList();
     return cc;
   }
 
   Map toJSOG()
   {
     Map map = new Map();
-    map['queue'] = queue.map((n) => n.toJSOG());
+    map['queue'] = queue.map((n) => n.toJSOG()).toList();
     return map;
   }
 
@@ -72,6 +72,7 @@ class CreateNodeCommand extends NodeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.CreateNodeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -115,6 +116,7 @@ class MoveNodeCommand extends NodeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.MoveNodeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -157,6 +159,7 @@ class RemoveNodeCommand extends NodeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.RemoveNodeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -198,6 +201,7 @@ class ResizeNodeCommand extends NodeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.ResizeNodeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -233,6 +237,7 @@ class RotateNodeCommand extends NodeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.RotateNodeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -261,6 +266,7 @@ class CreateEdgeCommand extends EdgeCommand {
 
     cmd.sourceId = jsog['sourceId'];
     cmd.targetId = jsog['targetId'];
+    cmd.positions = new List();
     for(var b in jsog['positions']) {
       cmd.positions.add(new BendingPoint(jsog: b));
     }
@@ -270,6 +276,7 @@ class CreateEdgeCommand extends EdgeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.CreateEdgeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -278,7 +285,7 @@ class CreateEdgeCommand extends EdgeCommand {
     map['sourceId'] = sourceId;
     map['targetId'] = targetId;
     
-    map['positions'] = positions.map((b)=>b.toJSOG(new Map()));
+    map['positions'] = positions.map((b)=>b.toJSOG(new Map())).toList();
 
     return map;
   }
@@ -295,6 +302,7 @@ class RemoveEdgeCommand extends EdgeCommand {
     cmd.delegateId = jsog['delegateId'];
     cmd.type = jsog['type'];
 
+    cmd.positions = new List();
     for(var b in jsog['positions']) {
       cmd.positions.add(new BendingPoint(jsog: b));
     }
@@ -309,6 +317,7 @@ class RemoveEdgeCommand extends EdgeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.RemoveEdgeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -316,7 +325,7 @@ class RemoveEdgeCommand extends EdgeCommand {
 
     map['sourceId'] = sourceId;
     map['targetId'] = targetId;
-    map['positions'] = positions.map((b)=>b.toJSOG(new Map()));
+    map['positions'] = positions.map((b)=>b.toJSOG(new Map())).toList();
     return map;
   }
 }
@@ -345,6 +354,7 @@ class ReconnectEdgeCommand extends EdgeCommand {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.ReconnectEdgeCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     map['dywaVersion'] = dywaVersion;
@@ -375,9 +385,11 @@ class UpdateBendPointCommand extends Command {
     UpdateBendPointCommand cmd = new UpdateBendPointCommand();
     cmd.delegateId = jsog['delegateId'];
     cmd.type = jsog['type'];
+    cmd.positions = new List();
     for(var value in jsog['positions']) {
       cmd.positions.add(new BendingPoint(jsog: value));
     }
+    cmd.oldPositions = new List();
     for(var value in jsog['oldPositions']) {
       cmd.oldPositions.add(new BendingPoint(jsog: value));
     }
@@ -387,11 +399,12 @@ class UpdateBendPointCommand extends Command {
   Map toJSOG()
   {
     Map map = new Map();
+    map['dywaRuntimeType']="info.scce.pyro.core.command.types.UpdateBendPointCommand";
     map['delegateId'] = delegateId;
     map['type'] = type;
     
-    map['positions'] = positions.map((n)=>n.toJSOG(new Map()));
-    map['oldPositions'] = oldPositions.map((n)=>n.toJSOG(new Map()));
+    map['positions'] = positions.map((n)=>n.toJSOG(new Map())).toList();
+    map['oldPositions'] = oldPositions.map((n)=>n.toJSOG(new Map())).toList();
 
     return map;
   }

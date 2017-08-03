@@ -21,22 +21,22 @@ class Index extends Generatable {
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <link rel="icon"
 	          type="image/png"
-	          href="assets/img/pyro.png" />
-	    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-	    <link rel="stylesheet" href="assets/css/joint.css" />
-	    <link rel="stylesheet" href="assets/css/pyro_core.css" />
-	    <script type="application/javascript" src="assets/js/jquery.min.js"></script>
-	    <script type="application/javascript" src="assets/js/bootstrap.min.js"></script>
-	    <script type="application/javascript" src="assets/js/lodash.js"></script>
-	    <script type="application/javascript" src="assets/js/backbone.js"></script>
-	    <script type="application/javascript" src="assets/js/joint.js"></script>
-	    <script type="application/javascript" src="assets/js/pyro_core.js"></script>
+	          href="asset/img/pyro.png" />
+	    <link rel="stylesheet" href="asset/css/bootstrap.min.css" />
+	    <link rel="stylesheet" href="asset/css/joint.css" />
+	    <link rel="stylesheet" href="asset/css/pyro_core.css" />
+	    <script type="application/javascript" src="asset/js/jquery.min.js"></script>
+	    <script type="application/javascript" src="asset/js/bootstrap.min.js"></script>
+	    <script type="application/javascript" src="asset/js/lodash.js"></script>
+	    <script type="application/javascript" src="asset/js/backbone.js"></script>
+	    <script type="application/javascript" src="asset/js/joint.js"></script>
+	    <script type="application/javascript" src="asset/js/pyro_core.js"></script>
 	«FOR g:gc.graphMopdels»
-		<script type="application/javascript" src="assets/js/«g.name.lowEscapeDart»/«g.name.lowEscapeDart»_shapes.js"></script>
-		<script type="application/javascript" src="assets/js/«g.name.lowEscapeDart»/controller.js"></script>
+		<script type="application/javascript" src="asset/js/«g.name.lowEscapeDart»/«g.name.lowEscapeDart»_shapes.js"></script>
+		<script type="application/javascript" src="asset/js/«g.name.lowEscapeDart»/controller.js"></script>
 	«ENDFOR»
-	    <script defer src="main.dart" type="application/dart"></script>
-	    <script defer src="packages/browser/dart.js"></script>
+	    <script defer src="asset/main.dart" type="application/dart"></script>
+	    <script defer src="asset/packages/browser/dart.js"></script>
 	
 	    <style>
 	      body {
@@ -53,7 +53,7 @@ class Index extends Generatable {
 	  	</div>
 	    <pyro-app>
 	    <div style="width:100%;height:100%;text-align:center;padding-top: 5%;">
-	    	<img style="top: 10%;left:50%" src="assets/img/pyro.png">
+	    	<img style="top: 10%;left:50%" src="asset/img/pyro.png">
 	    	<h3 style="color: #ff8001;">Loading Pyro..</h3>
 	    	<div class="progress" style="
 	    	    width: 30%;

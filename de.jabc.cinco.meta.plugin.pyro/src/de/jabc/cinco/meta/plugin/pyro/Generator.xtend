@@ -17,10 +17,19 @@ class Generator {
 	def generate(Set<GraphModel> graphModels,CincoProduct cpd, String base,IProject iProject)
 	{
 		val gc = new GeneratorCompound(cpd.name,graphModels);
-		//copy frond end statics
+		//cope back end statics
+		{
+			copyResources("archetype/dywa-config",base)
+			copyResources("archetype/dywa-app",base)
+			val backEndGenerator = new de.jabc.cinco.meta.plugin.pyro.backend.Generator(base)
+			backEndGenerator.generator(gc,iProject)
+		}
+		
+		
+		//copy front end statics
 		{
 			//generate front end
-			val path = base + "/app-presentation/target/generated-sources/app"
+			val path = base + "/dywa-app/app-presentation/target/generated-sources/app"
 			copyResources("frontend/app/lib",path)
 			copyResources("frontend/app/web",path)
 			val frontEndGen = new de.jabc.cinco.meta.plugin.pyro.frontend.Generator(path)

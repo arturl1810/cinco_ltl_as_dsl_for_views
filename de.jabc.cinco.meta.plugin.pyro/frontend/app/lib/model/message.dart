@@ -22,13 +22,13 @@ abstract class Message {
   static Message fromJSOG(Map jsog)
   {
     if(jsog['messageType'] == 'project'){
-      return ProjectMessage.fromJSOG(jsog['value']);
+      return ProjectMessage.fromJSOG(jsog);
     }
     if(jsog['messageType'] == 'property'){
-      return PropertyMessage.fromJSOG(jsog['value']);
+      return PropertyMessage.fromJSOG(jsog);
     }
     if(jsog['messageType'] == 'command'){
-      return CompoundCommandMessage.fromJSOG(jsog['value']);
+      return CompoundCommandMessage.fromJSOG(jsog);
     }
     return null;
   }
@@ -60,8 +60,10 @@ class ProjectMessage extends Message {
   Map toJSOG()
   {
     Map jsog = new Map();
+    
     jsog["senderDywaId"] = senderDywaId;
     jsog['messageType'] = 'project';
+    jsog['dywaRuntimeType'] = "info.scce.pyro.core.command.types.ProjectMessage";
     jsog['project'] = project.toJSOG(new Map());
     return jsog;
   }
@@ -97,6 +99,7 @@ class PropertyMessage extends GraphMessage {
   Map toJSOG()
   {
     Map jsog = new Map();
+    jsog['dywaRuntimeType']="info.scce.pyro.core.command.types.PropertyMessage";
     jsog['messageType'] = 'property';
     jsog['graphModelId'] = graphModelId;
     jsog["senderDywaId"] = senderDywaId;
@@ -129,6 +132,7 @@ class CompoundCommandMessage extends GraphMessage {
   Map toJSOG()
   {
     Map jsog = new Map();
+    jsog['dywaRuntimeType']="info.scce.pyro.core.command.types.CompoundCommandMessage";
     jsog['messageType'] = 'command';
     jsog['graphModelId'] = graphModelId;
     jsog["senderDywaId"] = senderDywaId;

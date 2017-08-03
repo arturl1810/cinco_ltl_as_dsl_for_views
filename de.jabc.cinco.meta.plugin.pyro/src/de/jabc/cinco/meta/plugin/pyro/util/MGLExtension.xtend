@@ -52,7 +52,7 @@ class MGLExtension {
 	
 	def iconPath(GraphicalModelElement gme,String g,boolean includeFile){
 		val path = gme.eclipseIconPath
-		'''assets/img/«g»«IF includeFile»«path.substring(path.lastIndexOf("/"),path.length)»«ENDIF»'''
+		'''img/«g»«IF includeFile»«path.substring(path.lastIndexOf("/"),path.length)»«ENDIF»'''
 	}
 	
 	def paletteGroup(GraphicalModelElement gme){
@@ -71,6 +71,18 @@ class MGLExtension {
 	
 	def elementsAndTypes(GraphModel g){
 		return g.elements + g.types.filter(UserDefinedType)
+	}
+	
+	def elementsAndTypesAndEnums(GraphModel g){
+		return g.elements + g.types.filter(UserDefinedType) +g.enumerations
+	}
+	
+	def boolean getIsType(ModelElement element){
+		element instanceof UserDefinedType
+	}
+	
+	def enumerations(GraphModel g){
+		return g.types.filter(Enumeration)
 	}
 	
 	def isPrimitive(Attribute attr,GraphModel g){
@@ -106,6 +118,24 @@ class MGLExtension {
 	
 	def canContain(ModelElement element){
 		element instanceof GraphModel || element instanceof NodeContainer
+	}
+	
+	def isExtending(ModelElement element){
+		switch element {
+			NodeContainer: {
+				return element.extends != null
+			}
+			Node: {
+				return element.extends != null
+			}
+			Edge: {
+				return element.extends != null
+			}
+			UserDefinedType: {
+				return element.extends != null
+			}
+		}
+		return false
 	}
 	
 	def extending(ModelElement element){
@@ -165,6 +195,7 @@ class MGLExtension {
 	
 	def deserialize(Attribute it,GraphModel g) {
 		if(isPrimitive(g)){
+			if(type.getEnum(g)!=null)return ""
 			switch(type){
 				case "EBoolean": return '''=="true"'''
 				case "EInt": return ''''''

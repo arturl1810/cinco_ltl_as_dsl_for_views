@@ -7,7 +7,9 @@ abstract class PyroElement {
   String dywaName;
   Map toJSOG(Map cache);
 
-  void merge(PyroElement ie);
+  String $type();
+
+  void merge(PyroElement ie,[bool structureOnly=false]);
 
   PyroElement({Map jsog,Map cache});
 }
@@ -17,7 +19,7 @@ abstract class IdentifiableElement implements PyroElement{
   int dywaVersion;
   String dywaName;
   
-  String $type();
+ 
 }
 
 abstract class ModelElement implements IdentifiableElement{
@@ -147,11 +149,12 @@ class BendingPoint implements PyroElement{
   {
     Map map = new Map();
     if(cache.containsKey(dywaId)){
-      map['@ref']=dywaId;
+      map['@ref']=cache[dywaId];
       return map;
     }
-    cache[dywaId]=map;
-    map['@id']=dywaId;
+    cache[dywaId]=(cache.length+1).toString();
+    map['@id']=cache[dywaId];
+    map['dywaRuntimeType']="info.scce.pyro.core.graphmodel.BendingPoint";
     map['dywaId'] = dywaId;
     map['dywaVersion'] = dywaVersion;
     map['dywaName'] = dywaName;
@@ -160,11 +163,14 @@ class BendingPoint implements PyroElement{
     return map;
   }
 
-  void merge(IdentifiableElement ie){}
+  void merge(IdentifiableElement ie,[bool structureOnly=false]){}
 
-  @override
   BendingPoint fromJSOG(jsog, {Map cache}) {
     return new BendingPoint(cache: cache,jsog: jsog);
+  }
+  @override
+  String $type() {
+    return "core.BendingPoint";
   }
 }
 
@@ -179,6 +185,7 @@ class LocalGraphModelSettings {
   
   LocalGraphModelSettings({Map cache,dynamic jsog})
   {
+    openedGraphModels = new List<GraphModel>();
   	if(jsog!=null){
   		dywaId = jsog["dywaId"];
   		  dywaVersion = jsog["dywaVersion"];
@@ -186,7 +193,7 @@ class LocalGraphModelSettings {
       router = jsog["router"];
       connector = jsog["connector"];
   		for(var g in jsog["openedGraphModels"]){
-  			if(g.containsLey("@ref")){
+  			if(g.containsKey("@ref")){
   				openedGraphModels.add(cache[g["@ref"]]);
   			} else {
   		openedGraphModels.add( GraphModelDispatcher.dispatch(cache,g));
@@ -210,10 +217,10 @@ class LocalGraphModelSettings {
   	Map toJSOG(Map cache){
   		Map jsog = new Map();
   		if(cache.containsKey(dywaId)){
-  	jsog["@ref"]=dywaId;
+  	jsog["@ref"]=cache[dywaId];
   } else {
-  	cache[dywaId]=jsog;
-  	jsog["@id"]=dywaId;
+  	cache[dywaId]=(cache.length+1).toString();
+  	jsog["@id"]=cache[dywaId];
   	jsog["dywaId"]=dywaId;
   	jsog["dywaVersion"]=dywaVersion;
   	jsog["dywaName"]=dywaName;
@@ -244,10 +251,10 @@ class GlobalGraphModelSettings {
   Map toJSOG(Map cache){
   	Map jsog = new Map();
   if(cache.containsKey(dywaId)){
-  	jsog["@ref"]=dywaId;
+  	jsog["@ref"]=cache[dywaId];
   		} else {
-  			cache[dywaId]=jsog;
-  jsog["@id"]=dywaId;
+  			cache[dywaId]=(cache.length+1).toString();
+  jsog["@id"]=cache[dywaId];
   jsog["dywaId"]=dywaId;
   jsog["dywaVersion"]=dywaVersion;
   jsog["dywaName"]=dywaName;
@@ -268,14 +275,18 @@ class PyroUser {
 
   PyroUser({Map cache,dynamic jsog})
   {
+    knownUsers = new List<PyroUser>();
+    ownedProjects = new List<PyroProject>();
+    sharedProjects = new List<PyroProject>();
     if(jsog!=null)
     {
+      cache[jsog["@id"]]=this;
       dywaId = jsog["dywaId"];
       dywaVersion = jsog["dywaVersion"];
       dywaName = jsog["dywaName"];
       username = jsog["username"];
       email = jsog["email"];
-  for(var value in jsog["knownUsers"]){
+  for(Map value in jsog["knownUsers"]){
   	if(value.containsKey("@ref")){
   		knownUsers.add(cache[value["@ref"]]);
   	} else {
@@ -326,18 +337,18 @@ class PyroUser {
   {
     Map jsog = new Map();
     if(cache.containsKey(dywaId)){
-  jsog["@ref"]=dywaId;
+  jsog["@ref"]=cache[dywaId];
     } else {
-    	cache[dywaId]=jsog;
-    	jsog["@id"]=dywaId;
+    	cache[dywaId]=(cache.length+1).toString();
+    	jsog["@id"]=cache[dywaId];
     jsog["dywaId"]=dywaId;
   jsog["dywaVersion"]=dywaVersion;
   			jsog["dywaName"]=dywaName;
   			jsog["username"]=username;
   			jsog["email"]=email;
-  			jsog["knownUsers"]=knownUsers.map((n)=>n.toJSOG(cache));
-  			jsog["ownedProjects"]=ownedProjects.map((n)=>n.toJSOG(cache));
-  			jsog["sharedProjects"]=sharedProjects.map((n)=>n.toJSOG(cache));
+  			jsog["knownUsers"]=knownUsers.map((n)=>n.toJSOG(cache)).toList();
+  			jsog["ownedProjects"]=ownedProjects.map((n)=>n.toJSOG(cache)).toList();
+  			jsog["sharedProjects"]=sharedProjects.map((n)=>n.toJSOG(cache)).toList();
     }
     return jsog;
   }
@@ -356,14 +367,18 @@ class PyroProject extends PyroFolder{
 
   PyroProject({Map cache,dynamic jsog})
   {
+    shared = new List<PyroUser>();
+    innerFolders = new List<PyroFolder>();
+    graphModels = new List<GraphModel>();
     if(jsog!=null)
     {
+      cache[jsog["@id"]]=this;
   	dywaId = jsog["dywaId"];
   	dywaVersion = jsog["dywaVersion"];
   	dywaName = jsog["dywaName"];
   	  description = jsog["description"];
   	  name = jsog["name"];
-  	  if(jsog["owner"].conainsKey("@ref")){
+  	  if(jsog["owner"].containsKey("@ref")){
   	   	owner = cache[jsog["owner"]["@ref"]];
   	   } else {
   	   	owner = new PyroUser(cache:cache,jsog:jsog["owner"]);
@@ -375,20 +390,25 @@ class PyroProject extends PyroFolder{
   	  		shared.add(new PyroUser(cache:cache,jsog:value));
   	  	}
   	  }
-  	  for(var value in jsog["innerFolders"]){
-  	  		if(value.containsKey("@ref")){
-  	  				innerFolders.add(cache[value["@ref"]]);
-  	  			} else {
-  	  				innerFolders.add(new PyroFolder(cache:cache,jsog:value));
-  	  			}
-  	  		}
-  	  		for(var value in jsog["graphModels"]){
-  	  if(value.containsKey("@ref")){
-  	  		graphModels.add(cache[value["@ref"]]);
-  	  	} else {
-  	  		graphModels.add( GraphModelDispatcher.dispatch(cache,value));
-  	  	}
-  	  }
+    if(jsog.containsKey("innerFolders")){
+      for(var value in jsog["innerFolders"]){
+        if(value.containsKey("@ref")){
+          innerFolders.add(cache[value["@ref"]]);
+        } else {
+          innerFolders.add(new PyroFolder(cache:cache,jsog:value));
+        }
+      }
+    }
+    if(jsog.containsKey("graphModels")){
+      for(var value in jsog["graphModels"]){
+        if(value.containsKey("@ref")){
+          graphModels.add(cache[value["@ref"]]);
+        } else {
+          graphModels.add( GraphModelDispatcher.dispatch(cache,value));
+        }
+      }
+    }
+
 	}
 	   else{
 	   	
@@ -414,10 +434,10 @@ class PyroProject extends PyroFolder{
 	Map toJSOG(Map cache) {
 		Map jsog = new Map();
 		if(cache.containsKey(dywaId)){
-			jsog["@ref"]=dywaId;
+			jsog["@ref"]=cache[dywaId];
 		} else {
-			cache[dywaId]=jsog;
-			jsog['@id']=dywaId;
+			cache[dywaId]=(cache.length+1).toString();
+			jsog['@id']=cache[dywaId];
 			jsog['dywaId']=dywaId;
 			jsog['dywaVersion']=dywaVersion;
 			jsog['dywaName']=dywaName;
@@ -426,7 +446,7 @@ class PyroProject extends PyroFolder{
 				jsog['owner']=owner.toJSOG(cache);
 			}
 			jsog['description']=description;
-			jsog['shared']=shared.map((n)=>n.dywaId).toList();
+			jsog['shared']=shared.map((n)=>n.toJSOG(cache)).toList();
 			jsog['innerFolders']=innerFolders.map((n)=>n.toJSOG(cache)).toList();
 			jsog['graphModels']=graphModels.map((n)=>n.toJSOG(cache)).toList();
 		}
@@ -445,8 +465,11 @@ class PyroFolder {
 
   PyroFolder({Map cache,dynamic jsog})
   {
+    innerFolders = new List<PyroFolder>();
+    graphModels = new List<GraphModel>();
     if(jsog!=null)
     {
+      cache[jsog["@id"]]=this;
       dywaId = jsog["dywaId"];
       dywaVersion = jsog["dywaVersion"];
       dywaName = jsog["dywaName"];
@@ -479,10 +502,10 @@ class PyroFolder {
   Map toJSOG(Map cache) {
 	Map jsog = new Map();
 	if(cache.containsKey(dywaId)){
-		jsog["@ref"]=dywaId;
+		jsog["@ref"]=cache[dywaId];
 	} else {
-		cache[dywaId]=jsog;
-		jsog["@id"]=dywaId;
+		cache[dywaId]=(cache.length+1).toString();
+		jsog["@id"]=cache[dywaId];
 		jsog['dywaId']=dywaId;
 		jsog['dywaVersion']=dywaVersion;
 		jsog['dywaName']=dywaName;
@@ -500,7 +523,7 @@ class PyroFolder {
 
   static PyroFolder fromJSOG(Map cache,dynamic jsog)
   {
-    return new PyroProject(cache: cache,jsog: jsog);
+    return new PyroFolder(cache: cache,jsog: jsog);
   }
 
   List<GraphModel> allGraphModels()

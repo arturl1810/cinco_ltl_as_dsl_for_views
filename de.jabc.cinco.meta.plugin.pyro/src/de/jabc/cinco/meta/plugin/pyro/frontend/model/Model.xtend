@@ -1,19 +1,20 @@
 package de.jabc.cinco.meta.plugin.pyro.frontend.model
 
+import de.jabc.cinco.meta.plugin.pyro.canvas.Shapes
 import de.jabc.cinco.meta.plugin.pyro.util.Generatable
 import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
-import mgl.GraphModel
-import mgl.ModelElement
-import mgl.Enumeration
-import mgl.NodeContainer
+import java.util.Collections
 import mgl.ContainingElement
 import mgl.Edge
+import mgl.Enumeration
+import mgl.GraphModel
+import mgl.GraphicalModelElement
+import mgl.ModelElement
 import mgl.Node
-import java.util.Collections
+import mgl.NodeContainer
 import mgl.UserDefinedType
-import style.Styles
 import style.NodeStyle
-import de.jabc.cinco.meta.plugin.pyro.canvas.Shapes
+import style.Styles
 
 class Model extends Generatable {
 
@@ -34,7 +35,7 @@ class Model extends Generatable {
 		
 		  static GraphModel dispatch(Map cache,dynamic jsog){
 		  	«FOR g:gc.graphMopdels»
-		    if(jsog["__type"]=='«g.name.escapeDart»'){
+		    if(jsog["__type"]=='«g.name.escapeDart»Impl'||jsog["__type"]=='«g.name.lowEscapeDart».«g.name.escapeDart»'){
 		      return «g.name.lowEscapeDart».«g.name.escapeDart».fromJSOG(jsog,cache);
 		    }
 		    «ENDFOR»
@@ -42,9 +43,18 @@ class Model extends Generatable {
 		  }
 		  
 	  	«FOR g:gc.graphMopdels»
+	  	  static ModelElementContainer dispatch«g.name.escapeDart»ModelElementContainer(Map cache,dynamic jsog){
+	  	  	«FOR e:g.elements.filter(NodeContainer) + #[g]»
+		    if(jsog["__type"]=='«g.name.lowEscapeDart».«e.name.escapeDart»'){
+  		      return «g.name.lowEscapeDart».«e.name.escapeDart».fromJSOG(jsog,cache);
+  		    }
+  		    «ENDFOR»
+  		    throw new Exception("Unkown modelelement type ${jsog["__type"]}");
+	  	  }
+	  	
 		  static ModelElement dispatch«g.name.escapeDart»ModelElement(Map cache,dynamic jsog){
 		  	«FOR e:g.elements»
-		    if(jsog["__type"]=='«e.name.escapeDart»'){
+		    if(jsog["__type"]=='«g.name.lowEscapeDart».«e.name.escapeDart»'){
   		      return «g.name.lowEscapeDart».«e.name.escapeDart».fromJSOG(jsog,cache);
   		    }
   		    «ENDFOR»
@@ -85,14 +95,17 @@ class Model extends Generatable {
 		  }»
 	  	  this.incoming = new List();
 	  	  this.outgoing = new List();
+	  	  this.x = 0;
+	  	  this.y = 0;
   		  «ENDIF»
   		  «IF element instanceof GraphModel»
-  		  this.commandGraph = new «g.name.fuEscapeDart»CommandGraph(this);
+«««  		  this.commandGraph = new «g.name.fuEscapeDart»CommandGraph(this);
   		  this.width = 1000;
   		  this.height = 600;
   		  this.scale = 1.0;
   		  this.router = null;
   		  this.connector = 'normal';
+  		  this.filename = '';
   		  «ENDIF»
 		  // properties
 			«FOR attr : element.attributes»
@@ -112,18 +125,46 @@ class Model extends Generatable {
 		      this.dywaId = jsog['dywaId'];
 		      this.dywaVersion = jsog['dywaVersion'];
 		      this.dywaName = jsog['dywaName'];
+		      «IF element instanceof GraphicalModelElement»
+		      if(jsog.containsKey('container')){
+		      	if(jsog['container'].containsKey('@ref')){
+		      		this.container = cache[jsog['container']['@ref']];
+		      	} else {
+		      		this.container = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElementContainer(cache,jsog['container']);
+		      	}
+		      }
+		      «ENDIF»
 		      «IF element instanceof Edge»
-		      this.bendingPoints = jsog['bendingPoints'].map((n)=>new BendingPoint(jsog:n));
+		      this.bendingPoints = new List();
+		      if(jsog.containsKey('bendingPoints')){
+		      	this.bendingPoints = jsog['bendingPoints'].map((n)=>new BendingPoint(jsog:n));
+		      }
+		      if(jsog.containsKey('sourceElement')){
+  		      	if(jsog['sourceElement'].containsKey('@ref')){
+  		      		this.source = cache[jsog['sourceElement']['@ref']];
+  		      	} else {
+  		      		this.source = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['sourceElement']);
+  		      	}
+  		      }
+  		      if(jsog.containsKey('targetElement')){
+		      	if(jsog['targetElement'].containsKey('@ref')){
+		      		this.target = cache[jsog['targetElement']['@ref']];
+		      	} else {
+		      		this.target = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['targetElement']);
+		      	}
+		      }
 		      «ENDIF»
 		      «IF element instanceof GraphModel»
-		      this.commandGraph = new «g.name.fuEscapeDart»CommandGraph(this,jsog:jsog['commandGraph']);
+«««		      this.commandGraph = new «g.name.fuEscapeDart»CommandGraph(this,jsog:jsog['commandGraph']);
     		  this.width = jsog['width'];
     		  this.height = jsog['height'];
     		  this.scale = jsog['scale'];
     		  this.router = jsog['router'];
     		  this.connector = jsog['connector'];
+    		  this.filename = jsog['filename'];
     		  «ENDIF»
 			«IF element instanceof ContainingElement»
+			this.modelElements = new List();
 			if (jsog.containsKey("modelElements")) {
 				for(var v in jsog["modelElements"]){
 					if(v.containsKey("@ref")){
@@ -137,6 +178,10 @@ class Model extends Generatable {
 			«IF element instanceof Node»
 			width = jsog["width"];
 			height = jsog["height"];
+			x = jsog["x"];
+			y = jsog["y"];
+			angle = jsog["angle"];
+			this.incoming = new List();
 			if (jsog.containsKey("incoming")) {
 				for(var v in jsog["incoming"]){
 					if(v.containsKey("@ref")){
@@ -146,6 +191,7 @@ class Model extends Generatable {
 					}
 				}
 			}
+			this.outgoing = new List();
 			if (jsog.containsKey("outgoing")) {
 				for(var v in jsog["outgoing"]){
 					if(v.containsKey("@ref")){
@@ -160,6 +206,7 @@ class Model extends Generatable {
 		      «FOR attr : element.attributes»
 			if (jsog.containsKey("«attr.name.escapeDart»")) {
 				«IF attr.list»
+				this.«attr.name.escapeDart» = new List();
 				for(var jsogObj in jsog["«attr.name.escapeDart»"]) {
 				«ELSE»
 				var jsogObj = jsog["«attr.name.escapeDart»"];
@@ -169,7 +216,7 @@ class Model extends Generatable {
 					«attr.primitiveDartType(g)» value«attr.name.escapeDart»;
 					if (jsogObj != null) {
 						«IF attr.type.getEnum(g)!=null»
-						value«attr.name.escapeDart» = «attr.type.fuEscapeDart»Parser.fromJSOG(jsogObj.toString());
+						value«attr.name.escapeDart» = «attr.type.fuEscapeDart»Parser.fromJSOG(jsogObj);
 						«ELSE»
 					    value«attr.name.escapeDart» = jsogObj«attr.deserialize(g)»;
 					    «ENDIF»
@@ -191,14 +238,18 @@ class Model extends Generatable {
 				  if (jsogObj != null) {
 				  «FOR subType:attr.name.selfAndSubTypeNames(g)»
 				  	if (jsogObj['__type'] ==
-				  	"«fqn».«subType.fuEscapeDart»Impl") {
+				  	"«g.name.lowEscapeDart».«subType.fuEscapeDart»") {
 				  	    value«attr.name.escapeDart» =
 				  	    new «subType.fuEscapeDart»(cache: cache, jsog: jsogObj);
 				  	}
 				  «ENDFOR»
 				  }
 				}
+				«IF attr.list»
+				this.«attr.name.escapeDart».add()value«attr.name.escapeDart»;
+				«ELSE»
 				this.«attr.name.escapeDart» = value«attr.name.escapeDart»;
+				«ENDIF»
 			«ENDIF»
 			}
 			}
@@ -212,11 +263,13 @@ class Model extends Generatable {
 		Map toJSOG(Map cache) {
 		    Map map = new Map();
 		    if(cache.containsKey(dywaId)){
-		      map['@ref']=dywaId;
+		      map['@ref']=cache[dywaId];
 		      return map;
 		    }
 		    else{
-		      map['@id']=dywaId;
+		   	  cache[dywaId]=(cache.length+1).toString();
+		      map['@id']=cache[dywaId];
+		      map['dywaRuntimeType']="info.scce.pyro.«g.name.lowEscapeJava».rest.«element.name.fuEscapeJava»";
 		      map['dywaId']=dywaId;
 		      map['dywaVersion']=dywaVersion;
 		      map['dywaName']=dywaName;
@@ -226,6 +279,7 @@ class Model extends Generatable {
       		 map['scale'] = this.scale;
       		 map['router'] = this.router;
       		 map['connector'] = this.connector;
+      		 map['filename'] = this.filename;
       		  «ENDIF»
 		      cache[dywaId]=map;
 		      «FOR attr : element.attributes»
@@ -250,8 +304,37 @@ class Model extends Generatable {
 		}
 		
 		@override
-		void merge(«element.name» elem) {
+		void merge(«element.name» elem,[bool structureOnly=false]) {
 			dywaVersion = elem.dywaVersion;
+			«IF element instanceof GraphModel»
+			  filename = elem.filename;
+			  scale = elem.scale;
+			  connector = elem.connector;
+			  router = elem.router;
+			  height = elem.height;
+			  width = elem.width;
+			«ENDIF»
+			«IF element instanceof ContainingElement»
+			if(!structureOnly) {
+			  modelElements = elem.modelElements;
+			}
+			«ENDIF»
+			«IF element instanceof Node»
+				height = elem.height;
+				width = elem.width;
+				angle = elem.angle;
+				if(!structureOnly) {
+					incoming = elem.incoming;
+					outgoing = elem.outgoing;
+				}
+			«ENDIF»
+			«IF element instanceof Edge»
+			if(!structureOnly) {
+				bendingPoints = elem.bendingPoints;
+				target = elem.target;
+				source = elem.source;
+			}
+			«ENDIF»
 			«FOR attr : element.attributes»
 				«attr.name.escapeDart» = elem.«attr.name.escapeDart»;
 			«ENDFOR»
@@ -292,7 +375,7 @@ class Model extends Generatable {
 	'''
 
 	def pyroElementClass(ModelElement element, GraphModel g,Styles styles) '''
-		«IF element.isIsAbstract»abstract «ENDIF»class «element.name.fuEscapeDart» extends «element.extending»
+		«IF element.isIsAbstract»abstract «ENDIF»class «element.name.fuEscapeDart» extends «element.extending()»
 		{
 		  «element.pyroElementAttributeDeclaration(g)»
 		  «IF !element.isIsAbstract»
@@ -300,20 +383,21 @@ class Model extends Generatable {
 		    «element.pyroElementConstr(g,styles)»
 		  }
 		  «ENDIF»
-		
-		«IF element.canContain»
-			@override
-			List<IdentifiableElement> allElements() {
-			  List<IdentifiableElement> list = new List();
-			  list.add(this);
-			  list.addAll(modelElements.expand((n) => n.allElements()));
-			  return list;
-			}
-		«ELSE»
-			@override
-			List<IdentifiableElement> allElements() {
-				return [this];
-			}
+		«IF !(element instanceof UserDefinedType)»
+			«IF element.canContain»
+				@override
+				List<IdentifiableElement> allElements() {
+				  List<IdentifiableElement> list = new List();
+				  list.add(this);
+				  list.addAll(modelElements.expand((n) => n.allElements()));
+				  return list;
+				}
+			«ELSE»
+				@override
+				List<IdentifiableElement> allElements() {
+					return [this];
+				}
+			«ENDIF»
 		«ENDIF»
 			
 		 «element.pyroElementFromJSOG(g)»
@@ -340,18 +424,24 @@ class Model extends Generatable {
 			}
 			
 			class «enu.name.fuEscapeDart»Parser {
-			  static «enu.name.fuEscapeDart» fromJSOG(String s){
-			    switch(s) {
+			  static «enu.name.fuEscapeDart» fromJSOG(dynamic s){
+			    switch(s['dywaName']) {
 			  «FOR lit:enu.literals»
 			  	case '«lit.escapeDart»':return «enu.name.fuEscapeDart».«lit.escapeDart»;
 			  «ENDFOR»
 			  }
-			  return null;
+			  return «enu.name.fuEscapeDart».«enu.literals.get(0).escapeDart»;
 			  }
 			
-			  static String toJSOG(«enu.name.fuEscapeDart» e)
+			  static Map toJSOG(«enu.name.fuEscapeDart» e)
 			  {
-			    return "${e.toString().substring(e.toString().indexOf('.')+1)}";
+			    Map map = new Map();
+			    switch(e) {
+			    «FOR lit:enu.literals»
+			       case «enu.name.fuEscapeDart».«lit.escapeDart»:map['dywaName']='«lit.escapeDart»';break;
+			    «ENDFOR»
+			    }
+			    return map;
 			  }
 			}
 		«ENDFOR»

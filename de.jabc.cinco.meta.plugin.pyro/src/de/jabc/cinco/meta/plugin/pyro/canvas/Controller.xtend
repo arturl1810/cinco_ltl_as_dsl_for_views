@@ -595,7 +595,10 @@ class Controller extends Generatable{
 		    });
 		    if(positions!==null){
 			    link.set('vertices', positions['o'].map(function (n) {
-			       return {x:n.x,y:n.y};
+			    	if(!n.hasOwnProperty('_strings')){
+    		    		return {x:n.x,y:n.y};
+    		    	}
+			       return {x:n['_strings'].x.hashMapCellValue,y:n['_strings'].y.hashMapCellValue};
 			    }));
 		    }
 		    add_edge_internal(link,$graph_«g.name.lowEscapeDart»,$router_«g.name.lowEscapeDart»,$connector_«g.name.lowEscapeDart»);

@@ -26,7 +26,7 @@ class PaletteBuilder extends Generatable {
 	    «FOR group:g.elements.filter[creatabel].groupBy[paletteGroup].entrySet»
 	    paletteMap.add(new MapList('«group.key»',values: [
 	    	«FOR entry:group.value SEPARATOR ","»
-	    	new MapListValue('«entry.name.fuEscapeDart»',identifier: "«g.name.lowEscapeDart».«entry.name.fuEscapeDart»",«IF entry.hasIcon»imgPath:'«entry.iconPath(g.name.lowEscapeDart)»'«ENDIF»)
+	    	new MapListValue('«entry.name.fuEscapeDart»',identifier: "«g.name.lowEscapeDart».«entry.name.fuEscapeDart»",«IF entry.hasIcon»imgPath:'asset/«entry.iconPath(g.name.lowEscapeDart)»'«ENDIF»)
 	      	«ENDFOR»
 	    ]));
 	    «ENDFOR»

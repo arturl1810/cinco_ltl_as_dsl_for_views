@@ -66,8 +66,10 @@ class EditorComponent extends Generatable {
 	
 	  @Input()
 	  PyroUser user;
-	  @Input()
-	  PyroProject project;
+  	  @Input()
+  	  PyroProject inputProject;
+
+      PyroProject project;
 	
 	  GraphModel currentGraphModel = null;
 	
@@ -91,6 +93,7 @@ class EditorComponent extends Generatable {
 	  @override
 	  void ngOnInit()
 	  {
+	  	graphService.loadProjectStructure(inputProject).then((p)=>project=p);
 	    notificationComponent.displayMessage("Hello ${user.username}",AlertType.INFO);
 	  }
 	  
@@ -107,7 +110,6 @@ class EditorComponent extends Generatable {
 	  {
 	    if(currentGraphModel != null) {
 	      canvasComponent.updateRouting();
-	      sendProjectStructureUpdate();
 	    } else {
 	      notificationComponent.displayMessage("No graphmodel present to scale",AlertType.WARNING);
 	    }
@@ -117,13 +119,12 @@ class EditorComponent extends Generatable {
 	  {
 	  	if(currentGraphModel != null) {
 		    if(positive){
-		      currentGraphModel.scale*=1.1;
+		      currentGraphModel.scale+=1.1;
 		    }
 		    else{
-		      currentGraphModel.scale*=0.9;
+		      currentGraphModel.scale-=0.9;
 		    }
 		    canvasComponent.updateScale();
-			sendProjectStructureUpdate();
 	    } else {
 	    	notificationComponent.displayMessage("No graphmodel present to scale",AlertType.WARNING);
 	    }
@@ -172,12 +173,10 @@ class EditorComponent extends Generatable {
 	    if(e is GraphModel){
 	      hasDeletedGraph(e);
 	    }
-	    sendProjectStructureUpdate();
 	  }
 	
 	  void changeStructure(dynamic e)
 	  {
-	    sendProjectStructureUpdate();
 	  }
 	
 	  void changedGraph(CompoundCommandMessage ccm)
@@ -187,7 +186,9 @@ class EditorComponent extends Generatable {
 	
 	  void changedProperties(PropertyMessage pm)
 	  {
-	  	canvasComponent.updateProperties(pm.delegate);
+	  	if(pm.delegate is! GraphModel){
+	  	   canvasComponent.updateProperties(pm.delegate);
+	  	}
 	    sendMessage(pm);
 	  }
 	
@@ -228,14 +229,7 @@ class EditorComponent extends Generatable {
 	
 	  void sendMessage(Message message)
 	  {
-	    graphService.sendMessage(message);
-	  }
-	
-	  void sendProjectStructureUpdate()
-	  {
-	    ProjectMessage pm = new ProjectMessage();
-	    pm.project = project;
-	    sendMessage(pm);
+	    graphService.sendMessage(message,currentGraphModel.runtimeType.toString().toLowerCase(),currentGraphModel.dywaId);
 	  }
 	
 	  void receiveProjectStructureUpdate(ProjectMessage message)
@@ -271,8 +265,11 @@ class EditorComponent extends Generatable {
 	  
 	    @override
 	    ngOnChanges(Map<String, SimpleChange> changes) {
-	      if(changes.containsKey("project")){
-	        notificationComponent.displayMessage("Opend project ${project.name}",AlertType.SUCCESS);
+	      if(changes.containsKey("inputProject")){
+	      	graphService.loadProjectStructure(inputProject).then((p){
+	      		project=p;
+		        notificationComponent.displayMessage("Opend project ${project.name}",AlertType.SUCCESS);
+	      	});
 	      }
 	    }
 	

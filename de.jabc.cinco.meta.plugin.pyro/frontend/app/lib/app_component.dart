@@ -1,4 +1,5 @@
 import 'package:angular2/core.dart';
+import 'dart:html';
 
 import 'pages/main/main_component.dart';
 import 'pages/login/login_component.dart';
@@ -11,10 +12,10 @@ import 'model/core.dart';
 import 'service/user_service.dart';
 
 @Component(
-  selector: 'pyro-app',
-  templateUrl: 'app_component.html',
-  directives: const [MainComponent,LoginComponent,FeaturesComponent,WelcomeComponent,ProjectsComponent,EditorComponent],
-  providers: const [UserService]
+    selector: 'pyro-app',
+    templateUrl: 'app_component.html',
+    directives: const [MainComponent,LoginComponent,FeaturesComponent,WelcomeComponent,ProjectsComponent,EditorComponent],
+    providers: const [UserService]
 )
 class AppComponent implements AfterViewInit,OnInit{
 
@@ -56,14 +57,14 @@ class AppComponent implements AfterViewInit,OnInit{
     minorState = 'login';
   }
 
-  void pyroLogin(Map loginData)
+  void pyroLogin(String userJson)
   {
-    userService.login(loginData['username'],loginData['password'])
+    userService.login(userJson)
         .then((n){
       currentUser=n;
       projectPage(null);
     });
-    
+
   }
 
   void changeMinorState(String state)
@@ -72,7 +73,7 @@ class AppComponent implements AfterViewInit,OnInit{
   }
 
   void logout(dynamic e) {
-    userService.logout();
+    window.location.href="logout";
     minorState = 'welcome';
     majorState = 'main';
   }

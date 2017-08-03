@@ -9,7 +9,6 @@ import '../users/find_user/find_user_component.dart';
 import '../../service/project_service.dart';
 import '../../service/user_service.dart';
 
-import 'dart:html';
 
 @Component(
   selector: 'projects',
@@ -59,8 +58,11 @@ class ProjectsComponent implements OnInit {
   void ngOnInit()
   {
     tabState = 'owned';
-    window.console.log(user);
-    showProjects(user.ownedProjects,'owned',null);
+    userService.loadUser().then((u){
+      user = u;
+      showProjects(user.ownedProjects,'owned',null);
+    });
+    
   }
 
   bool isActive(String s)

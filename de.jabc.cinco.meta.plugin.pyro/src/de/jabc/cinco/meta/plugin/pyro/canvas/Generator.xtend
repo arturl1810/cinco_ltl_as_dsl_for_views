@@ -17,7 +17,7 @@ class Generator extends FileGenerator {
 		{
 			gc.graphMopdels.forEach[g|{
 				//web.asset.js.graphmodel
-				val path = "web/assets/js/"+g.name
+				val path = "web/js/"+g.name
 				val gen = new Shapes(gc,g)
 				val styles = CincoUtils.getStyles(g, iProject)
 				generateFile(path,
@@ -30,7 +30,7 @@ class Generator extends FileGenerator {
 		{
 			gc.graphMopdels.forEach[g|{
 				//web.asset.js.graphmodel.controller
-				val path = "web/assets/js/"+g.name
+				val path = "web/js/"+g.name
 				val gen = new Controller(gc)
 				val styles = CincoUtils.getStyles(g, iProject)
 				generateFile(path,

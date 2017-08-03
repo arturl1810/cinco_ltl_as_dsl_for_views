@@ -136,18 +136,20 @@ abstract class CommandGraph {
         queue.addAll(sendRemoveNodeCommand(n.dywaId,user,edgeCache: edgeCache).cmd.queue);
       });
     }
-    var ccm = _send(_removeNodeCommand(nodeId,node.container.dywaId,node.x,node.y,node.width,node.height),user);
-    ccm.cmd.queue.insertAll(0,queue);
+
+
     node.outgoing.forEach((e){
       if(edgeCache.add(e)){
-        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
+        queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
       }
     });
     node.incoming.forEach((e){
       if(edgeCache.add(e)){
-        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
+        queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
       }
     });
+    var ccm = _send(_removeNodeCommand(nodeId,node.container.dywaId,node.x,node.y,node.width,node.height),user);
+    ccm.cmd.queue.insertAll(0,queue);
     return ccm;
   }
 
@@ -206,7 +208,7 @@ abstract class CommandGraph {
 
   MoveNodeCommand _invertMoveNodeCommand(MoveNodeCommand cmd)
   {
-    return _moveNodeCommand(cmd.delegateId,cmd.oldX,cmd.oldY,cmd.containerId);
+    return _moveNodeCommand(cmd.delegateId,cmd.oldX,cmd.oldY,cmd.oldContainerId);
   }
 
   void _execResizeNodeCommand(ResizeNodeCommand cmd,bool propagate)
@@ -512,6 +514,10 @@ abstract class CommandGraph {
     if(cmd is ReconnectEdgeCommand) execReconnectEdgeCommandCanvas(cmd);
   }
 
+  void revert(CompoundCommandMessage ccm)
+  {
+    ccm.cmd.queue.reversed.forEach((c)=>_execCommandCanvas(_invertCommand(c)));
+  }
 
   CompoundCommandMessage undo(PyroUser user)
   {

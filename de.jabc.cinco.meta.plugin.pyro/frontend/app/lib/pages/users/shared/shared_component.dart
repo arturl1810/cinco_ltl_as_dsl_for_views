@@ -50,7 +50,7 @@ class SharedComponent implements OnInit {
 
   List<PyroUser> notIncludedUsers()
   {
-    return user.knownUsers.where((n) => !project.shared.contains(n)).toList();
+    return user.knownUsers.where((n) => project.shared.where((u)=>u.dywaId==n.dywaId).isEmpty).toList();
   }
 
 }

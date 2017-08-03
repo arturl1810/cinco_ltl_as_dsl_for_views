@@ -28,7 +28,7 @@
 <editor
     *ngIf="majorState=='editor'"
     [user]="currentUser"
-    [project]="currentProject"
+    [inputProject]="currentProject"
     (openProject)="openProject($event)"
     (back)="projectPage($event)"
     (logout)="logout($event)"
