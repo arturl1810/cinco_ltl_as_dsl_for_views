@@ -199,7 +199,7 @@
     </eOperations>
     <eOperations name="clone">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="InternalNode copy = (InternalNode) EcoreUtil.copy(this.getInternalElement());&#xA;EcoreUtil.setID(copy, getId());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
+        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) EcoreUtil.copy(this.getInternalElement());&#xA;EcoreUtil.setID(copy, getId());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/clone/T"/>
       <eTypeParameters name="T">

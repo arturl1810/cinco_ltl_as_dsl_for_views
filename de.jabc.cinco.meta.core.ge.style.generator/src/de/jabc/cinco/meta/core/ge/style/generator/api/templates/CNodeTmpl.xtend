@@ -1,25 +1,25 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
+import graphmodel.ModelElementContainer
+import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.features.IDeleteFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IMoveShapeFeature
-import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
-import org.eclipse.graphiti.features.context.impl.DeleteContext
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
-import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
 import org.eclipse.graphiti.mm.pictograms.Connection
@@ -27,14 +27,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.graphiti.features.context.impl.RemoveContext
-import org.eclipse.graphiti.features.IRemoveFeature
-import org.eclipse.graphiti.features.impl.DefaultRemoveFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
-import mgl.ModelElement
-import graphmodel.ModelElementContainer
 
 class CNodeTmpl extends APIUtils {
 
@@ -44,8 +37,8 @@ extension CModelElementTmpl = new CModelElementTmpl
 def doGenerateImpl(Node me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» 
-	«IF !me.allSuperTypes.empty» implements «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CModelElement.name»
+	«IF !me.allSuperTypes.empty», «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF» {
 	
 	private «PictogramElement.name» pe;
 	
@@ -239,14 +232,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«PictogramElement.name» peClone = copier.copyPE(this.getPictogramElement());
 			«ContainerShape.name» parentContainerShape = null;
 			copier.relink(peClone, clone.getInternalElement());
-			«FOR c : me.possibleContainers.filter(mgl.GraphModel)»
-			if (targetContainer instanceof «c.fqCName»)
-				parentContainerShape = ((«c.fqCName») targetContainer).getPictogramElement();
-			«ENDFOR»
-			«FOR c : me.possibleContainers.filter(NodeContainer)»
-			if (targetContainer instanceof «c.fqCName»)
-				parentContainerShape = ((«c.fqCName») targetContainer).getPictogramElement();
-			«ENDFOR»
+			if (targetContainer instanceof «CModelElement.name»)
+				parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
 			parentContainerShape.getChildren().add((«Shape.name») peClone);
 			((«me.fqCName») clone).setPictogramElement((«ContainerShape.name») peClone);
 			return (T) clone;
