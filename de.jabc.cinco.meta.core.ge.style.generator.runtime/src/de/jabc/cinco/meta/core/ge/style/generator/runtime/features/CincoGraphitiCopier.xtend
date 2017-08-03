@@ -47,6 +47,7 @@ class CincoGraphitiCopier {
 			InternalNode: meCopy = ime.copy
 			InternalEdge: meCopy = ime.copy
 		}
+		
 		EcoreUtil::setID(meCopy,EcoreUtil::generateUUID)
 		
 		meCopy
@@ -80,8 +81,8 @@ class CincoGraphitiCopier {
 	def create EcoreUtil.copy(a) copy(Anchor a) {
 		outgoingConnections.clear
 		incomingConnections.clear
-		outgoingConnections.addAll(a.outgoingConnections.map[copy])
-		incomingConnections.addAll(a.incomingConnections.map[copy])
+//		outgoingConnections.addAll(a.outgoingConnections.map[copy])
+//		incomingConnections.addAll(a.incomingConnections.map[copy])
 		parent = (a.parent as Shape).copy
 	}
 	

@@ -78,6 +78,10 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Node/canClone">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/canClone/targetContainer"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/clone">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/clone/targetContainer"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/clone/T"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
@@ -91,7 +95,13 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/delete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/preDelete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/canClone">
-        <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/targetContainer"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/source"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/clone">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/clone/source"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/clone/target"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Edge/clone/T"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container">

@@ -39,7 +39,7 @@ def getDeleteContent(ModelElement me) '''
 «IF !me.isIsAbstract»
 @Override
 public void delete(){
-	«RemoveContext.name» rc = new «RemoveContext.name»(this.pe);
+	«RemoveContext.name» rc = new «RemoveContext.name»(this.getPictogramElement());
 	
 	«IFeatureProvider.name» fp = getFeatureProvider();
 	«IRemoveFeature.name» rf = new «DefaultRemoveFeature.name»(fp);

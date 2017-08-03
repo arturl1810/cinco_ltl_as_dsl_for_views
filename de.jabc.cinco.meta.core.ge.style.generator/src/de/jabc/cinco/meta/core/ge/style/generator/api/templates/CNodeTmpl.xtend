@@ -28,6 +28,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
+import graphmodel.internal.InternalNode
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class CNodeTmpl extends APIUtils {
 
@@ -37,7 +41,7 @@ extension CModelElementTmpl = new CModelElementTmpl
 def doGenerateImpl(Node me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CModelElement.name»
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CNode.name»
 	«IF !me.allSuperTypes.empty», «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF» {
 	
 	private «PictogramElement.name» pe;
@@ -50,7 +54,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
+	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
 	
@@ -86,13 +90,13 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«FOR cont : MGLUtil::getPossibleContainers(me as Node)»
 	@Override
 	public void _moveTo(«cont.fqBeanName» target, int x, int y) {
-		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);
+		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») getPictogramElement());
 «««		if (!(target instanceof «cont.fuCName»))
 «««			throw new «RuntimeException.name»(
 «««				«String.name».format("Parameter \"target\" of wrong type: Expected type: %s, given type %s", 
 «««				«cont.fuCName».class, target.getClass()));
-		mc.setTargetContainer((«ContainerShape.name») getPictogramElement(target));
-		mc.setSourceContainer((«ContainerShape.name») this.getPictogramElement());
+		mc.setTargetContainer((«ContainerShape.name») ((«CModelElement.name») target).getPictogramElement());
+		mc.setSourceContainer((«ContainerShape.name») ((«CModelElement.name») this.getContainer()).getPictogramElement());
 		
 		mc.setX(x);
 		mc.setY(y);
@@ -144,7 +148,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
 	}
 	
-	private «Diagram.name» getDiagram() {
+	@Override
+	public «Diagram.name» getDiagram() {
 		«GraphModel.name» gm = getRootElement();
 		if (gm instanceof «(me.rootElement as ModelElement).fqCName»)
 			return ((«(me.rootElement as ModelElement).fqCName») gm).getPictogramElement();
@@ -224,20 +229,21 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	@Override
 	public <T extends «graphmodel.Node.name»> T clone(«ModelElementContainer.name» targetContainer) {
-		«graphmodel.Node.name» clone = super.clone(targetContainer);
-		if (!(clone instanceof «me.fqCName»))
-			throw new «RuntimeException.name»(«String.name».format("The cloned node is of type: %s, but it should be an instance of %s", clone, «me.fqCName».class));
-		else {
-			«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
-			«PictogramElement.name» peClone = copier.copyPE(this.getPictogramElement());
-			«ContainerShape.name» parentContainerShape = null;
-			copier.relink(peClone, clone.getInternalElement());
-			if (targetContainer instanceof «CModelElement.name»)
-				parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
-			parentContainerShape.getChildren().add((«Shape.name») peClone);
-			((«me.fqCName») clone).setPictogramElement((«ContainerShape.name») peClone);
-			return (T) clone;
+		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
+		«Shape.name» clonePE = copier.copy(this.getPictogramElement());
+		«InternalNode.name» bo = («InternalNode.name») clonePE.getLink().getBusinessObjects().get(0);
+		((«CNode.name») bo.getElement()).setPictogramElement(clonePE);
+		//«EcoreUtil.name».setID(bo, getInternalElement().getId());
+		//«EcoreUtil.name».setID(bo.getElement(), getId());
+		«ContainerShape.name» parentContainerShape = null;
+		if (targetContainer instanceof «CModelElement.name») {
+			parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
+			parentContainerShape.getChildren().add((«Shape.name») clonePE);
+			targetContainer.getInternalContainerElement().getModelElements().add(bo);
+			((«CModelElement.name») targetContainer).addLinksToDiagram(clonePE);
 		}
+		
+		return (T) bo.getElement();
 	}
 	
 	«me.updateContent»

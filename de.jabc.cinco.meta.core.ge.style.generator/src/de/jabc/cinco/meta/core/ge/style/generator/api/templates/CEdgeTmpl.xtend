@@ -16,6 +16,13 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import graphmodel.Node
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
+import graphmodel.internal.InternalEdge
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.internal.InternalNode
+import graphmodel.ModelElementContainer
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -37,7 +44,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
+	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
 	
@@ -82,7 +89,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
 	}
 	
-	private «Diagram.name» getDiagram() {
+	@Override
+	public «Diagram.name» getDiagram() {
 		«GraphModel.name» gm = getRootElement();
 		if (gm instanceof «me.rootElement.fqCName»)
 			return ((«me.rootElement.fqCName») gm).getPictogramElement();
@@ -102,6 +110,31 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«ENDFOR»
 		
 		return null;
+	}
+	
+	@Override
+	public <T extends «graphmodel.Edge.name»> T clone(«Node.name» source, «Node.name» target) {
+		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
+		«Connection.name» clonePE = («Connection.name») copier.copyPE(getPictogramElement());
+		«InternalEdge.name» clone = («InternalEdge.name») clonePE.getLink().getBusinessObjects().get(0);
+		«graphmodel.Edge.name» _edge = («graphmodel.Edge.name») clone.getElement();
+		
+		clonePE.setStart(((«CNode.name») source).getAnchor());
+		clonePE.setEnd(((«CNode.name») target).getAnchor());
+		
+		_edge.setSourceElement(source);
+		_edge.setTargetElement(target);
+		
+		«GraphModelExtension.name» gmx = new «GraphModelExtension.name»();
+		«ModelElementContainer.name» commonContainer = gmx.getCommonContainer(source.getContainer().getInternalContainerElement(), («InternalNode.name») source.getInternalElement(), («InternalNode.name») target.getInternalElement()).getContainerElement();
+		commonContainer.getInternalContainerElement().getModelElements().add(clone);
+		((«CModelElement.name») commonContainer).getDiagram().getConnections().add(clonePE);
+		((«CModelElement.name») commonContainer).addLinksToDiagram(clonePE);
+		
+		if (_edge instanceof «CModelElement.name»)
+			((«CModelElement.name») _edge).setPictogramElement(clonePE);
+		
+		return (T) clone.getElement();
 	}
 	
 	«me.updateContent»

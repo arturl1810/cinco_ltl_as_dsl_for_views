@@ -16,6 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -34,11 +35,11 @@ class CincoPasteFeature extends AbstractPasteFeature{
 		var copies = copiesFromClipBoard.map[it as PictogramElement]
 		copies = copies.map[copyPE]
 		copies.translate(context)
+		copies.setCModelElementPictogram
 		val target = context.pictogramElements.get(0) as ContainerShape
 		copies.filter(typeof(Shape)).forEach[(it as PictogramElement).addToTarget(target)]
 		copies.filter(typeof(Connection)).forEach[(it as PictogramElement).addToTarget(target)]
 	}
-	
 	
 	def void addToTarget(PictogramElement pe, ContainerShape cs) {
 		switch (pe) {
@@ -95,7 +96,6 @@ class CincoPasteFeature extends AbstractPasteFeature{
 		]
 	}
 	
-	
 	private def containerShift(PictogramElement pe) {
 		var current = pe
 		var p = StylesFactory.eINSTANCE.createPoint => [x=0; y=0]
@@ -105,5 +105,16 @@ class CincoPasteFeature extends AbstractPasteFeature{
 			current = current.eContainer as PictogramElement
 		}
 		p
+	}
+	
+	private def void setCModelElementPictogram(List<PictogramElement> pes) {
+		pes.forEach[pe | 
+			var bo = pe.link.businessObjects.head
+			if (bo instanceof InternalModelElement) {
+				var element = bo.element
+				if (element instanceof CModelElement)
+					element.pictogramElement = pe
+			}
+		]
 	}
 }
