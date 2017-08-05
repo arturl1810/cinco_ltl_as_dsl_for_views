@@ -6,6 +6,9 @@ import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
 import static extension org.jooq.lambda.Seq.*
+import java.util.Enumeration
+import org.apache.commons.collections.EnumerationUtils
+import java.util.List
 
 /**
  * Some collection extensions for cinco meta, cinco, and cinco products.
@@ -260,5 +263,12 @@ class CollectionExtension {
 	@Pure
 	def <T> Iterable<T> drop(Iterable<T> unfiltered, Class<?> type) {
 		unfiltered.filter[!type.isInstance(it)]
+	}
+	
+	/**
+	 * Transforms an {@code Enumeration} into a list.
+	 */
+	def <T> toList(Enumeration<T> enumeration) {
+		EnumerationUtils.toList(enumeration) as List<T>
 	}
 }

@@ -435,7 +435,7 @@ class CodingExtension {
 	 * @param msg - The message to be printed
 	 */
 	def warn(Object caller, CharSequence msg) {
-		System.err.println('''[«this.class.simpleName»] WARN «msg»''')
+		System.err.println('''[«caller.class.simpleName»] WARN «msg»''')
 	}
 	
 	/**
