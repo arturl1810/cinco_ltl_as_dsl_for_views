@@ -6,8 +6,6 @@ import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 
-import graphmodel.ModelElement;
-
 public interface CNode extends CModelElement {
 
 	public default Anchor getAnchor() {
