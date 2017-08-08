@@ -10,39 +10,39 @@ package info.scce.pyro.core.graphmodel;
 public class GraphModel extends ModelElementContainer
 {
 
-    private double scale;
+    private Double scale;
 
     @com.fasterxml.jackson.annotation.JsonProperty("scale")
-    public double getscale() {
+    public Double getscale() {
         return this.scale;
     }
 
     @com.fasterxml.jackson.annotation.JsonProperty("scale")
-    public void setscale(final double scale) {
+    public void setscale(final Double scale) {
         this.scale = scale;
     }
     
-    private long width;
+    private Long width;
 
     @com.fasterxml.jackson.annotation.JsonProperty("width")
-    public long getwidth() {
+    public Long getwidth() {
         return this.width;
     }
 
     @com.fasterxml.jackson.annotation.JsonProperty("width")
-    public void setwidth(final long width) {
+    public void setwidth(final Long width) {
         this.width = width;
     }
 
-    private long height;
+    private Long height;
 
     @com.fasterxml.jackson.annotation.JsonProperty("height")
-    public long getheight() {
+    public Long getheight() {
         return this.height;
     }
 
     @com.fasterxml.jackson.annotation.JsonProperty("height")
-    public void setheight(final long height) {
+    public void setheight(final Long height) {
         this.height = height;
     }
     

@@ -34,7 +34,7 @@ class CanvasComponent extends Generatable {
     		«ENDFOR»
 	    ]
 	)
-	class CanvasComponent implements OnInit {
+	class CanvasComponent implements OnInit, OnChanges {
 	
 	«FOR g:gc.graphMopdels»
 	  @ViewChild('«g.name.lowEscapeDart»_canvas_component')
@@ -65,6 +65,20 @@ class CanvasComponent extends Generatable {
 	    selectionChanged = new EventEmitter();
 	    hasChanged = new EventEmitter();
 	    tabChanged = new EventEmitter();
+	  }
+	  
+	  @override
+	  ngOnChanges(Map<String, SimpleChange> changes) {
+	      if(changes.containsKey('project')&&currentGraphModel!=null){
+	        //collect all in project
+	        var allGraphModels = project.allGraphModels();
+	        //remove active if not present
+	        if(allGraphModels.where((g)=>g.dywaId==currentGraphModel.dywaId).isNotEmpty){
+	          removeGraphFromActiveList(currentGraphModel,null);
+	        }
+	        //remove not present
+	        currentLocalSettings.openedGraphModels.removeWhere((g)=>allGraphModels.where((ag)=>ag.dywaId==g.dywaId).isEmpty);
+	      }
 	  }
 	  
 	  void updateProperties(IdentifiableElement element) {
@@ -144,15 +158,17 @@ class CanvasComponent extends Generatable {
 	
 	  void removeGraphFromActiveList(GraphModel openedGraph,dynamic e)
 	  {
-	    e.preventDefault();
-	    «FOR g:gc.graphMopdels»
-	    if(openedGraph is «g.name.lowEscapeDart».«g.name.escapeDart»){
-          js.context.callMethod('destroy_«g.name.lowEscapeDart»',[]);
-        }
-        «ENDFOR»
+	  	if(e!=null){
+	    	e.preventDefault();
+	    }
 	    currentLocalSettings.openedGraphModels.remove(openedGraph);
 	    if(currentGraphModel == openedGraph)
 	    {
+		    «FOR g:gc.graphMopdels»
+		    if(openedGraph is «g.name.lowEscapeDart».«g.name.escapeDart»){
+	          js.context.callMethod('destroy_«g.name.lowEscapeDart»',[]);
+	        }
+	        «ENDFOR»
 	      currentGraphModel = null;
 	    }
 	    tabChanged.emit({});
@@ -166,7 +182,7 @@ class CanvasComponent extends Generatable {
 	
 	def contentCanvasComponentTemplate()
 	'''
-	<ul class="nav nav-tabs nav-tabs-justified" style="margin-left: 1px;">
+	<ul class="nav nav-tabs nav-tabs-justified" style="margin-left: 1px;" *ngIf="currentGraphModel!=null">
 	    <li
 	        *ngFor="let openedGraph of currentLocalSettings.openedGraphModels"
 	        role="presentation"
@@ -189,6 +205,7 @@ class CanvasComponent extends Generatable {
 	            [currentLocalSettings]="currentLocalSettings"
 	            (hasChanged)="hasChanged.emit($event)"
 	            (selectionChanged)="selectionChanged.emit($event)"
+	            (close)="tabChanged.emit($event)"
 	           ></«g.name.lowEscapeDart»-canvas>
 	           «ENDFOR»
 	        </div>

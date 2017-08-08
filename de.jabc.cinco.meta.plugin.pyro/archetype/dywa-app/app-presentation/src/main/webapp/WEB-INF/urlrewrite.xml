@@ -12,6 +12,10 @@
 		<from>/rest/</from>
 		<to last="true">-</to>
 	</rule>
+	<rule>
+		<from>/ws/</from>
+		<to last="true">-</to>
+	</rule>
 	<rule match-type="wildcard">
 		<!-- prevent infinte loops -->
 		<condition type="request-uri" operator="notequal">/app/index.html</condition>

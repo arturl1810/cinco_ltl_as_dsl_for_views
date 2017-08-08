@@ -436,7 +436,7 @@ abstract class CommandGraph {
   void _execUpdateBendPoint(UpdateBendPointCommand cmd,bool propagate)
     {
       Edge edge = findElement(cmd.delegateId);
-      edge.bendingPoints.clear();
+      edge.bendingPoints = new List();
       cmd.positions.forEach((n){
         BendingPoint bp = new BendingPoint();
         bp.x = n.x;
@@ -635,18 +635,22 @@ abstract class CommandGraph {
   }
 
 
-  void receiveCommand(CompoundCommandMessage ccm)
+  void receiveCommand(CompoundCommandMessage ccm,{bool forceExecute:false})
   {
-    switch(ccm.type) {
-      case BASIC_ANSWER_TYPE:_receiveOtherValidCommand(ccm.cmd);break;
-      case BASIC_INVALID_ANSWER_TYPE:_receiveMyInvalidCommand(ccm.cmd);break;
-      case BASIC_VALID_ANSWER_TYPE:_receiveMyValidCommand(ccm.cmd);break;
-      case UNDO_VALID_ANSWER_TYPE:_receiveValidUndo(ccm.cmd);break;
-      case UNDO_MESSAGE_TYPE:_receiveValidUndo(ccm.cmd);break;
-      case UNDO_INVALID_ANSWER_TYPE:_receiveInvalidUndo(ccm.cmd);break;
-      case REDO_VALID_ANSWER_TYPE:_receiveValidRedo(ccm.cmd);break;
-      case REDO_MESSAGE_TYPE:_receiveValidRedo(ccm.cmd);break;
-      case REDO_INVALID_ANSWER_TYPE:_receiveInvalidRedo(ccm.cmd);break;
+    if(forceExecute){
+      _receiveOtherValidCommand(ccm.cmd);
+    } else {
+      switch(ccm.type) {
+        case BASIC_ANSWER_TYPE:_receiveOtherValidCommand(ccm.cmd);break;
+        case BASIC_INVALID_ANSWER_TYPE:_receiveMyInvalidCommand(ccm.cmd);break;
+        case BASIC_VALID_ANSWER_TYPE:_receiveMyValidCommand(ccm.cmd);break;
+        case UNDO_VALID_ANSWER_TYPE:_receiveValidUndo(ccm.cmd);break;
+        case UNDO_MESSAGE_TYPE:_receiveValidUndo(ccm.cmd);break;
+        case UNDO_INVALID_ANSWER_TYPE:_receiveInvalidUndo(ccm.cmd);break;
+        case REDO_VALID_ANSWER_TYPE:_receiveValidRedo(ccm.cmd);break;
+        case REDO_MESSAGE_TYPE:_receiveValidRedo(ccm.cmd);break;
+        case REDO_INVALID_ANSWER_TYPE:_receiveInvalidRedo(ccm.cmd);break;
+      }
     }
   }
   

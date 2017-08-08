@@ -45,6 +45,7 @@ import style.Styles
 import style.Text
 import style.VAlignment
 import org.eclipse.xtext.debug.IStratumBreakpointSupport.DefaultImpl
+import java.util.TreeMap
 
 class Shapes extends Generatable {
 	
@@ -115,7 +116,7 @@ class Shapes extends Generatable {
 	
 	
 	def Map<AbstractShape,CharSequence> collectMarkupTags(AbstractShape shape,String prefix,int i){
-		val l = new HashMap
+		val l = new LinkedHashMap
 		l.put(shape,shape.markup(prefix,i))
 		if(shape instanceof ContainerShape) {
 			shape.children.forEach[n,idx|l.putAll(n.collectMarkupTags(i+"x",idx))]			
@@ -124,7 +125,7 @@ class Shapes extends Generatable {
 	}
 	
 	def Map<AbstractShape,CharSequence> collectSelectorTags(AbstractShape shape,String prefix,int i){
-		val l = new HashMap
+		val l = new LinkedHashMap
 		l.put(shape,shape.selector(prefix,i))
 		if(shape instanceof ContainerShape) {
 			shape.children.forEach[n,idx|l.putAll(n.collectSelectorTags(i+"x",idx))]			
@@ -133,7 +134,7 @@ class Shapes extends Generatable {
 	}
 	
 	def Map<EObject,CharSequence> collectMarkupTags(GraphicsAlgorithm shape,String prefix,int i){
-		val l = new HashMap
+		val l = new LinkedHashMap
 		l.put(shape,shape.markup(prefix,i))
 		if(shape instanceof ContainerShape) {
 			shape.children.forEach[n,idx|l.putAll(n.collectMarkupTags(i+"x",idx))]			

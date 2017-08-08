@@ -66,6 +66,8 @@ if(is«g.name.fuEscapeDart»(currentGraphModel))
 	map = «g.name.fuEscapeDart»PaletteBuilder.build(currentGraphModel);
 }
 	    «ENDFOR»
+	    } else {
+	       map = null;
 	    }
 	  }
 	«FOR g:gc.graphMopdels»

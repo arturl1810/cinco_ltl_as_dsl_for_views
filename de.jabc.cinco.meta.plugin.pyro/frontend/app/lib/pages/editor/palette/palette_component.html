@@ -1,4 +1,5 @@
 <list
+    *ngIf="map!=null"
     [map]="map"
     (dragged)="dragged.emit($event)"
 ></list>

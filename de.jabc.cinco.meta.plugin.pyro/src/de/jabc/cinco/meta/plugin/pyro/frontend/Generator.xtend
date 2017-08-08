@@ -66,12 +66,10 @@ class Generator extends FileGenerator{
 					gen.contentGraphmodelPropertyDeserializer(g)
 				)
 			}]
-			graphModels.forEach[g|{
-				generateFile(path,
-					gen.fileNamePropertyDeserializer(g.name),
-					gen.contentPropertyDeserializer(g)
-				)
-			}]
+			generateFile(path,
+				gen.fileNamePropertyDeserializer(),
+				gen.contentPropertyDeserializer()
+			)
 		}
 		{
 			//lib.model

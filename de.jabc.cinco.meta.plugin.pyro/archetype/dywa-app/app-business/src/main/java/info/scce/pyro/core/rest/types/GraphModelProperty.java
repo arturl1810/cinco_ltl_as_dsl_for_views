@@ -69,6 +69,17 @@ public class GraphModelProperty extends info.scce.pyro.rest.RESTBaseImpl impleme
         this.scale = scale;
     }
 
+    private String messageType;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("messageType")
+    public String getmessageType() {
+        return this.messageType;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("messageType")
+    public void setmessageType(final String messageType) {
+        this.messageType = messageType;
+    }
 
 
 
@@ -85,6 +96,7 @@ public class GraphModelProperty extends info.scce.pyro.rest.RESTBaseImpl impleme
         result.setwidth(entity.getwidth());
         result.setheight(entity.getheight());
         result.setscale(entity.getscale());
+        result.setmessageType("graphmodel");
 
 
         return result;

@@ -73,7 +73,7 @@ class AppComponent implements AfterViewInit,OnInit{
   }
 
   void logout(dynamic e) {
-    window.location.href="logout";
+    window.location.href="app/logout";
     minorState = 'welcome';
     majorState = 'main';
   }
@@ -90,9 +90,6 @@ class AppComponent implements AfterViewInit,OnInit{
 
   void projectPage(dynamic e)
   {
-    if(e!=null) {
-      e.preventDefault();
-    }
     majorState = 'projects';
     minorState = '';
   }

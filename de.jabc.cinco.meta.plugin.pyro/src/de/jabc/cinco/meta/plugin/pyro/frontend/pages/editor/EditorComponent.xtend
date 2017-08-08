@@ -15,6 +15,8 @@ class EditorComponent extends Generatable {
 	'''
 	import 'package:«gc.projectName.escapeDart»/model/message.dart';
 	import 'package:angular2/core.dart';
+	import 'dart:html';
+	import 'dart:convert';
 	
 	import 'package:«gc.projectName.escapeDart»/model/core.dart';
 	import 'package:«gc.projectName.escapeDart»/pages/editor/menu/menu_component.dart';
@@ -46,7 +48,7 @@ class EditorComponent extends Generatable {
 	      NotificationComponent
 	    ]
 	)
-	class EditorComponent implements OnInit, OnChanges {
+	class EditorComponent implements OnInit, OnChanges, OnDestroy {
 	
 	  @ViewChild('notification')
 	  NotificationComponent notificationComponent;
@@ -78,6 +80,8 @@ class EditorComponent extends Generatable {
 	  LocalGraphModelSettings currentLocalSettings;
 	  
 	  final GraphService graphService;
+	  
+	  WebSocket webSocketProject;
 	
 	  EditorComponent(GraphService this.graphService)
 	  {
@@ -93,12 +97,81 @@ class EditorComponent extends Generatable {
 	  @override
 	  void ngOnInit()
 	  {
-	  	graphService.loadProjectStructure(inputProject).then((p)=>project=p);
-	    notificationComponent.displayMessage("Hello ${user.username}",AlertType.INFO);
+	  	graphService.loadProjectStructure(inputProject).then((p){
+	  	      project=p;
+	  	});
+	    
+	  }
+	  
+	  @override
+	  void ngOnDestroy()
+	  {
+	      closeWebSocket();
+	  }
+	  
+	  @override
+	  ngOnChanges(Map<String, SimpleChange> changes) {
+	  	  if(changes.containsKey("inputProject")){
+	  	      	graphService.loadProjectStructure(inputProject).then((p){
+	  	      		closeWebSocket();
+	  	      		project=p;
+	  	      		activateWebSocket();
+	  		        notificationComponent.displayMessage("Opend project ${project.name}",AlertType.SUCCESS);
+	  	      	});
+	  	  }
+	  }
+	  
+	  void closeWebSocket() {
+	      if(this.webSocketProject != null && this.webSocketProject.readyState == WebSocket.OPEN) {
+	        window.console.debug("Closing Websocket webSocketCurrentUser");
+	        this.webSocketProject.close();
+	        this.webSocketProject = null;
+	      }
+	  }
+	  
+	  void activateWebSocket() {
+	      if(this.user != null && this.webSocketProject == null) {
+	        this.webSocketProject = new WebSocket('ws://${window.location.hostname}:8080/app/ws/project/${project.dywaId}/private');
+	  
+	        // Callbacks for currentUser
+	        this.webSocketProject.onOpen.listen((e) {
+	          window.console.debug("[PYRO] onOpen Project Websocket");
+	        });
+	        this.webSocketProject.onMessage.listen((MessageEvent e) {
+	          window.console.debug("[PYRO] onMessage Project Websocket");
+	          if(e.data != null) {
+	            var jsog = JSON.decode(e.data);
+	            if(jsog['senderId']!=user.dywaId){
+	            	this.project.merge(PyroProject.fromJSOG(cache: new Map(),jsog: jsog['content']));
+	              if(notificationComponent!=null){
+	                notificationComponent.displayMessage("Update Received",AlertType.INFO);
+	              }
+	            }
+	          }
+	        });
+	        this.webSocketProject.onClose.listen((CloseEvent e) {
+	          if(notificationComponent!=null) {
+	            notificationComponent.displayMessage(
+	                "Synchronisation Terminated", AlertType.WARNING);
+	          }
+	          if(e.code == 4001) {
+	            //project has been deleted or access denied
+	            back.emit({});
+	          }
+	          window.console.debug("[PYRO] onClose Project Websocket");
+	        });
+	        this.webSocketProject.onError.listen((e) {
+	          if(notificationComponent!=null) {
+	            notificationComponent.displayMessage(
+	                "Synchronisation Error", AlertType.DANGER);
+	          }
+	          window.console.debug("[PYRO] Error on Project Websocket: ${e.toString()()}");
+	        });
+	      }
 	  }
 	  
 	   void changedTabbing(dynamic e) {
-	    if(!currentLocalSettings.openedGraphModels.contains(currentGraphModel)){
+	    if(currentLocalSettings.openedGraphModels.where((g)=>g.dywaId==currentGraphModel.dywaId).isEmpty){
 	      currentGraphModel = null;
 	    } else {
 	      currentGraphModel = e;
@@ -119,10 +192,10 @@ class EditorComponent extends Generatable {
 	  {
 	  	if(currentGraphModel != null) {
 		    if(positive){
-		      currentGraphModel.scale+=1.1;
+		      currentGraphModel.scale+=0.1;
 		    }
 		    else{
-		      currentGraphModel.scale-=0.9;
+		      currentGraphModel.scale-=0.1;
 		    }
 		    canvasComponent.updateScale();
 	    } else {
@@ -263,15 +336,7 @@ class EditorComponent extends Generatable {
 	    }
 	  }
 	  
-	    @override
-	    ngOnChanges(Map<String, SimpleChange> changes) {
-	      if(changes.containsKey("inputProject")){
-	      	graphService.loadProjectStructure(inputProject).then((p){
-	      		project=p;
-		        notificationComponent.displayMessage("Opend project ${project.name}",AlertType.SUCCESS);
-	      	});
-	      }
-	    }
+
 	
 	}
 	

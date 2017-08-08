@@ -269,17 +269,30 @@ function hide_menu(opt_direct) {
 
 }
 
-function control_pointer(cellView,borderWidth,evt,paper) {
+function control_pointer(cellView,borderWidth,evt,paper,centerAnchorPoint) {
     var rp = getRelativeScreenPosition(evt.clientX,evt.clientY,paper);
-    var border = isBorderClicked(
-        cellView.model.attributes.position.x,
-        cellView.model.attributes.position.x+cellView.model.attributes.size.width,
-        cellView.model.attributes.position.y,
-        cellView.model.attributes.position.y+cellView.model.attributes.size.height,
-        rp.x,
-        rp.y,
-        borderWidth
-    );
+    var border = false;
+    if(centerAnchorPoint){
+        border = isBorderClicked(
+            cellView.model.attributes.position.x-(cellView.model.attributes.size.width/2),
+            cellView.model.attributes.position.x+(cellView.model.attributes.size.width/2),
+            cellView.model.attributes.position.y-(cellView.model.attributes.size.height/2),
+            cellView.model.attributes.position.y+(cellView.model.attributes.size.height/2),
+            rp.x,
+            rp.y,
+            borderWidth
+        );
+    } else {
+        border = isBorderClicked(
+            cellView.model.attributes.position.x,
+            cellView.model.attributes.position.x+cellView.model.attributes.size.width,
+            cellView.model.attributes.position.y,
+            cellView.model.attributes.position.y+cellView.model.attributes.size.height,
+            rp.x,
+            rp.y,
+            borderWidth
+        );
+    }
     $node_resize_last_direction = border;
     if(border!==false){
         switch(border){
@@ -345,11 +358,21 @@ function init_menu_eventsystem(paper,graph,remove_node) {
         $mouse_over_cell = true;
         //cursor handling
         var borderWidth = 1;
-        if(typeof (cellView.model.attributes.attrs['.body']) !== 'undefined' ){
-            borderWidth = cellView.model.attributes.attrs['.body'] ['stroke-width'] || 1;
+        var propName = null;
+        var centerAnchorPoint = false;
+        Object.getOwnPropertyNames(cellView.model.attributes.attrs).forEach(function (n) {
+            if(n.indexOf('.pyrox0tag') !== -1){
+                propName = n;
+                if(n.indexOf('ellipse') !== -1){
+                    centerAnchorPoint = true;
+                }
+            }
+        })
+        if(propName!==null){
+            borderWidth = cellView.model.attributes.attrs[propName] ['stroke-width'] || 1;
         }
         cellView.el.addEventListener("mousemove", function (e) {
-            control_pointer(cellView,borderWidth,e,paper);
+            control_pointer(cellView,borderWidth,e,paper,centerAnchorPoint);
         });
         var el = $(cellView.el);
         //show menu
@@ -517,20 +540,40 @@ function constraint_element_view() {
 
         pointerdown: function(evt, x, y) {
             var borderWidth = 1;
-            for(var property in this.model.attributes.attrs){
-                if (this.model.attributes.attrs.hasOwnProperty(property) && property.indexOf('.pyro-root-shape') !== -1) {
-                    borderWidth = this.model.attributes.attrs[property]['stroke-width'];
+            var propName = null;
+            var centerAnchorPoint = false;
+            Object.getOwnPropertyNames(this.model.attributes.attrs).forEach(function (n) {
+                if(n.indexOf('.pyrox0tag') !== -1){
+                    propName = n;
+                    if(n.indexOf('ellipse') !== -1){
+                        centerAnchorPoint = true;
+                    }
                 }
+            })
+            if(propName!==null){
+                borderWidth = this.model.attributes.attrs[propName] ['stroke-width'] || 1;
             }
-            this.selectedBorder = isBorderClicked(
-                this.model.attributes.position.x,
-                this.model.attributes.position.x+this.model.attributes.size.width,
-                this.model.attributes.position.y,
-                this.model.attributes.position.y+this.model.attributes.size.height,
-                x,
-                y,
-                borderWidth
-            );
+            if(centerAnchorPoint){
+                this.selectedBorder = isBorderClicked(
+                    this.model.attributes.position.x-(this.model.attributes.size.width/2),
+                    this.model.attributes.position.x+(this.model.attributes.size.width/2),
+                    this.model.attributes.position.y-(this.model.attributes.size.height/2),
+                    this.model.attributes.position.y+(this.model.attributes.size.height/2),
+                    x,
+                    y,
+                    borderWidth
+                );
+            } else {
+                this.selectedBorder = isBorderClicked(
+                    this.model.attributes.position.x,
+                    this.model.attributes.position.x+this.model.attributes.size.width,
+                    this.model.attributes.position.y,
+                    this.model.attributes.position.y+this.model.attributes.size.height,
+                    x,
+                    y,
+                    borderWidth
+                );
+            }
             joint.dia.ElementView.prototype.pointerdown.apply(this, [evt, x, y]);
         },
 

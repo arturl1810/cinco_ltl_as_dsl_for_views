@@ -127,31 +127,39 @@ class Model extends Generatable {
 		      this.dywaName = jsog['dywaName'];
 		      «IF element instanceof GraphicalModelElement»
 		      if(jsog.containsKey('container')){
-		      	if(jsog['container'].containsKey('@ref')){
-		      		this.container = cache[jsog['container']['@ref']];
-		      	} else {
-		      		this.container = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElementContainer(cache,jsog['container']);
+		      	if(jsog['container']!=null){
+			      	if(jsog['container'].containsKey('@ref')){
+			      		this.container = cache[jsog['container']['@ref']];
+			      	} else {
+			      		this.container = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElementContainer(cache,jsog['container']);
+			      	}
 		      	}
 		      }
 		      «ENDIF»
 		      «IF element instanceof Edge»
 		      this.bendingPoints = new List();
 		      if(jsog.containsKey('bendingPoints')){
-		      	this.bendingPoints = jsog['bendingPoints'].map((n)=>new BendingPoint(jsog:n));
+		      	if(jsog['bendingPoints']!=null){
+		      		this.bendingPoints = jsog['bendingPoints'].map((n)=>new BendingPoint(jsog:n));
+		      	}
 		      }
 		      if(jsog.containsKey('sourceElement')){
-  		      	if(jsog['sourceElement'].containsKey('@ref')){
-  		      		this.source = cache[jsog['sourceElement']['@ref']];
-  		      	} else {
-  		      		this.source = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['sourceElement']);
+		      	if(jsog['sourceElement']!=null){
+	  		      	if(jsog['sourceElement'].containsKey('@ref')){
+	  		      		this.source = cache[jsog['sourceElement']['@ref']];
+	  		      	} else {
+	  		      		this.source = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['sourceElement']);
+	  		      	}
   		      	}
   		      }
   		      if(jsog.containsKey('targetElement')){
-		      	if(jsog['targetElement'].containsKey('@ref')){
-		      		this.target = cache[jsog['targetElement']['@ref']];
-		      	} else {
-		      		this.target = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['targetElement']);
-		      	}
+  		      	if(jsog['targetElement']!=null){
+			      	if(jsog['targetElement'].containsKey('@ref')){
+			      		this.target = cache[jsog['targetElement']['@ref']];
+			      	} else {
+			      		this.target = GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,jsog['targetElement']);
+			      	}
+		        }	
 		      }
 		      «ENDIF»
 		      «IF element instanceof GraphModel»
@@ -166,11 +174,13 @@ class Model extends Generatable {
 			«IF element instanceof ContainingElement»
 			this.modelElements = new List();
 			if (jsog.containsKey("modelElements")) {
-				for(var v in jsog["modelElements"]){
-					if(v.containsKey("@ref")){
-						this.modelElements.add(cache[v['@ref']]);
-					} else {
-					  this.modelElements.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+				if(jsog["modelElements"]!=null){
+					for(var v in jsog["modelElements"]){
+						if(v.containsKey("@ref")){
+							this.modelElements.add(cache[v['@ref']]);
+						} else {
+						  this.modelElements.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+						}
 					}
 				}
 			}
@@ -183,21 +193,25 @@ class Model extends Generatable {
 			angle = jsog["angle"];
 			this.incoming = new List();
 			if (jsog.containsKey("incoming")) {
-				for(var v in jsog["incoming"]){
-					if(v.containsKey("@ref")){
-						this.incoming.add(cache[v['@ref']]);
-					} else {
-					  this.incoming.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+				if(jsog["incoming"]!=null){
+					for(var v in jsog["incoming"]){
+						if(v.containsKey("@ref")){
+							this.incoming.add(cache[v['@ref']]);
+						} else {
+						  this.incoming.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+						}
 					}
 				}
 			}
 			this.outgoing = new List();
 			if (jsog.containsKey("outgoing")) {
-				for(var v in jsog["outgoing"]){
-					if(v.containsKey("@ref")){
-						this.outgoing.add(cache[v['@ref']]);
-					} else {
-					  this.outgoing.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+				if(jsog["outgoing"]!=null) {
+					for(var v in jsog["outgoing"]){
+						if(v.containsKey("@ref")){
+							this.outgoing.add(cache[v['@ref']]);
+						} else {
+						  this.outgoing.add(GraphModelDispatcher.dispatch«g.name.escapeDart»ModelElement(cache,v));
+						}
 					}
 				}
 			}

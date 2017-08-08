@@ -529,8 +529,8 @@ class PyroFolder {
   List<GraphModel> allGraphModels()
   {
     List<GraphModel> gs = new List();
-    gs.addAll(graphModels);
-    gs.addAll(innerFolders.expand((n) => allGraphModels()).toList());
+    gs.addAll(this.graphModels);
+    gs.addAll(this.innerFolders.expand((n) => n.allGraphModels()).toList());
     return gs;
   }
 
@@ -560,7 +560,7 @@ class PyroFolder {
     //add new graphmodels
     graphModels.addAll(pp.graphModels.where((n) => graphModels.where((g) => n.dywaId==g.dywaId).isEmpty));
     //add new folder
-    graphModels.addAll(pp.graphModels.where((n) => graphModels.where((g) => n.dywaId==g.dywaId).isEmpty));
+    innerFolders.addAll(pp.innerFolders.where((n) => innerFolders.where((g) => n.dywaId==g.dywaId).isEmpty));
   }
 
 }

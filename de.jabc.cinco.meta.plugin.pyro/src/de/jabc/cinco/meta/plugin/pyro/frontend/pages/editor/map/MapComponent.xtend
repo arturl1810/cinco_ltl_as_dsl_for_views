@@ -76,7 +76,7 @@ class MapComponent extends Generatable {
 	def fileNameMapComponentTemplate() '''map_component.html'''
 
 	def contentMapComponentTemplate() '''
-		<div class="panel panel-default pyro-panel">
+		<div class="panel panel-default pyro-panel" *ngIf="currentGraphModel!=null">
 		    <div class="panel-heading pyro-panel-heading">
 		        <strong>Minature View</strong>
 		    </div>

@@ -4,10 +4,17 @@ import de.ls5.dywa.generated.controller.info.scce.pyro.core.*;
 import de.ls5.dywa.generated.entity.info.scce.pyro.core.*;
 import de.ls5.dywa.generated.entity.info.scce.pyro.core.GraphModel;
 import de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroFolder;
+import de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser;
+import info.scce.pyro.core.command.types.GraphPropertyMessage;
 import info.scce.pyro.core.command.types.ProjectMessage;
 import info.scce.pyro.core.rest.types.*;
 import info.scce.pyro.core.rest.types.PyroProject;
+import info.scce.pyro.sync.GraphModelWebSocket;
+import info.scce.pyro.sync.ProjectWebSocket;
+import info.scce.pyro.sync.WebSocketMessage;
 
+import javax.ws.rs.NotAllowedException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -35,6 +42,11 @@ public class GraphModelController {
 	@javax.inject.Inject
 	private info.scce.pyro.rest.ObjectCache objectCache;
 
+    @javax.inject.Inject
+    private ProjectWebSocket projectWebSocket;
+
+    @javax.inject.Inject
+    private GraphModelWebSocket graphModelWebSocket;
 
 	@javax.ws.rs.POST
 	@javax.ws.rs.Path("create/folder/private")
@@ -43,19 +55,53 @@ public class GraphModelController {
 	@org.jboss.resteasy.annotations.GZIP
 	public Response createFolder(CreatePyroFolder newFolder) {
 
-		//find parent
+        //find parent
         final PyroFolder pf = folderController.read(newFolder.getparentId());
+        checkPermission(pf);
         if(pf==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         final PyroFolder newPF = folderController.create("PyroFolder_"+newFolder.getname());
         newPF.setname(newFolder.getname());
         pf.getinnerFolders_PyroFolder().add(newPF);
+        sendProjectUpdate(pf);
 
 		return Response.ok(info.scce.pyro.core.rest.types.PyroFolder.fromDywaEntity(newPF,objectCache)).build();
 
 
 	}
+	
+	private void sendProjectUpdate(PyroFolder folder){
+        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser subject = subjectController.read((Long)org.apache.shiro.SecurityUtils.getSubject().getPrincipal());
+
+        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject parent = getProject(folder);
+        projectWebSocket.send(parent.getDywaId(), WebSocketMessage.fromDywaEntity(subject.getDywaId(),PyroProjectStructure.fromDywaEntity(parent,objectCache)));
+
+    }
+
+    public void checkPermission(PyroFolder folder) {
+        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser user = subjectController.read((Long)org.apache.shiro.SecurityUtils.getSubject().getPrincipal());
+
+        de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject project = getProject(folder);
+        if(project.getowner().equals(user) || project.getshared_PyroUser().contains(user)){
+            return;
+        }
+        throw new WebApplicationException(Response.Status.FORBIDDEN);
+    }
+
+	public de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject getProject(PyroFolder folder){
+	    if(folder instanceof de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject){
+	        return (de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject) folder;
+        }
+        PyroFolder so = folderController.createSearchObject("search_project");
+        so.setinnerFolders_PyroFolder(new LinkedList<>());
+        so.getinnerFolders_PyroFolder().add(folder);
+        java.util.List<PyroFolder> parents = folderController.findByProperties(so);
+        if(parents.isEmpty()){
+            throw new IllegalStateException("Folder without parent detected");
+        }
+        return getProject(parents.get(0));
+    }
 
     @javax.ws.rs.POST
     @javax.ws.rs.Path("update/folder/private")
@@ -66,10 +112,12 @@ public class GraphModelController {
 
         //find folder
         final PyroFolder pf = folderController.read(folder.getdywaId());
+        checkPermission(pf);
         if(pf==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         pf.setname(folder.getname());
+        sendProjectUpdate(pf);
         return Response.ok(info.scce.pyro.core.rest.types.PyroFolder.fromDywaEntity(pf,objectCache)).build();
     }
 
@@ -80,17 +128,43 @@ public class GraphModelController {
     @org.jboss.resteasy.annotations.GZIP
     public Response updateGraphModel(info.scce.pyro.core.graphmodel.GraphModel graphModel) {
 
-        //find folder
+        //find graphmodel
         final GraphModel gm = graphModelController.read(graphModel.getDywaId());
+
+        PyroFolder pf = folderController.createSearchObject("search_parent_folder");
+        pf.setgraphModels_GraphModel(new LinkedList<>());
+        pf.getgraphModels_GraphModel().add(gm);
+        PyroFolder parentFolder = folderController.findByProperties(pf).get(0);
+
+        checkPermission(parentFolder);
+
+        de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject project = getProject(parentFolder);
+
         if(gm==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         gm.setfilename(graphModel.getfilename());
-        gm.setscale(graphModel.getscale());
-        gm.setheight(graphModel.getheight());
-        gm.setwidth(graphModel.getwidth());
-        gm.setconnector(graphModel.getconnector());
-        gm.setrouter(graphModel.getrouter());
+        if(graphModel.getscale()!=null){
+            gm.setscale(graphModel.getscale());
+        }
+        if(graphModel.getheight()!=null){
+            gm.setheight(graphModel.getheight());
+        }
+        if(graphModel.getwidth()!=null){
+            gm.setwidth(graphModel.getwidth());
+        }
+        if(graphModel.getconnector()!=null){
+            gm.setconnector(graphModel.getconnector());
+        }
+        if(graphModel.getrouter()!=null){
+            gm.setrouter(graphModel.getrouter());
+        }
+
+        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser subject = subjectController.read((Long)org.apache.shiro.SecurityUtils.getSubject().getPrincipal());
+        graphModelWebSocket.send(gm.getDywaId(),WebSocketMessage.fromDywaEntity(subject.getDywaId(), GraphModelProperty.fromDywaEntity(gm)));
+
+        projectWebSocket.send(project.getDywaId(), WebSocketMessage.fromDywaEntity(subject.getDywaId(),PyroProjectStructure.fromDywaEntity(project,objectCache)));
+        
         return Response.ok(info.scce.pyro.core.rest.types.GraphModel.fromDywaEntity(gm,objectCache)).build();
     }
 
@@ -102,6 +176,9 @@ public class GraphModelController {
 
         //find parent
         final PyroFolder pf = folderController.read(id);
+
+        checkPermission(pf);
+
         final PyroFolder parent = folderController.read(parentId);
         if(pf==null||parent==null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -109,6 +186,7 @@ public class GraphModelController {
         //cascade remove
         if(parent.getinnerFolders_PyroFolder().contains(pf)){
             removeFolder(pf,parent);
+            sendProjectUpdate(parent);
             return Response.ok("OK").build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();

@@ -1,3 +1,5 @@
+<notification
+></notification>
 <header class="navbar navbar-static-top" style="border-radius: 5px;margin-left: 5px;margin-right: 5px;margin-top:14px;padding-right: 5px;background-color: rgb(82, 82, 82);color: #cacaca;">
     <div class="navbar-header">
         <a class="navbar-brand" href (click)="print($event)">
@@ -50,17 +52,22 @@
                     <div class="col-xs-8">
                         <h3>Project Explorer</h3>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-12 col-lg-6">
                                 <button class="btn btn-default btn-block" type="button" (click)="showNewProjectModal=true"><span class="glyphicon glyphicon-plus"></span> Create new Empty Project</button>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
-                            <div class="col-xs-6">
+                            <div class="col-xs-12 col-lg-6">
                                 <button class="btn btn-default btn-block" type="button" (click)="showFindUserModal=true"><span class="glyphicon glyphicon-user"></span> Show known Users</button>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
-                            <div class="col-xs-6">
+                            <div class="col-xs-12 col-lg-6">
+                                <button class="btn btn-default btn-block" type="button" (click)="refresh()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-xs-12 col-lg-6">
                                 <a class="btn btn-default btn-block" href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                             </div>
                         </div>

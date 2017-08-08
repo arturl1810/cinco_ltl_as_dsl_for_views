@@ -29,6 +29,19 @@ class ProjectService {
       print("[PYRO] new project ${newProject.name}");
       return newProject;
 
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
   }
 
@@ -37,6 +50,19 @@ class ProjectService {
       var newProject = PyroProject.fromJSON(response.responseText);
       print("[PYRO] update project ${newProject.name}");
       return newProject;
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
   }
 
@@ -50,6 +76,19 @@ class ProjectService {
       print("[PYRO] remove project ${newProject.name} sharing ${user.username}");
       return newProject;
 
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
   }
 
@@ -63,6 +102,19 @@ class ProjectService {
       print("[PYRO] add project ${newProject.name} sharing ${user.username}");
       return newProject;
 
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
   }
 
@@ -83,6 +135,19 @@ class ProjectService {
       }
       return user;
 
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
 
   }

@@ -23,16 +23,31 @@ class GraphModelController extends Generatable {
 	import de.ls5.dywa.generated.controller.info.scce.pyro.core.PyroUserController;
 	import de.ls5.dywa.generated.entity.info.scce.pyro.core.*;
 	import info.scce.pyro.core.command.types.*;
-	import info.scce.pyro.core.rest.types.CreateGraphModel;
+	import info.scce.pyro.core.rest.types.*;
+	import de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroFolder;
+	import de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroProject;
+	import de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser;
 	import info.scce.pyro.core.command.«g.name.fuEscapeJava»CommandExecuter;
 	import info.scce.pyro.core.command.«g.name.fuEscapeJava»ControllerBundle;
 	import info.scce.pyro.«g.name.lowEscapeJava».rest.«g.name.fuEscapeJava»;
+	import info.scce.pyro.sync.GraphModelWebSocket;
+	import info.scce.pyro.sync.ProjectWebSocket;
+	import info.scce.pyro.sync.WebSocketMessage;
 	
 	import javax.ws.rs.core.Response;
 	
 	@javax.transaction.Transactional
 	@javax.ws.rs.Path("/«g.name.lowEscapeJava»")
 	public class «g.name.fuEscapeJava»Controller {
+	
+		@javax.inject.Inject
+		private ProjectWebSocket projectWebSocket;
+		
+		@javax.inject.Inject
+		private GraphModelWebSocket graphModelWebSocket;
+		
+		@javax.inject.Inject
+		private GraphModelController graphModelController;
 	
 	    @javax.inject.Inject
 	    private PyroFolderController folderController;
@@ -69,8 +84,12 @@ class GraphModelController extends Generatable {
 		@org.jboss.resteasy.annotations.GZIP
 		public Response createGraphModel(CreateGraphModel graph) {
 	
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser subject = subjectController
+							.read((Long) org.apache.shiro.SecurityUtils.getSubject()
+									.getPrincipal());
+	
 	        final PyroFolder folder = folderController.read(graph.getparentId());
-	        if(folder==null){
+	        if(folder==null||subject==null){
 	            return Response.status(Response.Status.BAD_REQUEST).build();
 	        }
 	
@@ -79,8 +98,12 @@ class GraphModelController extends Generatable {
 		    «new GraphModelCommandExecuter(gc).setDefault('''newGraph''',g,g,false)»
 		    
 	        folder.getgraphModels_GraphModel().add(newGraph);
+	        
+	        PyroProject pp = graphModelController.getProject(folder);
+	        projectWebSocket.send(pp.getDywaId(), WebSocketMessage.fromDywaEntity(subject.getDywaId(), info.scce.pyro.core.rest.types.PyroProjectStructure.fromDywaEntity(pp,objectCache)));
+	        
 	
-			return Response.ok(«g.name.fuEscapeJava».fromDywaEntity(newGraph,objectCache)).build();
+			return Response.ok(«g.name.fuEscapeJava».fromDywaEntity(newGraph,new info.scce.pyro.rest.ObjectCache())).build();
 		}
 		
 		@javax.ws.rs.GET
@@ -127,6 +150,10 @@ class GraphModelController extends Generatable {
 				);
 				«g.name.escapeJava»CommandExecuter executer = new «g.name.escapeJava»CommandExecuter(bundle,subject,objectCache);
 				removeContainer(gm,executer);
+				
+				PyroProject pp = graphModelController.getProject(parent);
+				projectWebSocket.send(pp.getDywaId(), WebSocketMessage.fromDywaEntity(subject.getDywaId(), info.scce.pyro.core.rest.types.PyroProjectStructure.fromDywaEntity(pp,objectCache)));
+				
 				return Response.ok("OK").build();
 			}
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -173,7 +200,11 @@ class GraphModelController extends Generatable {
 		            return Response.status(Response.Status.BAD_REQUEST).build();
 		        }
 		        if(m instanceof CompoundCommandMessage){
-		            return executeCommand((CompoundCommandMessage) m,subject,graph);
+		            Response response = executeCommand((CompoundCommandMessage) m, subject, graph);
+	            	if(response.getStatus()==200){
+	            		graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(),response.getEntity()));
+	            	}
+	            	return response;
 		        }
 		        else if(m instanceof GraphPropertyMessage){
 		            final GraphPropertyMessage gpm = (GraphPropertyMessage) m;
@@ -183,10 +214,15 @@ class GraphModelController extends Generatable {
 		            graph.setheight(gpm.getGraph().getheight());
 		            graph.setscale(gpm.getGraph().getscale());
 		            //propagate
+		            graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
 		            return Response.ok("OK").build();
 		        }
 		        else if (m instanceof PropertyMessage) {
-					return executePropertyUpdate((PropertyMessage) m,subject);
+					Response response = executePropertyUpdate((PropertyMessage) m, subject);
+					if(response.getStatus()==200){
+						graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
+					}
+					return response;
 				} else if (m instanceof ProjectMessage) {
 					return Response.ok("OK").build();
 				}

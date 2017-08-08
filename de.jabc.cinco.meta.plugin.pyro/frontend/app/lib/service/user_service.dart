@@ -30,6 +30,19 @@ class UserService {
       } else {
         return PyroUser.fromJSON(response.responseText);
       }
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
 
   }
@@ -37,6 +50,19 @@ class UserService {
   Future<PyroUser> loadUser() {
     return HttpRequest.request("rest/user/current/private",method: "GET",requestHeaders: requestHeaders).then((response){
       return PyroUser.fromJSON(response.responseText);
+    }).catchError((ProgressEvent pe){
+      if(pe.currentTarget is HttpRequest) {
+        var request = pe.currentTarget;
+        if(request.status == 401) {
+          window.location.href="logout";
+        }
+        if(request.status == 400){
+          window.console.error("[PYRO] BAD REQUEST");
+        }
+        if(request.status == 500) {
+          window.console.error("[PYRO] SERVER ERROR");
+        }
+      }
     });
   }
   

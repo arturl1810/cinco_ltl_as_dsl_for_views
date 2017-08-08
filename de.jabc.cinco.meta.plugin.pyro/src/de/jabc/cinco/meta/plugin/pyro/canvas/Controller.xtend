@@ -56,6 +56,7 @@ class Controller extends Generatable{
 	    cb_graphmodel_selected,
 	    cb_update_bendpoint,
 	    cb_can_move_node,
+	    cb_can_reconnect_edge,
 	    «FOR elem:g.nodes + g.edges SEPARATOR ","»
 	    	«IF elem instanceof Node»
 	    cb_create_node_«elem.name.lowEscapeDart»,
@@ -79,6 +80,7 @@ class Controller extends Generatable{
 	    $cb_functions_«g.name.lowEscapeDart» = {
 		    cb_update_bendpoint:cb_update_bendpoint,
 		    cb_can_move_node:cb_can_move_node,
+		    cb_can_reconnect_edge:cb_can_reconnect_edge,
 	    	«FOR elem:g.nodes + g.edges SEPARATOR ","»
 		    	«IF elem instanceof Node»
 		    cb_create_node_«elem.name.lowEscapeDart»:cb_create_node_«elem.name.lowEscapeDart»,
@@ -183,11 +185,12 @@ class Controller extends Generatable{
 	 	        if(cellView.model.attributes.type=='«g.name.lowEscapeDart».«edge.name.escapeDart»'){
 	 	        	var source = $graph_«g.name.lowEscapeDart».getCell(cellView.model.attributes.source.id);
 	 	        	var target = $graph_«g.name.lowEscapeDart».getCell(cellView.model.attributes.target.id);
-	 	        	$cb_functions_«g.name.lowEscapeDart».cb_reconnect_edge_«edge.name.lowEscapeDart»(
-	 	        		source.attributes.attrs.dywaId,
-	 	        		target.attributes.attrs.dywaId,
-	 	        		cellView.model.attributes.attrs.dywaId
-	 	        	);
+	 	        	reconnect_edge_«edge.name.lowEscapeDart»_«g.name.lowEscapeDart»_hook(cellView);
+«««	 	        	$cb_functions_«g.name.lowEscapeDart».cb_reconnect_edge_«edge.name.lowEscapeDart»(
+«««	 	        		source.attributes.attrs.dywaId,
+«««	 	        		target.attributes.attrs.dywaId,
+«««	 	        		cellView.model.attributes.attrs.dywaId
+«««	 	        	);
 	 	        	$cb_functions_«g.name.lowEscapeDart».cb_update_bendpoint(
 	 	        		cellView.model.attributes.vertices,
 	 	        		cellView.model.attributes.attrs.dywaId
@@ -499,6 +502,7 @@ class Controller extends Generatable{
 		    }
 		}
 		
+		
 		/**
 		 * moves the «node.name.escapeDart» node to another position, relative to its parent container
 		 * if the container id is provided (containerId != -1). the node is
@@ -628,6 +632,28 @@ class Controller extends Generatable{
 		function reconnect_edge_«edge.name.lowEscapeDart»_«g.name.lowEscapeDart»(sourceId,targetId,dywaId) {
 		    reconnect_edge_internal(sourceId,targetId,dywaId,$graph_«g.name.lowEscapeDart»);
 		    return 'ready';
+		}
+		
+		function reconnect_edge_«edge.name.lowEscapeDart»_«g.name.lowEscapeDart»_hook(elem) {
+			if(!$_disable_events_«g.name.lowEscapeDart»){
+				var edgeId = elem.model.attributes.attrs.dywaId;
+				var source = elem.model.attributes.source.id;
+				var sourceDywaId = $graph_«g.name.lowEscapeDart».getCell(source).attributes.attrs.dywaId;
+				var target = elem.model.attributes.target.id;
+				var targetDywaId = $graph_«g.name.lowEscapeDart».getCell(target).attributes.attrs.dywaId;
+			    //check if the container change was allowed
+			    var valid = $cb_functions_«g.name.lowEscapeDart».cb_can_reconnect_edge(edgeId,sourceDywaId,targetDywaId);
+			    if(valid===true) {
+			    	//reconnection has been valid
+				    $cb_functions_«g.name.lowEscapeDart».cb_reconnect_edge_«edge.name.lowEscapeDart»(sourceDywaId,targetDywaId,edgeId);
+			    } else {
+			    	//movement is not valid and has to be reseted
+			    	var preSource = valid.o['_strings']['source'].hashMapCellValue;
+			    	var preTarget = valid.o['_strings']['target'].hashMapCellValue;
+			    	reconnect_edge_internal(preSource,preTarget,edgeId,$graph_«g.name.lowEscapeDart»);
+			    	
+			    }
+		    }
 		}
 		
 		/**
@@ -780,7 +806,7 @@ class Controller extends Generatable{
 			«FOR outgoingEdge:group.value.connectingEdges»
 			groupSize«group.key» += filterEdgesByType(outgoing,'«g.name.lowEscapeDart».«outgoingEdge.name.fuEscapeDart»').length;
 			«ENDFOR»
-			«IF group.value.connectingEdges.empty»
+			«IF group.value.connectingEdges.nullOrEmpty»
 		groupSize«group.key» += outgoing.length;
 			«ENDIF»
 		//check cardinality
@@ -867,7 +893,7 @@ class Controller extends Generatable{
 			«FOR incomingEdge:incomingGroup.value.connectingEdges»
 			incommingGroupSize«incomingGroup.key» += filterEdgesByType(incoming,'«g.name.lowEscapeDart».«incomingEdge.name.fuEscapeDart»').length;
 			«ENDFOR»
-			«IF incomingGroup.value.connectingEdges.empty»
+			«IF incomingGroup.value.connectingEdges.nullOrEmpty»
 			incommingGroupSize«incomingGroup.key» += incoming.length;
     		«ENDIF»
 			if(«IF incomingGroup.value.upperBound < 0»true«ELSE»incommingGroupSize«incomingGroup.key»<«incomingGroup.value.upperBound»«ENDIF»)

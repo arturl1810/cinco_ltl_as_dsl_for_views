@@ -7,6 +7,8 @@ import mgl.Edge
 import mgl.Node
 import mgl.NodeContainer
 import mgl.ContainingElement
+import mgl.IncomingEdgeElementConnection
+import mgl.EdgeElementConnection
 
 class GraphmodelComponent extends Generatable {
 
@@ -175,6 +177,8 @@ class GraphmodelComponent extends Generatable {
 
 	def contentGraphModelComponent(GraphModel g) '''
 		import 'dart:async';
+		import 'dart:html' as html;
+		import 'dart:convert' as convert;
 		import 'package:angular2/core.dart';
 		
 		import 'package:«gc.projectName.escapeDart»/model/core.dart';
@@ -200,6 +204,8 @@ class GraphmodelComponent extends Generatable {
 		  EventEmitter selectionChanged;
 		  @Output()
 		  EventEmitter hasChanged;
+		  @Output()
+		  EventEmitter close;
 		
 		  @Input()
 		  «g.name.fuEscapeDart» currentGraphModel;
@@ -211,21 +217,83 @@ class GraphmodelComponent extends Generatable {
 		  LocalGraphModelSettings currentLocalSettings;
 		
 		  «g.name.fuEscapeDart»CommandGraph commandGraph;
+		  
+		  html.WebSocket webSocketGraphModel;
 		
-		final GraphService graphService;
+		  final GraphService graphService;
 		
 		  «g.name.fuEscapeDart»CanvasComponent(GraphService this.graphService)
 		  {
 		    selectionChanged = new EventEmitter();
 		    hasChanged = new EventEmitter();
-		
+		    close = new EventEmitter();
 		  }
 		
 		  @override
 		  void ngOnInit()
 		  {
 		  	initCanvas();
+		  	activateWebSocket();
 		  }
+		  
+		  void closeWebSocket() {
+		  		if(this.webSocketGraphModel != null && this.webSocketGraphModel.readyState == html.WebSocket.OPEN) {
+		  			html.window.console.debug("Closing Websocket webSocketCurrentUser");
+		  			this.webSocketGraphModel.close();
+		  			this.webSocketGraphModel = null;
+		  		}
+		  	}
+		  
+		  void activateWebSocket() {
+		  		if(this.currentGraphModel != null && user != null && this.webSocketGraphModel == null) {
+		  			this.webSocketGraphModel = new html.WebSocket('ws://${html.window.location.hostname}:8080/app/ws/graphmodel/${currentGraphModel.dywaId}/private');
+		  
+		  			// Callbacks for currentUser
+		  			this.webSocketGraphModel.onOpen.listen((e) {
+		  				html.window.console.debug("[PYRO] onOpen GraphModel Websocket");
+		  			});
+		  			this.webSocketGraphModel.onMessage.listen((html.MessageEvent e) {
+		  				html.window.console.debug("[PYRO] onMessage GraphModel Websocket");
+		  				if(e.data != null) {
+		  					var jsog = convert.JSON.decode(e.data);
+		  					if(jsog['senderId'].toString()!=user.dywaId.toString()){
+		  						if(jsog['content']['messageType']=='graphmodel'){
+		  							startPropagation().then((_) {
+		  								currentGraphModel.merge(«g.name.fuEscapeDart».fromJSOG(jsog['content'],new Map()),true);
+		  								js.context.callMethod('update_routing_«g.name.lowEscapeDart»',[currentGraphModel.router,currentGraphModel.connector]);
+		  								js.context.callMethod('update_scale_«g.name.lowEscapeDart»',[currentGraphModel.scale]);
+		  							}).then((_) => endPropagation());
+		  						} else {
+		  							var m = Message.fromJSOG(jsog['content']);
+		  							startPropagation().then((_) {
+		  								if (m is CompoundCommandMessage) {
+		  									commandGraph.receiveCommand(m,forceExecute: true);
+		  								}
+		  								if (m is PropertyMessage) {
+  											var elem = currentGraphModel.allElements().firstWhere((n) =>
+	  										n.dywaId == m.delegate.dywaId);
+											elem.merge(m.delegate, true);
+											if(elem is ModelElement){
+												updateElement(elem);
+											}
+		  								}
+		  							}).then((_) => endPropagation());
+		  						}
+		  					}
+		  				}
+		  			});
+		  			this.webSocketGraphModel.onClose.listen((html.CloseEvent e) {
+		  				if(e.code == 4001) {
+		  					//graphmodel has been deleted or access denied
+		  					close.emit({});
+		  				}
+		  				html.window.console.debug("[PYRO] onClose GraphModel Websocket");
+		  			});
+		  			this.webSocketGraphModel.onError.listen((e) {
+		  				html.window.console.debug("[PYRO] Error on GraphModel Websocket: ${e.toString()}");
+		  			});
+		  		}
+		  	}
 		  
 		  void initCanvas() {
 		  	graphService.loadCommandGraph«g.name.fuEscapeDart»(currentGraphModel).then((cg){
@@ -245,6 +313,7 @@ class GraphmodelComponent extends Generatable {
 		  	 	      cb_graphmodel_selected,
 		  	 	      cb_update_bendpoint,
 		  	 	      cb_can_move_node,
+		  	 	      cb_can_connect_edge,
 		  	 	      «FOR elem : g.nodes + g.edges SEPARATOR ","»
 		  	 	      	«IF elem instanceof Node»
 		  	 	      		cb_create_node_«elem.name.lowEscapeDart»,
@@ -272,8 +341,10 @@ class GraphmodelComponent extends Generatable {
 		       if(newGraph != null&& newGraph is «g.name.fuEscapeDart» && preGraph != null && preGraph is «g.name.fuEscapeDart» && newGraph!=preGraph) {
 		         //desroy
 		         js.context.callMethod('destroy_«g.name.lowEscapeDart»',[]);
+		         closeWebSocket();
 		         //rebuild
 		         initCanvas();
+		         activateWebSocket();
 		       }
 		     }
 		     if(changes.containsKey('currentLocalSettings')) {
@@ -442,6 +513,74 @@ class GraphmodelComponent extends Generatable {
 		 			};
 		 		}
 		 		return true;
+		 	}
+		 	
+		 	dynamic cb_can_connect_edge(int dywaId,int sourceId,int targetId) {
+		 		var edge = findElement(dywaId) as Edge;
+		 		var source = findElement(sourceId) as Node;
+		 		var target = findElement(targetId) as Node;
+		 		if(edge.source.dywaId==sourceId){
+		 			//target changed
+		 			«FOR n:g.nodes»
+		 			if(target is «n.name.fuEscapeDart»){
+		 				
+		 				«FOR edge:g.edges»
+			 				if(edge is «edge.name.fuEscapeDart»)
+			 				{
+		 					«IF !n.incomingEdgeConnections.filter[cotainesEdge(edge)].empty»
+			 				var incoming = target.incoming;
+			 				«ENDIF»
+			 				«FOR group:n.incomingEdgeConnections.filter[cotainesEdge(edge)].indexed»
+					 				int groupSize«group.key» = 0;
+			 							«FOR outgoingEdge:group.value.connectingEdges»
+					 				groupSize«group.key» += incoming.where((n)=>n is «outgoingEdge.name.fuEscapeDart»).length;
+			 							«ENDFOR»
+			 							«IF group.value.connectingEdges.nullOrEmpty»
+					 				groupSize«group.key» += incoming.length;
+			 							«ENDIF»
+					 				if(«IF group.value.upperBound < 0»true«ELSE»groupSize«group.key»<«group.value.upperBound»«ENDIF»)
+					 				{
+					 					return true;
+					 				}
+			 				«ENDFOR»
+			 				}
+		 				«ENDFOR»
+		 			}
+		 			«ENDFOR»
+		 			
+		 		} else {
+		 			//source changed
+		 			«FOR n:g.nodes»
+			 			if(source is «n.name.fuEscapeDart»){
+			 				«FOR edge:g.edges»
+			 				if(edge is «edge.name.fuEscapeDart»)
+			 				{
+				 				«IF !n.outgoingEdgeConnections.filter[cotainesEdge(edge)].empty»
+				 					var outgoing = target.outgoing;
+				 				«ENDIF»
+				 				
+				 				«FOR group:n.outgoingEdgeConnections.filter[cotainesEdge(edge)].indexed»
+						 				int groupSize«group.key» = 0;
+				 							«FOR incomingEdge:group.value.connectingEdges»
+						 				groupSize«group.key» += outgoing.where((n)=>n is «incomingEdge.name.fuEscapeDart»).length;
+				 							«ENDFOR»
+				 							«IF group.value.connectingEdges.empty»
+						 				groupSize«group.key» += outgoing.length;
+				 							«ENDIF»
+						 				if(«IF group.value.upperBound < 0»true«ELSE»groupSize«group.key»<«group.value.upperBound»«ENDIF»)
+						 				{
+						 					return true;
+						 				}
+				 				«ENDFOR»
+			 				}
+			 				«ENDFOR»
+			 			}
+		 			«ENDFOR»
+		 		}
+		 		return {
+					'target':edge.target.dywaId,
+					'source':edge.source.dywaId
+				};
 		 	}
 		 	
 		 	void remove_node_cascade(Node node) {
@@ -760,6 +899,10 @@ class GraphmodelComponent extends Generatable {
 		}
 		
 	'''
+	
+	def boolean cotainesEdge(EdgeElementConnection c, Edge edge) {
+		c.connectingEdges.contains(edge)||c.connectingEdges.nullOrEmpty
+	}
 
 	def checkCommand(CharSequence s,String type)
 	{
