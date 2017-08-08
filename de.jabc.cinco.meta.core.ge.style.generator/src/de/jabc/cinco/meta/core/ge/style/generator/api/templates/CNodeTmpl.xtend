@@ -32,6 +32,12 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import graphmodel.internal.InternalNode
 import org.eclipse.emf.ecore.util.EcoreUtil
+import graphmodel.internal.InternalModelElementContainer
+import java.util.ArrayList
+import graphmodel.internal.InternalModelElement
+import java.util.List
+import graphmodel.Edge
+import graphmodel.internal.InternalEdge
 
 class CNodeTmpl extends APIUtils {
 
@@ -241,6 +247,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			parentContainerShape.getChildren().add((«Shape.name») clonePE);
 			targetContainer.getInternalContainerElement().getModelElements().add(bo);
 			((«CModelElement.name») targetContainer).addLinksToDiagram(clonePE);
+		}
+		if (bo instanceof «InternalModelElementContainer.name») {
+			«List.name»<«InternalModelElement.name»> remove = new «ArrayList.name»<>();
+			remove.addAll(((«InternalModelElementContainer.name») bo).getModelElements());
+			remove.stream().filter(me -> me instanceof «InternalEdge.name»).forEach(e -> ((«Edge.name»)e.getElement()).delete());
+			remove.stream().filter(me -> me instanceof «InternalNode.name»).forEach(e -> ((«graphmodel.Node.name»)e.getElement()).delete());
 		}
 		
 		return (T) bo.getElement();

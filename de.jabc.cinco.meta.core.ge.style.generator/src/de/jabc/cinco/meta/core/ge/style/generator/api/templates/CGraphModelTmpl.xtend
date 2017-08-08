@@ -147,6 +147,11 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	}
 	
+	@Override
+	public void delete() {
+		throw new «UnsupportedOperationException.name»("Deleting a Graphmodel by api is not supported at the moment.");
+	}
+	
 	private «IFeatureProvider.name» getFeatureProvider() {
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
 	}

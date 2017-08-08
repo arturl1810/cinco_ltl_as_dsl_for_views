@@ -10,6 +10,8 @@ public interface CModelElement {
 	
 	public Diagram getDiagram();
 	
+	void delete();
+	
 	default void addLinksToDiagram(PictogramElement pe) {
 		getDiagram().getPictogramLinks().add(pe.getLink());
 		if (pe instanceof org.eclipse.graphiti.mm.pictograms.ContainerShape) {
