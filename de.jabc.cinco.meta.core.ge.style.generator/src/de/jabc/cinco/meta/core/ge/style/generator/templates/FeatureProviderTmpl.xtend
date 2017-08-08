@@ -67,6 +67,9 @@ import org.eclipse.graphiti.features.context.IMoveConnectionDecoratorContext
 import graphmodel.internal.InternalGraphModel
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateEdgeFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoRemoveFeature
+import org.eclipse.graphiti.features.context.IRemoveContext
+import org.eclipse.graphiti.features.IRemoveFeature
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -294,6 +297,11 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	@Override
 	public «IRemoveBendpointFeature.name» getRemoveBendpointFeature(«IRemoveBendpointContext.name» context) {
 		return new «CincoRemoveBendpointFeature.name»(this);
+	}
+	
+	@Override
+	public «IRemoveFeature.name» getRemoveFeature(«IRemoveContext.name» context) {
+		return new «CincoRemoveFeature.name»(this);
 	}
 	
 	@Override
