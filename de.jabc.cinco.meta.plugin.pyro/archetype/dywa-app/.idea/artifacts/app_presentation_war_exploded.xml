@@ -1,0 +1,55 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="app-presentation:war exploded">
+    <output-path>$PROJECT_DIR$/app-presentation/target/app</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="app-presentation" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="archive" name="app-addon-0.1.jar">
+            <element id="module-output" name="app-addon" />
+          </element>
+          <element id="archive" name="app-business-0.1.jar">
+            <element id="module-output" name="app-business" />
+          </element>
+          <element id="library" level="project" name="Maven: de.jabc:jabc4-codegenerator-api:5.5.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.8" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="archive" name="app-persistence-0.1.jar">
+            <element id="module-output" name="app-persistence" />
+          </element>
+          <element id="library" level="project" name="Maven: com.h2database:h2:1.3.173" />
+          <element id="library" level="project" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.7.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.7.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.7.4" />
+          <element id="library" level="project" name="Maven: com.voodoodyne.jackson.jsog:jackson-jsog:1.1" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.2.3" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.2.3" />
+          <element id="library" level="project" name="Maven: com.github.spullara.mustache.java:compiler:0.9.1" />
+          <element id="library" level="project" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.core:deltaspike-core-api:1.7.2" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.core:deltaspike-core-impl:1.7.2" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.cdictrl:deltaspike-cdictrl-api:1.7.2" />
+          <element id="library" level="project" name="Maven: org.apache.deltaspike.cdictrl:deltaspike-cdictrl-weld:1.7.2" />
+          <element id="library" level="project" name="Maven: org.tuckey:urlrewritefilter:4.0.3" />
+          <element id="library" level="project" name="Maven: javax.enterprise:cdi-api:1.1" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: org.eclipse.xtend:org.eclipse.xtend.lib:2.10.0" />
+          <element id="library" level="project" name="Maven: org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.10.0" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:19.0-rc3" />
+          <element id="library" level="project" name="Maven: org.eclipse.xtend:org.eclipse.xtend.lib.macro:2.10.0" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/app-presentation/target/app/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="app-presentation/web/Web" />
+    </root>
+  </artifact>
+</component>

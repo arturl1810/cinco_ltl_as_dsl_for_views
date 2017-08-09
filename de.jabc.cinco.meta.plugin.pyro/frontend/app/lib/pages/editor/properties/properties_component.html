@@ -1,0 +1,28 @@
+<div class="panel panel-default pyro-panel">
+    <div class="panel-heading pyro-panel-heading">
+        {{currentGraphElement?.runtimeType?.toString()}}
+    </div>
+    <div class="panel-body pyro-panel-body">
+        <div class="row">
+            <div class="col-xs-4">
+                <tree
+                    *ngIf="currentGraphElement!=null"
+                    (hasChanged)="hasChanged($event)"
+                    (hasRemoved)="hasRemoved($event)"
+                    (hasSelected)="hasSelection($event)"
+                    [currentElement]="currentGraphElement"
+                    [currentGraphModel]="currentGraphModel"
+                ></tree>
+            </div>
+            <div class="col-xs-8">
+                <property
+                    *ngIf="currentGraphElement!=null"
+                    (hasChanged)="hasChangedValues($event)"
+                    [currentElement]="currentElement"
+                    [currentGraph]="currentGraphModel"
+                >
+                </property>
+            </div>
+        </div>
+    </div>
+</div>

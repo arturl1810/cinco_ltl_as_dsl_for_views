@@ -1,0 +1,88 @@
+<div class="modal fade in" id="showUsersModal" tabindex="-1" role="dialog" aria-labelledby="showUsersLabel" style="display: block; padding-left: 0px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="close.emit($event)" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="showUsersLabel">Known Users</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>Project Owner</h4>
+                    </div>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Username</dt>
+                    <dd>{{project.owner.username}}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Email</dt>
+                    <dd>{{project.owner.email}}</dd>
+                </dl>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>Shared Users</h4>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th *ngIf="isOwner"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let sharedUser of project.shared; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{sharedUser.username}}</td>
+                        <td>{{sharedUser.email}}</td>
+                        <td *ngIf="isOwner">
+                            <button class="btn btn-sm btn-default" (click)="removeUserFromProject(sharedUser)">Remove from Project</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>Known Users</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="btn btn-default btn-sm" (click)="showFindUserModal=true">Find User</button>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th *ngIf="isOwner"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let sharedUser of notIncludedUsers(); let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{sharedUser.username}}</td>
+                        <td>{{sharedUser.email}}</td>
+                        <td *ngIf="isOwner">
+                            <button class="btn btn-sm btn-default" (click)="addUserToProject(sharedUser)">Add to Project</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close.emit($event)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<find-user
+        *ngIf="showFindUserModal"
+        [user]="user"
+        (searchUser)="findUser($event)"
+        (close)="showFindUserModal=false"
+>
+</find-user>

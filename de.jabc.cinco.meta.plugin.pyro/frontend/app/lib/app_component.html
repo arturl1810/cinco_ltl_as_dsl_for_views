@@ -1,0 +1,37 @@
+<main-component
+    *ngIf="majorState=='main'"
+    [minorState]="minorState"
+    (changeMinorState)="changeMinorState($event)"
+>
+    <welcome
+        *ngIf="minorState=='welcome'"
+        (signin)="pyroSignin($event)"
+    >
+    </welcome>
+    <login
+        *ngIf="minorState=='login'"
+        (loggedin)="pyroLogin($event)"
+    >
+    </login>
+    <features
+        *ngIf="minorState=='features'"
+    >
+    </features>
+</main-component>
+<projects
+    *ngIf="majorState=='projects'"
+    (openProject)="openProject($event)"
+    (logout)="logout($event)"
+    [user]="currentUser"
+>
+</projects>
+<editor
+    *ngIf="majorState=='editor'"
+    [user]="currentUser"
+    [inputProject]="currentProject"
+    (openProject)="openProject($event)"
+    (back)="projectPage($event)"
+    (logout)="logout($event)"
+>
+</editor>
+

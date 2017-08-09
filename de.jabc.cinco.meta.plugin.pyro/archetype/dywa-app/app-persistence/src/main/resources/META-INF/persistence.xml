@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+      http://java.sun.com/xml/ns/persistence
+      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="pu">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>java:/DefaultDS${de.ls5.dywa.instanceId}</jta-data-source>
+
+		<class>de.ls5.dywa.entities.DBIdentified</class>
+		<class>de.ls5.dywa.entities.DBNamed</class>
+		<class>de.ls5.dywa.entities.object.DBType</class>
+		<class>de.ls5.dywa.entities.object.DBProperties</class>
+		<class>de.ls5.dywa.entities.object.DBObject</class>
+		<class>de.ls5.dywa.entities.object.DBFile</class>
+		<class>de.ls5.dywa.entities.object.DBField</class>
+		<class>de.ls5.dywa.entities.object.DBPackage</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBBooleanListProperty</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBDoubleListProperty</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBFileListProperty</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBLongListProperty</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBLongListProperty</class>
+		<class>de.ls5.dywa.entities.property.integrallist.DBTimestampListProperty</class>
+		<class>de.ls5.dywa.entities.property.referencelist.DBObjectListProperty</class>
+		<class>de.ls5.dywa.entities.property.DBListProperty</class>
+		<class>de.ls5.dywa.entities.property.reference.DBObjectProperty</class>
+		<class>de.ls5.dywa.entities.property.DBProperty</class>
+		<class>de.ls5.dywa.entities.property.integral.DBLongProperty</class>
+		<class>de.ls5.dywa.entities.property.integral.DBStringProperty</class>
+		<class>de.ls5.dywa.entities.property.integral.DBDoubleProperty</class>
+		<class>de.ls5.dywa.entities.property.integral.DBBooleanProperty</class>
+		<class>de.ls5.dywa.entities.property.integral.DBFileProperty</class>
+		<class>de.ls5.dywa.entities.property.DBSingularProperty</class>
+		<class>de.ls5.dywa.entities.property.PropertyType</class>
+		<class>de.ls5.dywa.entities.property.integral.DBTimestampProperty</class>
+
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+			<property name="hibernate.jdbc.batch_size" value="64" />
+			<property name="hibernate.default_batch_fetch_size" value="64" />
+			
+			<property name="hibernate.generate_statistics" value="false" />
+			
+			<property name="hibernate.cache.use_second_level_cache" value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+			
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.use_sql_comments" value="false" />
+
+
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+
+			<property name="eclipselink.target-server" value="JBoss"/>
+			<property name="eclipselink.deploy-on-startup" value="True" />
+			<property name="eclipselink.weaving.changetracking" value="true"/>
+			<property name="eclipselink.weaving.lazy" value="true"/>
+			<property name="eclipselink.weaving.eager" value="true"/>
+			<property name="eclipselink.weaving.fetchgroups" value="true"/>
+			<property name="eclipselink.weaving.internal" value="false"/>
+
+			<property name="eclipselink.cache.shared.default" value="false"/>
+			<property name="eclipselink.id-validation" value="NEGATIVE"/>
+		</properties>
+	</persistence-unit>
+</persistence>

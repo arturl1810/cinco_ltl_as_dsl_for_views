@@ -1,0 +1,14 @@
+<div class="panel panel-default" style="border-color: #8e8e8e">
+    <div class="panel-body" style="max-width: inherit;
+    overflow-x: scroll;background-color: #8e8e8e;">
+        <tree-node
+            *ngIf="currentTree!=null"
+            [currentNode]="currentTree.root"
+            (hasNew)="hasNew($event)"
+            (hasDeleted)="hasDeleted($event)"
+            (hasSelected)="hasSelected.emit($event)"
+        >
+        </tree-node>
+    </div>
+</div>
+

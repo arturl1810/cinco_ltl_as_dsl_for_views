@@ -2,8 +2,8 @@
 <?eclipse version="3.4"?>
 <fragment>
    <extension
-         id="id1"
-         name="name"
+         id="PyroFTW"
+         name="PyroWebCinco"
          point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
       <cpd_metaplugin_description
             cpdMetapluginService="de.jabc.cinco.meta.plugin.pyro.CPDMetaPlugin"

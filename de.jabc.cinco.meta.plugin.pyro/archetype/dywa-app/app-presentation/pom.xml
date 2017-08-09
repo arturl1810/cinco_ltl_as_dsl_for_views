@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>info.scce.dime</groupId>
+		<artifactId>dywa-app</artifactId>
+		<version>0.1</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>app-presentation</artifactId>
+	<packaging>war</packaging>
+
+	<name>${project.artifactId}</name>
+
+	<properties>
+		<shiro.version>1.2.3</shiro.version>
+		<dart.sdk>${dart.path}</dart.sdk>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>info.scce.dime</groupId>
+			<artifactId>app-addon</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.scce.dime</groupId>
+			<artifactId>app-business</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>api</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
+		<!-- explicitly declare dependency provided so it's not packaged -->
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>entities</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<type>pom</type>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-vfs</artifactId>
+			<version>3.0.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>autodeploy</id>
+			<activation>
+				<property>
+					<name>wildfly.path</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>copy</id>
+								<phase>install</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<inherited>false</inherited>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>${project.artifactId}</artifactId>
+											<version>${project.version}</version>
+											<type>war</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${wildfly.path}/standalone/deployments</outputDirectory>
+											<destFileName>app${de.ls5.dywa.instanceId}.war</destFileName>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>target/generated-resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<!-- This plugin only creates a dummy 'target/generated-resources' directory, so the war-plugin does not complain -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>init-dirs</id>
+						<!-- archetype plugin invokes generate-sources phase, but at this point, dependencies are not
+						build yet, so do not invoke it -->
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}/generated-sources" />
+								<mkdir dir="${project.build.directory}/generated-sources/app" />
+								<mkdir dir="${project.build.directory}/generated-sources/app/build/web/" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>build</id>
+						<!-- archetype plugin invokes generate-sources phase, but at this point, dependencies are not
+						build yet, so do not invoke it -->
+						<phase>generate-resources</phase>
+						<configuration>
+							<tasks>
+								<exec executable="${dart.path}\bin\pub.bat" osfamily="windows" failonerror="true" dir="${project.build.directory}\generated-sources\app">
+									<arg line="get" />
+								</exec>
+								<exec executable="${dart.path}\bin\pub.bat" osfamily="windows" failonerror="true" dir="${project.build.directory}\generated-sources\app">
+									<arg line="build --mode=debug" />
+								</exec>
+								<exec executable="${dart.path}/bin/pub" osfamily="unix" failonerror="true" dir="${project.build.directory}/generated-sources/app">
+									<arg line="get" />
+								</exec>
+								<exec executable="${dart.path}/bin/pub" osfamily="unix" failonerror="true" dir="${project.build.directory}/generated-sources/app">
+									<arg line="build --mode=debug" />
+								</exec>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/WEB-INF</directory>
+							<targetPath>WEB-INF</targetPath>
+							<filtering>true</filtering>
+						</resource>
+						<resource>
+							<directory>${project.build.directory}/generated-sources/app/build/web/</directory>
+							<includes>
+								<include>index.html</include>
+							</includes>
+							<targetPath>/</targetPath>
+							<filtering>false</filtering>
+						</resource>
+						<resource>
+							<directory>${project.build.directory}/generated-sources/app/build/web/</directory>
+							<excludes>
+								<exclude>index.html</exclude>
+							</excludes>
+							<targetPath>/asset</targetPath>
+							<filtering>false</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+		</plugins>
+		<finalName>${de.ls5.dywa.finalName}${de.ls5.dywa.instanceId}</finalName>
+	</build>
+</project>

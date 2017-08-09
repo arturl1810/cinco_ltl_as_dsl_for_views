@@ -1,0 +1,40 @@
+<div class="panel panel-default pyro-panel">
+    <div class="panel-heading pyro-panel-heading">
+        <strong>Palette</strong>
+        <div class="btn-group btn-group-sm pull-right" role="group" style="margin-top: -5px;">
+            <button
+                    type="button"
+                    class="btn btn-sm btn-default btn-link pyro-button"
+                    (click)="expandAll($event)">
+                <span class="glyphicon glyphicon-resize-full"></span>
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-sm btn-default btn-link pyro-button"
+                    (click)="collapseAll($event)">
+                <span class="glyphicon glyphicon-resize-small"></span>
+            </button>
+        </div>
+    </div>
+    <div class="panel-group" role="tablist" style="margin-bottom: 0;">
+        <div class="panel panel-default" *ngFor="let mapList of map">
+            <div class="panel-heading">
+                <a href (click)="openEntry(mapList,$event)" style="color: black;"><span class="glyphicon glyphicon-list"></span> {{ mapList.name }}</a>
+            </div>
+            <ul class="list-group" *ngIf="mapList.open">
+                <li
+                    class="list-group-item pyro-list-group"
+                    *ngFor="let value of mapList.values"
+                    draggable="true" ondragstart="start_drag_element(event)"
+                    [attr.data-typename]="value.identifier"
+                >
+                    <img
+                        *ngIf="value.imgPath!=null"
+                        [src]="value.imgPath"
+                        style="width: 16px;height: 16px;margin-right: 5px;"
+                    />{{value.name}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
