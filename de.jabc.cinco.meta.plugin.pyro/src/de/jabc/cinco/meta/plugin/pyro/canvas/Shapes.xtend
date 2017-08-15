@@ -523,7 +523,7 @@ class Shapes extends Generatable {
 				'<g class="labels"></g>'+
 				'<g class="marker-vertices"/>'+
 				'<g class="marker-arrowheads"/>'+
-				'<g class="link-tools" />',
+				'<g class="link-tools"«IF !e.removable» pyro-remove-disbaled=""«ENDIF» />',
 			    defaults: {
 			        type: '«g.name.lowEscapeDart».«e.name.fuEscapeDart»',
 			        attrs: {

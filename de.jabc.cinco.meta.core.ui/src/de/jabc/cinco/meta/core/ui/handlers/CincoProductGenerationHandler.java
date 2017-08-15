@@ -86,6 +86,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private CincoProduct cpd;
 	private ExecutionEvent event;
 	private boolean autoBuild;
+	private boolean pyroOnly = false;
 
 	private FileExtension fileHelper;
 
@@ -93,6 +94,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * The constructor.
 	 */
 	public CincoProductGenerationHandler() {
+	}
+	
+	public void pyroOnly(){
+		pyroOnly = true;
 	}
 
 	/**
@@ -127,10 +132,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		Workload job = job("Generate Cinco Product").consume(10, "Initializing...")
 				.task("Disabling auto-build...", this::disableAutoBuild);
 		
+		
 		/*
 		 * MGL PREPROCESSING
 		 */
-		if (generateMGLs.size() > 0) {
+		if (!pyroOnly&&generateMGLs.size() > 0) {
 			job.task("Deleting previously generated resources...", this::deleteGeneratedResources);
 		}
 		
@@ -140,51 +146,53 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 //		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
 //		job.consume(20, "Preprocessing MGLs...").task(() -> backuppedMGLs.putAll(preprocessMGLs(generateMGLs)));
 
-		/*
-		 * MGL TASKS
-		 */
-		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
-		job.consume(50 * generateMGLs.size(), "Processing MGLs")
-				.taskForEach(() -> generateMGLs.stream().flatMap(file -> {
-					final List<Pair<String, Runnable>> pairs = new LinkedList<>();
-					pairs.add(new Pair<>(String.format("%s: Deleting Ressources... ", file.getFullPath().lastSegment()),
-							() -> deleteGeneratedMGLResources(file)));
-					pairs.add(new Pair<>(String.format("%s: Initializing...", file.getFullPath().lastSegment()),
-							() -> publishMglFile(file)));
-					pairs.add(
-							new Pair<>(String.format("%s: Generating Ecore/GenModel...", file.getFullPath().lastSegment()),
-									() -> generateEcoreModel(file)));
-					pairs.add(new Pair<>(String.format("%s: Generating model code...", file.getFullPath().lastSegment()),
-							() -> generateGenmodelCode(file)));
-					pairs.add(
-							new Pair<>(String.format("%s: Generating Graphiti editor...", file.getFullPath().lastSegment()),
-									() -> generateGraphitiEditor(file)));
-					pairs.add(new Pair<>(String.format("%s: Generating API...", file.getFullPath().lastSegment()),
-							() -> generateApi(file)));
-					pairs.add(new Pair<>(String.format("%s: Generating Cinco SIBs...", file.getFullPath().lastSegment()),
-							() -> generateCincoSIBs(file)));
-					pairs.add(
-							new Pair<>(String.format("%s: Generating product project...", file.getFullPath().lastSegment()),
-									() -> generateProductProject(file)));
-					pairs.add(
-							new Pair<>(String.format("%s: Generating feature project...", file.getFullPath().lastSegment()),
-									() -> generateFeatureProject(file)));
-					pairs.add(new Pair<>(String.format("%s: Generating perspective...", file.getFullPath().lastSegment()),
-							() -> generatePerspective(file)));
-					pairs.add(new Pair<>(String.format("%s: Generating Gratext model...", file.getFullPath().lastSegment()),
-							() -> {
-								if (isGratextEnabled())
-									generateGratextModel(file);
-							}));
-					return pairs.stream();
-				}), pair -> pair.getValue().run(), pair -> pair.getKey());
-
-		/*
-		 * BUILD GRATEXT
-		 */
-		if (isGratextEnabled()) {
-			job.consumeConcurrent(60 * generateMGLs.size(), "Building Gratext...")
-					.taskForEach(() -> generateMGLs.stream(), this::buildGratext, t -> t.getFullPath().lastSegment());
+		if(!pyroOnly){
+			/*
+			 * MGL TASKS
+			 */
+			// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
+			job.consume(50 * generateMGLs.size(), "Processing MGLs")
+					.taskForEach(() -> generateMGLs.stream().flatMap(file -> {
+						final List<Pair<String, Runnable>> pairs = new LinkedList<>();
+						pairs.add(new Pair<>(String.format("%s: Deleting Ressources... ", file.getFullPath().lastSegment()),
+								() -> deleteGeneratedMGLResources(file)));
+						pairs.add(new Pair<>(String.format("%s: Initializing...", file.getFullPath().lastSegment()),
+								() -> publishMglFile(file)));
+						pairs.add(
+								new Pair<>(String.format("%s: Generating Ecore/GenModel...", file.getFullPath().lastSegment()),
+										() -> generateEcoreModel(file)));
+						pairs.add(new Pair<>(String.format("%s: Generating model code...", file.getFullPath().lastSegment()),
+								() -> generateGenmodelCode(file)));
+						pairs.add(
+								new Pair<>(String.format("%s: Generating Graphiti editor...", file.getFullPath().lastSegment()),
+										() -> generateGraphitiEditor(file)));
+						pairs.add(new Pair<>(String.format("%s: Generating API...", file.getFullPath().lastSegment()),
+								() -> generateApi(file)));
+						pairs.add(new Pair<>(String.format("%s: Generating Cinco SIBs...", file.getFullPath().lastSegment()),
+								() -> generateCincoSIBs(file)));
+						pairs.add(
+								new Pair<>(String.format("%s: Generating product project...", file.getFullPath().lastSegment()),
+										() -> generateProductProject(file)));
+						pairs.add(
+								new Pair<>(String.format("%s: Generating feature project...", file.getFullPath().lastSegment()),
+										() -> generateFeatureProject(file)));
+						pairs.add(new Pair<>(String.format("%s: Generating perspective...", file.getFullPath().lastSegment()),
+								() -> generatePerspective(file)));
+						pairs.add(new Pair<>(String.format("%s: Generating Gratext model...", file.getFullPath().lastSegment()),
+								() -> {
+									if (isGratextEnabled())
+										generateGratextModel(file);
+								}));
+						return pairs.stream();
+					}), pair -> pair.getValue().run(), pair -> pair.getKey());
+			
+			/*
+			 * BUILD GRATEXT
+			 */
+			if (isGratextEnabled()) {
+				job.consumeConcurrent(60 * generateMGLs.size(), "Building Gratext...")
+						.taskForEach(() -> generateMGLs.stream(), this::buildGratext, t -> t.getFullPath().lastSegment());
+			}
 		}
 
 		/*
@@ -193,14 +201,14 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		if (generateMGLs.size() > 0) {
 			job.task("Generate CPD plugins", () -> generateCPDPlugins(allMGLs));
 		}
-
-		/*
-		 * GLOBAL TASKS
-		 */
-		if (generateMGLs.size() > 0) {
-			job.consume(5, "Global Processing").task("Generating project wizard...", this::generateProjectWizard);
+		if(!pyroOnly){
+			/*
+			 * GLOBAL TASKS
+			 */
+			if (generateMGLs.size() > 0) {
+				job.consume(5, "Global Processing").task("Generating project wizard...", this::generateProjectWizard);
+			}
 		}
-
 		/*
 		 * START JOBS
 		 */
@@ -210,6 +218,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		}).onFinishedShowMessage("Cinco Product generation completed successfully").onDone(() -> resetAutoBuild())
 				.schedule();
 
+		pyroOnly = false;
 		return null;
 	}
 

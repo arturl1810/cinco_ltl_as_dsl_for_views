@@ -9,6 +9,8 @@ import mgl.NodeContainer
 import mgl.ContainingElement
 import mgl.IncomingEdgeElementConnection
 import mgl.EdgeElementConnection
+import mgl.ReferencedModelElement
+import mgl.ModelElement
 
 class GraphmodelComponent extends Generatable {
 
@@ -34,16 +36,19 @@ class GraphmodelComponent extends Generatable {
 		
 		
 		  @override
-		  Node execCreateNodeType(String type)
+		  Node execCreateNodeType(String type,IdentifiableElement primeElement)
 		  {
-		    Node newNode;
 		    // for each node type
 		    «FOR elem : g.nodes»
 		    	if(type == '«g.name.lowEscapeDart».«elem.name.fuEscapeDart»'){
-		    	  newNode = new «elem.name.fuEscapeDart»();
+		    	  var newNode = new «elem.name.fuEscapeDart»();
+		    	  «IF elem.prime»
+		    	  newNode.«elem.primeReference.name.escapeDart» = primeElement;
+		    	  «ENDIF»
+		    	  return newNode;
 		    	}
 		    «ENDFOR»
-		    return newNode;
+		    throw new Exception("Unkown node type ${type}");
 		  }
 		
 		  @override
@@ -101,7 +106,7 @@ class GraphmodelComponent extends Generatable {
 		      «FOR node : g.nodes»
 		      	if(cmd.type=='«g.name.lowEscapeDart».«node.name.escapeDart»'){
 		      	  js.context.callMethod('create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»',[
-		      	    cmd.x,cmd.y,cmd.width,cmd.height,cmd.delegateId,cmd.containerId,cmd.dywaName,cmd.dywaVersion,e.styleArgs()
+		      	    cmd.x,cmd.y,cmd.width,cmd.height,cmd.delegateId,cmd.containerId,cmd.dywaName,cmd.dywaVersion,e.styleArgs()«IF node.prime»,cmd.primeId«ENDIF»
 		      	  ]);
 		      	  return;
 		      	}
@@ -259,7 +264,7 @@ class GraphmodelComponent extends Generatable {
 		  					if(jsog['senderId'].toString()!=user.dywaId.toString()){
 		  						if(jsog['content']['messageType']=='graphmodel'){
 		  							startPropagation().then((_) {
-		  								currentGraphModel.merge(«g.name.fuEscapeDart».fromJSOG(jsog['content'],new Map()),true);
+		  								currentGraphModel.merge(«g.name.fuEscapeDart».fromJSOG(jsog['content'],new Map()),structureOnly:true);
 		  								js.context.callMethod('update_routing_«g.name.lowEscapeDart»',[currentGraphModel.router,currentGraphModel.connector]);
 		  								js.context.callMethod('update_scale_«g.name.lowEscapeDart»',[currentGraphModel.scale]);
 		  							}).then((_) => endPropagation());
@@ -272,10 +277,8 @@ class GraphmodelComponent extends Generatable {
 		  								if (m is PropertyMessage) {
   											var elem = currentGraphModel.allElements().firstWhere((n) =>
 	  										n.dywaId == m.delegate.dywaId);
-											elem.merge(m.delegate, true);
-											if(elem is ModelElement){
-												updateElement(elem);
-											}
+											elem.merge(m.delegate, structureOnly:true);
+											updateProperties(elem);
 		  								}
 		  							}).then((_) => endPropagation());
 		  						}
@@ -376,7 +379,23 @@ class GraphmodelComponent extends Generatable {
 		   }
 		
 		   void updateProperties(IdentifiableElement ie) {
-			updateElement(ie);
+		   	if(ie is! GraphModel){
+				updateElement(ie);
+			} else {
+				if(ie is «g.name.fuEscapeDart»){
+					currentGraphModel.merge(ie,structureOnly:false);
+				}
+			}
+			//check for prime referencable element in same graph and update
+			«FOR pr:g.primeRefs.filter[referencedElement.graphModel.equals(g)]»
+				if(ie is «pr.referencedElement.name.fuEscapeDart») {
+					//update all prime nodes for this element
+					
+					currentGraphModel.allElements()
+						.where((n)=>n is «(pr.eContainer as ModelElement).name.fuEscapeDart»)
+						.forEach((n)=>updateElement(n));
+				}
+			«ENDFOR»
 		   }
 		   
 		  void undo() {
@@ -605,9 +624,9 @@ class GraphmodelComponent extends Generatable {
 			 	    	node.styleArgs() ]);
 			 	}
 			 	
-			 	void cb_create_node_«node.name.lowEscapeDart»(int x,int y,int width,int height,String cellId,int containerId) {
+			 	void cb_create_node_«node.name.lowEscapeDart»(int x,int y,int width,int height,String cellId,int containerId«IF node.isPrime»,int primeId«ENDIF») {
 			 		var container = findElement(containerId) as ModelElementContainer;
-			 	    var ccm = commandGraph.sendCreateNodeCommand("«g.name.lowEscapeDart».«node.name.escapeDart»",x,y,containerId,width,height,user);
+			 	    var ccm = commandGraph.sendCreateNodeCommand("«g.name.lowEscapeDart».«node.name.escapeDart»",x,y,containerId,width,height,user«IF node.isPrime»,primeId:primeId«ENDIF»);
 			 	    graphService.sendMessage(ccm,"«g.name.lowEscapeJava»",currentGraphModel.dywaId).then((m){
 		 	    		«'''
 			 		   		var cmd = m.cmd.queue.first;
@@ -620,6 +639,16 @@ class GraphmodelComponent extends Generatable {
 			 		   			node.dywaVersion = cmd.dywaVersion;
 			 		   			node.container = container;
 			 		   			container.modelElements.add(node);
+			 		   			«IF node.prime»
+									//prime node -> update element properties
+									var primeElem = cmd.primeElement;
+									var elements = currentGraphModel.allElements().where((n)=>n.dywaId==primeElem.dywaId);
+									if(elements.isNotEmpty){
+										node.«node.primeReference.name.escapeDart» = elements.first;
+									} else {
+										node.«node.primeReference.name.escapeDart» = primeElem;
+									}
+			 		   			«ENDIF»
 			 		   			updateElement(node,cellId: cellId);
 			 		   			commandGraph.storeCommand(m.cmd);
 			 		   			if(container is! GraphModel){
@@ -943,14 +972,14 @@ class GraphmodelComponent extends Generatable {
 			 				«FOR group:container.containableElements.get(0).containingElement.containableElements.indexed»
 			 				 	//check if type can be contained in group
 			 				 	if(
-			 				«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet SEPARATOR "||"»
-			 				 		node is «containableTypeName»
+			 				«FOR containableTypeName:group.value.types.map[name].map[subTypes(g)].flatten.toSet SEPARATOR "||"»
+			 				 		node is «containableTypeName.name.fuEscapeDart»
 			 				«ENDFOR»
 			 				 	) {
 			 				«IF group.value.upperBound>-1»
 			 					int group«group.key»Size = 0;
-			 					«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet»
-			 					 	group«group.key»Size += container.modelElements.where((n)=>n is «containableTypeName»).length;
+			 					«FOR containableType:group.value.types.map[name].map[subTypes(g)].flatten.toSet»
+			 					 	group«group.key»Size += container.modelElements.where((n)=>n is «containableType.name.fuEscapeDart»).length;
 			 					«ENDFOR»
 			 					if(«IF group.value.upperBound>-1»group«group.key»Size<«group.value.upperBound»«ELSE»true«ENDIF»){
 			 					 	return true;

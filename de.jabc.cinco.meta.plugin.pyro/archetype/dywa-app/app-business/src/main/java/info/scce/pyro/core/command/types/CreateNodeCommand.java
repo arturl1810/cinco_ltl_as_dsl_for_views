@@ -1,5 +1,7 @@
 package info.scce.pyro.core.command.types;
 
+import info.scce.pyro.core.graphmodel.IdentifiableElement;
+
 /**
  * Author zweihoff
  */
@@ -17,6 +19,10 @@ public class CreateNodeCommand extends Command {
     long height;
     @com.fasterxml.jackson.annotation.JsonProperty("containerId")
     long containerId;
+    @com.fasterxml.jackson.annotation.JsonProperty("primeId")
+    long primeId;
+    @com.fasterxml.jackson.annotation.JsonProperty("primeElement")
+    info.scce.pyro.core.graphmodel.IdentifiableElement primeElement;
 
     public long getX() {
         return x;
@@ -56,5 +62,21 @@ public class CreateNodeCommand extends Command {
 
     public void setContainerId(long containerId) {
         this.containerId = containerId;
+    }
+
+    public long getPrimeId() {
+        return primeId;
+    }
+
+    public void setPrimeId(long primeId) {
+        this.primeId = primeId;
+    }
+
+    public IdentifiableElement getPrimeElement() {
+        return primeElement;
+    }
+
+    public void setPrimeElement(IdentifiableElement primeElement) {
+        this.primeElement = primeElement;
     }
 }

@@ -259,9 +259,7 @@ class EditorComponent extends Generatable {
 	
 	  void changedProperties(PropertyMessage pm)
 	  {
-	  	if(pm.delegate is! GraphModel){
-	  	   canvasComponent.updateProperties(pm.delegate);
-	  	}
+	  	canvasComponent.updateProperties(pm.delegate);
 	    sendMessage(pm);
 	  }
 	
@@ -331,7 +329,7 @@ class EditorComponent extends Generatable {
 	    if(gm != null) {
 	        IdentifiableElement ie = gm.allElements().where((n)=>n.dywaId==message.delegate.dywaId).first;
 	        if(ie != null) {
-	          ie.merge(message.delegate);
+	          ie.merge(message.delegate,structureOnly:true);
 	        }
 	    }
 	  }

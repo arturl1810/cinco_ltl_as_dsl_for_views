@@ -50,7 +50,17 @@ abstract class CommandGraph {
   /// if propagation is enabled, the canvas is updated as well
   void _execCreateNodeCommand(CreateNodeCommand cmd,bool propagate)
   {
-    Node newNode = execCreateNodeType(cmd.type);
+    var prEleme = null;
+    if(cmd.primeElement!=null){
+      var elements = currentGraphModel.allElements().where((n)=>n.dywaId==cmd.primeElement.dywaId);
+      if(elements.isNotEmpty){
+        prEleme = elements.first;
+      } else {
+        prEleme = cmd.primeElement;
+      }
+  
+    }
+    Node newNode = execCreateNodeType(cmd.type,prEleme);
     //set position
     newNode.x = cmd.x;
     newNode.y = cmd.y;
@@ -65,13 +75,13 @@ abstract class CommandGraph {
     }
   }
 
-  Node execCreateNodeType(String type);
+  Node execCreateNodeType(String type,IdentifiableElement primeElement);
 
   void execCreateNodeCommandCanvas(CreateNodeCommand cmd);
 
   /// actions triggered by the js canvas
   /// creating commands that are send to the server
-  CreateNodeCommand _createNodeCommand(String type,int x,int y,int containerId,int width, int height)
+  CreateNodeCommand _createNodeCommand(String type,int x,int y,int containerId,int width, int height,{int primeId:0,IdentifiableElement primeElement:null})
   {
     CreateNodeCommand cmd = new CreateNodeCommand();
     cmd.containerId = containerId;
@@ -80,19 +90,21 @@ abstract class CommandGraph {
     cmd.type = type;
     cmd.height = height;
     cmd.width = width;
+    cmd.primeId = primeId;
+    cmd.primeElement = primeElement;
     return cmd;
   }
 
-  CompoundCommandMessage sendCreateNodeCommand(String type,int x,int y,int containerId,int width,int height,PyroUser user)
+  CompoundCommandMessage sendCreateNodeCommand(String type,int x,int y,int containerId,int width,int height,PyroUser user,{int primeId:0,IdentifiableElement primeElement:null})
   {
-    return _send(_createNodeCommand(type,x,y,containerId,width,height),user);
+    return _send(_createNodeCommand(type,x,y,containerId,width,height,primeId:primeId,primeElement:primeElement),user);
   }
 
   RemoveNodeCommand _invertCreateNodeCommand(CreateNodeCommand cmd)
   {
     //create remove node command
     //exec command with propagation
-    return _removeNodeCommand(cmd.delegateId,cmd.containerId,cmd.x,cmd.y,cmd.width,cmd.height);
+    return _removeNodeCommand(cmd.delegateId,cmd.containerId,cmd.x,cmd.y,cmd.width,cmd.height,primeId:cmd.primeId,primeElement: cmd.primeElement);
   }
 
   void _execRemoveNodeCommand(RemoveNodeCommand cmd,bool propagate)
@@ -108,7 +120,7 @@ abstract class CommandGraph {
 
   void execRemoveNodeCommandCanvas(RemoveNodeCommand cmd);
 
-  RemoveNodeCommand _removeNodeCommand(int nodeId,int containerId,int x,int y,int width,int height)
+  RemoveNodeCommand _removeNodeCommand(int nodeId,int containerId,int x,int y,int width,int height,{int primeId:0,IdentifiableElement primeElement:null})
   {
     RemoveNodeCommand cmd = new RemoveNodeCommand();
     cmd.delegateId = nodeId;
@@ -121,6 +133,8 @@ abstract class CommandGraph {
     cmd.y = y;
     cmd.width = width;
     cmd.height = height;
+    cmd.primeId = primeId;
+    cmd.primeElement = primeElement;
     return cmd;
   }
 
@@ -159,6 +173,8 @@ abstract class CommandGraph {
     cc.delegateId = cmd.delegateId;
     cc.dywaVersion = cmd.dywaVersion;
     cc.dywaName = cmd.dywaName;
+    cc.primeId = cmd.primeId;
+    cc.primeElement = cmd.primeElement;
     return cc;
   }
 

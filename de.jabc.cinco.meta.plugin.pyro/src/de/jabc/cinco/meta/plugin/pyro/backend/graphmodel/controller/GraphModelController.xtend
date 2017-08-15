@@ -75,6 +75,11 @@ class GraphModelController extends Generatable {
 			@javax.inject.Inject
 			private de.ls5.dywa.generated.controller.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava»Controller «e.name.escapeJava»Controller;
 		«ENDFOR»
+		
+		«FOR pr:g.nodes.importedPrimeNodes(g).toSet»
+			@javax.inject.Inject
+			de.ls5.dywa.generated.controller.info.scce.pyro.«pr.type.graphModel.name.escapeJava».«pr.type.name.fuEscapeJava»Controller «pr.type.name.escapeJava»Controller;
+		«ENDFOR»
 	
 	
 		@javax.ws.rs.POST
@@ -138,16 +143,7 @@ class GraphModelController extends Generatable {
 			//cascade remove
 			if(parent.getgraphModels_GraphModel().contains(gm)){
 				parent.getgraphModels_GraphModel().remove(gm);
-				«g.name.escapeJava»ControllerBundle bundle = new «g.name.escapeJava»ControllerBundle(
-					 nodeController,
-					 edgeController,
-					 bendingPointController,
-					 «g.name.escapeJava»Controller
-					 «FOR e:g.elementsAndTypesAndEnums BEFORE "," SEPARATOR ","»
-					 «e.name.escapeJava»Controller
-					 «ENDFOR»
-					
-				);
+				«g.name.escapeJava»ControllerBundle bundle = buildBundle();
 				«g.name.escapeJava»CommandExecuter executer = new «g.name.escapeJava»CommandExecuter(bundle,subject,objectCache);
 				removeContainer(gm,executer);
 				
@@ -175,7 +171,10 @@ class GraphModelController extends Generatable {
 					«IF e instanceof NodeContainer»
 					removeContainer((Container) n,executer);
 					«ELSE»
-					executer.remove«e.name.escapeJava»((de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava») n);
+					executer.remove«e.name.escapeJava»((de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava») n
+					«IF e.prime»
+					,((de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava») n).get«e.primeReference.name»()
+					«ENDIF»);
 					«ENDIF»
 				}
 				«ENDFOR»
@@ -252,6 +251,9 @@ class GraphModelController extends Generatable {
 		                «FOR e:g.elementsAndTypesAndEnums BEFORE "," SEPARATOR ","»
 		                «e.name.escapeJava»Controller
 		                «ENDFOR»
+		                «FOR pr:g.nodes.importedPrimeNodes(g).toSet BEFORE "," SEPARATOR ","»
+                    	«pr.type.name.escapeJava»Controller
+                    	«ENDFOR»
 		        );
 		}
 	
@@ -267,9 +269,9 @@ class GraphModelController extends Generatable {
 		                ModelElementContainer mec = modelElementContainerController.read(cm.getContainerId());
 		                «g.nodes.map['''
 		                if(cm.getDelegateId()!=0){
-		                     executer.create«name.escapeJava»(cm.getX(),cm.getY(),mec,cm.getDelegateId());
+		                     executer.create«name.escapeJava»(cm.getX(),cm.getY(),mec,cm.getDelegateId()«IF prime»,cm.getPrimeId()«ENDIF»);
 		                } else {
-		                	executer.create«name.escapeJava»(cm.getX(),cm.getY(),mec);
+		                	executer.create«name.escapeJava»(cm.getX(),cm.getY(),mec«IF prime»,cm.getPrimeId()«ENDIF»);
 		                }
 		                '''.checkType(it,g)].join»
 		            }
@@ -292,7 +294,7 @@ class GraphModelController extends Generatable {
 		            else if(c instanceof RemoveNodeCommand){
 		                RemoveNodeCommand cm = (RemoveNodeCommand) c;
 		                Node node = nodeController.read(cm.getDelegateId());
-		                «g.nodes.map['''executer.remove«name.escapeJava»(«it.cast(g)»node);'''.checkType(it,g)].join»
+		                «g.nodes.map['''executer.remove«name.escapeJava»(«it.cast(g)»node«IF prime»,(«it.cast(g)»node).get«primeReference.name»()«ENDIF»);'''.checkType(it,g)].join»
 		            }
 		            else if(c instanceof CreateEdgeCommand){
 		                CreateEdgeCommand cm = (CreateEdgeCommand) c;

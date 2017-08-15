@@ -26,6 +26,13 @@
     fill: #3d9de4;
 }
 
-.joint-link .link-tools .link-tool .tool-remove circle {
-    fill: #f30015;
+[pyro-remove-disbaled] .link-tool .tool-remove circle {
+    fill: none;
+    opacity: 0;
+    display: none;
+}
+[pyro-remove-disbaled] .link-tool .tool-remove {
+    fill: none;
+    opacity: 0;
+    display: none;
 }

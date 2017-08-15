@@ -6,6 +6,7 @@ import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
 import mgl.Attribute
 import mgl.GraphModel
 import mgl.ModelElement
+import mgl.ReferencedModelElement
 
 class DataConnector extends Generatable {
 	
@@ -302,6 +303,21 @@ class DataConnector extends Generatable {
 	'''
 	{
 		// Add fields for '«type.name»'.
+		«IF type instanceof mgl.Node»
+			«IF type.prime»
+			«{
+				val refType = (type.primeReference as ReferencedModelElement).type
+				val refGraph = refType.graphModel
+				'''data.addComplexField(
+						"«g.name».«type.name»",
+						"«g.name».«type.name».«type.primeReference.name»",
+						"«type.primeReference.name»",
+						PropertyType.OBJECT,
+						"«refGraph.name».«refType.name»",true);'''
+			}»
+				
+			«ENDIF»
+		«ENDIF»
 		«FOR attribute: type.attributes»
 			«IF attribute.isPrimitive(g)&&getEnum(attribute.type,g)==null»
 			data.addPrimitiveField("«g.name».«type.name»", "«g.name».«type.name».«attribute.name»", "«attribute.name»", «attribute.getDyWAType(g)», true);

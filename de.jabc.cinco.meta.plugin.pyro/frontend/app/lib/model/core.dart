@@ -9,7 +9,7 @@ abstract class PyroElement {
 
   String $type();
 
-  void merge(PyroElement ie,[bool structureOnly=false]);
+  void merge(PyroElement ie,{bool structureOnly:false,Map cache});
 
   PyroElement({Map jsog,Map cache});
 }
@@ -18,7 +18,8 @@ abstract class IdentifiableElement implements PyroElement{
   int dywaId;
   int dywaVersion;
   String dywaName;
-  
+
+
  
 }
 
@@ -163,7 +164,6 @@ class BendingPoint implements PyroElement{
     return map;
   }
 
-  void merge(IdentifiableElement ie,[bool structureOnly=false]){}
 
   BendingPoint fromJSOG(jsog, {Map cache}) {
     return new BendingPoint(cache: cache,jsog: jsog);
@@ -171,6 +171,10 @@ class BendingPoint implements PyroElement{
   @override
   String $type() {
     return "core.BendingPoint";
+  }
+  @override
+  void merge(PyroElement ie, {bool structureOnly: false, Map cache}) {
+    // TODO: implement merge
   }
 }
 
