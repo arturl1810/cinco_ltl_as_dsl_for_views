@@ -41,6 +41,13 @@
                label="Force Complete Generation"
                menubarPath="cincodebug.main/group1">
          </action>
+         <action
+               class="de.jabc.cinco.meta.core.ui.pyroGenerate.PyroGeneration"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.pyro/icons/pyro_16.png"
+               id="de.jabc.cinco.meta.core.ui.pyroGenerate"
+               label="Generate Pyro Product"
+               menubarPath="cincodebug.main/group1">
+         </action>
       </objectContribution>
    </extension>
   <extension

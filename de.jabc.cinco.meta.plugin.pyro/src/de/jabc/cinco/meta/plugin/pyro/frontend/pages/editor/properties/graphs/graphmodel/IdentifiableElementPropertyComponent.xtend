@@ -81,18 +81,18 @@ class IdentifiableElementPropertyComponent extends Generatable {
 		«IF me.attributes.filter[isPrimitive(g)].empty»
 		No properties to display for «me.name.escapeDart».
 		«ENDIF»
-		«FOR attr : me.attributes.filter[isPrimitive(g)]»
+		«FOR attr : me.attributes.filter[isPrimitive(g)].filter[!isHidden]»
 			«IF !attr.isList»
 				«IF attr.type.equals("EBoolean")»
 					<div class="checkbox">
 					    <label>
-					     <input (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»" type="checkbox"> «attr.name.escapeDart»
+					     <input «IF attr.readOnly»disabled «ENDIF»(blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»" type="checkbox"> «attr.name.escapeDart»
 					    </label>
 					</div>
 				«ELSEIF attr.type.getEnum(g)!=null»
 					<div class="form-group">
 					       <label for="«attr.name.lowEscapeDart»">«attr.name.escapeDart»</label>
-					       <select (blur)="valueChanged($event)" id="«attr.name.lowEscapeDart»" class="form-control" [(ngModel)]="currentElement.«attr.name.escapeDart»">
+					       <select «IF attr.readOnly»disabled «ENDIF»(blur)="valueChanged($event)" id="«attr.name.lowEscapeDart»" class="form-control" [(ngModel)]="currentElement.«attr.name.escapeDart»">
 					       «FOR lit:attr.type.getEnum(g).literals»
 					       	<option value="«attr.type.fuEscapeDart».«lit.escapeDart»">«lit.escapeDart»</option>
 					       «ENDFOR»
@@ -101,42 +101,50 @@ class IdentifiableElementPropertyComponent extends Generatable {
 				«ELSE»
 					<div class="form-group">
 					    <label for="«attr.name.lowEscapeDart»">«attr.name.escapeDart»</label>
-					    <input (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»" type="«attr.htmlType»" class="form-control" id="«attr.name.lowEscapeDart»">
+					    <input «IF attr.readOnly»disabled «ENDIF»(blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»" type="«attr.htmlType»" class="form-control" id="«attr.name.lowEscapeDart»">
 					</div>
 				«ENDIF»
 			«ELSE»
 				«IF attr.type.getEnum(g)!= null»
 					<div class="form-group">
 					        <label>«attr.name.escapeDart»</label>
+					        «IF !attr.readOnly»
 					        <a href (click)="addList«attr.name.escapeDart»($event)" style="color: white">
 					            <span class="glyphicon glyphicon-plus"></span>
 					         </a>
+					         «ENDIF»
 					         <div class="input-group" *ngFor="let i of currentElement.«attr.name.escapeDart»; let x = index;trackBy: trackPrimitiveValue" style="margin-bottom: 5px;">
-					             <select class="form-control" (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]">
+					             <select «IF attr.readOnly»disabled «ENDIF»class="form-control" (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]">
 					                 «FOR lit:attr.type.getEnum(g).literals»
 					                 	<option value="«attr.type.fuEscapeDart».«lit.escapeDart»">«lit.escapeDart»</option>
 					                 «ENDFOR»
 					             </select>
+					             «IF !attr.readOnly»
 					             <span class="input-group-btn">
 					                 <button (click)="removeList«attr.name.escapeDart»(x)" class="btn btn-default" type="button">
 					                     <span class="glyphicon glyphicon-remove"></span>
 					                 </button>
 					             </span>
+					             «ENDIF»
 					         </div>
 					</div>
 				«ELSEIF attr.type.equals("EBoolean")»
 					<div class="form-group">
 					       <label>«attr.name.escapeDart»</label>
+					       «IF !attr.readOnly»
 					       <a href (click)="addList«attr.name.escapeDart»($event)" style="color: white">
 					           <span class="glyphicon glyphicon-plus"></span>
 					       </a>
+					       «ENDIF»
 					       <div class="input-group" *ngFor="let i of currentElement.«attr.name.escapeDart»; let x = index;trackBy: trackPrimitiveValue" style="margin-bottom: 5px;">
 					           <div class="checkbox">
 					               <label>
-					                   <input (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]" type="checkbox">
+					                   <input «IF attr.readOnly»disabled «ENDIF»(blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]" type="checkbox">
+					                   «IF !attr.readOnly»
 					                   <button (click)="removeList«attr.name.escapeDart»(x)" class="btn btn-default" type="button">
 					                       <span class="glyphicon glyphicon-remove"></span>
 					                   </button>
+					                   «ENDIF»
 					               </label>
 					           </div>
 					       </div>
@@ -144,16 +152,20 @@ class IdentifiableElementPropertyComponent extends Generatable {
 				«ELSE»
 					<div class="form-group">
 					      	<label>«attr.name.escapeDart»</label>
+					      	«IF !attr.readOnly»
 					      	<a href (click)="addList«attr.name.escapeDart»($event)" style="color: white">
 					      	    <span class="glyphicon glyphicon-plus"></span>
 					      	</a>
+					      	«ENDIF»
 					      	<div class="input-group" *ngFor="let i of currentElement.«attr.name.escapeDart»; let x = index; trackBy: trackPrimitiveValue" style="margin-bottom: 5px;">
-					      	    <input (blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]" type="«attr.htmlType»" class="form-control">
+					      	    <input «IF attr.readOnly»disabled «ENDIF»(blur)="valueChanged($event)" [(ngModel)]="currentElement.«attr.name.escapeDart»[x]" type="«attr.htmlType»" class="form-control">
+					      	    «IF !attr.readOnly»
 					      	    <span class="input-group-btn">
 					      	        <button (click)="removeList«attr.name.escapeDart»(x)" class="btn btn-default" type="button">
 					      	            <span class="glyphicon glyphicon-remove"></span>
 					      	        </button>
 					      	    </span>
+					      	    «ENDIF»
 					      	</div>
 					</div>
 				«ENDIF»

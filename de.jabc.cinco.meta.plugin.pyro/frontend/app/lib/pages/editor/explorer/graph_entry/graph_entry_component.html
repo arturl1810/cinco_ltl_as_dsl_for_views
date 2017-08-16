@@ -1,6 +1,9 @@
 <span>
+
+
     <span *ngIf="editMode">
-        <span class="glyphicon glyphicon-file"></span>
+        <img *ngIf="hasIcon()" [src]="getIcon()" style="width: 16px;height: 16px;margin-right: 5px;">
+        <span *ngIf="!hasIcon()" class="glyphicon glyphicon-file"></span>
         <input type="text" [(ngModel)]="graph.filename" style="color: #8e8e8e;">
         <button
             class="btn btn-default btn-xs btn-link"
@@ -11,8 +14,12 @@
             <span class="glyphicon glyphicon-ok"></span>
         </button>
     </span>
+
+
     <span *ngIf="!editMode">
-        <span class="glyphicon glyphicon-file"></span> <span (click)="selectGraphModel(graph,$event)"><a href (click)="selectGraphModel(graph,$event)" style="color: white;">{{graph.filename}}</a></span>
+        <span *ngIf="canContainPrime()" (click)="openPrimeRefs($event)" [ngClass]="getFolderClass()"></span>
+        <img *ngIf="hasIcon()" [src]="getIcon()" style="width: 16px;height: 16px;margin-right: 5px;">
+        <span *ngIf="!hasIcon()" class="glyphicon glyphicon-file"></span> <span (click)="selectGraphModel(graph,$event)"><a href (click)="selectGraphModel(graph,$event)" style="color: white;">{{graph.filename}}{{getExtension()}}</a></span>
         <button
             class="btn btn-xs btn-link btn-default"
             type="button"
@@ -30,5 +37,19 @@
             <span class="glyphicon glyphicon-trash"></span>
         </button>
     </span>
+
 </span>
+
+<ul *ngIf="canContainPrime()" [hidden]="!open" style="LIST-STYLE-TYPE: none;">
+    <li
+            *ngFor="let entry of primeRefs"
+            style="white-space: nowrap"
+            draggable="true"
+            ondragstart="start_drag_element(event)"
+            [attr.data-typename]="entry.$type()"
+            [attr.data-elementid]="entry.dywaId"
+    >
+        {{getPrimeRefName(entry)}}
+    </li>
+</ul>
 

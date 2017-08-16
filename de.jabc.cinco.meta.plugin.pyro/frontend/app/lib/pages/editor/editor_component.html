@@ -25,6 +25,7 @@
                         <explorer
                             [user]="user"
                             [project]="project"
+                            [currentGraphModel]="currentGraphModel"
                             (hasDeleted)="hasDeleted($event)"
                             (hasChanged)="changeStructure($event)"
                             (openGraphModel)="addAndOpenGraphModel($event)"

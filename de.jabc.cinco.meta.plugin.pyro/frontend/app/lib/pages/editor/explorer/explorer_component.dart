@@ -29,6 +29,8 @@ class ExplorerComponent implements OnInit {
   PyroUser user;
   @Input()
   PyroProject project;
+  @Input()
+  GraphModel currentGraphModel;
 
   @ViewChildren(FolderEntryComponent)
   QueryList<FolderEntryComponent> childFolders;

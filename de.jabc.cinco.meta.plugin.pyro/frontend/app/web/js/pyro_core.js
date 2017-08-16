@@ -245,12 +245,17 @@ Hover Menu Control
  * @param cellView
  * @param {joint.dia.Paper} paper
  */
-function show_menu(x,y,width,height,cellView,paper) {
+function show_menu(x,y,width,height,cellView,showRemove,paper) {
     $menu_cell = cellView;
     //position of top left corner
     //var cpos = getPaperToScreenPosition(x,y,paper);
     var px = x+width;
     var py = y-40;
+    if(!showRemove){
+        $('#menu-edge').show();
+    } else {
+        $('#menu-edge').hide();
+    }
     $('#hover-menu').offset({ top: py, left: px });
 }
 
@@ -310,7 +315,7 @@ function control_pointer(cellView,borderWidth,evt,paper,centerAnchorPoint) {
     }
 }
 
-function init_menu_eventsystem(paper,graph,remove_node) {
+function init_menu_eventsystem(paper,graph,remove_node,disableRemove,disableResize) {
     var hover_menu = $('#hover-menu');
     var menu_remove = $('#menu-remove');
     var menu_edge = $('#menu-edge');
@@ -355,25 +360,28 @@ function init_menu_eventsystem(paper,graph,remove_node) {
         if(cellView.model.isLink()){
             return;
         }
-        $mouse_over_cell = true;
-        //cursor handling
-        var borderWidth = 1;
-        var propName = null;
-        var centerAnchorPoint = false;
-        Object.getOwnPropertyNames(cellView.model.attributes.attrs).forEach(function (n) {
-            if(n.indexOf('.pyrox0tag') !== -1){
-                propName = n;
-                if(n.indexOf('ellipse') !== -1){
-                    centerAnchorPoint = true;
+        //check if the node is disabled for resizing
+        if(disableResize.indexOf(cellView.model.attributes.type)>-1) {
+            $mouse_over_cell = true;
+            //cursor handling
+            var borderWidth = 1;
+            var propName = null;
+            var centerAnchorPoint = false;
+            Object.getOwnPropertyNames(cellView.model.attributes.attrs).forEach(function (n) {
+                if(n.indexOf('.pyrox0tag') !== -1){
+                    propName = n;
+                    if(n.indexOf('ellipse') !== -1){
+                        centerAnchorPoint = true;
+                    }
                 }
+            })
+            if(propName!==null){
+                borderWidth = cellView.model.attributes.attrs[propName] ['stroke-width'] || 1;
             }
-        })
-        if(propName!==null){
-            borderWidth = cellView.model.attributes.attrs[propName] ['stroke-width'] || 1;
+            cellView.el.addEventListener("mousemove", function (e) {
+                control_pointer(cellView,borderWidth,e,paper,centerAnchorPoint);
+            });
         }
-        cellView.el.addEventListener("mousemove", function (e) {
-            control_pointer(cellView,borderWidth,e,paper,centerAnchorPoint);
-        });
         var el = $(cellView.el);
         //show menu
         show_menu(
@@ -382,6 +390,7 @@ function init_menu_eventsystem(paper,graph,remove_node) {
            el.width(),
            el.height(),
             cellView,
+            disableRemove.indexOf(cellView.model.attributes.type)>-1,
             paper
         );
     });
@@ -528,7 +537,7 @@ Node Control
 
 
 /**
- * Creates the constraont view for all nodes.
+ * Creates the constraint view for all nodes.
  * It is used to realize the resizing feature
  * @returns {Object|void|*}
  */
@@ -539,47 +548,53 @@ function constraint_element_view() {
 
 
         pointerdown: function(evt, x, y) {
-            var borderWidth = 1;
-            var propName = null;
-            var centerAnchorPoint = false;
-            Object.getOwnPropertyNames(this.model.attributes.attrs).forEach(function (n) {
-                if(n.indexOf('.pyrox0tag') !== -1){
-                    propName = n;
-                    if(n.indexOf('ellipse') !== -1){
-                        centerAnchorPoint = true;
+            if(this.model.attributes.attrs.disableResize===true){
+
+                var borderWidth = 1;
+                var propName = null;
+                var centerAnchorPoint = false;
+                Object.getOwnPropertyNames(this.model.attributes.attrs).forEach(function (n) {
+                    if(n.indexOf('.pyrox0tag') !== -1){
+                        propName = n;
+                        if(n.indexOf('ellipse') !== -1){
+                            centerAnchorPoint = true;
+                        }
                     }
+                })
+                if(propName!==null){
+                    borderWidth = this.model.attributes.attrs[propName] ['stroke-width'] || 1;
                 }
-            })
-            if(propName!==null){
-                borderWidth = this.model.attributes.attrs[propName] ['stroke-width'] || 1;
-            }
-            if(centerAnchorPoint){
-                this.selectedBorder = isBorderClicked(
-                    this.model.attributes.position.x-(this.model.attributes.size.width/2),
-                    this.model.attributes.position.x+(this.model.attributes.size.width/2),
-                    this.model.attributes.position.y-(this.model.attributes.size.height/2),
-                    this.model.attributes.position.y+(this.model.attributes.size.height/2),
-                    x,
-                    y,
-                    borderWidth
-                );
-            } else {
-                this.selectedBorder = isBorderClicked(
-                    this.model.attributes.position.x,
-                    this.model.attributes.position.x+this.model.attributes.size.width,
-                    this.model.attributes.position.y,
-                    this.model.attributes.position.y+this.model.attributes.size.height,
-                    x,
-                    y,
-                    borderWidth
-                );
+                if(centerAnchorPoint){
+                    this.selectedBorder = isBorderClicked(
+                        this.model.attributes.position.x-(this.model.attributes.size.width/2),
+                        this.model.attributes.position.x+(this.model.attributes.size.width/2),
+                        this.model.attributes.position.y-(this.model.attributes.size.height/2),
+                        this.model.attributes.position.y+(this.model.attributes.size.height/2),
+                        x,
+                        y,
+                        borderWidth
+                    );
+                } else {
+                    this.selectedBorder = isBorderClicked(
+                        this.model.attributes.position.x,
+                        this.model.attributes.position.x+this.model.attributes.size.width,
+                        this.model.attributes.position.y,
+                        this.model.attributes.position.y+this.model.attributes.size.height,
+                        x,
+                        y,
+                        borderWidth
+                    );
+                }
             }
             joint.dia.ElementView.prototype.pointerdown.apply(this, [evt, x, y]);
         },
 
 
         pointermove: function(evt, x, y) {
-            if(this.selectedBorder===false){
+            if(this.model.attributes.attrs.disableMove===true){
+                return;
+            }
+            if(this.selectedBorder===false||this.model.attributes.attrs.disableResize===true){
                 joint.dia.ElementView.prototype.pointermove.apply(this, [evt, x, y]);
             } else {
                 if(this.selectedBorder=='top-left'){
@@ -769,7 +784,7 @@ function unblock_user_interaction(paper) {
 /**
  * Resets all listeners and register new ones
  */
-function init_event_system(paper,graph,remove_cascade)
+function init_event_system(paper,graph,remove_cascade,disableRemove,disableResize)
 {
     $menu_cell = null;
     $mouse_over_menu = false;
@@ -779,7 +794,7 @@ function init_event_system(paper,graph,remove_cascade)
     $edge_menu_shown = false;
     init_edge_eventsystem(paper);
     init_highlighter_eventsystem(paper,graph);
-    init_menu_eventsystem(paper,graph,remove_cascade);
+    init_menu_eventsystem(paper,graph,remove_cascade,disableRemove,disableResize);
 }
 
 
@@ -794,4 +809,5 @@ function confirm_drop(ev) {
 function start_drag_element(ev) {
     $edge_to_create = ev.target.dataset.typename;
 	ev.dataTransfer.setData("typename", ev.target.dataset.typename);
+    ev.dataTransfer.setData("elementid", ev.target.dataset.elementid);
 }

@@ -41,6 +41,7 @@
             <li *ngFor="let entry of project.innerFolders" style="white-space: nowrap">
                 <folder-entry
                         [folder]="entry"
+                        [currentGraphModel]="currentGraphModel"
                         (delete)="removeFolder($event)"
                         (hasDeleted)="hasDeleted.emit($event)"
                         (hasChanged)="hasChanged.emit($event)"
@@ -52,6 +53,7 @@
             <li *ngFor="let graph of project.graphModels" style="white-space: nowrap">
                 <graph-entry
                         [graph]="graph"
+                        [currentGraphModel]="currentGraphModel"
                         (openGraphModel)="openGraphModel.emit($event)"
                         (hasChanged)="hasChanged.emit($event)"
                         (createFile)="createFile($event)"

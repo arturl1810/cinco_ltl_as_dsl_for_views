@@ -103,7 +103,8 @@ class GraphService extends Generatable {
 	    return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/create/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
 	        var newGraph = «g.name.lowEscapeDart».«g.name.fuEscapeDart».fromJSOG(JSON.decode(response.responseText),new Map());
 	        print("[PYRO] created «g.name.fuEscapeDart» ${graph.filename}");
-	        parent.graphModels.add(newGraph);
+	        graph.merge(newGraph);
+	        parent.graphModels.add(graph);
 	        return newGraph;
 	    });
 	  }
@@ -113,7 +114,8 @@ class GraphService extends Generatable {
 	      return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/read/${graph.dywaId}/private",method: "GET",requestHeaders: requestHeaders).then((response){
 	          var newGraph = «g.name.lowEscapeDart».«g.name.fuEscapeDart».fromJSOG(JSON.decode(response.responseText),new Map());
 	          print("[PYRO] load «g.name.lowEscapeDart» ${newGraph.filename}");
-	          var cg = new «g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph(newGraph);
+	          graph.merge(newGraph);
+	          var cg = new «g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph(graph);
 	          return cg;
 	      });
 	  }

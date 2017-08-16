@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.palette.graphs.grap
 
 import de.jabc.cinco.meta.plugin.pyro.util.Generatable
 import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
+import mgl.Node
 
 class PaletteBuilder extends Generatable {
 	
@@ -23,7 +24,7 @@ class PaletteBuilder extends Generatable {
 	  static List<MapList> build(«g.name.fuEscapeDart» graph)
 	  {
 	    List<MapList> paletteMap = new List();
-	    «FOR group:g.elements.filter[creatabel].groupBy[paletteGroup].entrySet»
+	    «FOR group:g.elements.filter(Node).filter[creatabel].groupBy[paletteGroup].entrySet»
 	    paletteMap.add(new MapList('«group.key»',values: [
 	    	«FOR entry:group.value SEPARATOR ","»
 	    	new MapListValue('«entry.name.fuEscapeDart»',identifier: "«g.name.lowEscapeDart».«entry.name.fuEscapeDart»",«IF entry.hasIcon»imgPath:'asset/«entry.iconPath(g.name.lowEscapeDart)»'«ENDIF»)

@@ -33,6 +33,9 @@ class FolderEntryComponent implements OnInit {
   @Input()
   PyroFolder folder;
 
+  @Input()
+  GraphModel currentGraphModel;
+
   @ContentChildren(FolderEntryComponent)
   QueryList<FolderEntryComponent> childFolders;
 

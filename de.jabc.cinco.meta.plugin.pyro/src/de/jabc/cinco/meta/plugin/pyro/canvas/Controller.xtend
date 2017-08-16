@@ -16,11 +16,13 @@ import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
 import org.eclipse.emf.ecore.EObject
+import style.EdgeStyle
 import style.MultiText
 import style.NodeStyle
-import style.Text
 import style.Styles
-import style.EdgeStyle
+import style.Text
+import mgl.ModelElement
+import mgl.GraphicalModelElement
 
 class Controller extends Generatable{
 	
@@ -310,8 +312,19 @@ class Controller extends Generatable{
 	           $temp_link=null;
 	        }
 	    });
+	    
+	    var disableRemove = [
+	    	«FOR e:g.elements.filter[!removable] SEPARATOR ","»
+	    	'«g.name.lowEscapeDart».«e.name.fuEscapeDart»'
+		    «ENDFOR»
+	    ];
+		var disableResize = [
+			«FOR e:g.elements.filter[!resizable] SEPARATOR ","»
+	    	'«g.name.lowEscapeDart».«e.name.fuEscapeDart»'
+		    «ENDFOR»
+		];
 	
-	    init_event_system($paper_«g.name.lowEscapeDart»,$graph_«g.name.lowEscapeDart»,remove_cascade_node_flowgraph);
+	    init_event_system($paper_«g.name.lowEscapeDart»,$graph_«g.name.lowEscapeDart»,remove_cascade_node_flowgraph,disableRemove,disableResize);
 	    
 	    create_«g.name.lowEscapeDart»_map();
 	
@@ -423,7 +436,7 @@ class Controller extends Generatable{
 		 * @param styleArgs
 		 * @returns {*}
 		 */
-		function create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,width,height,dywaId,containerId,dywaName,dywaVersion,styleArgs) {
+		function create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,width,height,dywaId,containerId,dywaName,dywaVersion,styleArgs«IF node.isPrime»,primeId«ENDIF») {
 		    var elem = null;
 		    if(width != null && height != null) {
 		    	elem = new joint.shapes.«g.name.lowEscapeDart».«node.name.escapeDart»({
@@ -438,7 +451,9 @@ class Controller extends Generatable{
 		    		attrs:{
 		    		    dywaId:dywaId,
 		    		    dywaName:dywaName,
-		    		    dywaVersion:dywaVersion
+		    		    dywaVersion:dywaVersion,
+		    		    disableMove:«IF node.movable»false«ELSE»true«ENDIF»,
+		    		    disableResize:«IF node.resizable»false«ELSE»true«ENDIF»
 		    		}
 		    	});
 		    } else {
@@ -450,7 +465,9 @@ class Controller extends Generatable{
 			        attrs:{
 			            dywaId:dywaId,
 			            dywaName:dywaName,
-			            dywaVersion:dywaVersion
+			            dywaVersion:dywaVersion,
+			            disableMove:«IF node.movable»false«ELSE»true«ENDIF»,
+			            disableResize:«IF node.resizable»false«ELSE»true«ENDIF»
 			        }
 			    });
 		    }
@@ -460,7 +477,7 @@ class Controller extends Generatable{
 			}
 			update_element_«g.name.lowEscapeDart»(elem.attributes.id,dywaId,dywaVersion,dywaName,styleArgs);
 		    if(!$_disable_events_«g.name.lowEscapeDart»){
-		    	$cb_functions_«g.name.lowEscapeDart».cb_create_node_«node.name.lowEscapeDart»(x, y,elem.attributes.size.width,elem.attributes.size.height, elem.attributes.id,containerId);
+		    	$cb_functions_«g.name.lowEscapeDart».cb_create_node_«node.name.lowEscapeDart»(x, y,elem.attributes.size.width,elem.attributes.size.height, elem.attributes.id,containerId«IF node.isPrime»,primeId«ENDIF»);
 		    }
 		    return 'ready';
 		}
@@ -592,6 +609,8 @@ class Controller extends Generatable{
 		            dywaId:dywaId,
 		            dywaName:dywaName,
 		            dywaVersion:dywaVersion,
+		            disableMove:«IF edge.movable»false«ELSE»true«ENDIF»,
+		            disableResize:«IF edge.resizable»false«ELSE»true«ENDIF»,
 		            styleArgs:styleArgs
 		        },
 		        source: { id: sourceN.id },
@@ -673,7 +692,27 @@ class Controller extends Generatable{
 	Creation of nodes by drag and dropping from the palette
 	 */
 	
+	function create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,absX,absY,containerDywaId,elementId) {
+	    var btn_group = $('<div id="pyro_node_menu" class="btn-group-vertical btn-group-xs" style="position: absolute;z-index: 99999;top: '+absY+'px;left: '+absX+'px;"></div>');
+	    $('body').append(btn_group);
+	    for(var node in possibleNodes) {
+	            var button = $('<button type="button" class="btn btn-default">'+possibleNodes[node]+'</button>');
 	
+	            btn_group.append(button);
+	
+	            $(button).on('click',function () {
+	                switch(this.innerText){
+	                	«FOR node:g.nodes.filter[isPrime]» 
+			            case '«node.name.escapeDart»':{
+			            	create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,null,null,-1,containerDywaId,"undefined",-1,null,elementId);
+				            break;
+			            }
+			            «ENDFOR»
+	                }
+	                $('#pyro_node_menu').remove();
+	            });
+	    }
+	}
 	
 	/**
 	 *
@@ -684,12 +723,51 @@ class Controller extends Generatable{
 	    var rp = getRelativeScreenPosition(ev.clientX,ev.clientY,$paper_«g.name.lowEscapeDart»);
 	    var x = rp.x;
 	    var y = rp.y;
+	    var containerDywaId = get_container_id_«g.name.lowEscapeDart»(rp);
 	    var typeName = ev.dataTransfer.getData("typename");
+	    var elementId = ev.dataTransfer.getData("elementid");
+    	//check prime node
+    	if(elementId !== 'undefined' && typeName != ''){
+    		var possibleNodes = [];
+    		//for all prime nodes
+    		//check prime referenced type and super types
+    		«FOR pr:g.primeRefs.filter[n|(n.eContainer as GraphicalModelElement).creatabelPrimeRef]»
+    		«{
+    			val elem = pr.referencedElement
+    			val graph = elem.graphModel
+    			val subTypes = elem.name.subTypes(graph)
+    			'''if(«FOR sub:subTypes SEPARATOR "||"»typeName == '«graph.name.lowEscapeDart».«sub.name.fuEscapeDart»'«ENDFOR»)'''
+    		}»
+    		{
+    			if(is_containement_allowed_«g.name.lowEscapeDart»(rp,'«(pr.eContainer as ModelElement).graphModel.name.lowEscapeDart».«(pr.eContainer as ModelElement).name.fuEscapeDart»')) {
+    				possibleNodes[possibleNodes.length] = '«(pr.eContainer as ModelElement).name.fuEscapeDart»'; 
+    			}
+    		}
+    		«ENDFOR»
+    		if(possibleNodes.length==1){
+    			//one node possible
+    			switch (possibleNodes[0]) {
+		            //foreach node
+		            «FOR node:g.nodes.filter[isPrime]» 
+		            case '«node.name.escapeDart»':{
+		            	create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,null,null,-1,containerDywaId,"undefined",-1,null,elementId);
+			            break;
+		            }
+		            «ENDFOR»
+		        }
+    		}
+    		else{
+    			//multiple nodes possible
+    			//show selection
+    			 create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,ev.clientX,ev.clientY,containerDywaId,elementId);
+    		}
+    		return;
+    	}
 	    if(typeName != ''){
 	        // create node
 	        if(is_containement_allowed_«g.name.lowEscapeDart»(rp,typeName)) {
 	        
-		        var containerDywaId = get_container_id_«g.name.lowEscapeDart»(rp);
+		        
 		        switch (typeName) {
 		            //foreach node
 		            «FOR node:g.nodes» 
@@ -763,14 +841,14 @@ class Controller extends Generatable{
 			«FOR group:ce.containableElements.get(0).containingElement.containableElements.indexed»
 			//check if type can be contained in group
 			if(
-				«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet SEPARATOR "||"»
-				creatableTypeName === '«g.name.lowEscapeDart».«containableTypeName»'
+				«FOR containableType:group.value.types.map[name].map[subTypes(g)].flatten.toSet SEPARATOR "||"»
+				creatableTypeName === '«g.name.lowEscapeDart».«containableType.name.fuEscapeDart»'
 				«ENDFOR»
 			) {
 				«IF group.value.upperBound>-1»
 				var group«group.key»Size = 0;
-				«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet»
-				group«group.key»Size += getContainedByType(targetNode,'«g.name.lowEscapeDart».«containableTypeName»',$graph_«g.name.lowEscapeDart»).length;
+				«FOR containableType:group.value.types.map[name].map[subTypes(g)].flatten.toSet»
+				group«group.key»Size += getContainedByType(targetNode,'«g.name.lowEscapeDart».«containableType.name.fuEscapeDart»',$graph_«g.name.lowEscapeDart»).length;
 				«ENDFOR»
 				if(«IF group.value.upperBound>-1»group«group.key»Size<«group.value.upperBound»«ELSE»true«ENDIF»){
 					return true;
@@ -898,7 +976,7 @@ class Controller extends Generatable{
     		«ENDIF»
 			if(«IF incomingGroup.value.upperBound < 0»true«ELSE»incommingGroupSize«incomingGroup.key»<«incomingGroup.value.upperBound»«ENDIF»)
 			{
-				«g.possibleEdges(group,incomingGroup.value).indexed.map[n|'''
+				«g.possibleEdges(group,incomingGroup.value).filter[creatabel].indexed.map[n|'''
 					var link«n.key» = new joint.shapes.«g.name.lowEscapeDart».«n.value.name.fuEscapeDart»({
 					    source: { id: sourceNode.attributes.id }, target: { id: targetNode.model.id }
 					});

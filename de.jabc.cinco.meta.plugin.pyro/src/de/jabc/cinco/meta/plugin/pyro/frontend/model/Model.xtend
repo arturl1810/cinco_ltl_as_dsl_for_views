@@ -15,6 +15,7 @@ import mgl.NodeContainer
 import mgl.UserDefinedType
 import style.NodeStyle
 import style.Styles
+import mgl.ReferencedModelElement
 
 class Model extends Generatable {
 
@@ -32,6 +33,17 @@ class Model extends Generatable {
 		import '«g.name.lowEscapeDart».dart' as «g.name.lowEscapeDart»;
 		«ENDFOR»
 		class GraphModelDispatcher {
+			
+			static IdentifiableElement dispatchElement(dynamic jsog){
+				«FOR g:gc.graphMopdels»
+					«FOR e:g.elements + #[g]»
+						    if(jsog["dywaRuntimeType"]=='info.scce.pyro.«g.name.lowEscapeDart».rest.«e.name.escapeDart»'){
+						    	return «g.name.lowEscapeDart».«e.name.escapeDart».fromJSOG(jsog,new Map());
+						    }
+				  	«ENDFOR»
+				«ENDFOR»
+				throw new Exception("Unkown element ${jsog['dywaRuntimeType']}");
+			}
 		
 		  static GraphModel dispatch(Map cache,dynamic jsog){
 		  	«FOR g:gc.graphMopdels»
@@ -191,6 +203,22 @@ class Model extends Generatable {
 			x = jsog["x"];
 			y = jsog["y"];
 			angle = jsog["angle"];
+			«IF element.isPrime»
+			if(jsog.containsKey("«element.primeReference.name.escapeDart»")){
+				if(jsog["«element.primeReference.name.escapeDart»"]!=null){
+					if(jsog["«element.primeReference.name.escapeDart»"].containsKey("@ref")){
+						this.«element.primeReference.name.escapeDart» = cache[jsog["«element.primeReference.name.escapeDart»"]["@ref"]];
+					} else {
+						this.«element.primeReference.name.escapeDart» =
+						«IF (element.primeReference as ReferencedModelElement).type instanceof GraphModel»
+						GraphModelDispatcher.dispatch(cache,jsog["«element.primeReference.name.escapeDart»"]);
+						«ELSE»
+						GraphModelDispatcher.dispatch«(element.primeReference as ReferencedModelElement).type.graphModel.name.escapeDart»ModelElement(cache,jsog["«element.primeReference.name.escapeDart»"]);
+						«ENDIF»
+					}
+				}
+			}
+			«ENDIF»
 			this.incoming = new List();
 			if (jsog.containsKey("incoming")) {
 				if(jsog["incoming"]!=null){
@@ -250,11 +278,11 @@ class Model extends Generatable {
 				}
 				else {
 				  if (jsogObj != null) {
-				  «FOR subType:attr.name.selfAndSubTypeNames(g)»
+				  «FOR subType:attr.name.subTypes(g)»
 				  	if (jsogObj['__type'] ==
-				  	"«g.name.lowEscapeDart».«subType.fuEscapeDart»") {
+				  	"«g.name.lowEscapeDart».«subType.name.fuEscapeDart»") {
 				  	    value«attr.name.escapeDart» =
-				  	    new «subType.fuEscapeDart»(cache: cache, jsog: jsogObj);
+				  	    new «subType.name.fuEscapeDart»(cache: cache, jsog: jsogObj);
 				  	}
 				  «ENDFOR»
 				  }
@@ -318,7 +346,11 @@ class Model extends Generatable {
 		}
 		
 		@override
-		void merge(«element.name» elem,[bool structureOnly=false]) {
+		void merge(«element.name» elem,{bool structureOnly:false,Map<int,PyroElement> cache}) {
+			if(cache==null){
+			   cache = new Map();
+			}
+			cache[this.dywaId]=this;
 			dywaVersion = elem.dywaVersion;
 			«IF element instanceof GraphModel»
 			  filename = elem.filename;
@@ -329,8 +361,30 @@ class Model extends Generatable {
 			  width = elem.width;
 			«ENDIF»
 			«IF element instanceof ContainingElement»
-			if(!structureOnly) {
-			  modelElements = elem.modelElements;
+			  if(!structureOnly) {
+			       //remove missing
+			       modelElements.removeWhere((m)=>elem.modelElements.where((e)=>m.dywaId==e.dywaId).isEmpty);
+			      //merge known
+			       for(var m in modelElements){
+			       	 if(!cache.containsKey(m.dywaId)){
+			       	    m.merge(elem.modelElements.firstWhere((e)=>m.dywaId==e.dywaId),cache:cache);
+			       	 }
+			       }
+			       //add new
+			       modelElements.addAll(elem.modelElements.where((e)=>modelElements.where((m)=>m.dywaId==e.dywaId).isEmpty).toList());
+			   	}
+			«ENDIF»
+			«IF element instanceof GraphicalModelElement»
+			if(!structureOnly){
+				if(container != null){
+			      if(cache.containsKey(container.dywaId)){
+			        container = cache[container.dywaId];
+			      } else {
+			        container.merge(elem.container,cache: cache,structureOnly: structureOnly);
+			      }
+			     } else {
+			     	container = elem.container;
+			     }
 			}
 			«ENDIF»
 			«IF element instanceof Node»
@@ -338,19 +392,83 @@ class Model extends Generatable {
 				width = elem.width;
 				angle = elem.angle;
 				if(!structureOnly) {
-					incoming = elem.incoming;
-					outgoing = elem.outgoing;
+					//remove missing
+				 	    incoming.removeWhere((m)=>elem.incoming.where((e)=>m.dywaId==e.dywaId).isEmpty);
+				 	    //merge known
+				 	    for(var m in incoming){
+				 	    	if(!cache.containsKey(m.dywaId)){
+				 	    		m.merge(elem.incoming.firstWhere((e)=>m.dywaId==e.dywaId),cache:cache);
+				 	    	}
+				 	    }
+				 	    //add new
+				 	    incoming.addAll(elem.incoming.where((e)=>incoming.where((m)=>m.dywaId==e.dywaId).isEmpty).toList());
+				 	    //remove missing
+				 	    outgoing.removeWhere((m)=>elem.outgoing.where((e)=>m.dywaId==e.dywaId).isEmpty);
+				 	    //merge known
+				 	    for(var m in outgoing){
+				 	    	if(!cache.containsKey(m.dywaId)){
+				 	    		m.merge(elem.outgoing.firstWhere((e)=>m.dywaId==e.dywaId),cache:cache);
+				 	    	}
+				 	    }
+				 	    //add new
+				 	    outgoing.addAll(elem.outgoing.where((e)=>outgoing.where((m)=>m.dywaId==e.dywaId).isEmpty).toList());
 				}
+				«IF element.prime»
+				if(«element.primeReference.name.escapeDart» != null){
+					if(cache.containsKey(«element.primeReference.name.escapeDart».dywaId)){
+					    «element.primeReference.name.escapeDart» = cache[«element.primeReference.name.escapeDart».dywaId];
+					} else {
+					    «element.primeReference.name.escapeDart».merge(elem.«element.primeReference.name.escapeDart»,cache: cache,structureOnly: structureOnly);
+					}
+				} else {
+					«element.primeReference.name.escapeDart» = elem.«element.primeReference.name.escapeDart»;
+				}
+				«ENDIF»
 			«ENDIF»
 			«IF element instanceof Edge»
 			if(!structureOnly) {
 				bendingPoints = elem.bendingPoints;
-				target = elem.target;
-				source = elem.source;
+				if(target!=null){
+					if(!cache.containsKey(target.dywaId)){
+						target.merge(elem.target,cache:cache);
+					}
+				} else {
+					target = elem.target;
+				}
+				if(source != null){
+					if(!cache.containsKey(source.dywaId)){
+						source.merge(elem.source,cache:cache);
+					}
+				} else {
+					source = elem.source;
+				}
 			}
 			«ENDIF»
 			«FOR attr : element.attributes»
+				«IF !attr.list && g.elementsAndTypes.map[name].exists[equals(attr.type)]»
+				if(«attr.name.escapeDart»!=null&&elem.«attr.name.escapeDart»!=null){
+					if(!cache.containsKey(«attr.name.escapeDart».dywaId)){
+						«attr.name.escapeDart».merge(elem.«attr.name.escapeDart»,cache:cache,structureOnly:structureOnly);
+					} else{
+						«attr.name.escapeDart» = cache[«attr.name.escapeDart».dywaId];
+					}
+				} else {
+					«attr.name.escapeDart» = elem.«attr.name.escapeDart»;
+				}
+				«ELSEIF !attr.list && g.elementsAndTypes.map[name].exists[equals(attr.type)]»
+				//remove missing
+				«attr.name.escapeDart».removeWhere((m)=>elem.«attr.name.escapeDart».where((e)=>m.dywaId==e.dywaId).isEmpty);
+			    //merge known
+			    for(var m in «attr.name.escapeDart»){
+			    	if(!cache.containsKey(m.dywaId)){
+			    		m.merge(elem.«attr.name.escapeDart».firstWhere((e)=>m.dywaId==e.dywaId),cache:cache);
+			    	}
+			    }
+			    //add new
+			    elem.«attr.name.escapeDart».where((e)=>«attr.name.escapeDart».where((m)=>m.dywaId==e.dywaId).isEmpty).forEach((e)=>«attr.name.escapeDart».add(e));
+				«ELSE»
 				«attr.name.escapeDart» = elem.«attr.name.escapeDart»;
+				«ENDIF»
 			«ENDFOR»
 		}
 		
@@ -379,7 +497,16 @@ class Model extends Generatable {
 			double scale;
 			String router;
 			String connector;
-  		  «ENDIF»
+	    «ENDIF»
+	    «IF element instanceof Node»
+	    	«IF element.prime»
+	    	«{
+	    		val refElem = (element.primeReference as ReferencedModelElement).type
+	    		val refGraph = refElem.graphModel
+	    		'''«IF !refGraph.equals(g)»«refGraph.name.lowEscapeDart».«ENDIF»«refElem.name.fuEscapeDart» «element.primeReference.name.escapeDart»;'''
+	    	}»
+	    	«ENDIF»
+	    «ENDIF»
 		«FOR attr : element.attributes.filter[isPrimitive(g)]»
 			«IF attr.list»List<«ENDIF»«attr.primitiveDartType(g)»«IF attr.list»>«ENDIF» «attr.name.escapeDart»;
 		«ENDFOR»
@@ -424,6 +551,10 @@ class Model extends Generatable {
 		import 'dispatcher.dart';
 		
 		import 'package:«gc.projectName.escapeDart»/pages/editor/canvas/graphs/«g.name.lowEscapeDart»/«g.name.lowEscapeDart»_command_graph.dart';
+		«FOR pr:g.primeReferencedGraphModels.filter[!equals(g)]»
+		//prime referenced graphmodel «pr.name»
+		import '«pr.name.lowEscapeDart».dart' as «pr.name.lowEscapeDart»;
+		«ENDFOR»
 		
 		//Graphmodel
 		«g.pyroElementClass(g,styles)»

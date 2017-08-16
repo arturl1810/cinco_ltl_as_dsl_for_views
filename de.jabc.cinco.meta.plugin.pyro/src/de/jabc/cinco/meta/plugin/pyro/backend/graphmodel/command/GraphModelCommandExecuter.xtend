@@ -11,6 +11,7 @@ import mgl.Edge
 import de.jabc.cinco.meta.plugin.pyro.canvas.Shapes
 import style.NodeStyle
 import style.Styles
+import mgl.ReferencedModelElement
 
 class GraphModelCommandExecuter extends Generatable {
 	
@@ -60,9 +61,19 @@ class GraphModelCommandExecuter extends Generatable {
 		}
 	    
 		«FOR e:g.nodes»
-			public void create«e.name.escapeJava»(long x, long y, ModelElementContainer mec){
+			public void create«e.name.escapeJava»(long x, long y, ModelElementContainer mec«IF e.prime»,long primeId«ENDIF»){
 			    de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» node = bundle.«e.name.escapeJava»Controller.create("«e.name.escapeJava»");
 			    «'''node'''.setDefault(e,g,false)»
+			    «IF e.prime»
+			    «{
+			    	val refType = (e.primeReference as ReferencedModelElement).type
+			    	val refGraph = refType.graphModel
+			    	'''
+			    		de.ls5.dywa.generated.entity.info.scce.pyro.«refGraph.name.escapeJava».«refType.name.escapeJava» prime = bundle.«refType.name.escapeJava»Controller.read(primeId);
+			    		node.set«(e.primeReference as ReferencedModelElement).name.escapeJava»(prime);
+			    	'''
+			    }»
+			    «ENDIF»
 			    super.createNode("«g.name.lowEscapeDart».«e.name.fuEscapeDart»",node,mec,x,y,«{
 			    		  	 val nodeStyle = new Shapes(gc,g).styling(e,styles) as NodeStyle
 			    		  	 val size = nodeStyle.mainShape.size
@@ -73,12 +84,42 @@ class GraphModelCommandExecuter extends Generatable {
 			    		  	 1,1
 			    		  	 «ENDIF»
 			    		  	 '''
-			    		  }»);
+			    		  }»
+			    		  «IF e.prime»
+	    		  			«{
+	    		  				val refType = (e.primeReference as ReferencedModelElement).type
+	    		  				val refGraph = refType.graphModel
+	    		  		    	'''
+	    		  		    		,info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refType.name.escapeJava».fromDywaEntityProperties(prime,objectCache)
+	    		  		    	'''
+	    		  			}»
+	    		  			«ENDIF»
+			    		  );
 			}
-			public void create«e.name.escapeJava»(long x, long y, ModelElementContainer mec,long id) {
+			public void create«e.name.escapeJava»(long x, long y, ModelElementContainer mec,long id«IF e.prime»,long primeId«ENDIF») {
 				de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» node = bundle.«e.name.escapeJava»Controller
 				.read(id);
-				super.createNode("«g.name.lowEscapeJava».«e.name.escapeJava»", node, mec, x, y, node.getwidth(), node.getheight());
+				«IF e.prime»
+			    «{
+			    	val refType = (e.primeReference as ReferencedModelElement).type
+			    	val refGraph = refType.graphModel
+			    	'''
+			    		de.ls5.dywa.generated.entity.info.scce.pyro.«refGraph.name.escapeJava».«refType.name.escapeJava» prime = bundle.«refType.name.escapeJava»Controller.read(primeId);
+			    		node.set«(e.primeReference as ReferencedModelElement).name.escapeJava»(prime);
+			    	'''
+			    }»
+			    «ENDIF»
+				super.createNode("«g.name.lowEscapeJava».«e.name.escapeJava»", node, mec, x, y, node.getwidth(), node.getheight()
+				«IF e.prime»
+				«{
+					val refType = (e.primeReference as ReferencedModelElement).type
+					val refGraph = refType.graphModel
+			    	'''
+			    		,info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refType.name.escapeJava».fromDywaEntityProperties(prime,objectCache)
+			    	'''
+				}»
+				«ENDIF»
+				);
 			}
 			public void move«e.name.escapeJava»(de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» node, long x, long y, ModelElementContainer mec){
 				super.moveNode("«g.name.lowEscapeDart».«e.name.fuEscapeDart»",node,mec,x,y);
@@ -89,7 +130,18 @@ class GraphModelCommandExecuter extends Generatable {
 			public void rotate«e.name.escapeJava»(de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» node, long angle){
 				super.rotateNode("«g.name.lowEscapeDart».«e.name.fuEscapeDart»",node,angle);
 			}
-			public void remove«e.name.escapeJava»(de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» entity){
+			public void remove«e.name.escapeJava»(
+				de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.escapeJava» entity
+				«IF e.prime»
+				«{
+			    	val refType = (e.primeReference as ReferencedModelElement).type
+			    	val refGraph = refType.graphModel
+			    	'''
+		    		,de.ls5.dywa.generated.entity.info.scce.pyro.«refGraph.name.escapeJava».«refType.name.escapeJava» prime
+			    	'''
+				}»
+				«ENDIF»
+			){
 				//for complex props
 				«FOR attr:e.attributes.filter[!isPrimitive(g)]»
 				if(entity.get«attr.name.escapeJava»()!=null) {
@@ -100,7 +152,15 @@ class GraphModelCommandExecuter extends Generatable {
 					«ENDIF»
 				}
 				«ENDFOR»
-				super.removeNode("«g.name.lowEscapeDart».«e.name.fuEscapeDart»",entity);
+				super.removeNode("«g.name.lowEscapeDart».«e.name.fuEscapeDart»",entity,«IF e.prime»
+				«{
+					val refType = (e.primeReference as ReferencedModelElement).type
+					val refGraph = refType.graphModel
+			    	'''
+			    		info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refType.name.escapeJava».fromDywaEntityProperties(prime,objectCache)
+			    	'''
+				}»
+				«ELSE»null«ENDIF»);
 			}
 	    «ENDFOR»
 	    

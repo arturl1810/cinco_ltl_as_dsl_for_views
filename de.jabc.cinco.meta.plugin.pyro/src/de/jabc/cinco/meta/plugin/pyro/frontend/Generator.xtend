@@ -23,6 +23,7 @@ import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
 import de.jabc.cinco.meta.plugin.pyro.util.MGLExtension
 import mgl.UserDefinedType
 import org.eclipse.core.resources.IProject
+import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.graphentry.GraphEntryComponent
 
 class Generator extends FileGenerator{
 	
@@ -131,6 +132,15 @@ class Generator extends FileGenerator{
 			)	
 		}
 
+		{
+			//lib.editor.explorer.graph_entry
+			val path = "lib/pages/editor/explorer/graph_entry"
+			val gen = new GraphEntryComponent(gc)
+			generateFile(path,
+				gen.fileNameGraphEntryComponent,
+				gen.contentGraphEntryComponent
+			)		
+		}
 		{
 			//lib.editor.explorer.graph_entry.create
 			val path = "lib/pages/editor/explorer/graph_entry/create"
@@ -273,8 +283,12 @@ class Generator extends FileGenerator{
 		}
 		
 		//copy icons
-		gc.graphMopdels.forEach[g|
-			g.elements.filter[hasIcon].forEach[e|FileHandler.copyFile(e,e.eclipseIconPath,basePath+"/web/"+e.iconPath(g.name,false).toString.toLowerCase)]
+		gc.graphMopdels.forEach[g|{
+			if(!g.iconPath.nullOrEmpty){
+				FileHandler.copyFile(g,g.iconPath,basePath+"/web/"+g.iconPath(g.name,false).toString.toLowerCase)
+			}
+			g.elements.filter[hasIcon].forEach[e|FileHandler.copyFile(e,e.eclipseIconPath,basePath+"/web/"+e.iconPath(g.name,false).toString.toLowerCase)]			
+		}
 		]
 
 	}

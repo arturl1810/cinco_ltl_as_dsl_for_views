@@ -2,6 +2,8 @@ package de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.graphentry
 
 import de.jabc.cinco.meta.plugin.pyro.util.Generatable
 import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
+import mgl.ModelElement
+import mgl.ReferencedModelElement
 
 class GraphEntryComponent extends Generatable {
 	
@@ -14,7 +16,11 @@ class GraphEntryComponent extends Generatable {
 	def contentGraphEntryComponent()'''
 	import 'package:angular2/core.dart';
 	
-	import 'package:«gc.projectName.escapeDart»/model/core.dart';
+	import '../../../../model/core.dart';
+	import '../../../../service/graph_service.dart';
+	«FOR g:gc.graphMopdels»
+	import 'package:«gc.projectName.escapeDart»/model/«g.name.lowEscapeDart».dart' as «g.name.lowEscapeDart»;
+	«ENDFOR»
 	
 	@Component(
 	    selector: 'graph-entry',
@@ -35,10 +41,19 @@ class GraphEntryComponent extends Generatable {
 	
 	  @Input()
 	  GraphModel graph;
+	  
+	  @Input('currentGraphModel')
+	  GraphModel currentOpenGraph;
 	
 	  bool editMode = false;
 	
-	  GraphEntryComponent()
+	  final GraphService graphService;
+	  
+	  bool open = false;
+	  
+	  List<IdentifiableElement> primeRefs = new List();
+	
+	  GraphEntryComponent(GraphService this.graphService)
 	  {
 	    openGraphModel = new EventEmitter();
 	    delete = new EventEmitter();
@@ -58,9 +73,139 @@ class GraphEntryComponent extends Generatable {
 	
 	  void save(dynamic e)
 	  {
-	    editMode = false;
 	    e.preventDefault();
-	    hasChanged.emit(e);
+	    graphService.updateGraphModel(graph).then((g){
+	      editMode = false;
+	      hasChanged.emit(e);
+	    });
+	
+	  }
+	
+	  String getExtension(){
+	    if(graph==null){
+	      return "";
+	    }
+	    «FOR g:gc.graphMopdels.filter[!fileExtension.nullOrEmpty]»
+	    if(graph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»){
+	      return ".«g.fileExtension»";
+	    }
+		«ENDFOR»
+	    return "";
+	  }
+	  
+	  bool canContainPrime() {
+	  	if(graph==null||currentOpenGraph==null){
+	      return false;
+	    }
+	    //check if current open graph can contaiun prime nodes
+	    «FOR g:gc.graphMopdels.filter[!primeRefs.empty]»
+	    if(currentOpenGraph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»){
+	    	//check if elements of current graph entry can be referenced 
+	    	«FOR refG:g.primeReferencedGraphModels»
+		    if(graph is «refG.name.lowEscapeDart».«refG.name.fuEscapeDart»){
+		      return true;
+		    }
+		    «ENDFOR»
+	    }
+		«ENDFOR»
+	    return false;
+	  }
+	  
+	  String getPrimeRefName(IdentifiableElement elem) {
+	  	if(elem == null||currentOpenGraph==null){
+	  		return "null";
+	  	}
+	  	//check if current open graph can contaiun prime nodes
+	    «FOR g:gc.graphMopdels.filter[!primeRefs.empty]»
+	    if(currentOpenGraph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»)
+	    {
+	    	//check if elements of current graph entry can be referenced 
+	    	«FOR refG:g.primeReferencedGraphModels»
+		    if(graph is «refG.name.lowEscapeDart».«refG.name.fuEscapeDart»)
+		    {
+		      «FOR pr:g.getPrimeReferencingElements(refG)»
+			      if(elem is «refG.name.lowEscapeDart».«pr.referencedElement.name.fuEscapeDart»)
+			      {
+	      	    		«IF pr.referencedElementAttributeName == null»
+						return elem.dywaId.toString();
+	      	    		«ELSE»
+	      	    		return elem.«pr.referencedElementAttributeName»;
+	      	    		«ENDIF»
+	      	    	}
+      	    	«ENDFOR»
+		    }
+		    «ENDFOR»
+	    }
+	    «ENDFOR»
+		return elem.dywaId.toString();
+	  }
+	  
+	  String getFolderClass()
+	  {
+	      if(open){
+	        return "glyphicon glyphicon-chevron-down";
+	      }
+	      return "glyphicon glyphicon-chevron-right";
+	  }
+	  
+	  void openPrimeRefs(dynamic e)
+	  {
+	      e.preventDefault();
+	      if(graph==null||currentOpenGraph==null){
+	      	return;
+	      }
+	      open = !open;
+	      if(open==true)
+	      {
+	      	//fetch primerefs for current graphmodel
+	      	primeRefs = new List();
+	      	 «FOR g:gc.graphMopdels.filter[!primeRefs.empty]»
+	      	if(currentOpenGraph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»)
+  		    {
+  		    	//check if elements of current graph entry can be referenced 
+  		    	«FOR refG:g.primeReferencedGraphModels»
+	  			    if(graph is «refG.name.lowEscapeDart».«refG.name.fuEscapeDart»)
+	  			    {
+	  			    	graphService.loadCommandGraph«refG.name.fuEscapeDart»(graph).then((n){
+	  			          var list = n.currentGraphModel.allElements();
+	  			          list.forEach((elem){
+	  			          	«FOR pr:g.getPrimeReferencingElements(refG).map[referencedElement].toSet»
+	  			            if(elem is «refG.name.lowEscapeDart».«pr.name.fuEscapeDart»)
+	  			            {
+	  			              primeRefs.add(elem);
+	  			            }
+	  			            «ENDFOR»
+	  			          });
+	  			       });
+	  			    }
+      	    	«ENDFOR»
+  		    }
+  		    «ENDFOR»
+	      }
+	  }
+	  
+	  bool hasIcon() {
+	  	if(graph==null){
+	      return false;
+	    }
+	    «FOR g:gc.graphMopdels.filter[!iconPath.nullOrEmpty]»
+	    if(graph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»){
+	      return true;
+	    }
+		«ENDFOR»
+	    return false;
+	  }
+	  
+	  String getIcon() {
+	  	 if(graph==null){
+	  	      return "";
+	  	  }
+	  	  «FOR g:gc.graphMopdels.filter[!iconPath.nullOrEmpty]»
+	  	    if(graph is «g.name.lowEscapeDart».«g.name.fuEscapeDart»){
+	  	      return "asset/«g.iconPath(g.name.lowEscapeDart)»";
+	  	    }
+	  	  «ENDFOR»
+	  	  return "";
 	  }
 	
 	  void selectGraphModel(GraphModel graph,dynamic e)
@@ -72,45 +217,15 @@ class GraphEntryComponent extends Generatable {
 	
 	}
 	
-	'''
-	
-	def fileNameGraphEntryComponentTemplate()'''graph_entry_component.html'''
-	
-	def contentGraphEntryComponentTemplate()'''
-	<span>
-	    <span *ngIf="editMode">
-	        <span class="glyphicon glyphicon-file"></span>
-	        <input type="text" [(ngModel)]="graph.filename" style="color: #8e8e8e;">
-	        <button
-	            class="btn btn-default btn-xs btn-link"
-	            style="padding-left: 0;padding-right: 0;color: white;"
-	            (click)="save($event)"
-	            type="button"
-	        >
-	            <span class="glyphicon glyphicon-ok"></span>
-	        </button>
-	    </span>
-	    <span *ngIf="!editMode">
-	        <span class="glyphicon glyphicon-file"></span> <span (click)="selectGraphModel(graph,$event)"><a href (click)="selectGraphModel(graph,$event)" style="color: white;">{{graph.filename}}</a></span>
-	        <button
-	            class="btn btn-xs btn-link btn-default"
-	            type="button"
-	            (click)="editGraph($event)"
-	            style="padding-left: 0;padding-right: 0;color: white;"
-	        >
-	            <span class="glyphicon glyphicon-pencil"></span>
-	        </button>
-	        <button
-	            class="btn btn-xs btn-link btn-danger"
-	            type="button"
-	            (click)="delete.emit(graph)"
-	            style="padding-left: 0;padding-right: 0;color: white;"
-	        >
-	            <span class="glyphicon glyphicon-trash"></span>
-	        </button>
-	    </span>
-	</span>
+
 	
 	'''
+	
+	def ModelElement element(ReferencedModelElement element){
+		element.eContainer as ModelElement
+	}
+	
+
+
 	
 }

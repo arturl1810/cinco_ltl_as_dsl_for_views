@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.util
 import java.util.Collections
 import java.util.LinkedList
 import java.util.List
+import java.util.Set
 import mgl.Attribute
 import mgl.Edge
 import mgl.Enumeration
@@ -12,6 +13,8 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.UserDefinedType
+import mgl.ReferencedType
+import mgl.ReferencedModelElement
 
 class MGLExtension {
 	
@@ -34,8 +37,85 @@ class MGLExtension {
 		}
 	}
 	
+	
+	def getPrimeReferencedGraphModels(GraphModel g) {
+		g.primeRefs.map[referencedElement.graphModel].toSet
+	}
+	
+	def getPrimeReferencingElements(GraphModel g,GraphModel refG) {
+		g.primeRefs.filter[referencedElement.graphModel.equals(refG)].toSet
+	}
+	
+	def getPrimeRefs(GraphModel g){
+		g.nodes.filter[primeReference!=null].map[primeReference].filter(ReferencedModelElement)
+	}
+	
+	def GraphModel getGraphModel(ModelElement me){
+		if(me instanceof GraphModel){
+			return me
+		}
+		if(me.eContainer == null){
+			return null
+		}
+		if(me.eContainer instanceof ModelElement){
+			return (me.eContainer as ModelElement).graphModel
+		}
+		return null
+	}
+	
+	def getReferencedElement(ReferencedModelElement rt){
+		rt.type
+	}
+	
+	def getReferenceName(ReferencedModelElement rt){
+		rt.name
+	}
+	
+	def getReferencedElementAttributeName(ReferencedModelElement rt){
+		val a = rt.annotations.findFirst[name.equals("pvLabel")]
+		if(a!=null){
+			return a.value.get(0)
+		}
+		return null
+	}
+	
+	def isHidden(Attribute attr){
+		(attr.annotations.exists[name.equals("propertiesViewHidden")])
+	}
+	
+	def isReadOnly(Attribute attr){
+		(attr.annotations.exists[name.equals("readOnly")])
+	}
+	
 	def creatabel(GraphicalModelElement gme){
-		(!gme.annotations.exists[name.equals("disable")&&value.contains("create")]) && (gme instanceof Node)
+		(!gme.annotations.exists[name.equals("disable")&&value.contains("create")]) && !gme.isIsAbstract && !gme.isPrime
+	}
+	
+	def creatabelPrimeRef(GraphicalModelElement gme){
+		(!gme.annotations.exists[name.equals("disable")&&value.contains("create")]) && !gme.isIsAbstract
+	}
+	
+	def importedPrimeNodes(java.util.List<mgl.Node> nodes,mgl.GraphModel g){
+		nodes.filter[prime].map[primeReference].filter(ReferencedModelElement).filter[!g.nodes.contains(type)&&!type.equals(g)]
+	}
+	
+	def isPrime(GraphicalModelElement gme) {
+		if(gme instanceof Node){
+			return gme.primeReference!=null
+		}
+		return false
+	}
+	
+	def removable(GraphicalModelElement gme){
+		(!gme.annotations.exists[name.equals("disable")&&value.contains("delete")])
+	}
+	
+	def resizable(GraphicalModelElement gme){
+		(!gme.annotations.exists[name.equals("disable")&&value.contains("resize")])
+	}
+	
+	def movable(GraphicalModelElement gme){
+		(!gme.annotations.exists[name.equals("disable")&&value.contains("move")])
 	}
 	
 	def hasIcon(GraphicalModelElement gme){
@@ -50,8 +130,17 @@ class MGLExtension {
 		return gme.iconPath(g,true)
 	}
 	
+	def iconPath(GraphModel gme,String g){
+		return gme.iconPath(g,true)
+	}
+	
 	def iconPath(GraphicalModelElement gme,String g,boolean includeFile){
 		val path = gme.eclipseIconPath
+		'''img/«g»«IF includeFile»«path.substring(path.lastIndexOf("/"),path.length)»«ENDIF»'''
+	}
+	
+	def iconPath(GraphModel gme,String g,boolean includeFile){
+		val path = gme.iconPath
 		'''img/«g»«IF includeFile»«path.substring(path.lastIndexOf("/"),path.length)»«ENDIF»'''
 	}
 	
@@ -211,18 +300,21 @@ class MGLExtension {
 		attr.type
 	}
 	
-	def List<String> selfAndSubTypeNames(String typeName,GraphModel g){
-		val l = new LinkedList
-		l.add(typeName)
-		l.addAll(typeName.subTypes(g).map[name])
-		l
-	}
+//	def List<String> selfAndSubTypeNames(String typeName,GraphModel g){
+//		val l = new LinkedList
+//		l.add(typeName)
+//		l.addAll(typeName.subTypes(g).map[name])
+//		l
+//	}
 	
-	def Iterable<GraphicalModelElement> subTypes(String typeName,GraphModel g){
+	def Iterable<ModelElement> subTypes(String typeName,GraphModel g){
 		if(typeName == null){
 			return Collections.EMPTY_LIST
 		}
-		val all = g.nodes + g.edges
+		val List<ModelElement> all = new LinkedList
+		all += g.nodes
+		all += g.edges
+		all += g
 		val subType = all.findFirst[name.equals(typeName)]
 		if(subType != null) {
 			if(subType instanceof Node){
@@ -240,6 +332,9 @@ class MGLExtension {
 					l.addAll(subType.extends.name.subTypes(g))					
 				}
 				return l
+			}
+			if(subType instanceof GraphModel){
+				return #[subType]
 			}
 		}
 		return Collections.EMPTY_LIST

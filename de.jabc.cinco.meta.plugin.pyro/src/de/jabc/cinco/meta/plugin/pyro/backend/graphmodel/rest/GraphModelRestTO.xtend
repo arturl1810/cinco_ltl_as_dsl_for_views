@@ -11,6 +11,7 @@ import mgl.NodeContainer
 import mgl.Edge
 import mgl.ModelElement
 import mgl.Attribute
+import mgl.ReferencedModelElement
 
 class GraphModelRestTO extends Generatable{
 	
@@ -34,6 +35,28 @@ class GraphModelRestTO extends Generatable{
 	public class «t.name.fuEscapeJava» extends info.scce.pyro.core.graphmodel.«t.extending()»
 	{
 		«t.attributes.map[attributeDeclaration(g)].join("\n")»
+		
+		«IF t instanceof Node»
+			«IF t.prime»
+			«{
+				val refElem = (t.primeReference as ReferencedModelElement).type
+				val refGraph = refElem.graphModel
+				'''
+				private info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refElem.name.fuEscapeJava» «t.primeReference.name.escapeJava»;
+				
+				@com.fasterxml.jackson.annotation.JsonProperty("«t.primeReference.name.escapeJava»")
+				public info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refElem.name.fuEscapeJava» get«t.primeReference.name.escapeJava»() {
+				    return this.«t.primeReference.name.escapeJava»;
+				}
+				
+				@com.fasterxml.jackson.annotation.JsonProperty("«t.primeReference.name.escapeJava»")
+				public void set«t.primeReference.name.escapeJava»(final info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refElem.name.fuEscapeJava» «t.primeReference.name.escapeJava») {
+				    this.«t.primeReference.name.escapeJava» = «t.primeReference.name.escapeJava»;
+				}
+				'''
+			}»
+			«ENDIF»
+		«ENDIF»
 	
 	    public static «t.name.fuEscapeJava» fromDywaEntity(final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«t.name.fuEscapeJava» entity, info.scce.pyro.rest.ObjectCache objectCache) {
 			«t.parse(g,false)»
@@ -84,6 +107,19 @@ class GraphModelRestTO extends Generatable{
 			result.setangle(entity.getangle());
 			result.setx(entity.getx());
 			result.sety(entity.gety());
+			«IF t.prime»
+			«{
+				val refElem = (t.primeReference as ReferencedModelElement).type
+				val refGraph = refElem.graphModel
+				
+				'''result.set«t.primeReference.name.escapeJava»(
+						info.scce.pyro.«refGraph.name.lowEscapeJava».rest.«refElem.name.fuEscapeJava».fromDywaEntityProperties(
+							entity.get«t.primeReference.name.escapeJava»(),objectCache
+						)
+					);'''				
+			}»
+			
+			«ENDIF»
 			«t.serializeEdges("incoming",g)»
 			«t.serializeEdges("outgoing",g)»
 		«ENDIF»

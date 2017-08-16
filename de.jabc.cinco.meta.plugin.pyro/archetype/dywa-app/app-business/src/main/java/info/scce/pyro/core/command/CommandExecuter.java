@@ -27,6 +27,11 @@ public class CommandExecuter {
     }
 
     protected void createNode(String type,Node node, ModelElementContainer modelElementContainer,long x, long y,long width, long height){
+        createNode(type,node, modelElementContainer,x, y,width, height,null);
+    }
+
+
+    protected void createNode(String type, Node node, ModelElementContainer modelElementContainer, long x, long y, long width, long height, info.scce.pyro.core.graphmodel.IdentifiableElement primeElement){
 
         info.scce.pyro.core.command.types.CreateNodeCommand cmd = new CreateNodeCommand();
         cmd.setDelegateId(node.getDywaId());
@@ -38,6 +43,10 @@ public class CommandExecuter {
         cmd.setX(x);
         cmd.setY(y);
         cmd.setType(type);
+        if(primeElement!=null){
+            cmd.setPrimeId(primeElement.getDywaId());
+            cmd.setPrimeElement(primeElement);
+        }
         batch.add(cmd);
 
         node.setcontainer(modelElementContainer);
@@ -100,7 +109,7 @@ public class CommandExecuter {
         node.setangle(angle);
     }
 
-    protected void removeNode(String type,Node node){
+    protected void removeNode(String type,Node node,info.scce.pyro.core.graphmodel.IdentifiableElement primeNode){
         info.scce.pyro.core.command.types.RemoveNodeCommand cmd = new RemoveNodeCommand();
         cmd.setDelegateId(node.getDywaId());
         cmd.setDywaVersion(node.getDywaVersion());
@@ -111,6 +120,11 @@ public class CommandExecuter {
         cmd.setX(node.getx());
         cmd.setY(node.gety());
         cmd.setType(type);
+        if(primeNode != null){
+            cmd.setPrimeId(primeNode.getDywaId());
+            cmd.setPrimeElement(primeNode);
+        }
+        
         batch.add(cmd);
 
         node.getcontainer().getmodelElements_ModelElement().remove(node);

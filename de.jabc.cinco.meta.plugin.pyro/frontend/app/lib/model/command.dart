@@ -1,5 +1,6 @@
 import '../deserializer/command_property_deserializer.dart';
 import '../model/core.dart';
+import 'package:FlowGraphTool/model/dispatcher.dart';
 
 abstract class Command {
   int delegateId;
@@ -52,6 +53,8 @@ class CreateNodeCommand extends NodeCommand {
   int width;
   int height;
   int containerId;
+  int primeId;
+  IdentifiableElement primeElement;
 
   static CreateNodeCommand fromJSOG(Map jsog)
   {
@@ -63,6 +66,14 @@ class CreateNodeCommand extends NodeCommand {
 
     cmd.x = jsog['x'];
     cmd.y = jsog['y'];
+    if(jsog.containsKey('primeId')){
+      cmd.primeId = jsog['primeId'];
+    }
+    if(jsog.containsKey('primeElement')){
+      if(jsog['primeElement']!=null){
+        cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      }
+    }
     cmd.height = jsog['height'];
     cmd.width = jsog['width'];
     cmd.containerId = jsog['containerId'];
@@ -82,6 +93,10 @@ class CreateNodeCommand extends NodeCommand {
     map['y'] = y;
     map['width'] = width;
     map['height'] = height;
+    map['primeId'] = primeId;
+    if(primeElement!=null){
+      map['primeElement'] = primeElement.toJSOG(new Map());
+    }
     map['containerId'] = containerId;
     return map;
   }
@@ -139,6 +154,8 @@ class RemoveNodeCommand extends NodeCommand {
   int width;
   int height;
   int containerId;
+  int primeId;
+  IdentifiableElement primeElement;
 
   static RemoveNodeCommand fromJSOG(Map jsog)
   {
@@ -150,6 +167,14 @@ class RemoveNodeCommand extends NodeCommand {
 
     cmd.x = jsog['x'];
     cmd.y = jsog['y'];
+    if(jsog.containsKey('primeId')){
+      cmd.primeId = jsog['primeId'];
+    }
+    if(jsog.containsKey('primeElement')){
+      if(jsog['primeElement']!=null){
+        cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      }
+    }
     cmd.height = jsog['height'];
     cmd.width = jsog['width'];
     cmd.containerId = jsog['containerId'];
@@ -167,6 +192,10 @@ class RemoveNodeCommand extends NodeCommand {
 
     map['x'] = x;
     map['y'] = y;
+    map['primeId'] = primeId;
+    if(primeElement!=null){
+      map['primeElement'] = primeElement.toJSOG(new Map());
+    }
     map['width'] = width;
     map['height'] = height;
     map['containerId'] = containerId;
