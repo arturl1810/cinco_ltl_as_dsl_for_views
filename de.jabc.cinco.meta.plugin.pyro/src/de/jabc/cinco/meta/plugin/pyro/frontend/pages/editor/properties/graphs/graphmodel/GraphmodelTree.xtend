@@ -29,7 +29,7 @@ class GraphmodelTree extends Generatable {
 			      super.parent = parent;
 			    }
 			    delegate = element;
-			    «FOR attr : gme.attributes.filter[!isPrimitive(g)]»
+			    «FOR attr : gme.attributes.filter[!isPrimitive(g)].filter[!hidden]»
 			    	//complex «IF attr.isList»list «ENDIF»attributes
 			    	if(element.«attr.name.escapeDart»!=null) {
 			    	  children.add(new «attr.type.fuEscapeDart»TreeNode(element.«attr.name.escapeDart»,name: "«attr.name.escapeDart»",parent: this));
@@ -39,10 +39,14 @@ class GraphmodelTree extends Generatable {
 			
 			  «FOR attr : gme.attributes.filter[!isPrimitive(g)]»
 			  	bool canRemove«attr.name.escapeDart»() {
-			  		«IF attr.isList»
-			  			return delegate.«attr.name.escapeDart».size > «attr.lowerBound»
+			  		«IF attr.readOnly»
+			  		return false;
 			  		«ELSE»
-			  			return true;
+				  		«IF attr.isList»
+				  			return delegate.«attr.name.escapeDart».size > «attr.lowerBound»
+				  		«ELSE»
+				  			return true;
+				  		«ENDIF»
 			  		«ENDIF»
 			  		
 			  	}
@@ -73,7 +77,7 @@ class GraphmodelTree extends Generatable {
 			    List<String> possibleElements = new List<String>();
 			    //for all complex not list attributes
 			    //check upper bound for single value
-			    «FOR attr : gme.attributes.filter[!isPrimitive(g)]»
+			    «FOR attr : gme.attributes.filter[!isPrimitive(g)].filter[!hidden]»
 			    	«IF attr.isList»
 			    		if(delegate.«attr.name.escapeDart».size < «attr.upperBound»){
 			    	«ELSE»

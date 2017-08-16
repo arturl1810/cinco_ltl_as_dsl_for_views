@@ -70,7 +70,9 @@ class CreateNodeCommand extends NodeCommand {
       cmd.primeId = jsog['primeId'];
     }
     if(jsog.containsKey('primeElement')){
-      cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      if(jsog['primeElement']!=null){
+        cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      }
     }
     cmd.height = jsog['height'];
     cmd.width = jsog['width'];
@@ -169,7 +171,9 @@ class RemoveNodeCommand extends NodeCommand {
       cmd.primeId = jsog['primeId'];
     }
     if(jsog.containsKey('primeElement')){
-      cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      if(jsog['primeElement']!=null){
+        cmd.primeElement = GraphModelDispatcher.dispatchElement(jsog['primeElement']);
+      }
     }
     cmd.height = jsog['height'];
     cmd.width = jsog['width'];

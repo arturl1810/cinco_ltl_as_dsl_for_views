@@ -169,8 +169,8 @@ class GraphEntryComponent extends Generatable {
 	  			    	graphService.loadCommandGraph«refG.name.fuEscapeDart»(graph).then((n){
 	  			          var list = n.currentGraphModel.allElements();
 	  			          list.forEach((elem){
-	  			          	«FOR pr:g.getPrimeReferencingElements(refG)»
-	  			            if(elem is «refG.name.lowEscapeDart».«pr.referencedElement.name.fuEscapeDart»)
+	  			          	«FOR pr:g.getPrimeReferencingElements(refG).map[referencedElement].toSet»
+	  			            if(elem is «refG.name.lowEscapeDart».«pr.name.fuEscapeDart»)
 	  			            {
 	  			              primeRefs.add(elem);
 	  			            }

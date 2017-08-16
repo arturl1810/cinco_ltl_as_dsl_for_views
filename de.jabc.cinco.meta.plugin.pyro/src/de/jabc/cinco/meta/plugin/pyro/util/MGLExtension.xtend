@@ -79,6 +79,14 @@ class MGLExtension {
 		return null
 	}
 	
+	def isHidden(Attribute attr){
+		(attr.annotations.exists[name.equals("propertiesViewHidden")])
+	}
+	
+	def isReadOnly(Attribute attr){
+		(attr.annotations.exists[name.equals("readOnly")])
+	}
+	
 	def creatabel(GraphicalModelElement gme){
 		(!gme.annotations.exists[name.equals("disable")&&value.contains("create")]) && !gme.isIsAbstract && !gme.isPrime
 	}

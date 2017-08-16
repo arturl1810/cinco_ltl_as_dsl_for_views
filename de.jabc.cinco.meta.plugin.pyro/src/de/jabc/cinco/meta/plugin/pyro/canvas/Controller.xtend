@@ -692,17 +692,17 @@ class Controller extends Generatable{
 	Creation of nodes by drag and dropping from the palette
 	 */
 	
-	function create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,containerDywaId,elementId) {
-	    var btn_group = $('<div id="pyro_node_menu" class="btn-group-vertical btn-group-xs" style="position: absolute;z-index: 99999;top: '+y+'px;left: '+x+'px;"></div>');
+	function create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,absX,absY,containerDywaId,elementId) {
+	    var btn_group = $('<div id="pyro_node_menu" class="btn-group-vertical btn-group-xs" style="position: absolute;z-index: 99999;top: '+absY+'px;left: '+absX+'px;"></div>');
 	    $('body').append(btn_group);
 	    for(var node in possibleNodes) {
-	            var button = $('<button type="button" class="btn btn-default">'+node+'</button>');
+	            var button = $('<button type="button" class="btn btn-default">'+possibleNodes[node]+'</button>');
 	
 	            btn_group.append(button);
 	
 	            $(button).on('click',function () {
 	                switch(this.innerText){
-	                	«FOR node:g.nodes.filter[!isPrime]» 
+	                	«FOR node:g.nodes.filter[isPrime]» 
 			            case '«node.name.escapeDart»':{
 			            	create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,null,null,-1,containerDywaId,"undefined",-1,null,elementId);
 				            break;
@@ -727,7 +727,7 @@ class Controller extends Generatable{
 	    var typeName = ev.dataTransfer.getData("typename");
 	    var elementId = ev.dataTransfer.getData("elementid");
     	//check prime node
-    	if(typeof elementId != 'undefined' && typeName != ''){
+    	if(elementId !== 'undefined' && typeName != ''){
     		var possibleNodes = [];
     		//for all prime nodes
     		//check prime referenced type and super types
@@ -759,7 +759,7 @@ class Controller extends Generatable{
     		else{
     			//multiple nodes possible
     			//show selection
-    			 create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,containerDywaId,elementId);
+    			 create_prime_node_menu_«g.name.lowEscapeDart»(possibleNodes,x,y,ev.clientX,ev.clientY,containerDywaId,elementId);
     		}
     		return;
     	}
