@@ -292,7 +292,14 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
 			elementEClasses.mainView = createMainView(element, elementEClasses)
 			elementEClasses.views += createViews(element, elementEClasses)
-			element.nonConflictingAttributes.forEach[att| var ec= elementEClasses.mainEClass;ec.createGetter(ec,att);ec.createSetter(ec,att)]
+			element.nonConflictingAttributes.forEach[att| 
+				var ec= elementEClasses.mainEClass;
+				ec.createGetter(ec,att);
+				ec.createSetter(ec,att);
+				if(att.upperBound !=1){
+					ec.createRemove(ec,att)
+				}
+			]
 
 			elementEClasses.createTypedInternalGetter
 			eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
@@ -300,6 +307,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	elementEClasses
 	}
+	
+	
 
 	private def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
 
@@ -369,6 +378,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				if (feature != null) {
 					view.createGetter(eClass, attr)
 					view.createSetter(eClass, attr)
+					if(attr.upperBound!=1){
+						view.createRemove(eClass,attr)
+					}
 				}
 			}
 
@@ -493,10 +505,19 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	'''
 
 	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
-		val content = createSetterContent(modelElementClass, attr.name)
+		val content = if (attr.upperBound == 1) {
+				createSetterContent(modelElementClass, attr.name)
+			} else {
+				createAdderContent(modelElementClass, attr.name)
+			}
 		val parameter = EcoreFactory.eINSTANCE.createEParameter
 		parameter.name = attr.name.toFirstLower
-		val setterName = "set" + attr.name.toFirstUpper
+		var setterName = if (attr.upperBound == 1) {
+				"set"
+			} else {
+				"add"
+			} 
+			setterName+= attr.name.toFirstUpper
 		parameter.upperBound = 1
 		parameter.lowerBound = 0
 		val opType = attr.type.EDataType
@@ -506,35 +527,38 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr){
-		var CharSequence content
-		val setterName = "set" + attr.name.toFirstUpper
+		var CharSequence content = if (attr.upperBound == 1) {
+				createSetterContent(modelElementClass, attr.name)
+			} else {
+				createAdderContent(modelElementClass, attr.name)
+			}
+		var setterName = if (attr.upperBound == 1) {
+				"set"
+			} else {
+				"add"
+			} 
+			setterName+= attr.name.toFirstUpper
 		val parameter = EcoreFactory.eINSTANCE.createEParameter
 		parameter.name = attr.name.toFirstLower
 		parameter.upperBound = 1
 		parameter.lowerBound = 0
-		if(!(attr.type instanceof Enumeration)){
-			content = modelElementClass.createComplexSetterContent(attr)	
-		}else{
-			content = modelElementClass.createSetterContent(attr.name)
-		}
 		view.createEOperation(setterName, null, 0, 1, content, parameter)
 		putSetterParameter(parameter, attr.type)
 	}
-	
+
 	private dispatch def Type putSetterParameter(EParameter parameter, Enumeration type) {
 		enumSetterParameterMap.put(parameter, type)
 	}
-	
+
 	private dispatch def Type putSetterParameter(EParameter parameter, Type type) {
 		complexSetterParameterMap.put(parameter, type)
 	}
-
-	private def createSetterContent(EClass modelElementClass, String featureName) '''
-		getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(«featureName»);
+	def createAdderContent(EClass modelElementClass, String featureName) '''
+	getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(«featureName»);
 	'''
 
-	private def createComplexSetterContent(EClass modelElementClass, ComplexAttribute attr) '''
-		getInternal«modelElementClass.name»().set«attr.name.toFirstUpper»(«attr.name»);
+	private def createSetterContent(EClass modelElementClass, String featureName) '''
+	getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(«featureName»);
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
@@ -546,7 +570,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def createGetterContent(EClass eClass, String attrName, CharSequence getterPrefix) '''
-		return getInternal«eClass.name»().«getterPrefix»«attrName.toFirstUpper»();
+	return getInternal«eClass.name»().«getterPrefix»«attrName.toFirstUpper»();
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass,ComplexAttribute attr) {
@@ -579,7 +603,33 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 «««		return null;
 «««	}
 	'''
-
+	dispatch def void createRemove(EClass view, EClass modelElementClass,ComplexAttribute attr){
+		var CharSequence content = removeContent(modelElementClass,attr.name)
+		val removeName = "remove"+ attr.name.toFirstUpper
+		val parameter = EcoreFactory.eINSTANCE.createEParameter
+		parameter.name = attr.name.toFirstLower
+		parameter.upperBound = 1
+		parameter.lowerBound = 0
+		view.createEOperation(removeName, null, 0, 1, content, parameter)
+		putSetterParameter(parameter, attr.type)
+	}
+	
+	
+	dispatch def void createRemove(EClass view, EClass modelElementClass,PrimitiveAttribute attr){
+		val content = removeContent(modelElementClass,attr.name)
+		val parameter = EcoreFactory.eINSTANCE.createEParameter
+		parameter.name = attr.name.toFirstLower
+		val setterName = "remove" + attr.name.toFirstUpper
+		parameter.upperBound = 1
+		parameter.lowerBound = 0
+		val opType = attr.type.EDataType
+		parameter.EType = opType
+		view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
+	}
+	
+	def removeContent(EClass modelElementClass, String featureName)'''
+	getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().remove(«featureName»);
+	'''
 
 	private def createTypedInternalGetter(ElementEClasses elmClasses){
 		val methodName = '''getInternal«elmClasses.modelElement.name»'''
