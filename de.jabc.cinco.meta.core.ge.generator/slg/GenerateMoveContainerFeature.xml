@@ -102,18 +102,18 @@
       <string>package $context.localPkgName$;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
-import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import graphmodel.Container;
 import graphmodel.ModelElementContainer;
 import graphmodel.Edge;
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoMoveShapeFeature;
 
 import $context.packageName$.graphiti.*;
 
 $context.cincoErrorImport$
 
-public class Move$context.container.name$Feature extends DefaultMoveShapeFeature{
+public class Move$context.container.name$Feature extends CincoMoveShapeFeature {
 
 	$context.cincoErrorField$
 
