@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Shape
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidTargetException
 
 /**
  * GraphicalGraphModel-specific extension methods.
@@ -185,6 +188,43 @@ class GraphicalGraphModelExtension {
 		findFirstParent(cls) != null
 	}
 	
+	/**
+	 * Finds the source elements of all incoming edges of specific type.
+	 * <p>
+	 * Convenient method for
+	 * {@code getIncoming(cls).map[sourceElement].filterNull}
+	 * 
+	 * @param node - The node for which to examine incoming edges.
+	 * @param cls - The class of the edges to be examined.
+	 * @return The source elements of the incoming edges of the specified type.
+	 */
+	def <C extends CEdge> findSourcesOf(CNode node, Class<C> cls) {
+		node.getIncoming(cls).map[sourceElement].filterNull
+	}
+	
+	/**
+	 * Finds the source element of an incoming edge of specific type
+	 * that fulfills the specified predicate.
+	 * <p>
+	 * If more than one matching edge exists the source element of the
+	 * first of these edges is returned.
+	 * <p>
+	 * A warning is printed to the console if
+	 * <ul>
+	 * <li>more than one matching edge exists or
+	 * <li>the source element of the edge is {@code null}.
+	 * </ul>
+	 * <p>
+	 * Convenient method for
+	 * {@code getIncoming(cls).filter(predicate).head?.sourceElement}
+	 * 
+	 * @param node - The node for which to examine incoming edges.
+	 * @param cls - The class of the edges to be examined.
+	 * @param predicate - The predicate to be fulfilled.
+	 * @return The source element of the incoming edge of the specified type,
+	 *   or {@code null} if none such edge exists or the source element is
+	 *   {@code null}. 
+	 */
 	def <C extends CEdge> CNode findSourceOf(CNode node, Class<C> cls) {
 		val result = node.getIncoming(cls)
 		if (result.size > 1) System.err.println('''
@@ -194,6 +234,40 @@ class GraphicalGraphModelExtension {
 		return result.head?.sourceElement
 	}
 	
+	/**
+	 * Finds the target elements of all outgoing edges of specific type.
+	 * <p>
+	 * Convenient method for
+	 * {@code getOutgoing(cls).map[targetElement].filterNull}
+	 * 
+	 * @param node - The node for which to examine outgoing edges.
+	 * @param cls - The class of the edges to be examined.
+	 * @return The target elements of the outgoing edges of the specified type.
+	 */
+	def <C extends CEdge> findTargetsOf(CNode node, Class<C> cls) {
+		node.getOutgoing(cls).map[targetElement].filterNull
+	}
+	
+	/**
+	 * Retrieves the target element of an outgoing edge of specific type.
+	 * <p>
+	 * If more than one outgoing edge of the specified type exists the
+	 * target element of the first of these edges is returned.
+	 * <p>
+	 * A warning is printed to the console if
+	 * <ul>
+	 * <li>more than one outgoing edge of the specified type exists or
+	 * <li>the target element of the edge is {@code null}.
+	 * </ul>
+	 * <p>
+	 * Convenient method for {@code getOutgoing(cls).head?.targetElement}
+	 * 
+	 * @param node - The node for which to examine outgoing edges.
+	 * @param cls - The class of the edges to be examined.
+	 * @return The target element of the outgoing edge of the specified type,
+	 *   or {@code null} if none such edge exists or the target element is
+	 *   {@code null}. 
+	 */
 	def <C extends CEdge> CNode findTargetOf(CNode node, Class<C> cls) {
 		val result = node.getOutgoing(cls)
 		if (result.size > 1) System.err.println('''
@@ -203,12 +277,34 @@ class GraphicalGraphModelExtension {
 		return result.head?.targetElement
 	}
 	
+	/**
+	 * Retrieves the container of the specified one.
+	 * 
+	 * @return  The container of the specified one, or {@code null} if not existent.
+	 */
 	def getContainer(CModelElementContainer it) {
 		switch it {
 			CModelElement: container
 		}
 	}
 	
+	/**
+	 * Retrieves the ModelElement of the specified container.
+	 * 
+	 * @return  The ModelElement of the specified container.
+	 */
+	def getModelElement(CModelElementContainer it) {
+		switch it {
+			CGraphModel: modelElement
+			CContainer: modelElement
+		}
+	}
+	
+	/**
+	 * Retrieves the PictogramElement of the specified container.
+	 * 
+	 * @return  The PictogramElement of the specified container.
+	 */
 	def getPictogramElement(CModelElementContainer it) {
 		switch it {
 			CGraphModel: pictogramElement
@@ -216,10 +312,22 @@ class GraphicalGraphModelExtension {
 		}
 	}
 	
+	/**
+	 * Moves a node to a target container.
+	 * 
+	 * @param node  The node to be moved.
+	 * @param target  The container the node shall be moved to.
+	 * @param x  The x-coordinate of the location of the node relative to the target container.
+	 * @param y  The y-coordinate of the location of the node relative to the target container.
+	 * @throws CincoInvalidTargetException  if moving the node to the target container fails.
+	 *   This happens, if the target is invalid or the maximum cardinality has been reached.
+	 *   However, whether a node can be moved to this container can be checked by calling
+	 *   {@link #canMoveTo canMoveTo} first.
+	 */
 	def moveTo(CNode node, CModelElementContainer target, int x, int y) {
 		val diagram = target.pictogramElement.diagram
 		val fp = diagram.featureProvider
-		val context = node.getMoveShapeContext(target)
+		val context = node.getMoveShapeContext(target, x, y)
 		if (context != null) {
 			val feature = fp.getMoveShapeFeature(context)
 			val canMove = switch it:feature {
@@ -228,12 +336,31 @@ class GraphicalGraphModelExtension {
 			}
 			if (canMove)
 				diagram.transact[ feature.moveShape(context) ]
+			else {
+				// FIXME: Enable distinct exceptions as soon as the error mechanism of the move feature is fixed
+//				val error = switch feature { CincoMoveShapeFeature: feature.error }
+//				val message = '''Failed to move «node.modelElement» into «target.modelElement». '''
+//				switch error {
+//					case MAX_CARDINALITY: throw new CincoContainerCardinalityException(message + "Cardinality has exceeded.")
+//					case INVALID_TARGET: throw new CincoInvalidTargetException(message + "Container is an invalid target.")
+//					default: throw new RuntimeException(message)
+//				}
+				throw new CincoInvalidTargetException('''Failed to move «node.modelElement» into «target.modelElement».''')
+			}
 		}
 	}
 	
+	/**
+	 * Tests whether a node can be moved to a target container.
+	 * 
+	 * @param node  The node to be moved.
+	 * @param target  The container the node shall be moved to.
+	 * @return  {@code true} if the node can be moved, {@code false} if the target is
+	 *   invalid or the maximum cardinality has been reached.
+	 */
 	def canMoveTo(CNode node, CModelElementContainer target) {
 		val fp = target.pictogramElement.featureProvider
-		val context = node.getMoveShapeContext(target)
+		val context = node.getMoveShapeContext(target,0,0)
 		if (context != null) {
 			val feature = fp.getMoveShapeFeature(context)
 			switch it:feature {
@@ -243,7 +370,10 @@ class GraphicalGraphModelExtension {
 		}
 	}
 	
-	private def getMoveShapeContext(CNode node, CModelElementContainer target) {
+	/**
+	 * Creates a MoveShapeContext object. 
+	 */
+	private def getMoveShapeContext(CNode node, CModelElementContainer target, int x, int y) {
 		val pe = node.pictogramElement
 		if (pe != null) {
 			new MoveShapeContext(pe as Shape) => [
@@ -257,6 +387,9 @@ class GraphicalGraphModelExtension {
 		}
 	}
 	
+	/**
+	 * Creates a list containing the specified container as well as its children.
+	 */
 	def withChildren(CModelElementContainer element) {
 		#[element] + element.modelElements
 	}
