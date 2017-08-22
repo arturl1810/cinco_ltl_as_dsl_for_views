@@ -6,15 +6,14 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.internal.datatypes.impl.LocationImpl;
-import org.eclipse.graphiti.mm.MmFactory;
-import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
+
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 
 public class CincoMoveShapeFeature extends DefaultMoveShapeFeature {
 
 	public CincoMoveShapeFeature(IFeatureProvider fp) {
 		super(fp);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -40,4 +39,11 @@ public class CincoMoveShapeFeature extends DefaultMoveShapeFeature {
 				
 	}
 	
+	public boolean canMoveShape(IMoveShapeContext context, boolean apiCall) {
+		return canMoveShape(context); // default implementation ignores apiCall flag
+	}
+	
+	public ECincoError getError() {
+		return null;
+	}
 }
