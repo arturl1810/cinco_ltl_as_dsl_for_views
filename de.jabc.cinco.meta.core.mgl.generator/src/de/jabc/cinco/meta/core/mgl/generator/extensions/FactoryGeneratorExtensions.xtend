@@ -128,7 +128,9 @@ class FactoryGeneratorExtensions {
 		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent, boolean hook){
 			val n = super.create«name»
 			n => [ internal = if (ime == null) createInternal«name» else ime]
+			«IF !(it instanceof Type)»
 			n.internalElement.container = parent
+			«ENDIF»
 			setID(n,ID)
 			setID(n.internalElement,generateUUID)
 			if (hook) {

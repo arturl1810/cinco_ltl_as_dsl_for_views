@@ -229,7 +229,13 @@ class GeneratorUtils {
 	 * @param me The {@link ModelElement} for which the fully qualified bean name should be retrieved
 	 */
 	def dispatch CharSequence fqBeanName(ModelElement me)
-	'''«me.beanPackage».«me.fuName»'''
+	'''«me.beanPackage».«me.fuName.escape»'''
+	
+	def escape(String s) {
+		if (ReservedKeyWords.values.map[it.keyword].map[toLowerCase].contains(s.toLowerCase))
+			"^"+s
+		else s
+	}
 	
 	def dispatch CharSequence fqBeanName(ContainingElement ce) {
 		switch ce {
