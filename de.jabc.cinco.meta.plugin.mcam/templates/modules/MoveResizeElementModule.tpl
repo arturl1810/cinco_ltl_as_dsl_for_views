@@ -13,13 +13,11 @@ import ${GraphModelPackage}.${GraphModelName?lower_case}.${container.getName()};
 </#if>
 </#list>
 
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import graphmodel.ModelElementContainer;
 
 public class ${ClassName} extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
@@ -46,100 +44,60 @@ public class ${ClassName} extends
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
 		Object container = model.getElementById(newContainerId);
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
 
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), newX, newY);
-		</#list>
-		if (container instanceof ${GraphModelName})
-			cElement.moveTo(cModel, newX, newY);
-		*/	
-
-		cElement.resize(newWidth, newHeight);
+		if (container instanceof ModelElementContainer) {
+			element_target.moveTo((ModelElementContainer) container, newX, newY);
+			element_target.resize(newWidth, newHeight);
+		}
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
 
 		Object container = model.getElementById(newContainerId);
 		if (container == null)
 			return false;
 
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
 
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		if (cElement == null)
-			return false;
-
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
-				return false;
-		</#list>
-		if (container instanceof ${GraphModelName})
-			if (!cElement.canMoveTo(cModel))
-				return false;
-		*/
+		if (container instanceof ModelElementContainer) {
+			if (!element_target.canMoveTo((ModelElementContainer) container))
+					return false;
+		}
 
 		return true;
 	}
 	
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
 		Object container = model.getElementById(oldContainerId);
 
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
 
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), oldX, oldY);
-		</#list>
-		if (container instanceof ${GraphModelName})
-			cElement.moveTo(cModel, oldX, oldY);
-		*/
-
-		cElement.resize(oldWidth, oldHeight);
+		if (container instanceof ModelElementContainer) {
+			element_target.moveTo((ModelElementContainer) container, oldX, oldY);
+			element_target.resize(oldWidth, oldHeight);
+		}
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-
 		Object container = model.getElementById(oldContainerId);
 		if (container == null)
 			return false;
 
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
 		
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		if (cElement == null)
-			return false;
-
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
-				return false;
-		</#list>
-		if (container instanceof ${GraphModelName})
-			if (!cElement.canMoveTo(cModel))
-				return false;
-		*/
+		if (container instanceof ModelElementContainer) {
+			if (!element_target.canMoveTo((ModelElementContainer) container))
+					return false;
+		}
 
 		return true;
 	}
@@ -164,9 +122,6 @@ public class ${ClassName} extends
 			${ModelElementName} targetElement = (${ModelElementName}) targetModel
 					.getElementById(id);
 
-			C${ModelElementName} sourceCElement = sourceModel.getModelWrapper().findC${ModelElementName}(sourceElement);
-			C${ModelElementName} targetCElement = targetModel.getModelWrapper().findC${ModelElementName}(targetElement);
-
 			${ClassName} change = new ${ClassName}();
 
 			change.id = id;
@@ -174,19 +129,19 @@ public class ${ClassName} extends
 			change.oldContainerId = sourceModel.getIdByString(sourceElement.getContainer().getId());
 			change.newContainerId = targetModel.getIdByString(targetElement.getContainer().getId());
 
-			change.oldX = sourceCElement.getX();
-			change.newX = targetCElement.getX();
+			change.oldX = sourceElement.getX();
+			change.newX = targetElement.getX();
 			
-			change.oldY = sourceCElement.getY();
-			change.newY = targetCElement.getY();
+			change.oldY = sourceElement.getY();
+			change.newY = targetElement.getY();
 			
-			change.oldWidth = sourceCElement.getWidth();
-			change.newWidth = targetCElement.getWidth();
+			change.oldWidth = sourceElement.getWidth();
+			change.newWidth = targetElement.getWidth();
 			
-			change.oldHeight = sourceCElement.getHeight();
-			change.newHeight = targetCElement.getHeight();
+			change.oldHeight = sourceElement.getHeight();
+			change.newHeight = targetElement.getHeight();
 
-			if (isMoved(sourceCElement, targetCElement) || isResized(sourceCElement, targetCElement)) {
+			if (isMoved(sourceElement, targetElement) || isResized(sourceElement, targetElement)) {
 				change.id = id;
 				changes.add(change);
 			}
@@ -197,7 +152,7 @@ public class ${ClassName} extends
 		return changes;
 	}
 
-	private boolean isMoved(C${ModelElementName} sourceElement, C${ModelElementName} targetElement) {
+	private boolean isMoved(${ModelElementName} sourceElement, ${ModelElementName} targetElement) {
 		if (sourceElement.getX() != targetElement.getX())
 			return true;
 		if (sourceElement.getY() != targetElement.getY())
@@ -205,7 +160,7 @@ public class ${ClassName} extends
 		return false;
 	}
 	
-	private boolean isResized(C${ModelElementName} sourceElement, C${ModelElementName} targetElement) {
+	private boolean isResized(${ModelElementName} sourceElement, ${ModelElementName} targetElement) {
 		if (sourceElement.getHeight() != targetElement.getHeight())
 			return true;
 		if (sourceElement.getWidth() != targetElement.getWidth())

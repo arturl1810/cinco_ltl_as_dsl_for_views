@@ -337,7 +337,7 @@ public class ConflictView extends McamView<ConflictViewPage> {
 	}
 
 	@Override
-	public ConflictViewPage<?, ?, ?, ?> createPage(String pageId, IEditorPart editor) {
+	public ConflictViewPage<?, ?, ?> createPage(String pageId, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null)
 			return pf.createConflictViewPage(pageId, editor);

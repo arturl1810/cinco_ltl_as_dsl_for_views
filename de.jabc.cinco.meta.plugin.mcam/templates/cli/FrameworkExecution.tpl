@@ -4,7 +4,6 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;
@@ -19,7 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoMergeStrategy;
 
-public class ${GraphModelName}Execution extends de.jabc.cinco.meta.plugin.mcam.runtime.core.FrameworkExecution<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
+public class ${GraphModelName}Execution extends de.jabc.cinco.meta.plugin.mcam.runtime.core.FrameworkExecution<${GraphModelName}Id, ${GraphModelName}, ${GraphModelName}Adapter> {
 
 	@Override
 	public ${GraphModelName}Adapter initApiAdapter(File file) {

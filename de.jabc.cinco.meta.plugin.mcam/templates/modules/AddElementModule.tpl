@@ -13,10 +13,9 @@ import ${GraphModelPackage}.${GraphModelName?lower_case}.${container.getName()};
 </#if>
 </#list>
 
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-
 import graphmodel.Container;
+import graphmodel.ModelElementContainer;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.Set;
 
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	public C${ModelElementName} cElement = null;
+	public ${ModelElementName} element = null;
 	public ${GraphModelName}Id containerId = null;
 
 	@Override
@@ -33,66 +32,47 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	}
 
 	@Override
-	public void execute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-		Object container = model.getElementById(containerId);
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			cElement.clone(cModel.findC${container.getName()}((${container.getName()}) container));
-		</#list>
-		if (container instanceof ${GraphModelName})
-			cElement.clone(cModel);
-		*/
+	public void execute(${GraphModelName}Adapter modelAdapter) {
+		Object container = modelAdapter.getElementById(containerId);
+		if (container instanceof ModelElementContainer)
+			element.clone((ModelElementContainer) container);
 	}
 
 	@Override
-	public boolean canExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-		Object container = model.getElementById(containerId);
+	public boolean canExecute(${GraphModelName}Adapter modelAdapter) {
+		Object container = modelAdapter.getElementById(containerId);
 		if (container == null)
 			return false;
 
-		Object element = model.getElementById(id);
-		if (element != null)
+		Object element2 = modelAdapter.getElementById(id);
+		if (element2 != null)
 			return false;
-
-		/*
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			if (!cElement.canClone(cModel.findC${container.getName()}((${container.getName()}) container)))
+		
+		if (container instanceof ModelElementContainer)
+			if (!element.canClone((ModelElementContainer) container))
 				return false;
-		</#list>
-		if (container instanceof ${GraphModelName})
-			if (!cElement.canClone(cModel))
-				return false;
-		*/
 
 		return true;
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		if (element_new == null)
 			return false;
+		/*
+		if (!element_new.canDelete())
+			return false;
+		*/
 
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		if (cElement == null)
-			return false;
-		
-		if (!cElement.canDelete())
-			return false;
-
-		if (element instanceof Container)
+		if (element_new instanceof Container)
 			if (((Container)element).getModelElements().size() > 0)
 				return false;
 		
-		if (element.getIncoming().size() > 0)
+		if (element_new.getIncoming().size() > 0)
 			return false;
 		
-		if (element.getOutgoing().size() > 0)
+		if (element_new.getOutgoing().size() > 0)
 			return false;
 
 		return true;
@@ -100,10 +80,8 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.delete();
+		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		element_new.delete();
 	}
 
 	@Override
@@ -120,12 +98,10 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			C${GraphModelName} targetWrapper = targetModel.getModelWrapper();
-			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
-			change.cElement = targetWrapper.findC${ModelElementName}((${ModelElementName}) targetModel.getElementById(id));
-			change.containerId = targetModel.getIdByString(change.cElement.getModelElement().getContainer().getId());
+			change.element = (${ModelElementName}) targetModel.getElementById(id);
+			change.containerId = targetModel.getIdByString(change.element.getContainer().getId());
 			changes.add(change);
 		}
 		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {

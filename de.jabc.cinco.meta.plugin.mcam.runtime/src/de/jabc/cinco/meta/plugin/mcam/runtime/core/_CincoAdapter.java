@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.core;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
@@ -22,7 +21,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel, W extends CGraphModel> implements ModelAdapter<T> {
+public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> implements ModelAdapter<T> {
 
 	protected M model = null;
 	protected Diagram diagram = null;
@@ -76,8 +75,6 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel, W 
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
 	}
-
-	public abstract W getModelWrapper();
 
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
@@ -173,8 +170,6 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel, W 
 	}
 	
 	protected abstract void readModelFromResource();
-	
-	protected abstract void createModelWrapper();
 	
 	protected abstract T createId(IdentifiableElement obj);
 

@@ -3,7 +3,6 @@ package ${McamViewPagePackage};
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 import ${CliPackage}.${GraphModelName}Execution;
 
@@ -15,7 +14,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public class ${GraphModelName}CheckViewPage extends CheckViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
+public class ${GraphModelName}CheckViewPage extends CheckViewPage<${GraphModelName}Id, ${GraphModelName}, ${GraphModelName}Adapter> {
 
 	public ${GraphModelName}CheckViewPage(String pageId) {
 		super(pageId);

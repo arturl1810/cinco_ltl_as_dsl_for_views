@@ -5,9 +5,6 @@ import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
 
 <#list PossibleEdgeSources as source>
@@ -44,27 +41,25 @@ public class ${ClassName} extends
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
 		${ModelElementName} edge = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
 		Object source = model.getElementById(newSource);
 		Object target = model.getElementById(newTarget);
 
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
-			cEdge.reconnectSource(cModel.findC${source.getName()}((${source.getName()}) source));
+			edge.reconnectSource((${source.getName()}) source);
 		</#list>
 
 		<#list PossibleEdgeTargets as target>
 		if (target instanceof ${target.getName()})
-			cEdge.reconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target));
+			edge.reconnectTarget((${target.getName()}) target);
 		</#list>
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
 		
 		Object source = model.getElementById(newSource);
@@ -75,20 +70,15 @@ public class ${ClassName} extends
 		if (target == null)
 			return false;
 
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(element);
-		if (cEdge == null)
-			return false;
-
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
-			if(!cEdge.canReconnectSource(cModel.findC${source.getName()}((${source.getName()}) source)))
+			if(!element_target.canReconnectSource((${source.getName()}) source))
 				return false;
 		</#list>
 
 		<#list PossibleEdgeTargets as target>
 		if (target instanceof ${target.getName()})
-			if (!cEdge.canReconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target)))
+			if (!element_target.canReconnectTarget((${target.getName()}) target))
 				return false;
 		</#list>
 		
@@ -98,27 +88,25 @@ public class ${ClassName} extends
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
 		${ModelElementName} edge = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
 		Object source = model.getElementById(oldSource);
 		Object target = model.getElementById(oldTarget);
 
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
-			cEdge.reconnectSource(cModel.findC${source.getName()}((${source.getName()}) source));
+			edge.reconnectSource((${source.getName()}) source);
 		</#list>
 
 		<#list PossibleEdgeTargets as target>
 		if (target instanceof ${target.getName()})
-			cEdge.reconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target));
+			edge.reconnectTarget((${target.getName()}) target);
 		</#list>
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		if (element_new == null)
 			return false;
 		
 		Object source = model.getElementById(oldSource);
@@ -129,20 +117,15 @@ public class ${ClassName} extends
 		if (target == null)
 			return false;
 
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(element);
-		if (cEdge == null)
-			return false;
-
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
-			if(!cEdge.canReconnectSource(cModel.findC${source.getName()}((${source.getName()}) source)))
+			if(!element_new.canReconnectSource((${source.getName()}) source))
 				return false;
 		</#list>
 
 		<#list PossibleEdgeTargets as target>
 		if (target instanceof ${target.getName()})
-			if (!cEdge.canReconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target)))
+			if (!element_new.canReconnectTarget((${target.getName()}) target))
 				return false;
 		</#list>
 		

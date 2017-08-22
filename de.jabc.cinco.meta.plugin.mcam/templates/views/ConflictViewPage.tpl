@@ -3,7 +3,6 @@ package ${McamViewPagePackage};
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 import ${CliPackage}.${GraphModelName}Execution;
 
@@ -20,7 +19,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
+public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphModelName}Id, ${GraphModelName}, ${GraphModelName}Adapter> {
 
 	public ${GraphModelName}ConflictViewPage(String pageId, IFile iFile, Resource resource) {
 		super(pageId, iFile, resource);

@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.provider;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.MergeInformation;
@@ -15,10 +14,10 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 
-public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
+public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, A extends _CincoAdapter<E, M>>
 		extends TreeProvider {
 
-	private ConflictViewPage<E, M, W, A> page;
+	private ConflictViewPage<E, M, A> page;
 
 	public enum ViewType {
 		BY_ID
@@ -30,7 +29,7 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 
 	private MergeProcess<E, A> mp;
 
-	public ConflictViewTreeProvider(ConflictViewPage<E, M, W, A> page) {
+	public ConflictViewTreeProvider(ConflictViewPage<E, M, A> page) {
 		super();
 		this.page = page;
 	}

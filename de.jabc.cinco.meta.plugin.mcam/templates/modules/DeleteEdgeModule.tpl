@@ -6,16 +6,13 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
 
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	public C${ModelElementName} cElement = null;
+	public ${ModelElementName} element = null;
 	public ${GraphModelName}Id sourceId = null;
 	public ${GraphModelName}Id targetId = null;
 
@@ -28,7 +25,7 @@ public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelNa
 		${ModelElementName}AddChange addChange = new ${ModelElementName}AddChange();
 		addChange.id = id;
 		addChange.showOutput = showOutput;
-		addChange.cElement = cElement;
+		addChange.element = element;
 		addChange.sourceId = sourceId;
 		addChange.targetId = targetId;
 		return addChange;
@@ -68,12 +65,11 @@ public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelNa
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			C${GraphModelName} sourceWrapper = sourceModel.getModelWrapper();
 			${ModelElementName} element = (${ModelElementName}) sourceModel.getElementById(id);
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
-			change.cElement = sourceWrapper.findC${ModelElementName}(element);
+			change.element = element;
 			change.sourceId = sourceModel.getIdByString(element.getSourceElement().getId());
 			change.targetId = sourceModel.getIdByString(element.getTargetElement().getId());
 			changes.add(change);

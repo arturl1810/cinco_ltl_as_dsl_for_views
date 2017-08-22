@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 import info.scce.mcam.framework.modules.ChangeModule;
@@ -45,10 +44,10 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.ConflictViewTreeProvider;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
+public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel, A extends _CincoAdapter<E, M>>
 		extends McamPage {
 
-	private ConflictViewTreeProvider<E, M, W, A> data;
+	private ConflictViewTreeProvider<E, M, A> data;
 	
 	protected IFile iFile;
 	protected Resource resource;
@@ -80,7 +79,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 		this.resource = resource;
 		
 		this.mp = (MergeProcess<E, A>) createMp();
-		this.data = new ConflictViewTreeProvider<E, M, W, A>(this);
+		this.data = new ConflictViewTreeProvider<E, M, A>(this);
 	}
 
 	/*
@@ -88,7 +87,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	 */
 	
 	@Override
-	public ConflictViewTreeProvider<E, M, W, A> getDataProvider() {
+	public ConflictViewTreeProvider<E, M, A> getDataProvider() {
 		return data;
 	}
 
@@ -310,7 +309,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 		obj = getTreeNodeData(obj);
 		if (obj instanceof _CincoId) {
 			_CincoId id = (_CincoId) obj;
-			Object element = ((_CincoAdapter<E, M, W>) getAdapter(iFile, resource)).getElementById((E) id);
+			Object element = ((_CincoAdapter<E, M>) getAdapter(iFile, resource)).getElementById((E) id);
 
 			if (element instanceof ModelElement) {
 				ModelElement me = (ModelElement) element;
@@ -319,7 +318,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 				IFile iFile = EclipseUtils.getIFile(editor);
 				Resource resource = EclipseUtils.getResource(editor);
 
-				_CincoAdapter<E, M, W> adapter = getAdapter(iFile, resource);
+				_CincoAdapter<E, M> adapter = getAdapter(iFile, resource);
 				adapter.highlightElement(adapter.getIdByString(me.getId()));
 
 				// if (me.getRootElement() instanceof Process) {

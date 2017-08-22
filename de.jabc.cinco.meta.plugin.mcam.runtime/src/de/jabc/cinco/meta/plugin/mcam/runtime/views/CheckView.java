@@ -179,7 +179,7 @@ public class CheckView extends McamView<CheckViewPage> {
 	}
 
 	@Override
-	public CheckViewPage<?, ?, ?, ?> createPage(String id, IEditorPart editor) {
+	public CheckViewPage<?, ?, ?> createPage(String id, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null)
 			return pf.createCheckViewPage(id, editor);

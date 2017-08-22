@@ -25,7 +25,7 @@ class ${ClassName} extends ${GraphModelName}Check {
 
 	def void checkContainer(Container container) {
 		//println(container);
-		for (ContainmentConstraint cc : container.containmentConstraints) {
+		for (ContainmentConstraint cc : container.internalContainerElement.containmentConstraints) {
 			if (!cc.checkLowerBound(container))
 				container.addError("at least " + cc.lowerBound + " of [" + cc.types.map[t | t.simpleName].join(', ') + "] required")
 			if (!cc.checkUpperBound(container))

@@ -25,7 +25,7 @@ public class PageFactoryImpl implements PageFactory {
 	}
 
 	@Override
-	public CheckViewPage<?, ?, ?, ?> createCheckViewPage(String id, IEditorPart editor) {
+	public CheckViewPage<?, ?, ?> createCheckViewPage(String id, IEditorPart editor) {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
 		Resource resource = EclipseUtils.getResource(editor);
@@ -41,7 +41,7 @@ public class PageFactoryImpl implements PageFactory {
 	}
 
 	@Override
-	public CheckViewPage<?, ?, ?, ?> createProjectCheckViewPage(String id, IEditorPart editor) {
+	public CheckViewPage<?, ?, ?> createProjectCheckViewPage(String id, IEditorPart editor) {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
 		Resource resource = EclipseUtils.getResource(editor);
@@ -51,7 +51,7 @@ public class PageFactoryImpl implements PageFactory {
 	}
 
 	@Override
-	public ConflictViewPage<?, ?, ?, ?> createConflictViewPage(String id, IEditorPart editor) {
+	public ConflictViewPage<?, ?, ?> createConflictViewPage(String id, IEditorPart editor) {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
 		Resource resource = EclipseUtils.getResource(editor);

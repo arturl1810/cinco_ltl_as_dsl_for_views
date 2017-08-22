@@ -3,7 +3,6 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import info.scce.mcam.framework.adapter.EntityId;
 import info.scce.mcam.framework.modules.CheckModule;
@@ -20,9 +19,9 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 
-public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
+public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A extends _CincoAdapter<E, M>>
 		extends TreeProvider {
-	private CheckViewPage<E, M, W, A> page;
+	private CheckViewPage<E, M, A> page;
 
 	public enum ViewType {
 		BY_MODULE, BY_ID
@@ -35,7 +34,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 
-	public CheckViewTreeProvider(CheckViewPage<E, M, W, A> page, ViewType vType) {
+	public CheckViewTreeProvider(CheckViewPage<E, M, A> page, ViewType vType) {
 		super();
 		this.page = page;
 		this.activeView = vType;

@@ -6,28 +6,15 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
 
-<#list PossibleEdgeSources as source>
-<#if source.getName() != ModelElementName>
-import ${GraphModelPackage}.${GraphModelName?lower_case}.${source.getName()};
-</#if>
-</#list>
-
-<#list PossibleEdgeTargets as target>
-<#if target.getName() != ModelElementName>
-import ${GraphModelPackage}.${GraphModelName?lower_case}.${target.getName()};
-</#if>
-</#list>
-
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import graphmodel.Node;
+
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	public C${ModelElementName} cElement = null;
+	public ${ModelElementName} element = null;
 	public ${GraphModelName}Id sourceId = null;
 	public ${GraphModelName}Id targetId = null;
 
@@ -38,25 +25,18 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
 
 		Object source = model.getElementById(sourceId);		
 		Object target = model.getElementById(targetId);
-
-		<#list PossibleEdgeSources as source>
-		<#list PossibleEdgeTargets as target>
-		if (source instanceof ${source.getName()} && target instanceof ${target.getName()})
-			cElement.clone(cModel.findC${source.getName()}((${source.getName()}) source), cModel.findC${target.getName()}((${target.getName()}) target));
-		</#list>
-		</#list>
+		
+		if (source instanceof Node && target instanceof Node)
+			element.clone((Node) source, (Node) target);
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-
-		Object element = model.getElementById(id);
-		if (element != null)
+		Object element_target = model.getElementById(id);
+		if (element_target != null)
 			return false;
 
 		Object source = model.getElementById(sourceId);
@@ -67,40 +47,30 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		if (target == null)
 			return false;
 
-		<#list PossibleEdgeSources as source>
-		<#list PossibleEdgeTargets as target>
-		if (source instanceof ${source.getName()} && target instanceof ${target.getName()})
-			if(!cElement.canClone(cModel.findC${source.getName()}((${source.getName()}) source), cModel.findC${target.getName()}((${target.getName()}) target)))
+		if (source instanceof Node && target instanceof Node)
+			if (!element.canClone((Node) source, (Node) target))
 				return false;
-		</#list>
-		</#list>
 		
 		return true;
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
-
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		if (cElement == null)
+		/*
+		if (!element_target.canDelete())
 			return false;
-
-		if (!cElement.canDelete())
-			return false;
+		*/
 
 		return true;
 	}
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.delete();
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		element_target.delete();
 	}
 
 	@Override
@@ -117,12 +87,11 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			C${GraphModelName} targetWrapper = targetModel.getModelWrapper();
 			${ModelElementName} element = (${ModelElementName}) targetModel.getElementById(id);
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
-			change.cElement = targetWrapper.findC${ModelElementName}(element);
+			change.element = element;
 			change.sourceId = targetModel.getIdByString(element.getSourceElement().getId());
 			change.targetId = targetModel.getIdByString(element.getTargetElement().getId());
 			changes.add(change);

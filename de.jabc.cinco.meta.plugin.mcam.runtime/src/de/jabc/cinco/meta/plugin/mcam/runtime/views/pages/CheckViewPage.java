@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 import info.scce.mcam.framework.modules.CheckModule;
@@ -42,10 +41,10 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvid
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider.ViewType;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
+public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A extends _CincoAdapter<E, M>>
 		extends McamPage {
 
-	private CheckViewTreeProvider<E, M, W, A> data;
+	private CheckViewTreeProvider<E, M, A> data;
 
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 
@@ -59,7 +58,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	public CheckViewPage(String pageId) {
 		super(pageId);
-		this.data = new CheckViewTreeProvider<E, M, W, A>(this, ViewType.BY_ID);
+		this.data = new CheckViewTreeProvider<E, M, A>(this, ViewType.BY_ID);
 	}
 
 	/*
@@ -70,7 +69,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	}
 
 	@Override
-	public CheckViewTreeProvider<E, M, W, A> getDataProvider() {
+	public CheckViewTreeProvider<E, M, A> getDataProvider() {
 		return data;
 	}
 
@@ -152,7 +151,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		if (element instanceof _CincoId) {
 			_CincoId id = (E) element;
 			CheckProcess<?, ?> checkProcess = getCheckProcessById(id);
-			((_CincoAdapter<E, M, W>) checkProcess.getModel())
+			((_CincoAdapter<E, M>) checkProcess.getModel())
 					.highlightElement((E) element);
 		}
 	}
@@ -171,7 +170,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	@SuppressWarnings("unchecked")
 	protected void openAndHighlight(_CincoId id) {
-		Object element = ((_CincoAdapter<E, M, W>) getCheckProcessById(id)
+		Object element = ((_CincoAdapter<E, M>) getCheckProcessById(id)
 				.getModel()).getElementById((E) id);
 
 		if (element instanceof ModelElement) {
@@ -181,7 +180,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			IFile iFile = EclipseUtils.getIFile(editor);
 			Resource resource = EclipseUtils.getResource(editor);
 
-			_CincoAdapter<E, M, W> adapter = getAdapter(iFile, resource);
+			_CincoAdapter<E, M> adapter = getAdapter(iFile, resource);
 			adapter.highlightElement(adapter.getIdByString(me.getId()));
 		}
 		if (element instanceof GraphModel) {

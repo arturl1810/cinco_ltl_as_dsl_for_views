@@ -26,10 +26,10 @@ public class ProjectCheckView extends CheckView {
 	}
 	
 	@Override
-	public CheckViewPage<?, ?, ?, ?> createPage(String id, IEditorPart editor) {
+	public CheckViewPage<?, ?, ?> createPage(String id, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null) {
-			CheckViewPage<?, ?, ?, ?> cVP = pf.createProjectCheckViewPage(id, editor);
+			CheckViewPage<?, ?, ?> cVP = pf.createProjectCheckViewPage(id, editor);
 			cVP.getDataProvider().setActiveView(ViewType.BY_MODULE);
 			return cVP;
 		}

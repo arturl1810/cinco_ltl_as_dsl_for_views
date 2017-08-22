@@ -1,6 +1,5 @@
 package ${McamViewPagePackage};
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 
 import java.io.File;
@@ -23,7 +22,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 
-public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, CGraphModel, _CincoAdapter<_CincoId, GraphModel, CGraphModel>> {
+public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _CincoAdapter<_CincoId, GraphModel>> {
 
 	private String[] fileExtensions = { 
 		// @PROJECT_CHECK_PAGE_EXT

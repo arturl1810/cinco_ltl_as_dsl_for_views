@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.core;
 
-import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;
@@ -16,7 +15,7 @@ import java.nio.file.StandardCopyOption;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-public abstract class FrameworkExecution<E extends _CincoId, G extends GraphModel, W extends CGraphModel, M extends _CincoAdapter<E, G, W>> {
+public abstract class FrameworkExecution<E extends _CincoId, G extends GraphModel, M extends _CincoAdapter<E, G>> {
 
 	public File getFile(String filepath) {
 		File file = new File(filepath);

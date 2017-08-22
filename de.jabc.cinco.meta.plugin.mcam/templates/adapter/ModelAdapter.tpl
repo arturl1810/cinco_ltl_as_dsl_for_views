@@ -15,8 +15,6 @@ import graphmodel.ModelElement;
 import graphmodel.IdentifiableElement;
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName?lower_case?capitalize}Package;
-import ${GraphModelPackage}.graphiti.${GraphModelName}Wrapper;
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 <#list ContainerTypes as type>
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
@@ -28,19 +26,8 @@ import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
 </#list>
 
-public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,${GraphModelName}, C${GraphModelName}> {
+public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,${GraphModelName}> {
 
-	private C${GraphModelName} modelWrapper = null;
-
-	@Override
-	protected void createModelWrapper() {
-		try {
-			modelWrapper = ${GraphModelName}Wrapper.wrapGraphModel(getModel(), getDiagram());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	@Override
 	protected ${GraphModelName}Id createId(IdentifiableElement obj) {
@@ -53,12 +40,6 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 			if ("${GraphModelName}".equals(obj.eClass().getName()))
 				model = (${GraphModelName}) obj;
 		}
-	}
-
-	public C${GraphModelName} getModelWrapper() {
-	//	if (modelWrapper == null)
-			createModelWrapper();
-		return modelWrapper;
 	}
 
 
@@ -80,18 +61,8 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 		Object element = getElementById(id);
 		if (element != null)
 			if (!(element instanceof ${GraphModelName}))
-				<#list ContainerTypes as type>
-				if (element instanceof ${type})
-					getModelWrapper().findC${type}((${type}) element).highlight();
-				</#list>
-				<#list NodeTypes as type>
-				if (element instanceof ${type})
-					getModelWrapper().findC${type}((${type}) element).highlight();
-				</#list>
-				<#list EdgeTypes as type>
-				if (element instanceof ${type})
-					getModelWrapper().findC${type}((${type}) element).highlight();
-				</#list>
+			 	if (element instanceof ModelElement)
+			 		((ModelElement) element).highlight();
 	}
 
 	@Override

@@ -6,12 +6,6 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
 
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-
-<#if ModelElementName != GraphModelName>
-import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-</#if>
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +13,13 @@ import java.util.Set;
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
 	public String attributeName = "${AttributeName}";
+	<#if AttributeCategory == "Normal">
+	public ${AttributeType} oldValue;
+	public ${AttributeType} newValue;
+	<#else>
 	public ${AttributeType} oldValue = null;
 	public ${AttributeType} newValue = null;
+	</#if>
 	<#if AttributeCategory == "ModelElement">
 	public ${GraphModelName}Id oldValueId = null;
 	public ${GraphModelName}Id newValueId = null;
@@ -36,42 +35,38 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	}
 
 	@Override
-	public void execute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
+	public void execute(${GraphModelName}Adapter modelAdapter) {
 		<#if ModelElementName == GraphModelName>
-		cModel.set${AttributeName?cap_first}(newValue);
+		modelAdapter.getModel().set${AttributeName?cap_first}(newValue);
 		<#else>
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.set${AttributeName?cap_first}(newValue);
+		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.getElementById(id);
+		element_target.set${AttributeName?cap_first}(newValue);
 		</#if>
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
 		
 		return true;
 	}
 
 	@Override
-	public void undoExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
+	public void undoExecute(${GraphModelName}Adapter modelAdapter) {
 		<#if ModelElementName == GraphModelName>
-		cModel.set${AttributeName?cap_first}(oldValue);
+		modelAdapter.getModel().set${AttributeName?cap_first}(oldValue);
 		<#else>
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.set${AttributeName?cap_first}(oldValue);
+		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.getElementById(id);
+		element_target.set${AttributeName?cap_first}(oldValue);
 		</#if>
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
+		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		if (element_target == null)
 			return false;
 		
 		return true;
@@ -94,7 +89,18 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			${ModelElementName} targetElement = (${ModelElementName}) targetModel.getElementById(id);
 
 			boolean changed = false;
-
+			
+			<#if AttributeCategory == "Normal">
+			<#if AttributeType == "boolean">
+			if (sourceElement.is${AttributeName?cap_first}() != targetElement.is${AttributeName?cap_first}()) {
+				changed = true;				
+			}
+			<#else>
+			if (sourceElement.get${AttributeName?cap_first}() != targetElement.get${AttributeName?cap_first}()) {
+				changed = true;				
+			}
+			</#if>
+			<#else>
 			if (sourceElement.get${AttributeName?cap_first}() == null && targetElement.get${AttributeName?cap_first}() != null) {
 				changed = true;
 			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() == null) {
@@ -110,15 +116,28 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 				}
 				</#if>
 			}
-				
+			</#if>
+
 			if (changed) {			
 				${ClassName} change = new ${ClassName}();
 				change.id = id;
+				
+				<#if AttributeCategory == "Normal">
+				<#if AttributeType == "boolean">
+				change.oldValue = sourceElement.is${AttributeName?cap_first}();
+				change.newValue = targetElement.is${AttributeName?cap_first}();
+				<#else>
 				change.oldValue = sourceElement.get${AttributeName?cap_first}();
 				change.newValue = targetElement.get${AttributeName?cap_first}();
+				</#if>
+				<#else>
+				change.oldValue = sourceElement.get${AttributeName?cap_first}();
+				change.newValue = targetElement.get${AttributeName?cap_first}();
+				</#if>
+				
 				<#if AttributeCategory == "ModelElement">
-				change.oldValueId = sourceModel.getIdByString(sourceElement.getMyNode().getId());
-				change.newValueId = targetModel.getIdByString(targetElement.getMyNode().getId());
+				change.oldValueId = sourceModel.getIdByString(sourceElement.get${AttributeName?cap_first}().getId());
+				change.newValueId = targetModel.getIdByString(targetElement.get${AttributeName?cap_first}().getId());
 				</#if>
 				changes.add(change);
 			}
@@ -133,9 +152,15 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public boolean hasConflictWith(ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change) {
 		if (change instanceof ${ClassName}) {
 			if (((${ClassName}) change).id.equals(id)) {
+			<#if AttributeCategory == "Normal">
+				if (this.newValue != (((${ClassName}) change).newValue)) {
+					return true;
+				}
+			<#else>
 				if (!this.newValue.equals(((${ClassName}) change).newValue)) {
 					return true;
 				}
+			</#if>
 			}
 		}
 		return false;
