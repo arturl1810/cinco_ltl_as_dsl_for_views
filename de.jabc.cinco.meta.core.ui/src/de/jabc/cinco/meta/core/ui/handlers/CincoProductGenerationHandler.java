@@ -114,7 +114,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		this.readCPDFile();
 		this.readGenerationTimestamp();
 		this.calculateMGL_Sets();
-		
 		if (generateMGLs.size() == 0) {
 			Display display = getDisplay();
 			if (MessageDialog.openQuestion(display.getActiveShell(), "Cinco Product Generator",
@@ -473,10 +472,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 
 				e.printStackTrace();
 			}
-
-			if (!isGenerationRequired(getIFileforMGL(mgl))) {
-				this.ignoredMGLs.add(getIFileforMGL(mgl));
-				MGLEPackageRegistry.INSTANCE.addMGLEPackage(getEPackageForMGL(mglFile, project));
+			if(!pyroOnly){
+				if (!isGenerationRequired(getIFileforMGL(mgl))) {
+					this.ignoredMGLs.add(getIFileforMGL(mgl));
+					MGLEPackageRegistry.INSTANCE.addMGLEPackage(getEPackageForMGL(mglFile, project));
+				}				
 			}
 			
 

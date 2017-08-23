@@ -103,6 +103,7 @@ class GraphService extends Generatable {
 	    return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/create/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
 	        var newGraph = «g.name.lowEscapeDart».«g.name.fuEscapeDart».fromJSOG(JSON.decode(response.responseText),new Map());
 	        print("[PYRO] created «g.name.fuEscapeDart» ${graph.filename}");
+	        graph.dywaId=newGraph.dywaId;
 	        graph.merge(newGraph);
 	        parent.graphModels.add(graph);
 	        return newGraph;
