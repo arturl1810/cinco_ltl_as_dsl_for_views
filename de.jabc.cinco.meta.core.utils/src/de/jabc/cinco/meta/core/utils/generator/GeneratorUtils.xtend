@@ -229,6 +229,9 @@ class GeneratorUtils {
 	 * @param me The {@link ModelElement} for which the fully qualified bean name should be retrieved
 	 */
 	def dispatch CharSequence fqBeanName(ModelElement me)
+	'''«me.beanPackage».«me.fuName»'''
+	
+	def dispatch CharSequence fqBeanNameEscaped(ModelElement me)
 	'''«me.beanPackage».«me.fuName.escape»'''
 	
 	def escape(String s) {

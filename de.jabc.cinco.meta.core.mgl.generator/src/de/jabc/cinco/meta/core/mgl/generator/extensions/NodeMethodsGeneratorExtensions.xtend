@@ -142,7 +142,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	def createCanNewEdgeMethods(Node node, HashMap<String, ElementEClasses> elemClasses) {
-		val edges = node.outgoingConnectingEdges
+		val edges = node.outgoingConnectingEdges.filter[!isIsAbstract]
 		for (edge : edges) {
 			val operationName = "canNew" + edge.fuName
 			for (target : edge.possibleTargets) {
@@ -160,7 +160,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	def createNewEdgeMethods(Node node, HashMap<String, ElementEClasses> elemClasses) {
-		val edges = node.outgoingConnectingEdges
+		val edges = node.outgoingConnectingEdges.filter[!isIsAbstract]
 		for (edge : edges) {
 			val operationName = "new" + edge.fuName
 			val edgeEClass = elemClasses.get(edge.name).mainEClass

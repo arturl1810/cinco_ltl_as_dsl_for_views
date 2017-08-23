@@ -121,13 +121,13 @@ class MGLUtil {
 		if (ce instanceof GraphModel && ce.getContainableElements().isEmpty()) return true
 		
 		var Set<GraphicalElementContainment> containments = ce.getContainableElements().filter[ec |
-			(ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]
+			(ec.types.contains(n) || n.allSuperTypes.toSet.exists[ec.types.toSet.contains(it)]
 			) && (ec.getUpperBound() != 0)
 		].toSet
 		
 		var containedInSuperType = false
 		switch (ce) {
-			NodeContainer: containedInSuperType = ce.allSuperTypes.exists[isContained((it as NodeContainer), n)]
+			NodeContainer: containedInSuperType = ce.allSuperTypes.toSet.exists[isContained((it as NodeContainer), n)]
 		}
 		
 		return containments.size() > 0 || containedInSuperType 
@@ -244,7 +244,7 @@ class MGLUtil {
 	 private def static postCreates(Iterable<Annotation> it) {
 	 	if (!empty) 
 	 	'''
-		public def postCreates(«(get(0).parent as ModelElement).fqBeanName» me) {
+		public def postCreates(«(get(0).parent as ModelElement).fqBeanNameEscaped» me) {
 			«map[generatePostCreateCall].join("\n")»
 		}'''
 	 	else ""

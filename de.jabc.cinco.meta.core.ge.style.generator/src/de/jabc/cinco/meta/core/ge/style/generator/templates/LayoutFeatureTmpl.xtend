@@ -18,6 +18,8 @@ import style.LineStyle
 import style.Styles
 import org.eclipse.graphiti.mm.algorithms.Image
 import style.EdgeStyle
+import style.PredefinedDecorator
+import style.ConnectionDecorator
 
 class LayoutFeatureTmpl extends GeneratorUtils{
 	
@@ -223,7 +225,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Search for all inlineappearance of the Shape, creates a method-call
+	 * Search for all inline appearance of the Shape, creates a method-call
 	 * @param shape : AbstractShape
 	 */
 	def void inlineAppearance(AbstractShape shape){
@@ -337,6 +339,13 @@ public class «gm.fuName»LayoutUtils {
 				if (inlineAppearance != null) {
 					counter2 = counter2+1
 					appList.add(inlineAppearance)
+					shapeMap.put(it, "set" + counter2 + "InlineStyle")
+				}
+			}
+			if (it instanceof ConnectionDecorator) {
+				if (predefinedDecorator?.inlineAppearance != null) {
+					counter2 = counter2+1
+					appList.add(predefinedDecorator.inlineAppearance)
 					shapeMap.put(it, "set" + counter2 + "InlineStyle")
 				}
 			}

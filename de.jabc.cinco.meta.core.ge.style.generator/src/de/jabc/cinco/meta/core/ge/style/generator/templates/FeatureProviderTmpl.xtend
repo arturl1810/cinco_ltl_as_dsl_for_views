@@ -123,7 +123,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«ENDIF»		
 			«ENDFOR»
 			
-			«FOR ed : gm.edges»
+			«FOR ed : gm.edges.filter[!isIsAbstract]»
 			if («ed.internalInstanceofCheck("bo")»)
 				return new «gm.packageNameAdd».AddFeature«ed.name»(this);
 			«ENDFOR»
@@ -187,7 +187,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 					if (bo instanceof «InternalNode.name»)
 						return new «CincoLayoutFeature.name»(this);
 				
-				«FOR e : gm.edges»
+				«FOR e : gm.edges.filter[!isIsAbstract]»
 					if («e.internalInstanceofCheck("bo")»)
 					    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);
 				«ENDFOR»
@@ -254,7 +254,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getConnection());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			«FOR e : gm.edges»
+			«FOR e : gm.edges.filter[!isIsAbstract]»
 			if («e.internalInstanceofCheck("o")»)
 				return new «e.packageNameReconnect».ReconnectFeature«e.fuName»(this);
 			«ENDFOR»
