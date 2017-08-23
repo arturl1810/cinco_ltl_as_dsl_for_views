@@ -22,7 +22,7 @@ class CincoAddBendpointFeature extends DefaultAddBendpointFeature {
 		if (!edge.pointExists(context.x, context.y)) {
 			var _Point p = InternalFactory.eINSTANCE.create_Point() => [x = context.x; y = context.y]
 			edge.getBendpoints().add(context.getBendpointIndex(), p)
-			println(edge.bendpoints)
+//			println(edge.bendpoints)
 		}
 	}
 	

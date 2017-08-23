@@ -104,7 +104,7 @@ public class StyleHyperLinkHelper extends HyperlinkHelper {
 		BidiTreeIterator<INode> it = styleNode.getAsTreeIterable().iterator();
 		while (it.hasNext()) {
 			INode current = it.next();
-			System.out.println(current.getGrammarElement());
+//			System.out.println(current.getGrammarElement());
 			if (current.getGrammarElement() instanceof Keyword) {
 				Keyword kw = (Keyword) current.getGrammarElement();
 				if ("appearanceProvider".equals(kw.getValue())) {

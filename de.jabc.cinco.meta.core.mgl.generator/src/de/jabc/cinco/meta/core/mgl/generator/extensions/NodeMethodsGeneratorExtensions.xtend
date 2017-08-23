@@ -277,8 +277,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	def createNewNodeMethods(ContainingElement ce, Map<String, ElementEClasses> elemClasses) {
-		println("the containing element: "+ce)
-		println("them elmClasses:" + elemClasses)
+//		println("the containing element: "+ce)
+//		println("them elmClasses:" + elemClasses)
 		ce.containableNodes.filter[!isIsAbstract && !isPrime].forEach[n | 
 					
 				elemClasses.get(ce.name).mainEClass.

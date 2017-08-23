@@ -91,7 +91,7 @@ class FactoryGeneratorExtensions {
 	'''
 	
 	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
-		ecls.forEach[println(it.modelElement)]
+//		ecls.forEach[println(it.modelElement)]
 		ecls.map[modelElement].map[specificCreateMethod].join
 	}
 	

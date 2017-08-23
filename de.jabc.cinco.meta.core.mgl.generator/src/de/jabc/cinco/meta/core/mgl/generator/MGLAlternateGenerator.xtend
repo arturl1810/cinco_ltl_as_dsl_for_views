@@ -97,7 +97,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[!views.nullOrEmpty].map[views].flatten
 
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
-		complexGetterParameterMap.forEach[key,value| println(value);key.EType = elementEClasses.get(value).mainEClass]
+		complexGetterParameterMap.forEach[key,value| /*println(value);*/key.EType = elementEClasses.get(value).mainEClass]
 		complexSetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		enumGetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
@@ -202,7 +202,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 		var sorted = model.nodes.topSort
 
-		println(sorted.map[n|n.name])
+//		println(sorted.map[n|n.name])
 
 		sorted.forEach[node|nodeClasses.put(node,node.createModelElementClasses)]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
@@ -344,7 +344,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def EClass getHighestSuperView(EClass view) {
 		var v = view;
-		println(v.name)
+//		println(v.name)
 		while (!v.ESuperTypes.nullOrEmpty && v.ESuperTypes.get(0) != null) {
 			v = v.ESuperTypes.get(0)
 		}
@@ -465,7 +465,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val internalTypeClass = internalPackage.internalType
 		val typeClass = graphModelPackage.getType
 		val udts = new HashMap<ModelElement,ElementEClasses>
-		model.types.filter(UserDefinedType).topSort.forEach[udt|println(udt);udts.put(udt,udt.createModelElementClasses)]
+		model.types.filter(UserDefinedType).topSort.forEach[udt|/*println(udt);*/udts.put(udt,udt.createModelElementClasses)]
 
 		udts.values.forEach[
 			internalEClass.ESuperTypes+=internalTypeClass

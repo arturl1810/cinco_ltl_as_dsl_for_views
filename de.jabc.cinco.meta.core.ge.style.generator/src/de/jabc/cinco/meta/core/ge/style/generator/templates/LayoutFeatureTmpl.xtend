@@ -346,7 +346,7 @@ public class «gm.fuName»LayoutUtils {
 				if (predefinedDecorator?.inlineAppearance != null) {
 					counter2 = counter2+1
 					appList.add(predefinedDecorator.inlineAppearance)
-					shapeMap.put(it, "set" + counter2 + "InlineStyle")
+					shapeMap.put(it.predefinedDecorator, "set" + counter2 + "InlineStyle")
 				}
 			}
 		]		

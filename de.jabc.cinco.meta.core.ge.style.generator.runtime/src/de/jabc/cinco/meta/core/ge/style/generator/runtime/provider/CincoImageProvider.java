@@ -32,7 +32,7 @@ public class CincoImageProvider extends AbstractImageProvider implements IImageP
 		try {
 			constructor = theClass.getConstructor();
 			constructor.setAccessible(false);
-			System.out.println("Making constructor");
+//			System.out.println("Making constructor");
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

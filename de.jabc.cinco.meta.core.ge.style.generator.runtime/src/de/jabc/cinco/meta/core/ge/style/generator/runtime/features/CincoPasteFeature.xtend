@@ -71,8 +71,8 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	def translate(List<PictogramElement> pes, IPasteContext context) {
 		val target = context.pictogramElements.get(0)
 		
-		println("context x : " + context.x + "/ context y : " + context.y)
-		println("abs min x : " + minXabs + "/ abs min y : " + minYabs)
+//		println("context x : " + context.x + "/ context y : " + context.y)
+//		println("abs min x : " + minXabs + "/ abs min y : " + minYabs)
 		pes.forEach[ pe | 
 			switch (pe) {
 				Shape: {
@@ -87,7 +87,7 @@ class CincoPasteFeature extends AbstractPasteFeature{
 //						println("bendpoint after: " + bp.x + "/" + bp.y)
 //					]
 					for (p : pe.bendpoints) {
-						println("Bendpoint at:\t" + p.x + "/" + p.y)
+//						println("Bendpoint at:\t" + p.x + "/" + p.y)
 						p.x = context.x + (p.x - minXabs)
 						p.y = context.y + (p.y - minYabs)
 					}

@@ -90,7 +90,7 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		
 		var CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel)
 		apiGenerator.doGenerate(project)
-		println(file.projectRelativePath)
+//		println(file.projectRelativePath)
 		unprocessedMGLS.remove(file.projectRelativePath.toString)
 		
 		return null
