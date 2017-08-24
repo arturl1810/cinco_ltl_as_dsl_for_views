@@ -27,12 +27,14 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def void createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses) {
 		node.connectionConstraints(graphModel, elmClasses)
 		node.specializeGetSuccessors(graphModel, elmClasses)
+		node.specializeGetPredecessors(graphModel, elmClasses)
 	}
 
 	def void createGetContainmentConstraintsMethod(ContainingElement elem,
@@ -93,20 +95,54 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	 * {@link graphmodel.Node#getSuccessors}
 	 */
 	def specializeGetSuccessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
-
-		val nodeClass = map.get(node.name).internalEClass
-
-		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
-		val eTypeClass = if (lmNode == null)
-				return
-			else
-				map.get(lmNode.name).mainEClass
-				
-		nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
+	
+		val internalNodeClass = map.get(node.name).internalEClass
+		val nodeClass = map.get(node.name).mainEClass
+		//FIXME: For the simple case this method does not create successor methods.
+//		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
+//		val eTypeClass = if (lmNode == null)
+//				return
+//			else
+//				map.get(lmNode.name).mainEClass
+//
+//		nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
+		
+		// FIXME: Adding the missing successor methods (see above)
+		node.possibleSuccessors.toSet.forEach[
+			val eTypeClass = map.get(it.name).mainEClass
+			val methodName = "get"+it.name.toFirstUpper+"Successors"
+			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getInternalSuccessorsContent.toString)
+			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
+		]
 	}
 
-	def getSuccessorsContent(EClass eTypeClass) '''
+	def getInternalSuccessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
+	'''
+	
+	def getSuccessorsContent(EClass eTypeClass) '''
+		return ((graphmodel.Node)this).getSuccessors(«eTypeClass.name».class);
+	'''
+
+	def specializeGetPredecessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
+		
+		val internalNodeClass = map.get(node.name).internalEClass
+		val nodeClass = map.get(node.name).mainEClass
+		// FIXME: Adding the missing predecessors methods (see above)
+		node.possiblePredecessors.toSet.forEach[
+			val eTypeClass = map.get(it.name).mainEClass
+			val methodName = "get"+it.name.toFirstUpper+"Predecessors"
+			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorContent.toString)
+			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorContent.toString)
+		]
+	}
+
+	def getPredecessorContent(EClass eTypeClass) '''
+		return ((graphmodel.Node)this).getPredecessors(«eTypeClass.name».class);
+	'''
+
+	def getInternalePredecessorContent(EClass eTypeClass) '''
+		return ((graphmodel.Node)this.getElement()).getPredecessors(«eTypeClass.name».class);
 	'''
 
 	def void connectionConstraints(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses) {
@@ -423,6 +459,17 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		]
 	}
 
+	def createRootElementGetter(ModelElement me, HashMap<String, ElementEClasses> elmClasses) {
+		var modelElementClass = elmClasses.get(me.name).mainEClass
+		var graphModelClass = elmClasses.get(me.graphModel.name).mainEClass
+		
+		modelElementClass.createEOperation("getRootElement", graphModelClass,0,1, me.graphModel.rootElementGetterContent)
+	}
+	
+	def rootElementGetterContent(GraphModel gm) '''
+	return («gm.fqBeanName») this.getRootElement(); 
+	'''
+
 	def createGraphicalInformationGetter(Node n, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(n.name).mainEClass.createEOperation(
 			"getX",
@@ -480,6 +527,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def modelElementGetterContent(ModelElement me) '''
 		return getModelElements(«me.fqBeanName».class);
+	'''
+
+	def createLibraryUIDMethods(Node n, HashMap<String, ElementEClasses> elemClasses) {
+		var nodeClass = elemClasses.get(n.name).mainEClass
+		var type = EcorePackage.eINSTANCE.EString
+		nodeClass.createEOperation("getLibraryComponentUID", type, 0,1, n.libraryUIDGetterContent)
+		nodeClass.createEOperation("setLibraryComponentUID", null, 0,1, n.libraryUIDSetterContent, createEString("id",0,1))
+	}
+
+	def libraryUIDGetterContent(Node n)'''
+	return ((«n.fqInternalBeanName») this.getInternalElement()).getLibraryComponentUID();
+	'''
+	
+	def libraryUIDSetterContent(Node n)'''
+	((«n.fqInternalBeanName») this.getInternalElement()).setLibraryComponentUID(id);
 	'''
 
 	def String edgesList(Iterable<Edge> edges) {

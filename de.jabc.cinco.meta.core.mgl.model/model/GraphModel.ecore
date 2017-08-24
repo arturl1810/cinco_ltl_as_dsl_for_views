@@ -207,6 +207,48 @@
       </eTypeParameters>
       <eParameters name="targetContainer" eType="#//ModelElementContainer"/>
     </eOperations>
+    <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ((InternalNode) getInternalElement()).getX();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ((InternalNode) getInternalElement()).getY();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ((InternalNode) getInternalElement()).getWidth();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ((InternalNode) getInternalElement()).getHeight();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//Node/copy/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Node"/>
+      </eTypeParameters>
+      <eParameters name="targetContainer" eType="#//ModelElementContainer"/>
+    </eOperations>
+    <eOperations name="setX">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setX(x);"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setY">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setY(y);"/>
+      </eAnnotations>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModelElement">
     <eOperations name="getSourceElement" eType="#//Node">
@@ -258,6 +300,36 @@
       </eTypeParameters>
       <eParameters name="source" eType="#//Node"/>
       <eParameters name="target" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="reconnectSource">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);"/>
+      </eAnnotations>
+      <eParameters name="sourceElement" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="reconnectTarget">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);"/>
+      </eAnnotations>
+      <eParameters name="targetElement" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="Edge copy = this.clone(source, target);&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;return (T) copy;"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//Edge/copy/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Edge"/>
+      </eTypeParameters>
+      <eParameters name="source" eType="#//Node"/>
+      <eParameters name="target" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="addBendpoint">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalEdge) this.getInternalElement()).addBendpoint(x,y);"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" interface="true"
@@ -541,6 +613,13 @@
           <details key="body" value="set_targetElement((InternalNode)targetElement.getInternalElement());&#xA;"/>
         </eAnnotations>
         <eParameters name="targetElement" eType="#//Node"/>
+      </eOperations>
+      <eOperations name="addBendpoint">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="_Point p = graphmodel.internal.InternalFactory.eINSTANCE.create_Point();&#xA;p.setX(x);&#xA;p.setY(y);&#xA;this.getBendpoints().add(p);"/>
+        </eAnnotations>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="_sourceElement" eType="#//internal/InternalNode"
           eOpposite="#//internal/InternalNode/outgoing"/>

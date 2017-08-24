@@ -23,6 +23,12 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalNode
 import graphmodel.ModelElementContainer
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CEdge
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
+import org.eclipse.graphiti.features.context.impl.AddBendpointContext
+import org.eclipse.graphiti.features.IAddBendpointFeature
+import org.eclipse.graphiti.features.impl.DefaultAddBendpointFeature
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -31,7 +37,7 @@ extension CModelElementTmpl = new CModelElementTmpl
 def doGenerateImpl(Edge me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CModelElement.name»
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» implements «CEdge.name»
 	«IF !me.allSuperTypes.empty», «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF» {
 	
 	private «PictogramElement.name» pe;
@@ -83,7 +89,23 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			((«CincoFeatureProvider.name») fp).executeFeature(rf, rc);
 		}
 	}
-	«ENDFOR»	
+	«ENDFOR»
+	
+	@Override
+	public void reconnectSource(«Node.name» sourceElement) {
+		«FOR source : me.possibleSources»
+		if («source.instanceofCheck("sourceElement")»)
+			this.reconnectSource((«source.fqBeanName») sourceElement);
+		«ENDFOR»
+	}
+	
+	@Override
+	public void reconnectTarget(«Node.name» targetElement) {
+		«FOR target : me.possibleTargets»
+		if («target.instanceofCheck("targetElement")»)
+			this.reconnectTarget((«target.fqBeanName») targetElement);
+		«ENDFOR»
+	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
@@ -135,6 +157,24 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			((«CModelElement.name») _edge).setPictogramElement(clonePE);
 		
 		return (T) clone.getElement();
+	}
+	
+	@Override
+	public «me.fqBeanName» copy(«graphmodel.Node.name» source, «graphmodel.Node.name» target) {
+		«me.fqBeanName» copy = this.clone(source, target);
+		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
+		return copy;
+	}
+	
+	@Override
+	public void addBendpoint(int x, int y) {
+		«FreeFormConnection.name» connection = («FreeFormConnection.name») this.getPictogramElement();
+		«AddBendpointContext.name» context = new «AddBendpointContext.name»(
+			(«FreeFormConnection.name») getPictogramElement(), x, y, connection.getBendpoints().size()
+		);
+		«IAddBendpointFeature.name» feature = new «DefaultAddBendpointFeature.name»(getFeatureProvider());
+		if (feature.canAddBendpoint(context))
+			feature.addBendpoint(context);
 	}
 	
 	«me.updateContent»

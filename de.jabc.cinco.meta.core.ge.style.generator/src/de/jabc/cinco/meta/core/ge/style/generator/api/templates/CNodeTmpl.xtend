@@ -115,6 +115,13 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	}
 	
+«««	@Override
+«««	public «me.fqBeanName» copy(«cont.fqBeanName» target) {
+«««		«me.fqBeanName» copy = this.clone();
+«««		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
+«««		return copy;
+«««	}
+	
 	«ENDFOR»
 	
 	@Override
@@ -178,14 +185,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	«IF me instanceof NodeContainer»
-	«FOR n : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
+	«FOR containableNode : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
 	@Override
-	public «n.fqBeanName» new«n.fuName»(int x, int y) {
-		return new«n.fuName»(x,y,-1,-1);
+	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
+		return new«containableNode.fuName»(x,y,-1,-1);
 	}
 	
 	@Override
-	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height) {
+	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y, int width, int height) {
 		«CreateContext.name» cc = new «CreateContext.name»();
 		cc.setLocation(10, 10);
 		cc.setTargetContainer((«ContainerShape.name») getPictogramElement());
@@ -194,11 +201,11 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		cc.setSize(width,height);
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
-		«n.fqCreateFeatureName» cf = new «n.fqCreateFeatureName»(fp);
+		«containableNode.fqCreateFeatureName» cf = new «containableNode.fqCreateFeatureName»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
-			«n.fuCName» tmp = («n.fuCName») retVal[0];
-			tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
+			«containableNode.fuCName» tmp = («containableNode.fuCName») retVal[0];
+			tmp.setPictogramElement((«containableNode.pictogramElementReturnType») retVal[1]);
 			return tmp;
 		}
 		return null;
@@ -233,14 +240,19 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«ENDFOR»
 	«ENDIF»
 	
+	/**
+	* This method will create a copy of the calling element.*ATTENTION* The cloned element's id will be the
+	* same as the one of the caller!
+	*
+	*/
 	@Override
 	public <T extends «graphmodel.Node.name»> T clone(«ModelElementContainer.name» targetContainer) {
 		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
 		«Shape.name» clonePE = copier.copy(this.getPictogramElement());
 		«InternalNode.name» bo = («InternalNode.name») clonePE.getLink().getBusinessObjects().get(0);
 		((«CNode.name») bo.getElement()).setPictogramElement(clonePE);
-		//«EcoreUtil.name».setID(bo, getInternalElement().getId());
-		//«EcoreUtil.name».setID(bo.getElement(), getId());
+		«EcoreUtil.name».setID(bo, getInternalElement().getId());
+		«EcoreUtil.name».setID(bo.getElement(), getId());
 		«ContainerShape.name» parentContainerShape = null;
 		if (targetContainer instanceof «CModelElement.name») {
 			parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
@@ -256,6 +268,13 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 		
 		return (T) bo.getElement();
+	}
+	
+	@Override
+	public «me.fqBeanName» copy(«ModelElementContainer.name» targetContainer) {
+		«me.fqBeanName» copy = («me.fqBeanName») this.clone(targetContainer);
+		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
+		return copy;
 	}
 	
 	«me.updateContent»

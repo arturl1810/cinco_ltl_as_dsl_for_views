@@ -82,6 +82,20 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/clone/targetContainer"/>
         <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/clone/T"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getX"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getY"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getWidth"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getHeight"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/copy">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/copy/targetContainer"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/copy/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/setX">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/setX/x"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/setY">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/setY/y"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
@@ -102,6 +116,17 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/clone/source"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/clone/target"/>
         <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Edge/clone/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/reconnectSource">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/reconnectSource/sourceElement"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/reconnectTarget">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/reconnectTarget/targetElement"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/copy">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/copy/source"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/copy/target"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Edge/copy/T"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container">

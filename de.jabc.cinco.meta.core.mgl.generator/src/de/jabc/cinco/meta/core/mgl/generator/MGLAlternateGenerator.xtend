@@ -3,8 +3,6 @@ package de.jabc.cinco.meta.core.mgl.generator
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
-import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
-import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import graphmodel.GraphmodelPackage
 import graphmodel.internal.InternalPackage
 import java.util.ArrayList
@@ -119,6 +117,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createPreDeleteMethods(eClassesMap)
 		]
 		
+		graphModel.nodes.filter[isPrime].forEach[node|
+			node.createLibraryUIDMethods(eClassesMap)
+		]
+		
 		graphModel.nodes.filter(NodeContainer).forEach[container|
 			(container as NodeContainer).createGetContainmentConstraintsMethod(eClassesMap)
 			(container as NodeContainer).createModelElementGetter(eClassesMap)
@@ -130,6 +132,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			edge.createCanReconnectMethods(eClassesMap)
 			edge.createReconnectMethods(eClassesMap)
 			edge.createPreDeleteMethods(eClassesMap)
+		]
+		graphModel.modelElements.forEach[
+			createRootElementGetter(eClassesMap)
 		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
 		return newEPackages
