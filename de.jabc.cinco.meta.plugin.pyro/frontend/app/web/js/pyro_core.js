@@ -53,6 +53,23 @@ Utils
  */
 
 /**
+ * Downloads the svg with the given name, present in the tag found by id
+ * @param doc_element_id
+ * @param filename
+ */
+function download_svg(doc_element_id,filename){
+    var svg = document.getElementById(doc_element_id);
+    var svgData = $(svg).find('svg')[0].outerHTML;
+    var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+    var svgUrl = URL.createObjectURL(svgBlob);
+    var downloadLink = document.getElementById("svg-link");
+    downloadLink.href = svgUrl;
+    downloadLink.download = filename+".svg";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
+/**
  * Resizes the paper to fit the content.
  * @param paper
  */

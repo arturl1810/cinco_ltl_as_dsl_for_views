@@ -307,8 +307,8 @@ class GraphmodelComponent extends Generatable {
 		  	 	      currentGraphModel.height,
 		  	 	      currentGraphModel.scale,
 		  	 	      currentGraphModel.dywaId,
-		  	 	      currentLocalSettings.router,
-		  	 	      currentLocalSettings.connector,
+		  	 	      currentGraphModel.router,
+		  	 	      currentGraphModel.connector,
 		  	 	      //callback afert initialization
 		  	 	      initialized,
 		  	 	      //message callbacks
@@ -364,6 +364,12 @@ class GraphmodelComponent extends Generatable {
 		   void endPropagation(){
 		     js.context.callMethod('end_propagation_«g.name.lowEscapeDart»',[]);
 		     return;
+		   }
+		   
+		   void export(String type) {
+		   		if(type=='svg'){
+			   	   	js.context.callMethod('export_«g.name.lowEscapeDart»',[currentGraphModel.filename]);
+		   		}
 		   }
 		   
 		   void updateScale() {

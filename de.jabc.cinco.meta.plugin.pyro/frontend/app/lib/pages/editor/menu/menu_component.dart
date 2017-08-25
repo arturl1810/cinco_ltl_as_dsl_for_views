@@ -31,6 +31,8 @@ class MenuComponent implements OnInit {
   EventEmitter redo;
   @Output()
   EventEmitter undo;
+  @Output()
+  EventEmitter export;
 
 
   @Input()
@@ -69,6 +71,18 @@ class MenuComponent implements OnInit {
     e.preventDefault();
     projectService.update(project);
 
+  }
+
+  void exportSVG(dynamic e)
+  {
+    e.preventDefault();
+    export.emit('svg');
+  }
+
+  void exportPNG(dynamic e)
+  {
+    e.preventDefault();
+    export.emit('png');
   }
 
   void openModalShowNewProjectModal(dynamic e)

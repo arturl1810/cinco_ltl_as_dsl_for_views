@@ -26,11 +26,13 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" style="color: white;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" style="color: white;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href (click)="scaleGraph(true,$event)"><span class="glyphicon glyphicon-plus-sign"></span> Scale</a></li>
                         <li><a href (click)="scaleGraph(false,$event)"><span class="glyphicon glyphicon-minus-sign"></span> Scale</a></li>
                         <li><a href (click)="showView($event)">Show View...</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href (click)="exportSVG($event)">Export</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

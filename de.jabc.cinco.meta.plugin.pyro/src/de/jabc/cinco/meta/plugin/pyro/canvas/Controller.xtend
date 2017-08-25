@@ -330,6 +330,11 @@ class Controller extends Generatable{
 	
 	    //callback after initialization
 	    initialized();
+	    
+	}
+	
+	function export_«g.name.lowEscapeDart»(filename){
+		download_svg('paper_«g.name.lowEscapeDart»',filename);
 	}
 	
 	function start_propagation_«g.name.lowEscapeDart»() {
