@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mgl.Annotation;
@@ -233,8 +234,16 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 	}
 
 	public String removeGeneratorEntries(String pluginxml,String graphmodelName){
-		String regex = String.format("<extension.*<!--@MetaPlugin Generatable %s-->.*</extension>",graphmodelName);
-		return java.util.regex.Pattern.compile(regex,Pattern.DOTALL).matcher(pluginxml).replaceAll("");
+		//String regex = String.format("<extension.*?<!--@MetaPlugin Generatable %s-->.*?</extension>",graphmodelName);
+		String regex = "<extension.*?</extension>";
+		Pattern pattern = Pattern.compile(regex,Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(pluginxml);
+		while (matcher.find()) {
+			if (matcher.group().contains(String.format("<!--@MetaPlugin Generatable %s-->",graphmodelName)))
+				pluginxml = pluginxml.replace(matcher.group() + "\n", "");
+				
+		}
+		return pluginxml;
 	}
 	
 	@SuppressWarnings("resource")
@@ -244,11 +253,11 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				InputStream l = plFile.getContents(true);
 				String contents = new Scanner(l, "UTF-8").useDelimiter("\\A").next();
 				contents = removeGeneratorEntries(contents, graphModelName);
-				contents = contents.replace("</plugin>", extension+"\n</plugin>");
+				contents = contents.replace("</plugin>", extension + "\n" + "</plugin>");
 				plFile.setContents(new StringInputStream(contents), true, true, new NullProgressMonitor());
 			
 		}else{
-			String pluginXML = String.format("<plugin>\n %s\n </plugin>",extension);
+			String pluginXML = String.format("<plugin>%s\n</plugin>",extension);
 			plFile.create(new StringInputStream(pluginXML), true,	new NullProgressMonitor());
 		}
 		
@@ -271,7 +280,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
         sb.append(String.format("outlet=\"%s\">\n</generator>\n",gen[2]));
     }
     
-    sb.append("</extension>\n");
+    sb.append("</extension>");
     
     return sb.toString();
 	}
