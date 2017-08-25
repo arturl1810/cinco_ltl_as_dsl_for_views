@@ -10,6 +10,8 @@ import mgl.Node
 import mgl.NodeContainer
 import mgl.ReferencedEClass
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class CreateMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
@@ -76,12 +78,12 @@ class CreateMessageParser extends Templateable{
 				    	c«sn.modelElement.name.toFirstUpper» = c«tc.graphModel.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x, (long)y);
 				    }
 				    «IF sn.modelElement instanceof Node»
-				    «IF (sn.modelElement as Node).primeReference != null»
+				    «IF (sn.modelElement as Node).retrievePrimeReference != null»
 				    «««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
 				    //Prime Attribute
-		            long «((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstLower»PrimeId = Long.parseLong (""+((JSONObject) receivedMessage.get("element")).get("cinco_prime_id"));
-		            «((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstUpper» «((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstLower» = c«tc.graphModel.name.toFirstUpper».get«((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstUpper»Controller().read«((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstUpper»(«((sn.modelElement as Node).primeReference  as ReferencedEClass).type.name.toFirstLower»PrimeId);
-		            ((«sn.modelElement.name.toFirstUpper») c«sn.modelElement.name.toFirstUpper».getModelElement()).set«(sn.modelElement as Node).primeReference.name.toFirstLower»(«((sn.modelElement as Node).primeReference as ReferencedEClass).type.name.toFirstLower»);
+		            long «((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstLower»PrimeId = Long.parseLong (""+((JSONObject) receivedMessage.get("element")).get("cinco_prime_id"));
+		            «((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstUpper» «((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstLower» = c«tc.graphModel.name.toFirstUpper».get«((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstUpper»Controller().read«((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstUpper»(«((sn.modelElement as Node).retrievePrimeReference  as ReferencedEClass).type.name.toFirstLower»PrimeId);
+		            ((«sn.modelElement.name.toFirstUpper») c«sn.modelElement.name.toFirstUpper».getModelElement()).set«(sn.modelElement as Node).retrievePrimeReference.name.toFirstLower»(«((sn.modelElement as Node).retrievePrimeReference as ReferencedEClass).type.name.toFirstLower»);
 				    «ENDIF»
 				    «ENDIF»
 				    

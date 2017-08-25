@@ -17,6 +17,7 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.Type
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class EditorModelTemplate extends Templateable{
 
@@ -533,7 +534,7 @@ def createNodeShapePortBody(StyledNode styledNode)
 	'''
 		cinco_attrs: [
 			«IF modelElement instanceof Node»
-				«IF (modelElement as Node).primeReference != null»
+				«IF (modelElement as Node).retrievePrimeReference != null»
 					{
 						name: 'prime',
 						type: 'text',

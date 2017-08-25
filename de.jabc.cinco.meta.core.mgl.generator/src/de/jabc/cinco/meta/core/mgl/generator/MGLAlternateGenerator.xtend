@@ -162,7 +162,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	private def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
 		
-		val prime = node.primeReference as ReferencedModelElement
+		val prime = node.retrievePrimeReference as ReferencedModelElement
 		val etype = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI].getEClassifier(prime.type.name) as EClass
 		operation.EType = etype
 
@@ -220,7 +220,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			
 		]
 		
-		nodeClasses.values.filter[ (modelElement as Node).prime].filter[(modelElement as Node).primeReference.imprt==null || !(modelElement as Node).primeReference.imprt.stealth].forEach[createPrimeReference]
+		nodeClasses.values
+		.filter[(modelElement as Node).prime]
+		.filter[(modelElement as Node).retrievePrimeReference.imprt==null 
+			|| !(modelElement as Node).retrievePrimeReference.imprt.stealth
+		]
+		.forEach[createPrimeReference]
 		
 		nodeClasses
 	}
@@ -232,7 +237,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nc.internalEClass.createEAttribute("libraryComponentUID", EcorePackage.eINSTANCE.EString,0,1)
 		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
 		val internalOp = nc.internalEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceInternalGetter)
-		if(node.primeReference instanceof ReferencedModelElement) {
+		if(node.retrievePrimeReference instanceof ReferencedModelElement) {
 			operationReferencedTypeMap.put(op, node)
 			operationReferencedTypeMap.put(internalOp, node)
 		}
@@ -242,7 +247,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	private def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
-		«IF node.primeReference instanceof ReferencedEClass»
+		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
 		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
@@ -251,7 +256,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def getPrimeReferenceInternalGetter(Node node)'''
 		String uid = getLibraryComponentUID();
-		«IF node.primeReference instanceof ReferencedEClass»
+		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
 		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
@@ -263,16 +268,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	 * will return
 	 */
 	private def getPrimeTypeCast(Node node){
-			switch(node.primeReference){
-				case node.primeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
+			switch(node.retrievePrimeReference){
+				case node.retrievePrimeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
 				default: return ''''''
 			}
 	}
 	
 	private def getInternalPrimeTypeCast(Node node){
-			switch(node.primeReference){
-				case node.primeReference instanceof ReferencedModelElement : {
-					return '''(«(node.primeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
+			switch(node.retrievePrimeReference){
+				case node.retrievePrimeReference instanceof ReferencedModelElement : {
+					return '''(«(node.retrievePrimeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
 				}
 				default: return ''''''
 			}

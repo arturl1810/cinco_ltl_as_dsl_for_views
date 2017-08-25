@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class CincoDBController extends Templateable {
 
 	override create(
@@ -388,9 +390,9 @@ class CincoDBController extends Templateable {
 	'''
 
 	def createPrimeAttribute(Node node) '''
-«IF node.primeReference != null»
+«IF node.retrievePrimeReference != null»
 «««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
-this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«(node.primeReference as ReferencedEClass).type.name.toFirstLower»);
+this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.retrievePrimeReference.name.toFirstLower»",PropertyType.OBJECT,«(node.retrievePrimeReference as ReferencedEClass).type.name.toFirstLower»);
 «ENDIF»
 '''
 

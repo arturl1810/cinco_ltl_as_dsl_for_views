@@ -29,6 +29,7 @@ import mgl.ReferencedModelElement
 import java.util.ArrayList
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
+import mgl.ReferencedType
 
 class MGLUtil {
 
@@ -226,11 +227,17 @@ class MGLUtil {
 	 }
 	 
 	 def static refactorIfPrimeAttribute(Node n,String s) {
-	 	if (n.isPrime && (n.primeReference instanceof ReferencedModelElement) 
-	 		&& s.startsWith(n.primeReference.name) )
+	 	if (n.isPrime && (n.retrievePrimeReference instanceof ReferencedModelElement) 
+	 		&& s.startsWith(n.retrievePrimeReference.name) )
 	 		
 	 		"${"+s.replaceFirst("\\.", ".internalElement.")+"}"
 	 	else "${"+s+"}"
+	 }
+	 
+	 def static ReferencedType retrievePrimeReference(Node n) {
+	 	if (n.primeReference != null)
+	 		return n.primeReference
+	 	else return n.extends?.retrievePrimeReference
 	 }
 	 
 	 def static getPostCreateHooks(GraphModel it) {

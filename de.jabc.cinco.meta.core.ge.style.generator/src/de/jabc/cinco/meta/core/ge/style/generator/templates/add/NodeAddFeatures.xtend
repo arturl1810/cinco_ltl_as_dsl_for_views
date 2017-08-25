@@ -125,9 +125,9 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«EObject.name» bo = («EObject.name») context.getNewObject();
 		if (!(target instanceof «InternalModelElementContainer.name»))
 			return false;
-		if((bo.eClass().getName().equals("«n.primeReference.primeType»")
-				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.primeReference.primeType»"))))
-				&& bo.eClass().getEPackage().getNsURI().equals("«n.primeReference.nsURI»"))
+		if((bo.eClass().getName().equals("«n.retrievePrimeReference.primeType»")
+				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeType»"))))
+				&& bo.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))
 		
 			return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 		return false;

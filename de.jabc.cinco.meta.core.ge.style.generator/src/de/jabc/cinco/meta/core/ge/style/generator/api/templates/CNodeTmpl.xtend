@@ -214,12 +214,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«FOR n : MGLUtil::getContainableNodes(me).filter[isPrime]»
 		@Override
-		public «n.fqBeanName» new«n.fuName»(«EObject.name» «n.primeReference.name», int x, int y) {
-			return new«n.fuName»(«n.primeReference.name»,x,y,-1,-1);
+		public «n.fqBeanName» new«n.fuName»(«EObject.name» «n.retrievePrimeReference.name», int x, int y) {
+			return new«n.fuName»(«n.retrievePrimeReference.name»,x,y,-1,-1);
 		}
 		
 		@Override
-		public «n.fqBeanName» new«n.fuName»(«EObject.name» «n.primeReference.name», int x, int y, int width, int height) {
+		public «n.fqBeanName» new«n.fuName»(«EObject.name» «n.retrievePrimeReference.name», int x, int y, int width, int height) {
 			«AddContext.name» ac = new «AddContext.name»();
 			ac.setLocation(10, 10);
 			ac.setTargetContainer((«ContainerShape.name») getPictogramElement());

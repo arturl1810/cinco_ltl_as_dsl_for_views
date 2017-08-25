@@ -39,6 +39,9 @@ import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 
+import static de.jabc.cinco.meta.core.utils.MGLUtil.retrievePrimeReference
+import de.jabc.cinco.meta.core.utils.MGLUtil
+
 class GeneratorUtils {
 	
 	protected extension CollectionExtension = new CollectionExtension
@@ -445,11 +448,12 @@ class GeneratorUtils {
 	 * @param n The processed {@link Node}
 	 * @return True, if the given node is a primeNode
 	 */
-	def isPrime(Node n)
+	def boolean isPrime(Node n)
 	{
-		if(n.primeReference != null)
+		if (n == null) return false
+		else if(n.retrievePrimeReference != null)
 			return true
-		return false;
+		else return n.extends?.isPrime
 	}
 
 	def isCreateDisabled(ModelElement me) {
@@ -477,12 +481,16 @@ class GeneratorUtils {
 	 * @return The Referenced EClass
 	 */
 	 def EClass primeTypeEClass(Node n){
-	 	val prime = n.primeReference
+	 	val prime = n.retrievePrimeReference
 	 	switch prime{
 	 		ReferencedEClass : prime.type
 	 	}
 	 	
 	 } 
+	
+	protected def retrievePrimeReference(Node n) {
+		return MGLUtil::retrievePrimeReference(n)
+	}
 	
 	/**
 	 * @param The processed {@link Node}
@@ -490,11 +498,11 @@ class GeneratorUtils {
 	 */
 	def primeName(Node n)
 	{
-		return n.primeReference.name
+		return n.retrievePrimeReference.name
 	}
 	
 	def primeTypeName(Node n) {
-		val prime = n.primeReference
+		val prime = n.retrievePrimeReference
 		switch prime {
 			ReferencedEClass : prime.type.fqBeanName
 			ReferencedModelElement : prime.type.fqBeanName
@@ -502,7 +510,7 @@ class GeneratorUtils {
 	}
 	
 	def String primeTypePackagePrefix(Node n) {
-		val prime = n.primeReference
+		val prime = n.retrievePrimeReference
 		switch prime {
 			ReferencedEClass : prime.type.EPackage.nsPrefix
 			ReferencedModelElement : prime.type.graphModel.fileExtension
@@ -510,7 +518,7 @@ class GeneratorUtils {
 	}
 	
 	def primeElementLabel(Node n) {
-		var labelAnnot = n.primeReference.annotations.filter[name == "pvLabel"]
+		var labelAnnot = n.retrievePrimeReference.annotations.filter[name == "pvLabel"]
 		if (!labelAnnot.isNullOrEmpty) {
 			var value = labelAnnot.get(0).value.get(0)
 			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»")).toString()'''

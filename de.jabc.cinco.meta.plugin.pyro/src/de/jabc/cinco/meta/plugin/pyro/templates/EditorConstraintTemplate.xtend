@@ -11,6 +11,8 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.NodeContainer
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class EditorConstraintTemplate extends Templateable{
 
 	
@@ -22,7 +24,7 @@ class EditorConstraintTemplate extends Templateable{
 			nodes:[
 			«FOR StyledNode node : ModelParser.getNotDisbaledCreate(entry.value).filter[node|!ModelParser.isDisabledCreate(node.modelElement)] SEPARATOR ','»
 					«IF node.modelElement instanceof Node»
-						«IF (node.modelElement as Node).primeReference == null»
+						«IF (node.modelElement as Node).retrievePrimeReference == null»
 							{
 								name:'«node.modelElement.name.toFirstUpper»',
 								label:'«node.modelElement.name.toFirstUpper»'

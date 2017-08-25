@@ -115,9 +115,9 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (sameResource && «internalInstanceofCheck(me,"bo")») 
 				return new «gm.packageNameAdd».AddFeature«me.fuName»(this);
 			«IF isPrime(me)»
-			if((bo.eClass().getName().equals("«me.primeReference.primeType»")
-				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«me.primeReference.primeType»"))))
-				&& bo.eClass().getEPackage().getNsURI().equals("«me.primeReference.nsURI»")
+			if((bo.eClass().getName().equals("«me.retrievePrimeReference.primeType»")
+				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«me.retrievePrimeReference.primeType»"))))
+				&& bo.eClass().getEPackage().getNsURI().equals("«me.retrievePrimeReference.nsURI»")
 				&& !sameResource)
 				return new «LibraryComponentAddFeature.name»(this);
 			«ENDIF»		

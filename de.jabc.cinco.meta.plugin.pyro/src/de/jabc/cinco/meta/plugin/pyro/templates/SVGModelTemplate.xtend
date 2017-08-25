@@ -15,6 +15,8 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.Type
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class SVGModelTemplate extends Templateable{
 	
 	override create(TemplateContainer tc)
@@ -155,7 +157,7 @@ static def createAttributes(GraphicalModelElement modelElement,List<Type> enums)
 '''
 	cinco_attrs: [
 		«IF modelElement instanceof Node»
-		«IF (modelElement as Node).primeReference != null»
+		«IF (modelElement as Node).retrievePrimeReference != null»
 		{
 			name: 'prime',
 			type: 'text',

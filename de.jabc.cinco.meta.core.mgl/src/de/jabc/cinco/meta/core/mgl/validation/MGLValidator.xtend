@@ -442,7 +442,7 @@ class MGLValidator extends AbstractMGLValidator {
 //	def checkPrimeReferenceIsPrime(ReferencedType refType){
 //		var containingNode = refType.eContainer as Node
 //		for(node: containingNode.graphModel.nodes){
-//			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
+//			if(node!=containingNode&&node.retrievePrimeReference!=null&&node.retrievePrimeReference.type==refType.type)
 //				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
 //		} 
 //	}

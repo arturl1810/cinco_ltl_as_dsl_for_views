@@ -1,9 +1,9 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
-import mgl.Node
+import java.util.ArrayList
 import java.util.Arrays
 import java.util.List
-import java.util.ArrayList
+import mgl.Node
 
 class GratextEcoreTemplate extends AbstractGratextTemplate {
 

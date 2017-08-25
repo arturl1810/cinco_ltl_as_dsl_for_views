@@ -25,9 +25,7 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
-import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -313,8 +311,6 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	def createNewNodeMethods(ContainingElement ce, Map<String, ElementEClasses> elemClasses) {
-//		println("the containing element: "+ce)
-//		println("them elmClasses:" + elemClasses)
 		ce.containableNodes.filter[!isIsAbstract && !isPrime].forEach[n | 
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -354,7 +350,6 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			]
 			
 		ce.containableNodes.filter[!isIsAbstract && isPrime].forEach[n | 
-
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("new"+n.fuName,
 						elemClasses.get(n.name).mainEClass,
@@ -392,7 +387,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						createEInt("width",1,1),
 						createEInt("height",1,1)
 					)
-			]
+				]
 	} 
 
 	def newIdNodeMethodContent(ContainingElement ce, Node n) '''
@@ -543,6 +538,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def libraryUIDSetterContent(Node n)'''
 	((«n.fqInternalBeanName») this.getInternalElement()).setLibraryComponentUID(id);
 	'''
+
+//	def createPrimeAttributeMethods(Node n, HashMap<String, ElementEClasses> elemClasses) {
+//		var nodeClass = elemClasses.get(n.name).mainEClass
+//		var internalNodeClass = elemClasses.get(n.name).internalEClass
+//		
+//		var primeTypeEClass = n.primeTypeEClass
+//		var primeAttributeName = n.primeName.toFirstUpper
+//		
+//		nodeClass.createEOperation("get"+primeAttributeName, primeTypeEClass, 0,1, primeAttributeGetterContent)
+//		internalNodeClass.createEOperation("get"+primeAttributeName, primeTypeEClass, 0,1, primeAttributeGetterContent)
+//	}
+
+//	def primeAttributeGetterContent() '''
+//	String uid = this.getLibraryComponentUID();
+//	return  «ReferenceRegistry.name».getInstance().getEObject(uid);
+//	'''
 
 	def String edgesList(Iterable<Edge> edges) {
 		edges.map[edge|new GeneratorUtils().fqBeanName(edge) + ".class"].join(",")

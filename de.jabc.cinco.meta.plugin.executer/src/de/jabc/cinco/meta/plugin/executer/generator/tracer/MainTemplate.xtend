@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import mgl.ReferencedModelElement
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 abstract class MainTemplate {
 	
 	static extension WorkspaceExtension = new WorkspaceExtension
@@ -69,17 +71,17 @@ abstract class MainTemplate {
 	
 	def boolean getIsPrime(Node node)
 	{
-		return node.primeReference != null;	
+		return node.retrievePrimeReference != null;	
 	}
 	
 	def String primeAttrName(Node node)
 	{
-		return node.primeReference.name;
+		return node.retrievePrimeReference.name;
 	}
 	
 	def String primeAttrType(Node node)
 	{	
-		var type = node.primeReference;
+		var type = node.retrievePrimeReference;
 		if(type instanceof ReferencedModelElement){
 			return type.type.name;
 		}

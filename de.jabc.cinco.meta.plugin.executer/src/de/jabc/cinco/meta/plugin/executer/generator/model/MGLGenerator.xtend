@@ -12,6 +12,8 @@ import mgl.ReferencedType
 import org.eclipse.emf.common.util.EList
 import de.jabc.cinco.meta.plugin.executer.generator.tracer.MainTemplate
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class MGLGenerator extends MainTemplate{
 	
 	
@@ -237,7 +239,7 @@ class MGLGenerator extends MainTemplate{
 	
 	def boolean getIsPrime(NodeContainer nodeContainer)
 	{
-		return nodeContainer.primeReference != null;	
+		return nodeContainer.retrievePrimeReference != null;	
 	}
 	
 	def boolean getIsMGL(Import i) {
