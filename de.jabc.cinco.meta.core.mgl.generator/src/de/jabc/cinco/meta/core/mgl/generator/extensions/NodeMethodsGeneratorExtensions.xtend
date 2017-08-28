@@ -524,20 +524,31 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		return getModelElements(«me.fqBeanName».class);
 	'''
 
-	def createLibraryUIDMethods(Node n, HashMap<String, ElementEClasses> elemClasses) {
-		var nodeClass = elemClasses.get(n.name).mainEClass
-		var type = EcorePackage.eINSTANCE.EString
-		nodeClass.createEOperation("getLibraryComponentUID", type, 0,1, n.libraryUIDGetterContent)
-		nodeClass.createEOperation("setLibraryComponentUID", null, 0,1, n.libraryUIDSetterContent, createEString("id",0,1))
-	}
-
-	def libraryUIDGetterContent(Node n)'''
-	return ((«n.fqInternalBeanName») this.getInternalElement()).getLibraryComponentUID();
-	'''
-	
-	def libraryUIDSetterContent(Node n)'''
-	((«n.fqInternalBeanName») this.getInternalElement()).setLibraryComponentUID(id);
-	'''
+//	def createLibraryUIDMethods(Node n, HashMap<String, ElementEClasses> elemClasses) {
+//		var nodeClass = elemClasses.get(n.name).mainEClass
+//		var internalClass = elemClasses.get(n.name).internalEClass 
+//		var type = EcorePackage.eINSTANCE.EString
+//		nodeClass.createEOperation("getLibraryComponentUID", type, 0,1, n.libraryUIDGetterContent)
+//		nodeClass.createEOperation("setLibraryComponentUID", null, 0,1, n.libraryUIDSetterContent, createEString("id",0,1))
+//		internalClass.createEOperation("getLibraryComponentUID", type, 0,1, n.internalLibraryUIDGetterContent)
+//		internalClass.createEOperation("setLibraryComponentUID", null, 0,1, n.internalLibraryUIDSetterContent, createEString("id",0,1))
+//	}
+//
+//	def libraryUIDGetterContent(Node n)'''
+//	return ((«n.fqInternalBeanName») this.getInternalElement()).getLibraryComponentUID();
+//	'''
+//	
+//	def libraryUIDSetterContent(Node n)'''
+//	((«n.fqInternalBeanName») this.getInternalElement()).setLibraryComponentUID(id);
+//	'''
+//	
+//	def internalLibraryUIDGetterContent(Node n)'''
+//	return ((«n.fqInternalBeanName») this.getLibraryComponentUID();
+//	'''
+//	
+//	def internalLibraryUIDSetterContent(Node n)'''
+//	((«n.fqInternalBeanName») this.setLibraryComponentUID(id);
+//	'''
 
 //	def createPrimeAttributeMethods(Node n, HashMap<String, ElementEClasses> elemClasses) {
 //		var nodeClass = elemClasses.get(n.name).mainEClass

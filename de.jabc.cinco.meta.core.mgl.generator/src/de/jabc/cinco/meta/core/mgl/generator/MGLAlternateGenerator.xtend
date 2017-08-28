@@ -117,10 +117,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createPreDeleteMethods(eClassesMap)
 		]
 		
-		graphModel.nodes.filter[isPrime].forEach[node|
-			node.createLibraryUIDMethods(eClassesMap)
-		]
-		
 		graphModel.nodes.filter(NodeContainer).forEach[container|
 			(container as NodeContainer).createGetContainmentConstraintsMethod(eClassesMap)
 			(container as NodeContainer).createModelElementGetter(eClassesMap)
@@ -159,11 +155,14 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		enumSetterParameterMap = new HashMap
 		enumGetterParameterMap = new HashMap
 	}
-	
+
+//	FIXME: Workaround for Issue #20589. Returning EObject type if Package not found 
 	private def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
-		
 		val prime = node.retrievePrimeReference as ReferencedModelElement
-		val etype = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI].getEClassifier(prime.type.name) as EClass
+		var pkg = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI]
+		val etype = 
+			if (pkg != null) pkg.getEClassifier(prime.type.name) as EClass
+			else EcorePackage.eINSTANCE.EObject 
 		operation.EType = etype
 
 	}
@@ -204,7 +203,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def HashMap<ModelElement,? extends ElementEClasses> createNodes(GraphModel model) {
 		val nodeClasses = new HashMap<ModelElement,ElementEClasses>
-
 		var sorted = model.nodes.topSort
 
 //		println(sorted.map[n|n.name])
@@ -222,9 +220,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 		nodeClasses.values
 		.filter[(modelElement as Node).prime]
-		.filter[(modelElement as Node).retrievePrimeReference.imprt==null 
-			|| !(modelElement as Node).retrievePrimeReference.imprt.stealth
-		]
+//		.filter[(modelElement as Node).retrievePrimeReference.imprt==null 
+//			|| !(modelElement as Node).retrievePrimeReference.imprt.stealth
+//		]
 		.forEach[createPrimeReference]
 		
 		nodeClasses
@@ -234,16 +232,25 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val node = nc.modelElement as Node
 		val operationName = '''get«node.primeName.toFirstUpper»'''
 		val primeType = EcorePackage.eINSTANCE.EObject
+		val stringType = EcorePackage.eINSTANCE.EString
 		nc.internalEClass.createEAttribute("libraryComponentUID", EcorePackage.eINSTANCE.EString,0,1)
+		nc.mainEClass.createEOperation("getLibraryComponentUID", stringType, 1,1, node.libraryComponentIdGetterContent)
+		nc.mainEClass.createEOperation("setLibraryComponentUID", null, 1,1, node.libraryComponentIdSetterContent, createEString("id",1,1))
 		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
 		val internalOp = nc.internalEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceInternalGetter)
 		if(node.retrievePrimeReference instanceof ReferencedModelElement) {
 			operationReferencedTypeMap.put(op, node)
 			operationReferencedTypeMap.put(internalOp, node)
 		}
-		
-		
 	}
+	
+	private def libraryComponentIdGetterContent(Node n) '''
+	return ((«n.fqInternalBeanName») this.getInternalElement()).getLibraryComponentUID();
+	'''
+	
+	private def libraryComponentIdSetterContent(Node n) '''
+	((«n.fqInternalBeanName») this.getInternalElement()).setLibraryComponentUID(id);
+	'''
 	
 	private def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
