@@ -323,7 +323,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	public «Object.name»[] executeFeature(final «IFeature.name» f, final «IContext.name» c) {
 		«TransactionalEditingDomain.name» dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
 		if (dom == null) 
-			dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain();
+			dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
 		«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
 		if (f instanceof «CincoCreateFeature.name») {
 			final «Object.name»[] created = new Object[2];
