@@ -458,11 +458,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		var modelElementClass = elmClasses.get(me.name).mainEClass
 		var graphModelClass = elmClasses.get(me.graphModel.name).mainEClass
 		
-		modelElementClass.createEOperation("getRootElement", graphModelClass,0,1, me.graphModel.rootElementGetterContent)
+		modelElementClass.createEOperation("getRootElement", graphModelClass,0,1, me.rootElementGetterContent(me.graphModel))
 	}
 	
-	def rootElementGetterContent(GraphModel gm) '''
-	return («gm.fqBeanName») this.getRootElement(); 
+	def rootElementGetterContent(ModelElement me, GraphModel gm) '''
+	«IF me instanceof GraphModel»
+	return this;
+	«ELSE»
+	return («gm.fqBeanName») this.getInternalElement().getRootElement().getElement();
+	«ENDIF» 
 	'''
 
 	def createGraphicalInformationGetter(Node n, HashMap<String, ElementEClasses> elemClasses) {

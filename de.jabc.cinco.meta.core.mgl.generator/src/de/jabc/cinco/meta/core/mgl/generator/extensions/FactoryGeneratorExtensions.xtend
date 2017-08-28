@@ -95,27 +95,24 @@ class FactoryGeneratorExtensions {
 		ecls.map[modelElement].map[specificCreateMethod].join
 	}
 	
-	dispatch static def specificCreateMethod(GraphModel gm)'''
+//	dispatch static def specificCreateMethod(GraphModel gm)'''
+//		def create«gm.fuName»(String ID){
+//			val n = super.create«gm.fuName»
+//			val ime = createInternal«gm.fuName»
+//			n => [ internal = ime]
+//			setID(n,ID)
+//			setID(ime,generateUUID)
+//			«postCreate(gm, "n")»
+//			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
+//			n	
+//		}
+//		
+//		override create«gm.fuName»() {
+//			create«gm.fuName»(generateUUID)
+//		}
+//		'''
 	
-		def create«gm.fuName»(String ID){
-			val n = super.create«gm.fuName»
-			val ime = createInternal«gm.fuName»
-			n => [ internal = ime]
-			setID(n,ID)
-			setID(ime,generateUUID)
-			«postCreate(gm, "n")»
-			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
-			n	
-		}
-		
-		override create«gm.fuName»() {
-			create«gm.fuName»(generateUUID)
-		}
-		'''
-	
-	dispatch static def specificCreateMethod(ModelElement it)'''
-		
-		
+	static def specificCreateMethod(ModelElement it)'''
 		/**
 		 * This method creates an «name» with the given id. Post create hook won't be triggered.
 		 *

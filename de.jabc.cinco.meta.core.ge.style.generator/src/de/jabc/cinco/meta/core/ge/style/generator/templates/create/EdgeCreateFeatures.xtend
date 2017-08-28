@@ -1,9 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateEdgeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import graphmodel.ModelElement
 import graphmodel.Node
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
@@ -15,7 +17,6 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
-import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
@@ -30,7 +31,7 @@ class EdgeCreateFeatures extends APIUtils{
 	def doGenerateEdgeCreateFeature(Edge e, Styles styles) '''
 	package «e.packageNameCreate»;
 	
-	public class CreateFeature«e.fuName» extends «AbstractCreateConnectionFeature.name» {
+	public class CreateFeature«e.fuName» extends «CincoCreateEdgeFeature.name»<«ModelElement.name»> {
 		
 		private «ECincoError.name» error = «ECincoError.name».OK;
 		

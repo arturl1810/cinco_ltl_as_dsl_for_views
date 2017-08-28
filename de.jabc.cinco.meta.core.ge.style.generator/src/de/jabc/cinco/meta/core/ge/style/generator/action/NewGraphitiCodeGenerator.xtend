@@ -34,6 +34,7 @@ import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.FileLocator
 import org.eclipse.core.runtime.IProgressMonitor
@@ -42,7 +43,6 @@ import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
 import org.osgi.framework.Bundle
 import productDefinition.CincoProduct
-import org.eclipse.core.resources.ResourcesPlugin
 
 class NewGraphitiCodeGenerator extends AbstractHandler {
 	
@@ -186,21 +186,22 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 				f = new File(e.getValue().toURI())
 				if (!imgFile.exists()) {
 					var FileInputStream fis = new FileInputStream(f)
+					val targetImageFile = imgFile.location.toFile
+					if (!targetImageFile.parentFile.exists) {
+						targetImageFile.parentFile.mkdirs
+						CincoUtil.refreshFolders(null, iconsFolder)
+					}
 					imgFile.create(fis, true, null)
 					fis.close()
 				}
 			}
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace()
 		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace()
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace()
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace()
 		}
 

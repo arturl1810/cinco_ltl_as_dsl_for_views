@@ -36,6 +36,7 @@ import mgl.ContainingElement
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import org.eclipse.emf.ecore.EPackage
+import de.jabc.cinco.meta.core.utils.MGLUtil
 
 class NewDiagramWizardTmpl extends APIUtils{
 	
@@ -132,6 +133,10 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 «««				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
 «««				«gm.writeMethodCallPostCreate»
 «««				«ENDIF»
+				
+				«IF MGLUtil::hasPostCreateHook(gm)»
+				«gm.packageName».«gm.graphModel.fuName»Factory.eINSTANCE.postCreates((«gm.fqBeanName») «gm.flName»);
+				«ENDIF»
 				
 				res.save(null);
 
