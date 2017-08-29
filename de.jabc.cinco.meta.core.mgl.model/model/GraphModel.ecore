@@ -209,22 +209,22 @@
     </eOperations>
     <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return ((InternalNode) getInternalElement()).getX();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode) getInternalElement()).getX();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return ((InternalNode) getInternalElement()).getY();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode) getInternalElement()).getY();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return ((InternalNode) getInternalElement()).getWidth();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode) getInternalElement()).getWidth();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return ((InternalNode) getInternalElement()).getHeight();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode) getInternalElement()).getHeight();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="copy">

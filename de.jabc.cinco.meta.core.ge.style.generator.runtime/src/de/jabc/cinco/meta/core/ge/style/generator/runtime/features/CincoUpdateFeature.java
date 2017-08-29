@@ -4,6 +4,11 @@ import javax.el.ELException;
 import javax.el.PropertyNotFoundException;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.transaction.Transaction;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IReason;
@@ -110,7 +115,12 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
 					}
 					
-					t.setValue(String.format(formatString,_values));
+					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
+					if (dom == null)
+						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
+					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
+//					t.setValue(String.format(formatString,_values));
+					
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
 				} catch (PropertyNotFoundException pne) {
