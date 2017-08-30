@@ -37,7 +37,7 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
 		switch bo {
 			InternalModelElement : delegate.canExecute(bo.element as T)
-			InternalGraphModel : delegate.canExecute(bo as T)
+			InternalGraphModel : delegate.canExecute(bo.element as T)
 			IdentifiableElement : delegate.canExecute(bo as T) 
 			default : throw new RuntimeException("Error in canExecute with element: " + bo) 
 		}

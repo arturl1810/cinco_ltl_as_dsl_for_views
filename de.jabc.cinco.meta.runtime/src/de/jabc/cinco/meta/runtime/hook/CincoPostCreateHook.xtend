@@ -10,6 +10,9 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.emf.transaction.util.TransactionUtil
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.emf.transaction.RecordingCommand
 
 abstract class CincoPostCreateHook<T extends EObject> extends CincoRuntimeBaseClass {
 	
@@ -19,8 +22,17 @@ abstract class CincoPostCreateHook<T extends EObject> extends CincoRuntimeBaseCl
 
 	def void postCreateAndUpdate(T object, Diagram d) {
 		this.diagram = d
-		postCreate(object)
-		update(object)
+		var dom = TransactionUtil.getEditingDomain(object);
+		if (dom == null)
+			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(d.eResource.resourceSet)
+		dom.commandStack.execute(new RecordingCommand(dom) {
+			
+			override protected doExecute() {
+				postCreate(object)
+				update(object)
+			}
+			
+		})
 	}
 
 	def private void update(T object) {

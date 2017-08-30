@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.utils.generator
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 import de.jabc.cinco.meta.core.utils.CincoUtil
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.util.xapi.CollectionExtension
 import de.jabc.cinco.meta.util.xapi.FileExtension
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
@@ -39,9 +40,6 @@ import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 
-import static de.jabc.cinco.meta.core.utils.MGLUtil.retrievePrimeReference
-import de.jabc.cinco.meta.core.utils.MGLUtil
-
 class GeneratorUtils {
 	
 	protected extension CollectionExtension = new CollectionExtension
@@ -74,6 +72,14 @@ class GeneratorUtils {
 			return me.instanceofCheck(varName)
 		}
 		
+	}
+	
+	/** 
+	 * Returns the name of the attribute with an underscore prefix 
+	 * 
+	**/
+	def attributeName(Attribute attr) {
+		"_"+attr.name
 	}
 	
 	/**
@@ -133,7 +139,7 @@ class GeneratorUtils {
 	}
 	
 	/**
-	 * Returns the project name of the project containing the MGL for the given {@link mgl.GraphModel}
+	 * Returns the project name of the project containing the MGL for the given {@link GraphModel}
 	 * 
 	 */
 	def projectName(GraphModel gm) 
@@ -291,7 +297,7 @@ class GeneratorUtils {
 	'''«me.graphModel.packageName».property.view.«me.graphModel.fuName»PropertyView'''
 	
 	/**
-	 * Returns all model elements of the {@link mgl.GraphModel} including the GraphModel itself
+	 * Returns all model elements of the {@link GraphModel} including the GraphModel itself
 	 */
 	def modelElements(GraphModel gm) {
 		var List<ModelElement> mes = new ArrayList<ModelElement>;

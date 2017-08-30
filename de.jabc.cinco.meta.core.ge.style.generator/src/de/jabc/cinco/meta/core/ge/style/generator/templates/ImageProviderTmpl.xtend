@@ -21,6 +21,8 @@ import mgl.GraphModel
 import mgl.Node
 import org.eclipse.emf.common.util.BasicEList
 import mgl.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
+import de.jabc.cinco.meta.core.utils.MGLUtil
 
 class ImageProviderTmpl extends GeneratorUtils {
 	
@@ -96,13 +98,13 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 		try {
 			«URL.name» url = null;
 			
-«««			Suche im GraphModel "gm" nach nodes die eine @icon Annotation haben
-«««			Jedes gefundene icon muss angemeldet werden (siehe alten generator)
-	
-		«FOR iconnodes : getIconNodes(gm)» 
-		url =  «FileLocator.name».find(b, new «Path.name»("«getIconNodeValue(iconnodes)»"), null);
-		addImage("«getIconNodeValue(iconnodes)»", url.getPath());		
-		«ENDFOR»
+			
+			//Search for all used images in graphmodel and register them in the image provider
+			
+			«FOR entry : MGLUtil::getAllImages(gm).entrySet»
+			url =  «FileLocator.name».find(b, new «Path.name»("«entry.key»"), null);
+			addImage("«entry.key»", url.getPath());		
+			«ENDFOR»
 		
 			file = «FileLocator.name».getBundleFile(b);
 			«File.name» genIconsFile = file.toPath().resolve("resources-gen/icons").toFile();

@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.mgl.generator
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.GraphmodelPackage
 import graphmodel.internal.InternalPackage
 import java.util.ArrayList
@@ -32,6 +33,9 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.emf.transaction.util.TransactionUtil
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
@@ -41,6 +45,7 @@ import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	extension AdapterGeneratorExtension = new AdapterGeneratorExtension
+	extension GeneratorUtils = new GeneratorUtils
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
@@ -312,7 +317,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			element.nonConflictingAttributes.forEach[att| 
 				var ec= elementEClasses.mainEClass;
 				ec.createGetter(ec,att);
-				ec.createSetter(ec,att);
+				ec.createSetter(ec,att,element instanceof UserDefinedType);
 				if(att.upperBound !=1){
 					ec.createRemove(ec,att)
 				}
@@ -325,8 +330,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	elementEClasses
 	}
 	
-	
-
 	private def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
 
 		var views = new ArrayList<EClass>();
@@ -394,7 +397,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				val feature = attr.internalEClassFeature(internalEClass)
 				if (feature != null) {
 					view.createGetter(eClass, attr)
-					view.createSetter(eClass, attr)
+					view.createSetter(eClass, attr, element instanceof UserDefinedType)
 					if(attr.upperBound!=1){
 						view.createRemove(eClass,attr)
 					}
@@ -521,14 +524,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				return «view.name.toFirstLower»;
 	'''
 
-	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
+	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr, boolean isUserDefinedType) {
 		val content = if (attr.upperBound == 1) {
-				createSetterContent(modelElementClass, attr.name)
+				createSetterContent(modelElementClass, attr.name, isUserDefinedType)
 			} else {
-				createAdderContent(modelElementClass, attr.name)
+				createAdderContent(modelElementClass, attr.name, isUserDefinedType)
 			}
 		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = attr.name.toFirstLower
+//		Renaming parameter to prevent name collisions
+		parameter.name = "_arg"
+//		parameter.name = attr.name.toFirstLower
 		var setterName = if (attr.upperBound == 1) {
 				"set"
 			} else {
@@ -543,11 +548,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	}
 
-	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr){
+	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr, boolean isUserDefinedType){
 		var CharSequence content = if (attr.upperBound == 1) {
-				createSetterContent(modelElementClass, attr.name)
+				createSetterContent(modelElementClass, attr.name, isUserDefinedType)
 			} else {
-				createAdderContent(modelElementClass, attr.name)
+				createAdderContent(modelElementClass, attr.name, isUserDefinedType)
 			}
 		var setterName = if (attr.upperBound == 1) {
 				"set"
@@ -556,7 +561,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			} 
 			setterName+= attr.name.toFirstUpper
 		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = attr.name.toFirstLower
+		parameter.name = "_arg"
+//		parameter.name = attr.name.toFirstLower
 		parameter.upperBound = 1
 		parameter.lowerBound = 0
 		view.createEOperation(setterName, null, 0, 1, content, parameter)
@@ -570,12 +576,42 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private dispatch def Type putSetterParameter(EParameter parameter, Type type) {
 		complexSetterParameterMap.put(parameter, type)
 	}
-	def createAdderContent(EClass modelElementClass, String featureName) '''
-	getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(«featureName»);
+	
+	def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
+	«IF isUserDefinedType»
+	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
+	if (dom == null)
+		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
+	«ELSE»
+	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
+	if (dom == null)
+		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
+	«ENDIF»
+	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
+		@Override
+		protected void doExecute() {
+			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
+		}
+	});
+
 	'''
 
-	private def createSetterContent(EClass modelElementClass, String featureName) '''
-	getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(«featureName»);
+	private def createSetterContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
+	«IF isUserDefinedType»
+	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
+	if (dom == null)
+		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
+	«ELSE»
+	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
+	if (dom == null)
+		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
+	«ENDIF»
+	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
+		@Override
+		protected void doExecute() {
+			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
+		}
+	});
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {

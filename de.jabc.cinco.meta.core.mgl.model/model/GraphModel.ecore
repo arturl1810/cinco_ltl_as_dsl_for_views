@@ -684,11 +684,16 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
           eType="#//ModelElement" containment="true" eOpposite="#//ModelElement/internalElement"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InternalGraphModel" abstract="true"
-        interface="true" eSuperTypes="#//internal/InternalModelElementContainer">
+    <eClassifiers xsi:type="ecore:EClass" name="InternalGraphModel" eSuperTypes="#//internal/InternalModelElementContainer">
       <eOperations name="getContainerElement" eType="#//ModelElementContainer">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="body" value="return this.getElement();"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="getRootElement" eType="#//internal/InternalGraphModel">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return this;"/>
+          <details key="documentation" value="Returns the Root GraphModel of the containment hierarchie.&#xA;null if no containment root can be found"/>
         </eAnnotations>
       </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//GraphModel"
