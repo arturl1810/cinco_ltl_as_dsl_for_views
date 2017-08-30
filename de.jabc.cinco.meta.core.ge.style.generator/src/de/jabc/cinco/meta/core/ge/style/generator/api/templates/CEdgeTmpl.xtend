@@ -29,6 +29,7 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.IAddBendpointFeature
 import org.eclipse.graphiti.features.impl.DefaultAddBendpointFeature
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -113,16 +114,24 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	@Override
 	public «Diagram.name» getDiagram() {
-		«GraphModel.name» gm = getRootElement();
-		if (gm instanceof «me.rootElement.fqCName»)
-			return ((«me.rootElement.fqCName») gm).getPictogramElement();
-		«PictogramElement.name» curr = getPictogramElement();
-		while (curr.eContainer() != null)
-			curr = («PictogramElement.name») curr.eContainer();
-		if (curr instanceof «Connection.name») {
-			return ((«Connection.name») curr).getParent();
+«««		«GraphModel.name» gm = getRootElement();
+«««		if (gm instanceof «me.rootElement.fqCName»)
+«««			return ((«me.rootElement.fqCName») gm).getPictogramElement();
+«««		«PictogramElement.name» curr = getPictogramElement();
+«««		while (curr.eContainer() != null)
+«««			curr = («PictogramElement.name») curr.eContainer();
+«««		if (curr instanceof «Connection.name») {
+«««			return ((«Connection.name») curr).getParent();
+«««		}
+«««		return («Diagram.name») curr;
+		«Diagram.name» d = new «WorkbenchExtension.name»().getActiveDiagram();
+		if (d == null) {
+			d = «GraphitiUi.name».getPeService().getDiagramForPictogramElement(this.pe);
 		}
-		return («Diagram.name») curr;
+		if (d == null)
+			d = ((«me.graphModel.fqCName») getRootElement()).getDiagram();
+		if (d == null) throw new RuntimeException("Could not retrieve Diagram...");
+		return d;
 	}
 	
 	private «Connection.name» getPictogramElement(«IdentifiableElement.name» target) {

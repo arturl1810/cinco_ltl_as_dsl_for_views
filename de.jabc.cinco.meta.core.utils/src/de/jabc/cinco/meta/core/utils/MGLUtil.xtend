@@ -48,6 +48,7 @@ class MGLUtil {
 		val HashSet<Node> targets = new HashSet()
 		ce.getEdgeElementConnections().filter([eec|eec instanceof IncomingEdgeElementConnection]).forEach([ieec |
 			targets.add((ieec.eContainer() as Node))
+//			targets.addAll((ieec.eContainer() as Node).allSubclasses.map[it as Node])
 		])
 		return targets
 	}
@@ -87,6 +88,7 @@ class MGLUtil {
 	def static Set<Edge> getOutgoingConnectingEdges(Node n) {
 		val HashSet<Edge> connectingEdges = new HashSet<Edge>()
 		n.getOutgoingEdgeConnections().forEach([oeec|connectingEdges.addAll(oeec.getConnectingEdges())])
+		n.allSuperTypes.map[(it as Node)].forEach[connectingEdges += getOutgoingConnectingEdges]
 		return connectingEdges
 	}
 

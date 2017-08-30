@@ -5,7 +5,6 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import graphmodel.internal.InternalFactory
@@ -31,10 +30,11 @@ import style.Styles
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
 import style.EdgeStyle
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 
 class EdgeAddFeatures extends APIUtils {
 	
-	extension StyleUtils = new StyleUtils
+	extension StyleUtil = new StyleUtil
 	
 	/**
 	 * Generates the Class 'AddFeature' for the Edge e

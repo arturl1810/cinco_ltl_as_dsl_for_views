@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.CincoUtil
 import graphmodel.ModelElementContainer
@@ -23,8 +22,9 @@ import graphmodel.internal.InternalModelElement
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import graphmodel.internal.InternalModelElementContainer
 import de.jabc.cinco.meta.core.utils.MGLUtil
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 
-class NodeAddFeatures extends StyleUtils {
+class NodeAddFeatures extends StyleUtil {
 
 	extension APIUtils = new APIUtils()
 	

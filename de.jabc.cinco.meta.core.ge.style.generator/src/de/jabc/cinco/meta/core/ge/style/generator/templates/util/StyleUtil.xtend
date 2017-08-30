@@ -47,9 +47,8 @@ import java.util.List
 import java.util.regex.Pattern
 import javax.el.ELException
 
-class StyleUtils extends APIUtils {
+class StyleUtil extends APIUtils {
 
-	static extension MGLUtil
 
 	private static var num = 0;
 	private static int index = 0;
@@ -494,17 +493,45 @@ class StyleUtils extends APIUtils {
 	'''
 	
 	def dispatch cdCode(Text ga, Edge e) '''
-		«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
-		«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
-								
-		elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.flName»);
-		String value = attrValue;
-		«Object.name» tmpValue = factory.createValueExpression(elContext, value, «Object.name».class).getValue(elContext);
+		«var currentGaName = "text"»
+		«org.eclipse.graphiti.mm.algorithms.Text.name» «currentGaName» = gaService.createPlainText(gaContainer);
+				
+		«««Hier muss der Code generiert werden, der den anzuzeigenden Wert aus der zugehörigen @style annotation ausliest
+		«ExpressionFactoryImpl.name» factory = new com.sun.el.ExpressionFactoryImpl();
+		«LinkedList.name» <«Shape.name»>linkingList = new «LinkedList.name» <«Shape.name»>();
+		«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
+		try {
+			«currentGaName.toString».setFilled(false);
+			«Thread.name».currentThread().setContextClassLoader(AddFeature«e.name».class.getClassLoader());
 		
-		«org.eclipse.graphiti.mm.algorithms.Text.name» text = gaService.createDefaultText(getDiagram(), gaContainer);			
-		text.setValue(String.format(textValue , tmpValue));
-		peService.setPropertyValue(text, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);
-		peService.setPropertyValue(text, "Params", value);
+			«ExpressionLanguageContext.name» elContext = 
+				new «ExpressionLanguageContext.name»(«e.flName»);
+			
+			«String.name» _expression = "«getText(e)»";
+			«Object.name» _values[] = new «Object.name»[_expression.split(";").length];
+			for (int i=0; i < _values.length; i++)
+				_values[i] = "";
+				
+			for (int i=0; i < _expression.split(";").length;i++) {
+				_values[i] = factory.createValueExpression(elContext, _expression.split(";")[i], «Object.name».class).getValue(elContext);
+			}
+			
+«««			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
+		
+			peService.setPropertyValue(«currentGaName.toString», «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«ga.value»");
+
+			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(e)»");
+«««			if (tmp0Value != null)
+			«currentGaName.toString».setValue(String.format("«ga.value»", _values));
+«««			else «currentGaName.toString».setValue("");
+		} catch (java.util.IllegalFormatException ife) {
+			«currentGaName.toString».setValue("STRING FORMAT ERROR");
+		} catch («ELException.name» ele) {
+			if (ele.getCause() instanceof «NullPointerException.name»)
+				«currentGaName».setValue("null");
+		} finally {
+			«Thread.name».currentThread().setContextClassLoader(contextClassLoader);
+		}
 	'''
 	
 	def dispatch cdCode(MultiText ga, Edge e) '''

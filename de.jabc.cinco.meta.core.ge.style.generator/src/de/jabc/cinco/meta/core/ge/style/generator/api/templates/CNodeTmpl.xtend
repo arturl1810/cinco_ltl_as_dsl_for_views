@@ -38,6 +38,7 @@ import graphmodel.internal.InternalModelElement
 import java.util.List
 import graphmodel.Edge
 import graphmodel.internal.InternalEdge
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
 class CNodeTmpl extends APIUtils {
 
@@ -163,16 +164,24 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	@Override
 	public «Diagram.name» getDiagram() {
-		«GraphModel.name» gm = getRootElement();
-		if (gm instanceof «(me.rootElement as ModelElement).fqCName»)
-			return ((«(me.rootElement as ModelElement).fqCName») gm).getPictogramElement();
-		«PictogramElement.name» curr = getPictogramElement();
-		while (curr.eContainer() != null)
-			curr = («PictogramElement.name») curr.eContainer();
-		if (curr instanceof «Connection.name») {
-			return ((«Connection.name») curr).getParent();
+«««		«GraphModel.name» gm = getRootElement();
+«««		if (gm instanceof «(me.rootElement as ModelElement).fqCName»)
+«««			return ((«(me.rootElement as ModelElement).fqCName») gm).getPictogramElement();
+«««		«PictogramElement.name» curr = getPictogramElement();
+«««		while (curr.eContainer() != null)
+«««			curr = («PictogramElement.name») curr.eContainer();
+«««		if (curr instanceof «Connection.name») {
+«««			return ((«Connection.name») curr).getParent();
+«««		}
+«««		return («Diagram.name») curr;
+		«Diagram.name» d = new «WorkbenchExtension.name»().getActiveDiagram();
+		if (d == null) {
+			d = «GraphitiUi.name».getPeService().getDiagramForPictogramElement(this.pe);
 		}
-		return («Diagram.name») curr;
+		if (d == null)
+			d = ((«me.graphModel.fqCName») getRootElement()).getDiagram();
+		if (d == null) throw new RuntimeException("Could not retrieve Diagram...");
+		return d;
 	}
 	
 	private «ContainerShape.name» getPictogramElement(«IdentifiableElement.name» target) {

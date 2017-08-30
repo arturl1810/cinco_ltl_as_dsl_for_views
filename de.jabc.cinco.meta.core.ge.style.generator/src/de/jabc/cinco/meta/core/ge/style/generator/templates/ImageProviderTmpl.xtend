@@ -21,8 +21,8 @@ import mgl.GraphModel
 import mgl.Node
 import org.eclipse.emf.common.util.BasicEList
 import mgl.ModelElement
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 
 class ImageProviderTmpl extends GeneratorUtils {
 	
