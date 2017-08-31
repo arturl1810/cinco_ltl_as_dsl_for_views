@@ -188,10 +188,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		job.onCanceledShowMessage("Cinco Product generation has been canceled").onFinished(() -> {
 			writeGenerationTimestamp();
 			printDebugOutput(event, startTime);
-		}).onFinishedShowMessage("Cinco Product generation completed successfully")
+		}).onDone(() -> resetAutoBuild())
+		.onFinishedShowMessage("Cinco Product generation completed successfully")
+		.schedule();
 				// .onDone(() -> {restoreMGLBackups(backuppedMGLs);
 				// resetAutoBuild();})
-				.onDone(() -> resetAutoBuild()).schedule();
 
 		return null;
 	}

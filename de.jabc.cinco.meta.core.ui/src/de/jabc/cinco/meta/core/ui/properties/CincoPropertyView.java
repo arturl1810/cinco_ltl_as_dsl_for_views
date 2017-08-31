@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.ui.properties;
 
 import graphmodel.Container;
 import graphmodel.GraphModel;
+import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 import graphmodel.internal.InternalGraphModel;
@@ -54,6 +55,7 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -62,6 +64,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -145,8 +148,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	public CincoPropertyView() {
 		treeExpandState = new HashMap<Object, Object[]>();
 		
-		multiLineAttributes = new HashSet<EStructuralFeature>();
-		readOnlyAttributes = new HashSet<EStructuralFeature>();
+		if (multiLineAttributes == null)
+			multiLineAttributes = new HashSet<EStructuralFeature>();
+		if (readOnlyAttributes == null)
+			readOnlyAttributes = new HashSet<EStructuralFeature>();
 		
 		context = new EMFDataBindingContext();
 		
@@ -417,16 +422,18 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		cv.setInput(input);
 		
 		IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);
+//		IObservableValue modelObs = EMFEditProperties.value(domain, ref).observe(bo);
 		IObservableValue modelObs = EMFEditObservables.observeValue(domain,bo,ref);
 		context.bindValue(uiProp, modelObs);
 		
-		combo.setEnabled(!readOnlyAttributes.contains(ref));
+		boolean enabled = !readOnlyAttributes.contains(ref);
+		combo.setEnabled(enabled);
 	}
-	
+
 	private List<Object> getInput(EObject bo, Class<?> searchFor) {
 		List<Object> result = new ArrayList<Object>();
-		if (bo instanceof ModelElement) {
-			GraphModel gm = ((ModelElement) bo).getRootElement();
+		if (bo instanceof InternalModelElement) {
+			GraphModel gm = ((InternalModelElement) bo).getRootElement().getElement();
 			getAllModelElements(gm, result, searchFor);
 		}
 		return result;
@@ -677,6 +684,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				if (!(element instanceof EObject))
 					return super.getText(element);
 				EObject eObject = (EObject) element;
+				if (eObject instanceof ModelElement)
+					eObject = ((ModelElement) eObject).getInternalElement();
 				String alternativeLabel = getAlternativeLabel(element);
 				if (alternativeLabel != null && !alternativeLabel.isEmpty()) {
 					return alternativeLabel;
