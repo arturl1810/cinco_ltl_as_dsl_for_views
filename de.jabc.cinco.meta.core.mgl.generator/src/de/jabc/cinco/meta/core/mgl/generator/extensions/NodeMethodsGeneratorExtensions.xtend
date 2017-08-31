@@ -198,8 +198,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		for (edge : edges) {
 			val operationName = "new" + edge.fuName
 			val edgeEClass = elemClasses.get(edge.name).mainEClass
+			val sourceEClass = elemClasses.get(node.name).mainEClass
 			for (target : edge.possibleTargets) {
-				val sourceEClass = elemClasses.get(node.name).mainEClass
 				val targetEClass = elemClasses.get(target.name).mainEClass
 				val content = node.newEdgeMethodContent(edge)
 				sourceEClass.createEOperation(operationName, edgeEClass, 0, 1, content,

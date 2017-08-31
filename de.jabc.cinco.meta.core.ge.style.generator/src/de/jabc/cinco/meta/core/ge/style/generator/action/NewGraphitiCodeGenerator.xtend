@@ -25,9 +25,6 @@ import java.util.Map.Entry
 import java.util.Set
 import java.util.stream.Collectors
 import mgl.GraphModel
-import mgl.GraphicalModelElement
-import mgl.IncomingEdgeElementConnection
-import mgl.OutgoingEdgeElementConnection
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
@@ -43,6 +40,8 @@ import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
 import org.osgi.framework.Bundle
 import productDefinition.CincoProduct
+
+import static de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class NewGraphitiCodeGenerator extends AbstractHandler {
 	
@@ -94,24 +93,6 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		unprocessedMGLS.remove(file.projectRelativePath.toString)
 		
 		return null
-	}
-
-	def private GraphModel prepareGraphModel(GraphModel graphModel) {
-		var List<GraphicalModelElement> connectableElements = new ArrayList()
-		connectableElements.addAll(graphModel.getNodes())
-		for (GraphicalModelElement elem : connectableElements) {
-			for (IncomingEdgeElementConnection connect : elem.getIncomingEdgeConnections()) {
-				if (connect.getConnectingEdges() === null || connect.getConnectingEdges().isEmpty()) {
-					connect.getConnectingEdges().addAll(graphModel.getEdges())
-				}
-			}
-			for (OutgoingEdgeElementConnection connect : elem.getOutgoingEdgeConnections()) {
-				if (connect.getConnectingEdges() === null || connect.getConnectingEdges().isEmpty()) {
-					connect.getConnectingEdges().addAll(graphModel.getEdges())
-				}
-			}
-		}
-		return graphModel
 	}
 
 	def private Set<String> addReqBundles(IProject project, IProgressMonitor monitor) {

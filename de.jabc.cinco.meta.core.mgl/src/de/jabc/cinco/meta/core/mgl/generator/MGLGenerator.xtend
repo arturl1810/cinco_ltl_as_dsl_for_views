@@ -5,36 +5,21 @@ import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.GeneratorHelper
-import de.jabc.cinco.meta.core.utils.PathValidator
 import de.jabc.cinco.meta.core.utils.URIHandler
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
-import de.jabc.cinco.meta.runtime.xapi.FileExtension
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
-import java.util.ArrayList
-import java.util.Arrays
 import java.util.HashMap
 import java.util.HashSet
 import java.util.Map
-import mgl.ContainingElement
 import mgl.GraphModel
-import mgl.GraphicalModelElement
-import mgl.Import
-import mgl.IncomingEdgeElementConnection
-import mgl.MglFactory
-import mgl.Node
-import mgl.NodeContainer
-import mgl.OutgoingEdgeElementConnection
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.XMIResource
@@ -44,10 +29,8 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.StringInputStream
-import transem.utility.helper.Tuple
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
-import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.emf.ecore.EFactory
+
+import static de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -162,112 +145,6 @@ class MGLGenerator implements IGenerator {
 		genModelResource.save(null)
 	}
 
-	def GraphModel prepareGraphModel(GraphModel graphModel) {
-		var connectableElements = new BasicEList<GraphicalModelElement>()
-		connectableElements.addAll(graphModel.nodes)
-
-		inheritAllConnectionConstraints(graphModel)
-
-		if (graphModel.edges.size != 0) {
-			for (elem : connectableElements) {
-				for (connect : elem.incomingEdgeConnections) {
-					if (connect.connectingEdges.nullOrEmpty) {
-						connect.connectingEdges += graphModel.edges
-					}
-				}
-				for (connect : elem.outgoingEdgeConnections) {
-					if (connect.connectingEdges.nullOrEmpty) {
-						connect.connectingEdges += graphModel.edges
-					}
-				}
-			}
-		} else {
-			for (elem : connectableElements) {
-				elem.incomingEdgeConnections.clear
-				elem.outgoingEdgeConnections.clear
-			}
-		}
-
-		if (graphModel.containableElements.nullOrEmpty) {
-			addNodes(graphModel, 0, -1, graphModel.nodes);
-		} else {
-			findWildcard(graphModel, graphModel)
-		}
-
-		for (nc : graphModel.nodes.filter(NodeContainer)) {
-			if (nc.containableElements.nullOrEmpty && nc.extends == null) {
-			} else {
-				findWildcard(nc, graphModel)
-			}
-		}
-
-		return graphModel
-
-	}
-
-	def inheritAllConnectionConstraints(
-		GraphModel graphModel) {
-		var inoutMap = new HashMap<Node, Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>>;
-
-		for (n : graphModel.nodes) {
-			val t = inheritConnectionConstraints(n)
-			inoutMap.put(n, t);
-		}
-		for (n : inoutMap.keySet) {
-			val inout = inoutMap.get(n)
-			n.incomingEdgeConnections.addAll(inout.left)
-			n.outgoingEdgeConnections.addAll(inout.right)
-		}
-	}
-
-	def inheritConnectionConstraints(Node node) {
-		var currentNode = node.extends
-		var outgoingEdgeConnections = new ArrayList<OutgoingEdgeElementConnection>
-		var incomingEdgeConnections = new ArrayList<IncomingEdgeElementConnection>
-		while (currentNode != null && currentNode != node) {
-			var in = new ArrayList
-			var out = new ArrayList
-			for (iec : currentNode.incomingEdgeConnections) {
-				var iecCopy = MglFactory.eINSTANCE.createIncomingEdgeElementConnection
-
-				iecCopy.connectingEdges.addAll(iec.connectingEdges)
-				iecCopy.upperBound = iec.upperBound
-				iecCopy.lowerBound = iec.lowerBound
-				in.add(iecCopy)
-			}
-			incomingEdgeConnections.addAll(in)
-			for (oec : currentNode.outgoingEdgeConnections) {
-				var oecCopy = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection
-				oecCopy.connectingEdges.addAll(oec.connectingEdges)
-				oecCopy.upperBound = oec.upperBound
-				oecCopy.lowerBound = oec.lowerBound
-				out.add(oecCopy)
-			}
-			outgoingEdgeConnections.addAll(out)
-			currentNode = currentNode.extends
-		}
-		return new Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>(
-			incomingEdgeConnections, outgoingEdgeConnections)
-	}
-
-	def findWildcard(ContainingElement ce, GraphModel graphModel) {
-		for (gec : ce.containableElements) {
-			if (gec.types.nullOrEmpty) {
-				addNodes(ce, gec.lowerBound, gec.upperBound, graphModel.nodes);
-				return
-			}
-		}
-	}
-
-	def addNodes(ContainingElement ce, int lower, int upper, Node... nodes) {
-		var gec = MglFactory.eINSTANCE.createGraphicalElementContainment;
-		gec.setLowerBound(lower);
-		gec.setUpperBound(upper);
-		gec.getTypes().addAll(Arrays.asList(nodes));
-		ce.getContainableElements().add(gec);
-
-	}
-
 	/**
 	 * Collects the Metaplugins registered at the current {@link GraphModel} and executes them
 	 * 
@@ -279,7 +156,9 @@ class MGLGenerator implements IGenerator {
 		val annotNames = gm.annotations.map[name]
 		val registeredMetaPlugins = generators.filter[name, mp|annotNames.contains(name)]
 
-		registeredMetaPlugins.forEach[name, mp|mp.execute(metaPluginParams)]
+		registeredMetaPlugins.forEach[name, mp|
+			mp.execute(metaPluginParams)
+		]
 	}
 	
 	

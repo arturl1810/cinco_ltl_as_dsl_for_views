@@ -30,12 +30,123 @@ import java.util.ArrayList
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import mgl.ReferencedType
+import org.eclipse.emf.common.util.BasicEList
+import mgl.GraphicalModelElement
+import transem.utility.helper.Tuple
+import mgl.MglFactory
+import java.util.Arrays
 
 class MGLUtil {
 
 	static var subClasses = new HashMap<ModelElement, List<ModelElement>>
 
 	static extension GeneratorUtils = new GeneratorUtils
+
+	def static GraphModel prepareGraphModel(GraphModel graphModel) {
+		var connectableElements = new BasicEList<GraphicalModelElement>()
+		connectableElements.addAll(graphModel.nodes)
+
+		inheritAllConnectionConstraints(graphModel)
+
+		if (graphModel.edges.size != 0) {
+			for (elem : connectableElements) {
+				for (connect : elem.incomingEdgeConnections) {
+					if (connect.connectingEdges.nullOrEmpty) {
+						connect.connectingEdges += graphModel.edges
+					}
+				}
+				for (connect : elem.outgoingEdgeConnections) {
+					if (connect.connectingEdges.nullOrEmpty) {
+						connect.connectingEdges += graphModel.edges
+					}
+				}
+			}
+		} else {
+			for (elem : connectableElements) {
+				elem.incomingEdgeConnections.clear
+				elem.outgoingEdgeConnections.clear
+			}
+		}
+
+		if (graphModel.containableElements.nullOrEmpty) {
+			addNodes(graphModel, 0, -1, graphModel.nodes);
+		} else {
+			findWildcard(graphModel, graphModel)
+		}
+
+		for (nc : graphModel.nodes.filter(NodeContainer)) {
+			if (nc.containableElements.nullOrEmpty && nc.extends == null) {
+			} else {
+				findWildcard(nc, graphModel)
+			}
+		}
+
+		return graphModel
+
+	}
+
+	def static inheritAllConnectionConstraints(
+		GraphModel graphModel) {
+		var inoutMap = new HashMap<Node, Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>>;
+
+		for (n : graphModel.nodes) {
+			val t = inheritConnectionConstraints(n)
+			inoutMap.put(n, t);
+		}
+		for (n : inoutMap.keySet) {
+			val inout = inoutMap.get(n)
+			n.incomingEdgeConnections.addAll(inout.left)
+			n.outgoingEdgeConnections.addAll(inout.right)
+		}
+	}
+
+	def static inheritConnectionConstraints(Node node) {
+		var currentNode = node.extends
+		var outgoingEdgeConnections = new ArrayList<OutgoingEdgeElementConnection>
+		var incomingEdgeConnections = new ArrayList<IncomingEdgeElementConnection>
+		while (currentNode != null && currentNode != node) {
+			var in = new ArrayList
+			var out = new ArrayList
+			for (iec : currentNode.incomingEdgeConnections) {
+				var iecCopy = MglFactory.eINSTANCE.createIncomingEdgeElementConnection
+
+				iecCopy.connectingEdges.addAll(iec.connectingEdges)
+				iecCopy.upperBound = iec.upperBound
+				iecCopy.lowerBound = iec.lowerBound
+				in.add(iecCopy)
+			}
+			incomingEdgeConnections.addAll(in)
+			for (oec : currentNode.outgoingEdgeConnections) {
+				var oecCopy = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection
+				oecCopy.connectingEdges.addAll(oec.connectingEdges)
+				oecCopy.upperBound = oec.upperBound
+				oecCopy.lowerBound = oec.lowerBound
+				out.add(oecCopy)
+			}
+			outgoingEdgeConnections.addAll(out)
+			currentNode = currentNode.extends
+		}
+		return new Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>(
+			incomingEdgeConnections, outgoingEdgeConnections)
+	}
+	
+	def static addNodes(ContainingElement ce, int lower, int upper, Node... nodes) {
+		var gec = MglFactory.eINSTANCE.createGraphicalElementContainment;
+		gec.setLowerBound(lower);
+		gec.setUpperBound(upper);
+		gec.getTypes().addAll(Arrays.asList(nodes));
+		ce.getContainableElements().add(gec);
+
+	}
+
+	def static findWildcard(ContainingElement ce, GraphModel graphModel) {
+		for (gec : ce.containableElements) {
+			if (gec.types.nullOrEmpty) {
+				addNodes(ce, gec.lowerBound, gec.upperBound, graphModel.nodes);
+				return
+			}
+		}
+	}	
 
 	def static Set<ContainingElement> getNodeContainers(GraphModel gm) {
 		var Set<ContainingElement> nodeContainers = gm.getNodes().filter([n|(n instanceof ContainingElement)]).
@@ -48,7 +159,6 @@ class MGLUtil {
 		val HashSet<Node> targets = new HashSet()
 		ce.getEdgeElementConnections().filter([eec|eec instanceof IncomingEdgeElementConnection]).forEach([ieec |
 			targets.add((ieec.eContainer() as Node))
-//			targets.addAll((ieec.eContainer() as Node).allSubclasses.map[it as Node])
 		])
 		return targets
 	}
