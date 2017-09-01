@@ -23,6 +23,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import graphmodel.internal.InternalModelElementContainer
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
+import graphmodel.internal.InternalGraphModel
 
 class NodeAddFeatures extends StyleUtil {
 
@@ -125,8 +126,15 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«EObject.name» bo = («EObject.name») context.getNewObject();
 		if (!(target instanceof «InternalModelElementContainer.name»))
 			return false;
+		
+		«EObject.name» element = null;
+		if (bo instanceof «InternalModelElement.name»)
+			element = ((«InternalModelElement.name») bo).getElement();
+		if (bo instanceof «InternalGraphModel.name»)
+			element = ((«InternalGraphModel.name») bo).getElement();
+			
 		if((bo.eClass().getName().equals("«n.retrievePrimeReference.primeType»")
-				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeType»"))))
+				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeTypeElement»"))))
 				&& bo.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))
 		
 			return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);

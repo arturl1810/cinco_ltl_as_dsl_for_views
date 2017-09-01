@@ -474,6 +474,14 @@ class GeneratorUtils {
 		return "Internal"+rme.type.name
 	}
 	
+	def dispatch primeTypeElement(ReferencedModelElement rme) {
+		return rme.type.name
+	}
+	
+	def dispatch primeTypeElement(ReferencedEClass rme) {
+		return rme.type.name
+	}
+	
 	/**
 	 * @param The {@link ReferencedEClass} of a prime node
 	 * @return The name of the prime reference's type

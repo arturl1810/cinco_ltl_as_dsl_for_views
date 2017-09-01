@@ -109,6 +109,12 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		}
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
+			«EObject.name» element = null;
+			if (bo instanceof «InternalModelElement.name»)
+				element = ((«InternalModelElement.name») bo).getElement();
+			if (bo instanceof «InternalGraphModel.name»)
+				element = ((«InternalGraphModel.name») bo).getElement();
+							 
 			boolean sameResource = bo.eResource() != null ? bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource()) : true ;
 			
 			«FOR me : gm.nodes.filter[!isIsAbstract]»
@@ -116,7 +122,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 				return new «gm.packageNameAdd».AddFeature«me.fuName»(this);
 			«IF isPrime(me)»
 			if((bo.eClass().getName().equals("«me.retrievePrimeReference.primeType»")
-				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«me.retrievePrimeReference.primeType»"))))
+				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«me.retrievePrimeReference.primeTypeElement»"))))
 				&& bo.eClass().getEPackage().getNsURI().equals("«me.retrievePrimeReference.nsURI»")
 				&& !sameResource)
 				return new «LibraryComponentAddFeature.name»(this);
