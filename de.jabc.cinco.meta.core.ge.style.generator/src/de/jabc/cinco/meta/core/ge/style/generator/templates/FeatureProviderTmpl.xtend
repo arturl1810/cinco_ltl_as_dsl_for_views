@@ -270,16 +270,30 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
 			
-			«FOR me : gm.modelElements»
-			if («me.internalInstanceofCheck("bo")») {
-				return new «ICustomFeature.name»[] {
-					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
-					«ENDFOR»
-				};
+			if (bo instanceof «InternalGraphModel.name») {
+				«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
+				if («gm.instanceofCheck("ime.getElement()")») {
+					return new «ICustomFeature.name»[] {
+						«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", gm) SEPARATOR ","»
+						new «GraphitiCustomFeature.name»<«gm.fqBeanName»>(this,new «annotValue»())
+						«ENDFOR»
+					};
+				}
 			}
 			
+			«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
+			if (bo instanceof «InternalModelElement.name») {
+				«InternalModelElement.name» ime = («InternalModelElement.name») bo;
+				if («me.instanceofCheck("ime.getElement()")») {
+					return new «ICustomFeature.name»[] {
+						«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
+						new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
+						«ENDFOR»
+					};
+				}
+			}
 			«ENDFOR»
+			
 		}
 		return new «ICustomFeature.name»[] {};
 	}
@@ -384,7 +398,13 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 					});
 					return created;
 		} else {
-			getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
+			dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
+							
+				@Override
+				protected void doExecute() {
+					getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
+				}
+			});
 			return null;
 		}
 	}

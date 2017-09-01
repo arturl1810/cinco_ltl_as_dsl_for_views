@@ -1,8 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import graphmodel.ModelElementContainer
 import java.util.ArrayList
 import java.util.List
 import mgl.Edge
@@ -20,13 +18,9 @@ import org.eclipse.graphiti.features.context.IContext
 import org.eclipse.graphiti.features.context.IDoubleClickContext
 import org.eclipse.graphiti.features.context.IPictogramElementContext
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
-import org.eclipse.graphiti.features.context.impl.MoveShapeContext
-import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
-import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry
 import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry
@@ -38,6 +32,8 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider
 import org.eclipse.graphiti.tb.IContextButtonPadData
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalGraphModel
 
 class ToolBehaviorProviderTmpl extends GeneratorUtils{
 	
@@ -158,12 +154,22 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 			return super.getDoubleClickFeature(context);
 		}
 		«Object.name» bo = pes[0].getLink().getBusinessObjects().get(0);
-		«FOR me : gm.modelElements»
+		if (bo instanceof «InternalModelElement.name») {
+			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
+		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
 		«IF me.booleanWriteMethodCallDoubleClick»
-		if («me.internalInstanceofCheck("bo")») 
-			«me.writeMethodCallDoubleClick»
+			if («me.instanceofCheck("ime.getElement()")») 
+				«me.writeMethodCallDoubleClick»
 		«ENDIF»
 		«ENDFOR»
+		}
+		if (bo instanceof «InternalGraphModel.name») {
+			«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
+		«IF gm.booleanWriteMethodCallDoubleClick»
+		if («gm.internalInstanceofCheck("ime.getElement()")») 
+			«gm.writeMethodCallDoubleClick»
+		«ENDIF»
+		}
 		return super.getDoubleClickFeature(context);
 	}
 
