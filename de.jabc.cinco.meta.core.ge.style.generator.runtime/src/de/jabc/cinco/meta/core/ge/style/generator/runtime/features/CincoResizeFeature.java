@@ -48,6 +48,11 @@ public class CincoResizeFeature extends CincoAbstractResizeFeature {
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
+	public void resizeShape(IResizeShapeContext context) {
+		resize(context);
+	}
+	
 	public static void resize(final IResizeShapeContext context) {
 		EList<EObject> businessObjects = context.getPictogramElement().getLink().getBusinessObjects();
 		if (businessObjects != null && !businessObjects.isEmpty())

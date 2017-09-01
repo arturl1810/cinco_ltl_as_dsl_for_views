@@ -120,6 +120,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createMoveToMethods(eClassesMap)
 			node.createGraphicalInformationGetter(eClassesMap)
 			node.createPreDeleteMethods(eClassesMap)
+			node.createPostResizeMethods(eClassesMap)
 		]
 		
 		graphModel.nodes.filter(NodeContainer).forEach[container|

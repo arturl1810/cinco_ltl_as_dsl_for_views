@@ -520,6 +520,27 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		else ""
 	}
 
+	def createPostResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"postResize",
+			null,
+			1,1,
+			me.postResizeContent,
+			createEParameter(elemClasses.get(me.name).mainEClass,"modelElement",1,1),
+			createEInt("direction",1,1),
+			createEInt("width",1,1),
+			createEInt("height",1,1)
+		)
+	}
+	
+	def postResizeContent(ModelElement me) {
+		val annot = me.getAnnotation("postResize")
+		if (annot != null) '''
+		new «annot.value.get(0)»().postResize(this, direction, width, height);
+		'''
+		else ""
+	}
+
 	def getterContent(String variableName) '''
 		return ((«InternalNode.name») getInternalElement()).get«variableName»(); 
 	'''

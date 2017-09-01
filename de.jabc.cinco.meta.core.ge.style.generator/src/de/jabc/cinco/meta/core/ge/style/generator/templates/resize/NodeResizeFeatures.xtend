@@ -71,10 +71,11 @@ class NodeResizeFeatures extends GeneratorUtils{
 				@Override
 				protected void doExecute() {
 					bo = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
-					bo.setWidth(context.getWidth());
-					bo.setHeight(context.getHeight());
-					«CincoResizeFeature.name».resize(context);
-					layoutPictogramElement(context.getPictogramElement());
+					((«graphmodel.Node.name») bo.getElement()).resize(context.getWidth(),context.getHeight());
+«««					bo.setWidth(context.getWidth());
+«««					bo.setHeight(context.getHeight());
+«««					«CincoResizeFeature.name».resize(context);
+«««					layoutPictogramElement(context.getPictogramElement());
 				}
 			});
 		}	
