@@ -15,8 +15,8 @@ public class CincoAbstractResizeFeature extends DefaultResizeShapeFeature {
 
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
-
-		return apiCall;
+		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		return bo != null && apiCall;
 
 	}
 	
