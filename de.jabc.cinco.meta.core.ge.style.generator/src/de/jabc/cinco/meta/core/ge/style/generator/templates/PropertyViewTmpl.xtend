@@ -101,9 +101,11 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		});
 
 		«CincoPropertyView.name».init_ReadOnlyAttributes(new «EStructuralFeature.name»[] {
-		«FOR attr : gm.allModelAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
-«««			«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+«««		«FOR attr : gm.allModelAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
+		«FOR me : gm.modelElements.filter[allAttributes.exists[isAttributeReadOnly]] SEPARATOR ","»
+		«FOR attr : me.allAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«me.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»
 		«ENDFOR»
 		});
 	}
