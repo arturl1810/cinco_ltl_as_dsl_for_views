@@ -352,6 +352,10 @@ class MGLUtil {
 	 	else return n.extends?.retrievePrimeReference
 	 }
 	 
+	 def static isReferencedModelElement(ReferencedType referencedType) {
+	 	return referencedType instanceof ReferencedModelElement
+	 }
+	 
 	 def static getPostCreateHooks(GraphModel it) {
 	 	modelElements.map[annotations.filter[name == "postCreate"]].map[postCreates].join("\n")
 	 }

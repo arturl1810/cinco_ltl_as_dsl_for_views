@@ -41,6 +41,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import graphmodel.internal.InternalNode
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -263,7 +264,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
-		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+		return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
 		«ENDIF»
 	'''
 
@@ -272,7 +273,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
-		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+		return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
 		«ENDIF»
 	'''
 	

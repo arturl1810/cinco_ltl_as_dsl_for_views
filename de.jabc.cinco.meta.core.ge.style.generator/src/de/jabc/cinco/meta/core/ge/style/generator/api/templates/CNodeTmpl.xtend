@@ -40,6 +40,8 @@ import graphmodel.Edge
 import graphmodel.internal.InternalEdge
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class CNodeTmpl extends APIUtils {
 
 extension CModelElementTmpl = new CModelElementTmpl
@@ -235,6 +237,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			
 			ac.setLocation(x,y);
 			ac.setSize(width,height);
+			
+			«IF n.retrievePrimeReference.isReferencedModelElement»
+			ac.setNewObject(((«graphmodel.Node.name») «n.retrievePrimeReference.name»).getInternalElement());
+			«ELSE»
+			ac.setNewObject(«n.retrievePrimeReference.name»);
+			«ENDIF»
 			
 			«IFeatureProvider.name» fp = getFeatureProvider();
 			«n.fqPrimeAddFeatureName» af = new «n.fqPrimeAddFeatureName»(fp);
