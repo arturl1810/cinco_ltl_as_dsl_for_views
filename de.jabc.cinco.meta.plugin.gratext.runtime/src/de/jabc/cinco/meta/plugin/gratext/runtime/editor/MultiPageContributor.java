@@ -1,67 +1,85 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
-import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.ide.IDEActionFactory;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.editors.text.TextEditorActionContributor;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 public class MultiPageContributor extends MultiPageEditorActionBarContributor {
 
 	private IEditorPart activeEditor;
-	private IActionBars actionBars;
-	private ActionRegistry actionRegistry;
+	private TextEditorActionContributor xtextEditorAC;
+	private DiagramEditorActionBarContributor diagramEditorAC;
 
 	public MultiPageContributor() {
 		super();
 	}
-
-	IAction getAction(String actionID) {
-		if (activeEditor == null)
-			return null;
-		if (activeEditor instanceof ITextEditor)
-			return ((ITextEditor) activeEditor).getAction(actionID);
-		if (actionRegistry != null)
-			return actionRegistry.getAction(actionID);
-		return null;
-	}
-	
-	void setGlobalActionHandlers(ActionFactory... actions) {
-		for (ActionFactory action : actions)
-			actionBars.setGlobalActionHandler(action.getId(), getAction(action.getId()));
-	}
 	
 	void updateGlobalActionHandlers() {
-		if (actionBars != null) {
-			setGlobalActionHandlers(
-					ActionFactory.DELETE,
-					ActionFactory.UNDO,
-					ActionFactory.REDO,
-					ActionFactory.CUT,
-					ActionFactory.COPY,
-					ActionFactory.PASTE,
-					ActionFactory.SELECT_ALL,
-					ActionFactory.FIND,
-					IDEActionFactory.BOOKMARK,
-					IDEActionFactory.ADD_TASK
-			);
-			actionBars.updateActionBars();
+		if (getActionBars() != null) {
+			getActionBars().updateActionBars();
 		}
 	}
 
-	/*
-	 * (non-JavaDoc) Method declared in MultiPageEditorActionBarContributor.
-	 */
-	public void setActivePage(IEditorPart editor) {
-		if (activeEditor == editor) return;
+	@Override
+	public void setActivePage(IEditorPart page) {
+		if (activeEditor == page)
+			return;
+		activeEditor = page;
 		
-		activeEditor = editor;
-		actionRegistry = (ActionRegistry) editor.getAdapter(ActionRegistry.class);
-		actionBars = getActionBars();
+		if (page instanceof TextEditor) {
+			activateTextEditorActionContributor(page);
+		} else {
+			deactivateTextEditorActionContributor(page);
+		}
+		
+		if (page instanceof DiagramEditor) {
+			activateDiagramEditorActionContributor(page);
+		} else {
+			deactivateDiagramEditorActionContributor(page);
+		}
 		
 		updateGlobalActionHandlers();
+	}
+	
+	void activateTextEditorActionContributor(IEditorPart editor) {
+		if (xtextEditorAC == null) {
+			xtextEditorAC = new TextEditorActionContributor();
+			xtextEditorAC.init(getActionBars(), getPage());
+		}
+		xtextEditorAC.setActiveEditor(editor);
+	}
+	
+	void deactivateTextEditorActionContributor(IEditorPart editor) {
+		if (xtextEditorAC != null) {
+			xtextEditorAC.dispose();
+		}
+	}
+	
+	void activateDiagramEditorActionContributor(IEditorPart editor) {
+		if (diagramEditorAC == null) {
+			diagramEditorAC = new DiagramEditorActionBarContributor() {
+				@SuppressWarnings("unchecked")
+				@Override public void dispose() {
+					IActionBars bars = getActionBars();
+					getActionRegistry().getActions().forEachRemaining((action) -> {
+						String id = ((IAction) action).getId();
+						bars.setGlobalActionHandler(id, null);
+					});
+				}
+			};
+			diagramEditorAC.init(getActionBars(), getPage());
+		}
+		diagramEditorAC.setActiveEditor(editor);
+	}
+	
+	void deactivateDiagramEditorActionContributor(IEditorPart editor) {
+		if (diagramEditorAC != null) {
+			diagramEditorAC.dispose();
+		}
 	}
 }
