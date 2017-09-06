@@ -1,7 +1,8 @@
 package de.jabc.cinco.meta.runtime.active
 
-import java.util.HashMap
 import java.util.List
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Stream
 import org.eclipse.xtend.lib.macro.Active
 import org.eclipse.xtend.lib.macro.TransformationContext
@@ -10,6 +11,9 @@ import org.eclipse.xtend.lib.macro.declaration.CompilationStrategy.CompilationCo
 import org.eclipse.xtend.lib.macro.declaration.MutableMethodDeclaration
 import org.eclipse.xtend.lib.macro.declaration.TypeReference
 import org.eclipse.xtend.lib.macro.declaration.Visibility
+import java.util.Map
+import org.jooq.lambda.Collectable
+import static extension org.jooq.lambda.Seq.*
 
 @Active(MemoizeProcessor)
 annotation Memoizable {
@@ -35,16 +39,20 @@ class ParameterlessMethodMemoizer extends MethodMemoizer {
 	}
 	
 	override cacheFieldType() {
-    	wrappedReturnType
+    	AtomicReference.newTypeReference(
+    		wrappedReturnType
+    	)
   	}
 
-	override cacheFieldInit(CompilationContext context) '''null'''
+	override cacheFieldInit(CompilationContext context) '''new AtomicReference<>()'''
 	
 	override cacheCall(extension CompilationContext context) '''
-		if («cacheFieldName» == null) {
-			// do the heavy work outside the critical section.
+		if («cacheFieldName».get() == null) {
+			// we have a cache miss, so calculate the value, and ...
+			// [do the heavy work outside the critical section.]
 			final «wrappedReturnType.toJavaCode» cacheValue = «initMethodName»();
-			«cacheFieldName» = cacheValue;
+			// ... replace the existing value, iff it has not been set concurrently.
+			«cacheFieldName».compareAndSet(null, cacheValue);
 		}
 		
 		«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
@@ -94,43 +102,72 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
 	}
 	
 	final override cacheFieldType() {
-		HashMap.newTypeReference(
+		Map.newTypeReference(
 			Object.newTypeReference,
 			wrappedReturnType
 		)
 	}
 
 	final override cacheFieldInit(extension CompilationContext context) '''
-		new «cacheFieldType.toJavaCode»((int)(«expectedSize»*1.5))
+		new «ConcurrentHashMap.newTypeReference(
+			Object.newTypeReference,
+			wrappedReturnType
+		).toJavaCode»((int)(«expectedSize»*1.5))
 	'''
 	
 	def getExpectedSize() {
 		method.findAnnotation(Memoizable.findTypeGlobally).getIntValue("expectedSize")
 	}
+	
+	private def boolean isSameType(TypeReference it, TypeReference other) {
+		it.isAssignableFrom(other) && other.isAssignableFrom(it) && it.actualTypeArguments.seq.zip(other.actualTypeArguments).allMatch [
+			v1.isSameType(v2)
+		]
+	}
 
 	final override cacheCall(extension CompilationContext context) '''
 		try {
 			final Object cacheKey = «parametersToCacheKey»;
+			final «wrappedReturnType.toJavaCode» result;
 			if (!«cacheFieldName».containsKey(cacheKey)) {
-				// do the heavy work outside the critical section.
+				// we have a cache miss. hence we call the initializer method...
+				// [do the heavy work outside the critical section.]
 				final «wrappedReturnType.toJavaCode» cacheValue = «initMethodName»(«initMethodParameters»);
-				// we have a cache miss. hence we call the initializer method
-				// and store the result for future calls. 
-				«cacheFieldName».put(cacheKey, cacheValue);
+				
+				// ... and store the result for future calls, iff it has not been set, concurrently.
+				result = «cacheFieldName».computeIfAbsent(cacheKey, (k) -> cacheValue);
 			}
-			«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
-				// for non-lazy return types, return the cached value.
-				return «cacheFieldName».get(cacheKey);
+			else {
+				// we have a cache hit.
+				result = «cacheFieldName».get(cacheKey);
+			}
+			«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+			«IF 	Stream.newTypeReference.isAssignableFrom(wrappedReturnType) || 
+					(typeArgument != null && 
+						(
+							Iterable.newTypeReference(typeArgument).isSameType(wrappedReturnType) ||
+							Collectable.newTypeReference(typeArgument).isSameType(wrappedReturnType)
+						)
+					)»
+				if (!(result instanceof java.util.stream.Stream)) {
+					// for non-lazy return types, return the cached value.
+					return result;
+				}
+				else {
+					// for lazy iterations use the duplicate feature of Jooq.
+					final org.jooq.lambda.tuple.Tuple2<
+						org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
+						org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
+					> cacheValueDupe = 
+						org.jooq.lambda.Seq.seq(result).duplicate();
+					«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
+					return cacheValueDupe.v2;
+				}
+				
+				
 			«ELSE»
-				«val typeArgument = wrappedReturnType.actualTypeArguments.head»
-				// for lazy iterations use the duplicate feature of Jooq.
-				final org.jooq.lambda.tuple.Tuple2<
-					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
-					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
-				> cacheValueDupe = 
-					org.jooq.lambda.Seq.seq(«cacheFieldName».get(cacheKey)).duplicate();
-				«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
-				return cacheValueDupe.v2;
+				// for non-lazy return types, return the cached value.
+				return result;
 			«ENDIF»
 		}
 		catch (Throwable e) {
@@ -176,6 +213,7 @@ abstract class MethodMemoizer {
 			// cache field for storing memoized function return values.
 			addField(cacheFieldName) [
 				static = method.static
+				final = true
 				type = cacheFieldType
 				initializer = [cacheFieldInit]
 			]
