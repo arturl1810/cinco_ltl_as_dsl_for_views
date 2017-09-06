@@ -89,6 +89,14 @@ class CanvasComponent extends Generatable {
 	   	«ENDFOR»
 	  }
 	  
+	  void export(String type){
+	      «FOR g:gc.graphMopdels»
+	      if(«g.name.lowEscapeDart»CanvasComponent!=null) {
+	         «g.name.lowEscapeDart»CanvasComponent.export(type);
+	      }
+	      «ENDFOR»
+	  }
+	  
 	  void updateScale() {
 	  	«FOR g:gc.graphMopdels»
 	  	if(«g.name.lowEscapeDart»CanvasComponent!=null) {

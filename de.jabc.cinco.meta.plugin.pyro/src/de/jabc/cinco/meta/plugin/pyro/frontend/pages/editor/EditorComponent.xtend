@@ -204,6 +204,14 @@ class EditorComponent extends Generatable {
 	
 	  }
 	  
+	  void triggerExport(String type){
+	      if(currentGraphModel != null) {
+	        canvasComponent.export(type);
+	      } else {
+	        notificationComponent.displayMessage("No graphmodel present to export",AlertType.WARNING);
+	      }
+	  }
+	  
 	  void triggerUndo(dynamic e)
 	  {
 	  	if(currentGraphModel != null) {
