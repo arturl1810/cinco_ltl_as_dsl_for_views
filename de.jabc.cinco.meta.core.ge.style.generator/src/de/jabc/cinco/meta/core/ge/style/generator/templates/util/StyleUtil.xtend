@@ -66,7 +66,7 @@ class StyleUtil extends APIUtils {
 				
 				«aShape.getCode(currentGaName, currentPeName)» 
 				
-				«aShape.setSize(currentGaName)»
+				«aShape.setSizeFromContext(currentGaName)»
 				
 				«aShape.appearanceCode(currentGaName)»
 
@@ -380,10 +380,20 @@ class StyleUtil extends APIUtils {
 		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createImage(«currentPeName», "«p.path»");
 	'''
 
-	def setSize(AbstractShape a, CharSequence gaName) '''
+	def setSizeFromContext(AbstractShape a, CharSequence gaName) '''
 		if (context.getWidth() > 0 && context.getHeight() > 0)
-			gaService.setSize(«gaName»,context.getWidth(),context.getHeight());
-		else gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
+			gaService.setSize(«gaName», context.getWidth(), context.getHeight());
+		else 
+			gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
+		«setSizeProperties(a, gaName)»
+	'''
+	
+	def setSize(AbstractShape a, CharSequence gaName) '''
+		gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
+		«setSizeProperties(a, gaName)»
+	'''
+	
+	def setSizeProperties(AbstractShape a,  CharSequence gaName) '''
 		«IF a.size?.widthFixed»
 			peService.setPropertyValue(«gaName», "«CincoResizeFeature.FIXED_WIDTH»", "«CincoResizeFeature.FIXED»");
 		«ENDIF»
