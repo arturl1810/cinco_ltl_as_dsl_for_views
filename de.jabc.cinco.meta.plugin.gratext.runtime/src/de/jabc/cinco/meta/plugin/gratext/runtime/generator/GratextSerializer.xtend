@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
+import graphmodel.ModelElement
+
 //import org.eclipse.graphiti.mm.pictograms.Diagram
 //import org.eclipse.graphiti.mm.pictograms.PictogramElement
 
@@ -101,6 +103,11 @@ abstract class GratextSerializer {
 			case "InternalNode": #[]
 			case "InternalEdge": #[]
 			case "InternalType": #[]
+			case "GraphModel": #[]
+			case "Container": #[]
+			case "Node": #[]
+			case "Edge": #[]
+			case "Type": #[]
 			default: combine(cls.getEAttributes, cls.getEReferences, cls.getESuperTypes.map[attributes].flatten)
 		}
 	}
@@ -166,7 +173,7 @@ abstract class GratextSerializer {
 	
 	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {
 		switch obj {
-			InternalModelElement: ftrs.filter[it.featureID != InternalPackage.INTERNAL_MODEL_ELEMENT__ID]
+			InternalModelElement: ftrs.filter[featureID != InternalPackage.INTERNAL_MODEL_ELEMENT__ID]
 			default: ftrs
 		}.map[gratext(obj)].filterNull.join('\n')
 	}
@@ -185,6 +192,7 @@ abstract class GratextSerializer {
 	
 	def valueGratext(Object obj) {
 		switch obj {
+			ModelElement: obj?.internalElement?.id
 			InternalModelElement: obj?.id
 			String: '"' + obj.replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''

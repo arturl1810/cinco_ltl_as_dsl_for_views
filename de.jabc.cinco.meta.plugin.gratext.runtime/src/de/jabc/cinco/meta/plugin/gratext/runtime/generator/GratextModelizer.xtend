@@ -67,8 +67,9 @@ abstract class GratextModelizer {
 		nodesInitialOrder.clear
 		gratextModel.cacheInitialOrder
 		diagram = createDiagram
-		model = transformer.transform(gratextModel)
+		model = transformer.transform(gratextModel).element
 		diagram.initialization = [|
+			link(diagram, model)
 			link(diagram, model.internalElement)
 			nodes.map[internalElement].forEach[add]
 			edges.forEach[add]

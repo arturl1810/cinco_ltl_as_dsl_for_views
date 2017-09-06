@@ -4,6 +4,11 @@ import java.util.ArrayList
 import java.util.Arrays
 import java.util.List
 import mgl.Node
+import mgl.ComplexAttribute
+import mgl.UserDefinedType
+import mgl.ModelElement
+import java.util.HashMap
+import de.jabc.cinco.meta.plugin.gratext.util.NonEmptyRegistry
 
 class GratextEcoreTemplate extends AbstractGratextTemplate {
 
@@ -39,6 +44,21 @@ def classes() {
 	return classes
 }
 
+protected NonEmptyRegistry<ModelElement,List<ComplexAttribute>> typeAttributeMap = new NonEmptyRegistry[newArrayList]
+
+def getTypeAttributes(ModelElement elm) {
+	val attributes = model.resp(elm).attributes
+		.filter(ComplexAttribute)
+		.filter[type instanceof UserDefinedType]
+	attributes.forEach[typeAttributeMap.get(elm).add(it)]
+	attributes.map['''<eStructuralFeatures xsi:type="ecore:EReference"
+		«IF ((upperBound < 0) || (upperBound > 1))»
+			upperBound="-1"
+		«ENDIF»
+		name="gratext_«name»" eType="#//«type.name»" containment="true"/>
+	'''].join("\n") ?: ""
+}
+
 def interfaces(Node node) {
 	var str = '''<eSuperTypes href="#//_Placed"/>'''
 	if (model.resp(node).isEdgeSource)
@@ -62,24 +82,28 @@ override template()
 «««    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="«model.name»">
-  	 <eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«model.name»"/>
+  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«model.name»"/>
+  	«graphmodel.typeAttributes»
   </eClassifiers>
-  «FOR node:model.nodes»
-  <eClassifiers xsi:type="ecore:EClass" name="«node.name»" abstract="«node.isIsAbstract»">
+  «FOR it:model.nodes»
+  <eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isIsAbstract»">
 «««  <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«node.name»"/>
-  	«interfaces(node)»
+	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
+	«interfaces»
+	«typeAttributes»
   </eClassifiers>
   «ENDFOR»
-  «FOR edge:model.edges»
-  <eClassifiers xsi:type="ecore:EClass" name="«edge.name»">
-  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«edge.name»"/>
+  «FOR it:model.edges»
+  <eClassifiers xsi:type="ecore:EClass" name="«name»">
+  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
   	<eSuperTypes href="#//_Edge"/>
+  	«typeAttributes»
   </eClassifiers>
   «ENDFOR»
-  «FOR type:model.userDefinedTypes»
-  <eClassifiers xsi:type="ecore:EClass" name="«type.name»" abstract="«type.isIsAbstract»">
-  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«type.name»"/>
+  «FOR it:model.userDefinedTypes»
+  <eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isIsAbstract»">
+  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
+  	«typeAttributes»
   </eClassifiers>
   «ENDFOR»
   «FOR cls:classes»«cls.toXMI»«ENDFOR»

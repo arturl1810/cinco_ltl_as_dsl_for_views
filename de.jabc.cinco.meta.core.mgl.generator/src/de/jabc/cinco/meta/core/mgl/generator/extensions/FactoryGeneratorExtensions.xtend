@@ -5,7 +5,7 @@ import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import java.util.Map
 import mgl.GraphModel
 
-import static de.jabc.cinco.meta.core.utils.MGLUtil.*
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import mgl.GraphicalModelElement
 import mgl.Type
 import mgl.ModelElement
@@ -59,7 +59,7 @@ class FactoryGeneratorExtensions {
 				new «graphmodel.name»Factory
 			}
 			
-			«elmClasses.values.genericCreateMethod»
+«««			«elmClasses.values.genericCreateMethod»
 			
 			«elmClasses.values.specificCreateMethods»
 			
@@ -80,15 +80,15 @@ class FactoryGeneratorExtensions {
 «««			}
 		}
 	'''
-	
-	static def genericCreateMethod(Iterable<ElementEClasses> ecls) '''
-		override create(EClass eClass) {
-			switch eClass.classifierID {
-				«ecls.map['''case «mainEClass.classifierID»: create«modelElement.name»'''].join('\n')»
-				default: super.create(eClass)
-			}
-		}
-	'''
+	// FIXME: the classifier IDs are in arbitrary order! they do not match those of the model elements
+//	static def genericCreateMethod(Iterable<ElementEClasses> ecls) '''
+//		override create(EClass eClass) {
+//			switch eClass.classifierID {
+//				«ecls.map['''case «mainEClass.classifierID»: create«modelElement.name»'''].join('\n')»
+//				default: super.create(eClass)
+//			}
+//		}
+//	'''
 	
 	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
 //		ecls.forEach[println(it.modelElement)]
@@ -123,18 +123,20 @@ class FactoryGeneratorExtensions {
 		 * @param ID: Indicates, if the post create hook should be executed
 		 */
 		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent, boolean hook){
-			val n = super.create«name»
-			n => [ internal = if (ime == null) createInternal«name» else ime]
-			«IF !(it instanceof Type)»
-			n.internalElement.container = parent
-			«ENDIF»
-			setID(n,ID)
-			setID(n.internalElement,generateUUID)
-			if (hook) {
-				«postCreate(it, "n")»
-			}
-			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
-			n
+			super.create«name» => [ 
+				setID(ID)
+				internal = ime ?: createInternal«name» => [
+					setID(generateUUID)
+					«IF !(it instanceof Type)»
+						container = parent
+					«ENDIF»
+					«IF !(it instanceof UserDefinedType)»
+						eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+					«ENDIF»
+				]
+				«postCreateHook»
+			]
+			
 		}
 		
 		/**

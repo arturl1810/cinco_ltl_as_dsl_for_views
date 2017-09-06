@@ -307,8 +307,12 @@ class GeneratorUtils {
 		return mes
 	}
 	
-	def getDtpId(Type t)
-	'''«t.graphModel.package».«t.graphModel.fuName»DiagramTypeProvider'''
+	def getDtpId(Type t) {
+		t.graphModel.dtpId
+	}
+	
+	def getDtpId(GraphModel model)
+	'''«model.packageName».«model.name»DiagramTypeProvider'''
 	 
 	/**
 	 * Returns the {@link GraphModel} of the given {@link ModelElement}

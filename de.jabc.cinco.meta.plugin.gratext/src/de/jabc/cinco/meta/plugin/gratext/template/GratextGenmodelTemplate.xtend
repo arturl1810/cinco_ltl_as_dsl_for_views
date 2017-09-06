@@ -38,7 +38,11 @@ override template()
   <genPackages prefix="«project.targetName»" basePackage="«model.basePackage»" disposableProviderFactory="true" ecorePackage="«ecoreFile.name»#/">
     <genClasses ecoreClass="«ecoreFile.name»#//«model.name»"/>
     «FOR node:model.nodes»
-    <genClasses ecoreClass="«ecoreFile.name»#//«node.name»"/>
+    <genClasses ecoreClass="«ecoreFile.name»#//«node.name»">
+    	«typeAttributeMap.get(node).map[
+    		'''<genFeatures createChild="false" ecoreFeature="ecore:EAttribute «ecoreFile.name»#//«node.name»/gratext_«name»"/>'''
+    	].join("\n") ?: ""»
+    </genClasses>
     «ENDFOR»
     «FOR edge:model.edges»
     <genClasses ecoreClass="«ecoreFile.name»#//«edge.name»"/>

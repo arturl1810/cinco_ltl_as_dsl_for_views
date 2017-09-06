@@ -37,7 +37,7 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 			new() {
 				super(new GratextModelTransformer(
 					EPackage.Registry.INSTANCE.getEFactory("«graphmodel.nsURI»"),
-					InternalPackage.eINSTANCE,
+					EPackage.Registry.INSTANCE.getEPackage("«graphmodel.nsURI»/internal"),
 					«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
 				))
 			}

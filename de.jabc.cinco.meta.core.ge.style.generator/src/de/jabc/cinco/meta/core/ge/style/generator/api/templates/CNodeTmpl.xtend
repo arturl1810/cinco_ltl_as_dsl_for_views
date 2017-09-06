@@ -41,6 +41,7 @@ import graphmodel.internal.InternalEdge
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 
 class CNodeTmpl extends APIUtils {
 
@@ -58,8 +59,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«me.constructor»
 	
 	public «me.pictogramElementReturnType» getPictogramElement() {
-		if (pe == null)
-			this.pe = ((«(me.graphModel as ModelElement).fqCName») getRootElement()).fetchPictogramElement(this);
+		if (pe == null) {
+			Object root = null;
+			try {
+				root = getRootElement();
+			} catch (NullPointerException ignore) {}
+			if (root != null)
+				this.pe = ((«(me.graphModel as ModelElement).fqCName») root).fetchPictogramElement(this);
+		}
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
@@ -161,7 +168,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
+		«Diagram.name» diagram = null;
+		try {
+			diagram = getDiagram();
+		} catch(NullPointerException ignore) {}
+		if (diagram != null)
+			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
+		return dtp.getFeatureProvider();
 	}
 	
 	@Override
@@ -180,9 +194,15 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		if (d == null) {
 			d = «GraphitiUi.name».getPeService().getDiagramForPictogramElement(this.pe);
 		}
-		if (d == null)
-			d = ((«me.graphModel.fqCName») getRootElement()).getDiagram();
-		if (d == null) throw new RuntimeException("Could not retrieve Diagram...");
+		if (d == null) {
+			Object root = null;
+			try {
+				root = getRootElement();
+			} catch(NullPointerException ignore) {}
+			if (root != null) 
+				d = ((«me.graphModel.fqCName») root).getDiagram();
+		}
+«««		if (d == null) throw new RuntimeException("Could not retrieve Diagram...");
 		return d;
 	}
 	

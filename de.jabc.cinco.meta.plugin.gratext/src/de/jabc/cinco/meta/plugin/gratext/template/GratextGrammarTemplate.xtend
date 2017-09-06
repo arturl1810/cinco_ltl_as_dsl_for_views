@@ -42,13 +42,15 @@ def addToReferences(EObject obj) {
 	
 	val entry = switch obj {
 		GraphModel: obj.acronym -> obj.nsURI
-		Node: 		obj.acronym -> obj.graphModel.nsURI
-		Edge:		obj.acronym -> obj.graphModel.nsURI
+		Node: 		obj.graphModel.acronym -> obj.graphModel.nsURI
+		Edge:		obj.graphModel.acronym -> obj.graphModel.nsURI
 		EClass:		obj.EPackage.acronym -> obj.EPackage.nsURI
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
-		references.put(entry.key, entry.value)
-		(ctx as GratextGenerator).addGenPackageReference(entry.value);
+		if (entry?.key != null)
+			references.put(entry.key, entry.value)
+		if (entry?.value != null)
+			(ctx as GratextGenerator).addGenPackageReference(entry.value);
 	}
 }
 
@@ -180,7 +182,7 @@ def type(Attribute attr) {
 			if (model.containsEnumeration(attr.type.name) || model.containsUserDefinedType(attr.type.name)) {
 				attr.type.name
 			} else if (model.contains(attr.type.name)) {
-				'''[«attr.type.name»|_ID]'''
+				'''[«model.acronym»::«attr.type.name»|_ID]'''
 			}
 	}
 }
@@ -201,11 +203,22 @@ def type(ReferencedType ref) {
 	}
 }
 
+def gratextName(Attribute attr) {
+	switch attr {
+		ComplexAttribute: switch attr.type {
+			UserDefinedType: '''gratext_«attr.name»'''
+			default: attr.name
+		}
+		default: attr.name
+	}
+}
+
 def attributes(ModelElement elm) {
 	val attrs = model.resp(elm).attributes
 	val attrsStr = attrs.map[switch it {
-		case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«it.name» += «type(it)» ( ',' ^«it.name» += «type(it)» )* )? ']' )?'''
-		default: '''( '«it.name»' ^«it.name» = «type(it)» )?'''
+		case (upperBound < 0) || (upperBound > 1):
+			'''( '«it.name»' '[' ( ^«it.gratextName» += «type(it)» ( ',' ^«it.gratextName» += «type(it)» )* )? ']' )?'''
+		default: '''( '«it.name»' ^«it.gratextName» = «type(it)» )?'''
 	}].join(' &\n')
 	val primeStr = switch elm {
 		Node: elm.prime

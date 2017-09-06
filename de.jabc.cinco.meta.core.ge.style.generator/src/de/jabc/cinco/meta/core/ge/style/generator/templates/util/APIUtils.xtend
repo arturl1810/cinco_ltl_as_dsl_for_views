@@ -21,6 +21,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 
 class APIUtils extends GeneratorUtils {
 
@@ -133,7 +134,14 @@ class APIUtils extends GeneratorUtils {
 	
 	def featureProviderGetter(ModelElement me) '''
 	public «IFeatureProvider.name» getFeatureProvider() {
-		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
+		«Diagram.name» diagram = null;
+		try {
+			diagram = getDiagram();
+		} catch(NullPointerException ignore) {}
+		if (diagram != null)
+			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
+		return dtp.getFeatureProvider();
 	}
 	'''
 	

@@ -12,18 +12,23 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.platform.IDiagramBehavior
 import org.eclipse.graphiti.ui.editor.DiagramBehavior
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 
 class CModelElementTmpl extends APIUtils {
 	
 	
 def getUpdateContent(ModelElement me) '''
 public void update() {
-	try {
-		«IFeatureProvider.name» fp = getFeatureProvider();
-		«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
-		«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
-		if (fp instanceof «CincoFeatureProvider.name») {
-			((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
+	«IFeatureProvider.name» fp = getFeatureProvider();
+	if (fp != null) try {
+		«PictogramElement.name» pe = getPictogramElement();
+		if (pe != null) {
+			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
+			«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
+			if (fp instanceof «CincoFeatureProvider.name») {
+				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
+			}
 		}
 	} catch («NullPointerException.name» e) {
 		e.printStackTrace();
@@ -79,7 +84,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
+		«Diagram.name» diagram = getDiagram();
+		if (diagram != null)
+			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
+		return dtp.getFeatureProvider();
 	}
 	
 }

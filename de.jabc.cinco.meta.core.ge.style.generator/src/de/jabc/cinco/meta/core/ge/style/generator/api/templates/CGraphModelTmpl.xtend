@@ -19,6 +19,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -67,7 +68,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«me.constructor»
 	
 	public «me.pictogramElementReturnType» getPictogramElement() {
-		if (pe == null) {
+		if (pe == null && eResource() != null) {
 			«EObject.name» bo = this.eResource().getContents().get(0);
 			if (bo instanceof «Diagram.name»)
 				pe = («Diagram.name») bo;
@@ -134,12 +135,15 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«ENDFOR»
 	
 	public void update() {
-		try {
-			«IFeatureProvider.name» fp = getFeatureProvider();
-			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
-			«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
-			if (fp instanceof «CincoFeatureProvider.name») {
-				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
+		«IFeatureProvider.name» fp = getFeatureProvider();
+		if (fp != null) try {
+			«PictogramElement.name» pe = getPictogramElement();
+			if (pe != null) {
+				«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
+				«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
+				if (fp instanceof «CincoFeatureProvider.name») {
+					((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
+				}
 			}
 		} catch («NullPointerException.name» e) {
 			e.printStackTrace();
@@ -153,13 +157,20 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
+		«Diagram.name» diagram = null;
+		try {
+			diagram = getDiagram();
+		} catch(NullPointerException ignore) {}
+		if (diagram != null)
+			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
+		return dtp.getFeatureProvider();
 	}
 	
 	@Override
 	public «Diagram.name» getDiagram() {
 		«PictogramElement.name» curr = getPictogramElement();
-		while (curr.eContainer() != null)
+		while (curr != null && curr.eContainer() != null)
 			curr = («PictogramElement.name») curr.eContainer();
 		if (curr instanceof «Connection.name») {
 			return ((«Connection.name») curr).getParent();

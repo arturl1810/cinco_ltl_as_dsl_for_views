@@ -11,33 +11,48 @@ override template()
 package «project.basePackage»;
 
 import «providerFile.className»;
-import «graphmodel.package».factory.«graphmodel.name»Factory;
 
+import graphmodel.GraphmodelPackage;
 import graphmodel.Node;
 import graphmodel.internal.InternalEdge;
 import graphmodel.internal.InternalNode;
+import graphmodel.internal.InternalPackage;
+import graphmodel.internal.InternalType;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EValidator.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.ValueConverterException;
 import org.eclipse.xtext.linking.ILinker;
+import org.eclipse.xtext.linking.ILinkingService;
+import org.eclipse.xtext.linking.impl.DefaultLinkingService;
+import org.eclipse.xtext.linking.impl.IllegalNodeException;
 import org.eclipse.xtext.linking.impl.Linker;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.parser.DefaultEcoreElementFactory;
 import org.eclipse.xtext.parser.IAstFactory;
+import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.XtextResource;
+
+import com.google.inject.Inject;
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.util.TerminalConverters;
 
@@ -57,16 +72,53 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 
 		@Override
 		public void add(EObject object, String feature, Object value, String ruleName, INode node) throws ValueConverterException {
+			if (feature.startsWith("gratext_")) {
+				feature = feature.substring(8);
+				value = mapGratextFeatureValue(object, feature, value, ruleName, node);
+			}
 			if (node.getSemanticElement() instanceof InternalEdge) try {
 				InternalEdge edge = (InternalEdge) node.getSemanticElement();
 				InternalNode source = (InternalNode) node.getParent().getSemanticElement();
-				Node sourceBase = (Node) «graphmodel.name»Factory.eINSTANCE.create(source.eClass());
+				EFactory fct = EPackage.Registry.INSTANCE.getEFactory("«graphmodel.nsURI»");
+				Node sourceBase = (Node) fct.create(source.eClass());
 				sourceBase.setInternalElement(source);
 				edge.setSourceElement(sourceBase);
 			} catch(Exception e) {
 		    		e.printStackTrace();
 		    }
 			super.add(object, feature, value, ruleName, node);
+		}
+				
+		@Override
+		public void set(EObject object, String feature, Object value, String ruleName, INode node) throws ValueConverterException {
+			if (feature.startsWith("gratext_")) {
+				feature = feature.substring(8);
+				value = mapGratextFeatureValue(object, feature, value, ruleName, node);
+			}
+			super.set(object, feature, value, ruleName, node);
+		}
+		
+		private Object mapGratextFeatureValue(EObject object, String featureName, Object value, String ruleName, INode node) {
+			final EStructuralFeature structuralFeature = object.eClass().getEStructuralFeature(featureName);
+			if (structuralFeature instanceof EReference) {
+				value = getTokenValue(value, ruleName, node);
+				if (value instanceof EObject) {
+					final EObject eObj = (EObject) value;
+					final EClass requiredType = ((EReference) structuralFeature).getEReferenceType();
+					if (!isInternal(requiredType) && isInternal(eObj.eClass())) {
+						value = createNonInternal(eObj, requiredType);
+					}
+				}
+			}
+			return value;
+		}
+		
+		private Object getTokenValue(Object tokenOrValue, String ruleName, INode node) throws ValueConverterException {
+			Object value = getTokenAsStringIfPossible(tokenOrValue);
+			if ((value == null || value instanceof CharSequence) && ruleName != null) {
+				value = getConverterService().toValue(value == null ? null : value.toString(), ruleName, node);
+			}
+			return value;
 		}
 		
     }
@@ -82,6 +134,61 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 		protected boolean isClearAllReferencesRequired(Resource resource) {
 			return false;
 		}
+	}
+	
+	@Override
+	public Class<? extends ILinkingService> bindILinkingService() {
+		return MyLinkingService.class;
+	}
+	
+	static class MyLinkingService extends DefaultLinkingService {
+			
+		@Inject
+		private IQualifiedNameConverter qualifiedNameConverter;
+		
+		@Override
+		public List<EObject> getLinkedObjects(EObject context, EReference ref, INode node) throws IllegalNodeException {
+			final EClass requiredType = ref.getEReferenceType();
+			if (requiredType == null)
+				return Collections.emptyList();
+			
+			final String crossRefString = getCrossRefNodeAsString(node);
+			if (crossRefString == null || crossRefString.isEmpty())
+				return Collections.emptyList();
+			
+			QualifiedName qualifiedLinkName =  qualifiedNameConverter.toQualifiedName(crossRefString);
+			IEObjectDescription eObjectDescription = getScope(context, ref).getSingleElement(qualifiedLinkName);
+			if (eObjectDescription != null) {
+				EObject eObj = eObjectDescription.getEObjectOrProxy();
+				if (!isInternal(requiredType) && isInternal(eObjectDescription.getEClass())) {
+					return Collections.singletonList(createNonInternal(eObj, requiredType));
+				}
+				return Collections.singletonList(eObj);
+			}
+			return Collections.emptyList();
+		}
+	}
+		
+	public static boolean isInternal(EClass type) {
+		EClass internal = InternalPackage.Literals.INTERNAL_IDENTIFIABLE_ELEMENT;
+		return internal.isSuperTypeOf(type);
+	}
+	
+	public static EObject createNonInternal(EObject internal, EClass requiredType) {
+		EPackage ePackage = requiredType.getEPackage();
+		if (ePackage != null && ePackage.getEFactoryInstance() != null) {
+			EObject elm = ePackage.getEFactoryInstance().create(requiredType);
+			EStructuralFeature idFeature = elm.eClass().getEStructuralFeature(GraphmodelPackage.IDENTIFIABLE_ELEMENT__ID);
+			elm.eSet(idFeature, internal.eGet(idFeature));
+			int intElmFeatureID = 
+				(internal instanceof InternalType)
+					? GraphmodelPackage.TYPE__INTERNAL_ELEMENT
+					: GraphmodelPackage.MODEL_ELEMENT__INTERNAL_ELEMENT;
+			EStructuralFeature intElmFeature = elm.eClass().getEStructuralFeature(intElmFeatureID);
+			elm.eSet(intElmFeature, internal);
+			return elm;
+		}
+		return null;
 	}
     
     @Override

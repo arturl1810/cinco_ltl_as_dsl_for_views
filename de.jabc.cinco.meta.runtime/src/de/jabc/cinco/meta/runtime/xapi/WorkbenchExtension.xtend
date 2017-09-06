@@ -14,6 +14,8 @@ import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.part.MultiPageEditorPart
 
 import static org.eclipse.emf.ecore.util.EcoreUtil.equals
+import org.eclipse.swt.graphics.Image
+import org.eclipse.swt.widgets.Shell
 
 /**
  * Workbench-specific extension methods.
@@ -385,6 +387,12 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 		display.syncExec(runnable)
 	}
 	
+	def int showCustomQuestionDialog(String title, String message, String[] buttonLabels) {
+		new MessageDialog(display.activeShell, title,
+            null, message, MessageDialog.QUESTION,
+            buttonLabels, 0).open
+	}
+	
 	def boolean showConfirmDialog(String title, String message) {
 		MessageDialog.openConfirm(
 				display.activeShell, title, message)
@@ -421,6 +429,6 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	def IEditorPart openEditor(EObject obj) {
 		extension val we = new WorkspaceExtension
 		extension val fe = new FileExtension
-		obj.getFile?.openInEditor as IEditorPart
+		obj.getFile?.openInEditor
 	}
 }

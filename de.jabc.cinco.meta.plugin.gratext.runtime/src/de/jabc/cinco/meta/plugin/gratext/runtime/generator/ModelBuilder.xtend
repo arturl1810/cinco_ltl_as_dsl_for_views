@@ -35,7 +35,7 @@ abstract class ModelBuilder {
 		val gratextModel = resource.getContent(InternalGraphModel)
 		nodesInitialOrder.clear
 		gratextModel.cacheInitialOrder
-		model = transformer.transform(gratextModel)
+		model = transformer.transform(gratextModel).element
 		val internal = (model as EObjectImpl).eInternalContainer()
 		resource.edit[
 			resource.contents.remove(gratextModel)

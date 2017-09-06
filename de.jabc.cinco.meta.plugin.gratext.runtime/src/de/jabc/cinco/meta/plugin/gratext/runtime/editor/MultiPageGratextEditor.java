@@ -22,6 +22,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartService;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -335,7 +336,9 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 				updateInnerState(prevEditor);
 			}
 			activatePage(newEditor, prevEditor);
-			super.pageChange(newPageIndex);
+			IPartService partService = getSite().getService(IPartService.class);
+			if (partService != null)
+				super.pageChange(newPageIndex);
 			currentPage = newPageIndex;
 		}
 	}

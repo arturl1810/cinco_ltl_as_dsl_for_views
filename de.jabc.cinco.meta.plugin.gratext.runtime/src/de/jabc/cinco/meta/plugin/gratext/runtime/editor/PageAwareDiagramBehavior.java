@@ -55,7 +55,8 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 
 	@Override
 	public void handleInnerStateChanged() {
-		refreshContent();
+		if (getDiagramTypeProvider() != null)
+			refreshContent();
 		getUpdateBehavior().setResourceChanged(false);
 		getPersistencyBehavior().flushCommandStack();
 	}

@@ -377,6 +377,11 @@ class MGLUtil {
 	 '''new «value.get(0)»().postCreate(me)'''
 	 
 	 
+	def static postCreateHook(Type it) {
+		if (!annotations.filter[name == "postCreate"].isEmpty)
+			'''if (hook) postCreates'''
+	}
+	 
 	def static postCreate(Type it, String varname) {
 		if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
 	}
