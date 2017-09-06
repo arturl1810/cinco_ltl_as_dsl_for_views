@@ -57,12 +57,12 @@ class ParameterlessMethodMemoizer extends MethodMemoizer {
 		
 		«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
 			// for non-lazy return types, return the cached value.
-			return «cacheFieldName»;
+			return «cacheFieldName».get();
 		«ELSE»
 			«val typeArgument = wrappedReturnType.actualTypeArguments.head»
 			// for lazy iterations use the duplicate feature of Jooq.
 			final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
-				org.jooq.lambda.Seq.seq(«cacheFieldName»).duplicate();
+				org.jooq.lambda.Seq.seq(«cacheFieldName».get()).duplicate();
 			«cacheFieldName» = cacheValueDupe.v1;
 			return cacheValueDupe.v2;
 		«ENDIF»
