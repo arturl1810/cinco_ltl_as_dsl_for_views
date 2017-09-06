@@ -119,7 +119,7 @@ class EdgeAddFeatures extends APIUtils {
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
 	
 			«IF MGLUtil::hasPostCreateHook(e)»
-			«e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());
+			if (hook) «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());
 			«ENDIF»
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);

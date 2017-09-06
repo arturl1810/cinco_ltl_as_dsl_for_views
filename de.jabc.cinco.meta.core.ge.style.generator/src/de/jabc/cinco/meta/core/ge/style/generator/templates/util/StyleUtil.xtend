@@ -115,7 +115,7 @@ class StyleUtil extends APIUtils {
 			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
 			«IF MGLUtil::hasPostCreateHook(n)»
-			«n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
+			if (hook) «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
 			«ENDIF»
 			
 			return «currentPeName»;
