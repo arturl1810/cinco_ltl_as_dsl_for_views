@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.editor
 
 import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor
 import org.eclipse.jface.action.IAction
-import static de.jabc.cinco.meta.plugin.gratext.runtime.editor.EdgeLayoutMode.*
 import org.eclipse.jface.action.IToolBarManager
 import org.eclipse.jface.action.Separator
 
@@ -11,14 +10,17 @@ class CincoDiagramEditorActionBarContributor extends DiagramEditorActionBarContr
 	override buildActions() {
 		System.err.println("[CDEABC] Build Actions")
 		super.buildActions
-		addRetargetAction(EdgeLayoutRetargetAction.create(C_LEFT));
-		addRetargetAction(EdgeLayoutRetargetAction.create(C_TOP));
+		EdgeLayoutMode.values
+			.map[createEdgeLayoutRetargetAction]
+			.forEach[addRetargetAction]
 	}
 	
 	override contributeToToolBar(IToolBarManager tbm) {
 		System.err.println("[CDEABC] Contribute to Toolbar")
 		super.contributeToToolBar(tbm)
-		tbm.add(getAction(C_LEFT.id))
+		EdgeLayoutMode.values
+			.map[getAction(id)]
+			.forEach[tbm.add(it)]
 		tbm.add(new Separator)
 	}
 	

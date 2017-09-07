@@ -14,4 +14,5 @@ class EdgeLayoutRetargetAction extends LabelRetargetAction {
 	public static def create(EdgeLayoutMode mode) {
 		new EdgeLayoutRetargetAction(mode)
 	}
+	
 }

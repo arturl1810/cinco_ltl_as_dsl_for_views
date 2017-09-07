@@ -17,9 +17,11 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 	
 	@Override
 	protected void initActionRegistry(ZoomManager zoomManager) {
-		System.err.println("[PADB] initActionRegistry");
 		super.initActionRegistry(zoomManager);
-		registerAction(new EdgeLayoutAction(getParentPart(), EdgeLayoutMode.C_TOP));
+//		for (EdgeLayoutMode value : EdgeLayoutMode.values()) {
+//			registerAction(value.createEdgeLayoutAction(getParentPart()));
+//		}
+		registerAction(EdgeLayoutMode.C_TOP.createEdgeLayoutAction(getParentPart()));
 	}
 	
 	protected IConfigurationProvider createConfigurationProvider(IDiagramTypeProvider diagramTypeProvider) {
