@@ -317,7 +317,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 			elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
 			elementEClasses.mainView = createMainView(element, elementEClasses)
-			elementEClasses.views += createViews(element, elementEClasses)
+			createParentViewMethods(element, elementEClasses)
 			element.nonConflictingAttributes.forEach[att| 
 				var ec= elementEClasses.mainEClass;
 				ec.createGetter(ec,att);
@@ -328,53 +328,23 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			]
 
 			elementEClasses.createTypedInternalGetter
+			elementEClasses.createIsExactlyMethods
 			eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
 
 		}
 	elementEClasses
 	}
 	
-	private def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
-
-		var views = new ArrayList<EClass>();
-
+	private def createParentViewMethods(ModelElement element, ElementEClasses elementEClasses) {
 		var String parentName = null
 		if (element.extend != null) {
 			parentName = element.extend.name
 			val parentClasses = eClassesMap.get(parentName)
-			elementEClasses.views += parentClasses.createSubViews(elementEClasses)
+			var getterName = "get" + parentClasses.mainView.name
+			elementEClasses.mainEClass.createEOperation(getterName,parentClasses.mainView,0,1,'''throw new RuntimeException("Not Exactly «parentClasses.modelElement.name»");''')
 		}
-
-		views
 	}
-
-	private def createSubViews(ElementEClasses parent, ElementEClasses subClasses) {
-		var views = new ArrayList<EClass>
-		var getterName = "get" + parent.mainView.name
-		var viewName = subClasses.mainEClass.name + parent.mainView.name
-		var view = createView(viewName, getterName, subClasses,false)
-		view.ESuperTypes += parent.mainView
-		views += view
-		for (v : parent.views) {
-			viewName = subClasses.mainEClass.name + v.name
-			getterName = "get" + v.highestSuperView.name + "View"
-			val sv = createView(viewName, getterName, subClasses,false)
-			sv.ESuperTypes += v
-			views += sv
-		}
-
-		views
-	}
-
-	private def EClass getHighestSuperView(EClass view) {
-		var v = view;
-//		println(v.name)
-		while (!v.ESuperTypes.nullOrEmpty && v.ESuperTypes.get(0) != null) {
-			v = v.ESuperTypes.get(0)
-		}
-		v
-	}
-
+	
 	private def createMainView(ModelElement element, ElementEClasses elmEClasses) {
 		val viewName = element.name + "View"
 		val getterName = "get" + viewName.toFirstUpper
@@ -549,13 +519,22 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		modelElementClass.createEOperation(getterName, view, 0, 1, content.toString)
 
 	}
+	
+	private def createIsExactlyMethods(ElementEClasses mec){
+		val mClass = mec.mainEClass
+		val me = mec.modelElement
+		mClass.createEOperation("isExactly"+me.name,EcorePackage.eINSTANCE.EBoolean,0,1,"return true;")
+		if(me.extends!=null)
+			mClass.createEOperation("isExactly"+me.extends.name,EcorePackage.eINSTANCE.EBoolean,0,1,"return false;") 
+		
+	}
 
 	private def createGetViewContent(EClass modelElementClass, EClass view, String ePackageName, String packageName) '''
 		«view.name» «view.name.toFirstLower» = «packageName».«ePackageName».views.ViewsFactory.eINSTANCE.create«view.name»();
 				«view.name.toFirstLower».setInternal«modelElementClass.name»((«packageName».«ePackageName».internal.Internal«modelElementClass.name»)getInternalElement());
 				return «view.name.toFirstLower»;
 	'''
-
+	
 	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr, boolean isUserDefinedType) {
 		val content = if (attr.upperBound == 1) {
 				createSetterContent(modelElementClass, attr.name, isUserDefinedType)
