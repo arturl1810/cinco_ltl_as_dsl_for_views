@@ -731,7 +731,12 @@ class GeneratorUtils extends InheritanceUtil{
 	}
 	
 	def <T>Iterable<? extends T> iterable(T t){
-		Collections.singletonList(t)
+		if(t!=null){
+			Collections.singletonList(t)
+		
+		}else{
+			new ArrayList<T>
+		}
 	}
 
 }
