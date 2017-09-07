@@ -3,8 +3,8 @@ package de.jabc.cinco.meta.core.mgl.generator
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.GraphmodelPackage
+import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
 import java.util.ArrayList
 import java.util.HashMap
@@ -12,6 +12,7 @@ import mgl.Attribute
 import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.EDataTypeType
+import mgl.Edge
 import mgl.Enumeration
 import mgl.GraphModel
 import mgl.ModelElement
@@ -41,19 +42,20 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import graphmodel.internal.InternalNode
+import com.google.common.collect.Iterables
+import java.util.List
+import java.util.Collections
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	extension AdapterGeneratorExtension = new AdapterGeneratorExtension
-	extension GeneratorUtils = new GeneratorUtils
+	
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
 	HashMap<ModelElement, ModelElement> inheritMap
 
 	HashMap<EReference, Type> toReferenceMap
-
 	val GraphmodelPackage graphModelPackage = GraphmodelPackage.eINSTANCE
 	val internalPackage = InternalPackage.eINSTANCE
 
@@ -476,12 +478,40 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val edg = new HashMap<ModelElement,ElementEClasses> ();
 		model.edges.topSort.forEach[edg.put(it,createModelElementClasses)]
 		edg.values.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
-			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass
+			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass;
+			ec.generateTypedSourceGetter
+			ec.generateTypedTargetGetter;
 		]
 
 		edg
 
 	}
+	
+	def generateTypedSourceGetter(ElementEClasses ec) {
+		val mec = (ec.modelElement as Edge)
+		val bestSource = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleSources].flatten.lowestMutualSuperNode
+		if(bestSource!=null){
+			val beanName = bestSource.fqBeanName
+			val eOp = ec.mainEClass.createEOperation("getSourceElement",null,0,1,'''return(«beanName»)super.getSourceElement();''')
+			putToGetterMap(eOp,bestSource)
+		}
+	}
+	
+	
+	
+
+	def generateTypedTargetGetter(ElementEClasses ec){
+		val mec = (ec.modelElement as Edge)
+		val bestTarget = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleTargets].flatten.lowestMutualSuperNode
+		if(bestTarget!=null){
+			val beanName = bestTarget.fqBeanName
+			val eOp = ec.mainEClass.createEOperation("getTargetElement",null,0,1,'''return(«beanName»)super.getTargetElement();''')
+			putToGetterMap(eOp,bestTarget)
+		}
+		
+	}
+	
+	
 
 	private def HashMap<ModelElement,? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
 		val internalTypeClass = internalPackage.internalType
@@ -698,5 +728,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def getterPrefix(PrimitiveAttribute attr) {
 		if (attr.type != null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
+	
 
 }
