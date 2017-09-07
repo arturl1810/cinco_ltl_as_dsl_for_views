@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.runtime.active
 
+import de.jabc.cinco.meta.util.xapi.CollectionExtension
 import java.util.List
+import java.util.Map
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 import java.util.stream.Stream
@@ -11,8 +13,9 @@ import org.eclipse.xtend.lib.macro.declaration.CompilationStrategy.CompilationCo
 import org.eclipse.xtend.lib.macro.declaration.MutableMethodDeclaration
 import org.eclipse.xtend.lib.macro.declaration.TypeReference
 import org.eclipse.xtend.lib.macro.declaration.Visibility
-import java.util.Map
 import org.jooq.lambda.Collectable
+
+import static extension java.util.Optional.*
 import static extension org.jooq.lambda.Seq.*
 
 @Active(MemoizeProcessor)
@@ -40,13 +43,14 @@ class ParameterlessMethodMemoizer extends MethodMemoizer {
 	
 	override cacheFieldType() {
     	AtomicReference.newTypeReference(
-    		wrappedReturnType
+    		if (method.typeParameters.empty) wrappedReturnType else Object.newTypeReference
     	)
   	}
 
 	override cacheFieldInit(CompilationContext context) '''new AtomicReference<>()'''
 	
 	override cacheCall(extension CompilationContext context) '''
+		
 		if («cacheFieldName».get() == null) {
 			// we have a cache miss, so calculate the value, and ...
 			// [do the heavy work outside the critical section.]
@@ -55,16 +59,35 @@ class ParameterlessMethodMemoizer extends MethodMemoizer {
 			«cacheFieldName».compareAndSet(null, cacheValue);
 		}
 		
-		«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
-			// for non-lazy return types, return the cached value.
-			return «cacheFieldName».get();
-		«ELSE»
-			«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+		final «wrappedReturnType.toJavaCode» result = «IF !method.typeParameters.empty»(«wrappedReturnType.toJavaCode»)«ENDIF»«cacheFieldName».get();
+		
+		«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+		«IF Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
 			// for lazy iterations use the duplicate feature of Jooq.
 			final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
-				org.jooq.lambda.Seq.seq(«cacheFieldName».get()).duplicate();
-			«cacheFieldName» = cacheValueDupe.v1;
+				org.jooq.lambda.Seq.seq(result).duplicate();
+			«cacheFieldName».set(cacheValueDupe.v1);
 			return cacheValueDupe.v2;
+		«ELSEIF 	(typeArgument != null && 
+					(
+						Iterable.newTypeReference(typeArgument).isSameType(wrappedReturnType) ||
+						Collectable.newTypeReference(typeArgument).isSameType(wrappedReturnType)
+					)
+				)»
+			if (!(result instanceof java.util.stream.Stream)) {
+				// for non-lazy return types, return the cached value.
+				return result;
+			}
+			else {
+				// for lazy iterations use the duplicate feature of Jooq.
+				final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
+					org.jooq.lambda.Seq.seq(result).duplicate();
+				«cacheFieldName».set(cacheValueDupe.v1);
+				return cacheValueDupe.v2;
+			}
+		«ELSE»
+			// for non-lazy return types, return the cached value.
+			return result;
 		«ENDIF»
 	'''
 	
@@ -104,75 +127,70 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
 	final override cacheFieldType() {
 		Map.newTypeReference(
 			Object.newTypeReference,
-			wrappedReturnType
+			if (method.typeParameters.empty) wrappedReturnType else Object.newTypeReference
 		)
 	}
 
 	final override cacheFieldInit(extension CompilationContext context) '''
 		new «ConcurrentHashMap.newTypeReference(
 			Object.newTypeReference,
-			wrappedReturnType
+			if (method.typeParameters.empty) wrappedReturnType else Object.newTypeReference
 		).toJavaCode»((int)(«expectedSize»*1.5))
 	'''
 	
 	def getExpectedSize() {
 		method.findAnnotation(Memoizable.findTypeGlobally).getIntValue("expectedSize")
 	}
-	
-	private def boolean isSameType(TypeReference it, TypeReference other) {
-		it.isAssignableFrom(other) && other.isAssignableFrom(it) && it.actualTypeArguments.seq.zip(other.actualTypeArguments).allMatch [
-			v1.isSameType(v2)
-		]
-	}
 
 	final override cacheCall(extension CompilationContext context) '''
-		try {
-			final Object cacheKey = «parametersToCacheKey»;
-			final «wrappedReturnType.toJavaCode» result;
-			if (!«cacheFieldName».containsKey(cacheKey)) {
-				// we have a cache miss. hence we call the initializer method...
-				// [do the heavy work outside the critical section.]
-				final «wrappedReturnType.toJavaCode» cacheValue = «initMethodName»(«initMethodParameters»);
-				
-				// ... and store the result for future calls, iff it has not been set, concurrently.
-				result = «cacheFieldName».computeIfAbsent(cacheKey, (k) -> cacheValue);
-			}
-			else {
-				// we have a cache hit.
-				result = «cacheFieldName».get(cacheKey);
-			}
-			«val typeArgument = wrappedReturnType.actualTypeArguments.head»
-			«IF 	Stream.newTypeReference.isAssignableFrom(wrappedReturnType) || 
-					(typeArgument != null && 
-						(
-							Iterable.newTypeReference(typeArgument).isSameType(wrappedReturnType) ||
-							Collectable.newTypeReference(typeArgument).isSameType(wrappedReturnType)
-						)
-					)»
-				if (!(result instanceof java.util.stream.Stream)) {
-					// for non-lazy return types, return the cached value.
-					return result;
-				}
-				else {
-					// for lazy iterations use the duplicate feature of Jooq.
-					final org.jooq.lambda.tuple.Tuple2<
-						org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
-						org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
-					> cacheValueDupe = 
-						org.jooq.lambda.Seq.seq(result).duplicate();
-					«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
-					return cacheValueDupe.v2;
-				}
-				
-				
-			«ELSE»
+		final Object cacheKey = «parametersToCacheKey»;
+		final «wrappedReturnType.toJavaCode» result;
+		if (!«cacheFieldName».containsKey(cacheKey)) {
+			// we have a cache miss. hence we call the initializer method...
+			// [do the heavy work outside the critical section.]
+			final «wrappedReturnType.toJavaCode» cacheValue = «initMethodName»(«initMethodParameters»);
+			
+			// ... and store the result for future calls, iff it has not been set, concurrently.
+			result = «IF !method.typeParameters.empty»(«wrappedReturnType.toJavaCode»)«ENDIF»«cacheFieldName».computeIfAbsent(cacheKey, (k) -> cacheValue);
+		}
+		else {
+			// we have a cache hit.
+			result = «IF !method.typeParameters.empty»(«wrappedReturnType.toJavaCode»)«ENDIF»«cacheFieldName».get(cacheKey);
+		}
+		«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+		«IF Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
+			// for lazy iterations use the duplicate feature of Jooq.
+			final org.jooq.lambda.tuple.Tuple2<
+				org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
+				org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
+			> cacheValueDupe = 
+				org.jooq.lambda.Seq.seq(result).duplicate();
+			«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
+			return cacheValueDupe.v2;
+		«ELSEIF 	(typeArgument != null && 
+					(
+						Iterable.newTypeReference(typeArgument).isSameType(wrappedReturnType) ||
+						Collectable.newTypeReference(typeArgument).isSameType(wrappedReturnType)
+					)
+				)»
+			if (!(result instanceof java.util.stream.Stream)) {
 				// for non-lazy return types, return the cached value.
 				return result;
-			«ENDIF»
-		}
-		catch (Throwable e) {
-			throw «Exceptions.newTypeReference.toJavaCode».sneakyThrow(e.getCause());
-		}
+			}
+			else {
+				// for lazy iterations use the duplicate feature of Jooq.
+				final org.jooq.lambda.tuple.Tuple2<
+					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
+					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
+				> cacheValueDupe = 
+					org.jooq.lambda.Seq.seq(result).duplicate();
+				«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
+				return cacheValueDupe.v2;
+			}
+		«ELSE»
+			// for non-lazy return types, return the cached value.
+			return result;
+		«ENDIF»
 	'''
 
 	/**
@@ -190,6 +208,7 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
  */
 abstract class MethodMemoizer {
 
+	protected val extension CollectionExtension = new CollectionExtension
 	protected val extension TransformationContext context
 	protected val MutableMethodDeclaration method
 	val int index
@@ -205,6 +224,24 @@ abstract class MethodMemoizer {
 	protected def CharSequence cacheFieldInit(CompilationContext context)
 	
 	protected def CharSequence cacheCall(CompilationContext context)
+	
+	protected def boolean isSameType(TypeReference it, TypeReference other) {
+		it.isAssignableFrom(other) && other.isAssignableFrom(it) && it.actualTypeArguments.seq.zip(other.actualTypeArguments).allMatch [
+			v1.isSameType(v2)
+		]
+	}
+	
+	private def TypeReference convertTypeParameters(TypeReference ref, Map<TypeReference, TypeReference> seen) {
+		seen.get(ref).ofNullable.orElseGet [
+			ref.type.newTypeReference(
+				ref.actualTypeArguments.map [ 
+					convertTypeParameters(seen)
+				]
+			) => [
+				seen.put(ref, it)
+			]
+		]
+	}
 
 	def final generate() {
 		// add a cache field and an initializer method.
@@ -219,11 +256,23 @@ abstract class MethodMemoizer {
 			]
 			
 			// initializer method executes original method body for creating a cache value.
+			// beware: this implementation does not handle type parameters on methods!
 			addMethod(initMethodName) [ init |
 				init.static = method.static
 				init.visibility = Visibility.PRIVATE
-				init.returnType = wrappedReturnType
-				method.parameters.forEach[init.addParameter(simpleName, type)]
+				String.newTypeReference.actualTypeArguments
+				// initially this map contains mappings from original method type parameters to new ones.
+				// each call to `convertTypeParameters()` fills the map with further type mappings.
+				val oldToNewTypeReferences = method.typeParameters.map [it]
+					.associateWithKey[it.newSelfTypeReference]
+					.mapValue[
+						init.addTypeParameter(simpleName, it.upperBounds).newSelfTypeReference
+					]
+					.toMap
+				method.parameters.forEach[
+					init.addParameter(simpleName, type.convertTypeParameters(oldToNewTypeReferences))
+				]
+				init.returnType = wrappedReturnType.convertTypeParameters(oldToNewTypeReferences)
 				init.exceptions = method.exceptions
 				init.body = method.body
 			]
