@@ -98,7 +98,7 @@ public class LightweightServiceAdapter {
 				elemTypes.put(edge, (GraphicalModelElement) ((HashSet)elementTypes.get(edge)).toArray()[0]);
 			else if(elementTypes.get(edge).size()>1)
 				//elemTypes.put(edge,null);
-				elemTypes.put(edge,InheritanceUtil.getLowestMutualSuperNode(elementTypes.get(edge).stream().map(gme -> (Node)gme).collect(Collectors.toList())));
+				elemTypes.put(edge,new InheritanceUtil().getLowestMutualSuperNode(elementTypes.get(edge).stream().map(gme -> (Node)gme).collect(Collectors.toList())));
 			else
 				elemTypes.put(edge,null);
 			

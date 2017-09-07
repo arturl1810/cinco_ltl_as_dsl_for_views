@@ -39,8 +39,10 @@ import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
+import de.jabc.cinco.meta.core.utils.InheritanceUtil
+import java.util.Collections
 
-class GeneratorUtils {
+class GeneratorUtils extends InheritanceUtil{
 	
 	protected extension CollectionExtension = new CollectionExtension
     protected extension WorkspaceExtension = new WorkspaceExtension
@@ -726,6 +728,10 @@ class GeneratorUtils {
 			UserDefinedType : return element.extends
 		}
 		null
+	}
+	
+	def <T>Iterable<? extends T> iterable(T t){
+		Collections.singletonList(t)
 	}
 
 }

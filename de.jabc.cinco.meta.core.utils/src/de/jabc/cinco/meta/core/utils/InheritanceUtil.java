@@ -18,7 +18,7 @@ import mgl.UserDefinedType;
 
 public class InheritanceUtil {
 
-	public static List<String> checkMGLInheritance(ModelElement me) {
+	public List<String> checkMGLInheritance(ModelElement me) {
 		if (me instanceof Node) {
 			return checkNodeInheritance((Node) me);
 		}
@@ -32,7 +32,7 @@ public class InheritanceUtil {
 		return null;
 	}
 	
-	private static List<String> checkUserDefinedTypeInheritance(
+	private  List<String> checkUserDefinedTypeInheritance(
 			UserDefinedType type) {
 		UserDefinedType curr = type;
 		List<String> ancestors = new ArrayList<>();
@@ -47,7 +47,7 @@ public class InheritanceUtil {
 		return null;
 	}
 
-	private static List<String> checkNodeInheritance(Node node) {
+	private List<String> checkNodeInheritance(Node node) {
 		Node curr = node;
 		List<String> ancestors = new ArrayList<>();
 		while (curr != null) {
@@ -75,21 +75,7 @@ public class InheritanceUtil {
 		return null;
 	}
 	
-	private static List<String> checkNodeContainerInheritance(NodeContainer nodeContainer) {
-		Node curr = nodeContainer;
-		List<String> ancestors = new ArrayList<>();
-		while (curr != null) {
-			if (ancestors.contains(curr.getName())) {
-				return ancestors;
-			}
-			ancestors.add(curr.getName());
-			curr = curr.getExtends();
-		}
-		
-		return null;
-	}
-	
-	public static List<Attribute> getInheritedAttributes(ModelElement me) {
+public List<Attribute> getInheritedAttributes(ModelElement me) {
 		ArrayList<Attribute> attributes = new ArrayList<>();
 		List<String> checked = checkMGLInheritance(me);
 		while (me != null && (checked==null || checked.isEmpty()) ) {
@@ -105,7 +91,7 @@ public class InheritanceUtil {
 		return attributes;
 	}
 	
-	public static Node getLowestMutualSuperNode(List<Node> nodes){
+	public Node getLowestMutualSuperNode(Iterable<Node> nodes){
 		if(nodes!=null){
 		HashSet<Node> superNodes = new HashSet<Node>();
 		boolean first = true;
@@ -129,7 +115,7 @@ public class InheritanceUtil {
 		return null;
 	}
 	
-	private static List<Node> sortByInheritance(List<Node> nodes) {
+	private List<Node> sortByInheritance(List<Node> nodes) {
 		
 		nodes.sort(new Comparator<Node>() {
 
@@ -158,7 +144,7 @@ public class InheritanceUtil {
 
 	
 	
-	public static Set<Node> getAllSuperNodes(Node node){
+	public Set<Node> getAllSuperNodes(Node node){
 		HashSet<Node> superNodes = new HashSet<Node>();
 		superNodes.add(node);
 		Node superNode = node.getExtends();

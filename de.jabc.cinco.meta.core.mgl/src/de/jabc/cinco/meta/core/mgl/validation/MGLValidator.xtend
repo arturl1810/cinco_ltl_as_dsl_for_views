@@ -47,7 +47,7 @@ import mgl.ComplexAttribute
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MGLValidator extends AbstractMGLValidator {
-	
+	extension InheritanceUtil = new InheritanceUtil
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
 		try{
@@ -344,7 +344,7 @@ class MGLValidator extends AbstractMGLValidator {
 			
 			
 			var superType = element.extends
-			while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
+			while(superType!=null && element.checkMGLInheritance.nullOrEmpty){
 				
 					for(a: superType.attributes){
 						if(a.name.equalsIgnoreCase(attr.name))
@@ -483,7 +483,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkNodeInheritsFromNonAbstractPrimeReferenceNode(Node node){
 		var currentNode = node
-		var noCircles =InheritanceUtil.checkMGLInheritance(node).nullOrEmpty
+		var noCircles =node.checkMGLInheritance.nullOrEmpty
 		while(currentNode.extends!=null && noCircles){
 			currentNode = currentNode.extends
 			if(!currentNode.isIsAbstract && (currentNode instanceof ReferencedType))
@@ -591,7 +591,7 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkMGLInheritanceCircles(ModelElement me) {
-			var retvalList = InheritanceUtil.checkMGLInheritance(me)
+			var retvalList = me.checkMGLInheritance
 			if (!retvalList.nullOrEmpty) {
 				if (me instanceof Node)
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE__EXTENDS)
