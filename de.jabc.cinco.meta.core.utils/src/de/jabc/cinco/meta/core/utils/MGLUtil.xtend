@@ -162,6 +162,11 @@ class MGLUtil {
 		])
 		return targets
 	}
+	
+	def static getAllPossibleTargets(Edge ce){
+		(ce.allSuperTypes.map[it as Edge].map[it.possibleTargets].flatten + ce.possibleTargets).toSet
+		
+	}
 
 	def static Set<Node> getPossibleSuccessors(Node n) {
 		var Set<Node> possSucc = new HashSet<Node>()
@@ -187,6 +192,10 @@ class MGLUtil {
 			sources.add((oeec.eContainer() as Node))
 		])
 		return sources
+	}
+	
+	def static getAllPossibleSources(Edge ce){
+		(ce.allSuperTypes.map[it as Edge].map[it.possibleSources].flatten + ce.possibleSources).toSet
 	}
 
 	def static Set<Edge> getIncomingConnectingEdges(Node n) {
