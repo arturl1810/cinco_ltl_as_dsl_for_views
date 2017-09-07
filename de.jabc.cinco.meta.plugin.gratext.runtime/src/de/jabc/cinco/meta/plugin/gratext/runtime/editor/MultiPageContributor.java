@@ -2,8 +2,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.editors.text.TextEditorActionContributor;
@@ -62,16 +60,17 @@ public class MultiPageContributor extends MultiPageEditorActionBarContributor {
 	
 	void activateDiagramEditorActionContributor(IEditorPart editor) {
 		if (diagramEditorAC == null) {
-			diagramEditorAC = new DiagramEditorActionBarContributor() {
-				@SuppressWarnings("unchecked")
-				@Override public void dispose() {
-					IActionBars bars = getActionBars();
-					getActionRegistry().getActions().forEachRemaining((action) -> {
-						String id = ((IAction) action).getId();
-						bars.setGlobalActionHandler(id, null);
-					});
-				}
-			};
+			diagramEditorAC = new CincoDiagramEditorActionBarContributor();
+//			diagramEditorAC = new DiagramEditorActionBarContributor() {
+//				@SuppressWarnings("unchecked")
+//				@Override public void dispose() {
+//					IActionBars bars = getActionBars();
+//					getActionRegistry().getActions().forEachRemaining((action) -> {
+//						String id = ((IAction) action).getId();
+//						bars.setGlobalActionHandler(id, null);
+//					});
+//				}
+//			};
 			diagramEditorAC.init(getActionBars(), getPage());
 		}
 		diagramEditorAC.setActiveEditor(editor);
