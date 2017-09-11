@@ -53,7 +53,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 
 		«CincoPropertyView.name».init_EStructuralFeatures(«gm.beanPackage».internal.impl.Internal«gm.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
-			«FOR attr : gm.attributes SEPARATOR ","»
+			«FOR attr : gm.attributes.filter[!isAttributeHidden] SEPARATOR ","»
 «««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«gm.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«gm.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
@@ -107,6 +107,12 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«me.fuName»_«attr.name.toFirstUpper»()
 		«ENDFOR»
 		«ENDFOR»
+		});
+		
+		«CincoPropertyView.name».init_FileAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»			
 		});
 	}
 	

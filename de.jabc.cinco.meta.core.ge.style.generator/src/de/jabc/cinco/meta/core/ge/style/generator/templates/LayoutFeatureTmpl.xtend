@@ -20,13 +20,17 @@ import org.eclipse.graphiti.mm.algorithms.Image
 import style.EdgeStyle
 import style.PredefinedDecorator
 import style.ConnectionDecorator
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 
-class LayoutFeatureTmpl extends GeneratorUtils{
+class LayoutFeatureTmpl extends GeneratorUtils {
+
+	extension StyleUtil = new StyleUtil
 	
-public static Map<Object,String> shapeMap = new HashMap<Object,String>;
-var counter1 = 0;
-var counter2 = 0
-EList<Appearance> appList = new BasicEList<Appearance>();
+	public static Map<Object,String> shapeMap = new HashMap<Object,String>;
+	var counter1 = 0;
+	var counter2 = 0
+	EList<Appearance> appList = new BasicEList<Appearance>();
+
 	
 	/**
 	 * Generates the Class 'LayoutUtils' for the graphmodel gm
@@ -51,7 +55,7 @@ public class «gm.fuName»LayoutUtils {
 	public static void set«app.name»Style(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if (ga instanceof «AbstractText.name») {
 			((«AbstractText.name») ga).setRotation(0.0);
-			((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, "Arial", 8, false, false));
+			((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, "«app.font.FName»", «app.font.fontSize», «app.font.italic», «app.font.bold»));
 		};		
 		«IF app.background != null»
 				ga.setBackground(gaService.manageColor(diagram, «app.background.r», «app.background.g», «app.background.b»));

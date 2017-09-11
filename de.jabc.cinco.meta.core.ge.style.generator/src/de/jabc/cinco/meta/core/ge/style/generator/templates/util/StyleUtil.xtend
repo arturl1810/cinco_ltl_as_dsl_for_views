@@ -46,6 +46,7 @@ import mgl.ModelElement
 import java.util.List
 import java.util.regex.Pattern
 import javax.el.ELException
+import style.Font
 
 class StyleUtil extends APIUtils {
 
@@ -579,7 +580,7 @@ class StyleUtil extends APIUtils {
 	
 	
 	def static setAppearance(AbstractShape aShape, CharSequence gaName) {
-		var app = if(aShape.referencedAppearance == null) aShape.inlineAppearance else aShape.referencedAppearance
+		var app = if (aShape.referencedAppearance == null) aShape.inlineAppearance else aShape.referencedAppearance
 		var Appearance newApp = StyleFactory.eINSTANCE.createAppearance
 		app.resolveParents(newApp)
 		return setAppearanceCode(aShape, newApp, gaName)
@@ -719,5 +720,21 @@ class StyleUtil extends APIUtils {
 			if (cd.predefinedDecorator != null) return cd.predefinedDecorator.shape.toString+index++
 			if (cd.decoratorShape != null) return "Shape"+index++
 		} 
+	}
+	
+	def getFName(Font f) {
+		if (f == null) "Arial" else f.fontName
+	}
+	
+	def getFontSize(Font f) {
+		if (f == null) 8 else f.size
+	}
+	
+	def isBold(Font f) {
+		if (f == null) false else f.isIsBold
+	}
+	
+	def isItalic(Font f) {
+		if (f == null) false else f.isIsItalic
 	}
 }
