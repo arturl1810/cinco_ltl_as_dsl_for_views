@@ -17,6 +17,8 @@ var $temp_link = null;
 var $temp_link_multi = null;
 //stores if the possible edge menu is displayed
 var $edge_menu_shown = false;
+//stores if the context menu is displayed
+var $context_menu_shown = false;
 //stores if the possible edge menu is displayed
 var $edge_to_create = null;
 
@@ -329,6 +331,25 @@ function control_pointer(cellView,borderWidth,evt,paper,centerAnchorPoint) {
         }
     } else {
         cellView.el.style.cursor = 'auto';
+    }
+}
+
+function showContextMenu(entryMap,x,y,dywaId,cb_menu_clicked) {
+    var btn_group = $('<div id="pyro_context_menu" class="btn-group-vertical btn-group-xs" style="position: absolute;z-index: 99999;top: '+y+'px;left: '+x+'px;"></div>');
+    $('body').append(btn_group);
+    $context_menu_shown = true;
+    for(var menuEntry in entryMap) {
+        var button = $('<button type="button" class="btn btn-default" data-menu-key="'+menuEntry.menuKey+'">'+menuEntry.displayName+'</button>');
+
+        btn_group.append(button);
+
+        $(button).on('click',function () {
+            var e = $(this).data('menu-key');
+            $('#pyro_context_menu').remove();
+            $context_menu_shown = false;
+            cb_menu_clicked(e,dywaId);
+        });
+
     }
 }
 

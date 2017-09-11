@@ -126,6 +126,22 @@ class MGLExtension {
 		gme.annotations.findFirst[name.equals("icon")].value.get(0)
 	}
 	
+	def hasCustomAction(ModelElement gme){
+		(gme.annotations.exists[name.equals("contextMenuAction")&&!value.empty])
+	}
+	
+	def getCustomAction(ModelElement gme){
+		(gme.annotations.filter[name.equals("contextMenuAction")&&!value.empty])
+	}
+	
+	def hasDoubleClickAction(ModelElement gme){
+		(gme.annotations.exists[name.equals("doubleClickAction")&&!value.empty])
+	}
+	
+	def getDoubleClickAction(ModelElement gme){
+		(gme.annotations.filter[name.equals("doubleClickAction")&&!value.empty])
+	}
+	
 	def iconPath(GraphicalModelElement gme,String g){
 		return gme.iconPath(g,true)
 	}

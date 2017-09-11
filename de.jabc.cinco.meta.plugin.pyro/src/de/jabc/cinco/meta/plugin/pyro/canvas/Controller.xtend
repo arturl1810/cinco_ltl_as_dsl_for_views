@@ -59,6 +59,8 @@ class Controller extends Generatable{
 	    cb_update_bendpoint,
 	    cb_can_move_node,
 	    cb_can_reconnect_edge,
+	    cb_get_custom_actions,
+	    cb_fire_dbc_actions,
 	    «FOR elem:g.nodes + g.edges SEPARATOR ","»
 	    	«IF elem instanceof Node»
 	    cb_create_node_«elem.name.lowEscapeDart»,
@@ -166,6 +168,26 @@ class Controller extends Generatable{
 	        console.log(cellView);
 	        console.log("element clicked");
 	    });
+	    
+	    /**
+	     * Element has been right clicked
+	     * Show context menu for the element
+	     * including registered custome actions
+	     */
+	    $paper_flowgraph.on('cell:contextmenu', function(cellView,evt,x,y){
+	    	//fetch ca for element
+	    	cb_get_custom_actions(cellView.model.attrs.dywa_id,x,y);
+	    });
+	    
+	    /**
+	     * Element has been double clicked
+	     * Activate double click action
+	     */
+	    $paper_flowgraph.on('cell:pointerdblclick', function(cellView,evt,x,y){
+	    	//fetch ca for element
+	    	cb_fire_dbc_actions(cellView.model.attrs.dywa_id,x,y);
+	    });
+	    
 	    
 	    /**
 	     * Element has been selected

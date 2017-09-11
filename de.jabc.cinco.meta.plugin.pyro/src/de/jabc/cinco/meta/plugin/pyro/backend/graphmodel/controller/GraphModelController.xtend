@@ -56,6 +56,9 @@ class GraphModelController extends Generatable {
 		private PyroUserController subjectController;
 		
 		@javax.inject.Inject
+		private de.ls5.dywa.generated.controller.info.scce.pyro.core.IdentifiableElementController identifiableElementController;
+		
+		@javax.inject.Inject
 		private de.ls5.dywa.generated.controller.info.scce.pyro.core.BendingPointController bendingPointController;
 		
 		@javax.inject.Inject
@@ -127,6 +130,119 @@ class GraphModelController extends Generatable {
 		}
 		
 		@javax.ws.rs.GET
+		@javax.ws.rs.Path("{id}/customaction/{elementId}/fetch/private")
+		@javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+		@org.jboss.resteasy.annotations.GZIP
+		public Response fetchCustomActions(@javax.ws.rs.PathParam("id") long id,@javax.ws.rs.PathParam("elementId") long elementId) {
+			
+			final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«g.name.escapeJava» graph = «g.name.escapeJava»Controller.read(id);
+			if (graph == null) {
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			}
+			java.util.Map<String,String> map = new java.util.HashMap<>();
+						
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.IdentifiableElement elem = identifiableElementController.read(elementId);
+			
+			«FOR e:(g.elements+#[g]).filter[hasCustomAction]»
+			if(elem instanceof de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava») {
+				de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava» e = (de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.lowEscapeJava».«e.name.fuEscapeJava»)elem;
+				«FOR anno:e.customAction»
+				{
+					«anno.value.get(0)» ca = new «anno.value.get(0)»();
+					if(ca.canExecute(e)){
+						map.put("«anno.value.get(0)»",ca.getName());
+					}
+				}
+				«ENDFOR»
+			}
+			«ENDFOR»
+				        
+			return Response.ok(map)
+					.build();
+			
+		}
+		
+		@javax.ws.rs.POST
+		@javax.ws.rs.Path("{id}/customaction/{elementId}/trigger/private")
+		@javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+		@org.jboss.resteasy.annotations.GZIP
+		public Response triggerCustomActions(@javax.ws.rs.PathParam("id") long id,@javax.ws.rs.PathParam("elementId") long elementId,info.scce.pyro.core.command.types.Action action) {
+			
+			final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«g.name.escapeJava» graph = «g.name.escapeJava»Controller.read(id);
+			if (graph == null) {
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			}
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser user = subjectController
+				.read((Long) org.apache.shiro.SecurityUtils.getSubject()
+					.getPrincipal());
+			
+			«g.name.escapeJava»ControllerBundle bundle = buildBundle();
+			«g.name.escapeJava»CommandExecuter executer = new «g.name.escapeJava»CommandExecuter(bundle,user,objectCache);
+						
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.IdentifiableElement elem = identifiableElementController.read(elementId);
+			
+			«FOR e:(g.elements+#[g]).filter[hasCustomAction]»
+			if(elem instanceof de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava») {
+				de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava» e = (de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.lowEscapeJava».«e.name.fuEscapeJava»)elem;
+				«FOR anno:e.customAction»
+				if(action.getFqn().equals("«anno.value.get(0)»")) {
+					«anno.value.get(0)» ca = new «anno.value.get(0)»();
+					ca.setExecuter(executer);
+					ca.execute(e);
+				}
+				«ENDFOR»
+			}
+			«ENDFOR»
+			Response response = createResponse("basic_valid_answer",executer,user.getDywaId(),graph.getDywaId());
+			//propagate
+			graphModelWebSocket.send(id,WebSocketMessage.fromDywaEntity(user.getDywaId(),response.getEntity()));
+			return response;
+		}
+		
+		@javax.ws.rs.GET
+		@javax.ws.rs.Path("{id}/dbaction/{elementId}/trigger/private")
+		@javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+		@org.jboss.resteasy.annotations.GZIP
+		public Response triggerDoubleClickActions(@javax.ws.rs.PathParam("id") long id,@javax.ws.rs.PathParam("elementId") long elementId) {
+			
+			final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«g.name.escapeJava» graph = «g.name.escapeJava»Controller.read(id);
+			if (graph == null) {
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			}
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser user = subjectController
+					.read((Long) org.apache.shiro.SecurityUtils.getSubject()
+							.getPrincipal());
+			
+			java.util.Map<String,String> map = new java.util.HashMap<>();
+			«g.name.escapeJava»ControllerBundle bundle = buildBundle();
+			«g.name.escapeJava»CommandExecuter executer = new «g.name.escapeJava»CommandExecuter(bundle,user,objectCache);
+						
+			final de.ls5.dywa.generated.entity.info.scce.pyro.core.IdentifiableElement elem = identifiableElementController.read(elementId);
+			boolean hasExecuted = false;
+			«FOR e:(g.elements+#[g]).filter[hasDoubleClickAction]»
+			if(elem instanceof de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«e.name.fuEscapeJava») {
+				de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava	».«e.name.fuEscapeJava» e = (de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.lowEscapeJava».«e.name.fuEscapeJava»)elem;
+				«FOR anno:e.doubleClickAction»
+				{
+					«anno.value.get(0)» ca = new «anno.value.get(0)»();
+					if(ca.canExecute(e)){
+						ca.setExecuter(executer);
+						ca.execute(e);
+						hasExecuted = true;
+					}
+				}
+				«ENDFOR»
+			}
+			«ENDFOR»
+			Response response = createResponse("basic_valid_answer",executer,user.getDywaId(),graph.getDywaId());
+			if(hasExecuted){
+				//propagate
+				graphModelWebSocket.send(id,WebSocketMessage.fromDywaEntity(user.getDywaId(),response.getEntity()));
+			}
+			return response;
+		}
+		
+		@javax.ws.rs.GET
 		@javax.ws.rs.Path("remove/{id}/{parentId}/private")
 		@javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 		@org.jboss.resteasy.annotations.GZIP
@@ -187,47 +303,47 @@ class GraphModelController extends Generatable {
 		}
 		
 		@javax.ws.rs.POST
-		    @javax.ws.rs.Path("message/{graphModelId}/private")
-		    @javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-		    @javax.ws.rs.Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-		    @org.jboss.resteasy.annotations.GZIP
-		    public Response receiveMessage(@javax.ws.rs.PathParam("graphModelId") long graphModelId, Message m) {
-		
-		        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser subject = subjectController.read((Long)org.apache.shiro.SecurityUtils.getSubject().getPrincipal());
-		        final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«g.name.escapeJava» graph = «g.name.escapeJava»Controller.read(graphModelId);
-		        if(subject==null||graph==null){
-		            return Response.status(Response.Status.BAD_REQUEST).build();
-		        }
-		        if(m instanceof CompoundCommandMessage){
-		            Response response = executeCommand((CompoundCommandMessage) m, subject, graph);
-	            	if(response.getStatus()==200){
-	            		graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(),response.getEntity()));
-	            	}
-	            	return response;
-		        }
-		        else if(m instanceof GraphPropertyMessage){
-		            final GraphPropertyMessage gpm = (GraphPropertyMessage) m;
-		            graph.setconnector(gpm.getGraph().getconnector());
-		            graph.setrouter(gpm.getGraph().getrouter());
-		            graph.setwidth(gpm.getGraph().getwidth());
-		            graph.setheight(gpm.getGraph().getheight());
-		            graph.setscale(gpm.getGraph().getscale());
-		            //propagate
-		            graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
-		            return Response.ok("OK").build();
-		        }
-		        else if (m instanceof PropertyMessage) {
-					Response response = executePropertyUpdate((PropertyMessage) m, subject);
-					if(response.getStatus()==200){
-						graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
-					}
-					return response;
-				} else if (m instanceof ProjectMessage) {
-					return Response.ok("OK").build();
+	    @javax.ws.rs.Path("message/{graphModelId}/private")
+	    @javax.ws.rs.Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	    @javax.ws.rs.Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	    @org.jboss.resteasy.annotations.GZIP
+	    public Response receiveMessage(@javax.ws.rs.PathParam("graphModelId") long graphModelId, Message m) {
+	
+	        final de.ls5.dywa.generated.entity.info.scce.pyro.core.PyroUser subject = subjectController.read((Long)org.apache.shiro.SecurityUtils.getSubject().getPrincipal());
+	        final de.ls5.dywa.generated.entity.info.scce.pyro.«g.name.escapeJava».«g.name.escapeJava» graph = «g.name.escapeJava»Controller.read(graphModelId);
+	        if(subject==null||graph==null){
+	            return Response.status(Response.Status.BAD_REQUEST).build();
+	        }
+	        if(m instanceof CompoundCommandMessage){
+	            Response response = executeCommand((CompoundCommandMessage) m, subject, graph);
+            	if(response.getStatus()==200){
+            		graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(),response.getEntity()));
+            	}
+            	return response;
+	        }
+	        else if(m instanceof GraphPropertyMessage){
+	            final GraphPropertyMessage gpm = (GraphPropertyMessage) m;
+	            graph.setconnector(gpm.getGraph().getconnector());
+	            graph.setrouter(gpm.getGraph().getrouter());
+	            graph.setwidth(gpm.getGraph().getwidth());
+	            graph.setheight(gpm.getGraph().getheight());
+	            graph.setscale(gpm.getGraph().getscale());
+	            //propagate
+	            graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
+	            return Response.ok("OK").build();
+	        }
+	        else if (m instanceof PropertyMessage) {
+				Response response = executePropertyUpdate((PropertyMessage) m, subject);
+				if(response.getStatus()==200){
+					graphModelWebSocket.send(graphModelId,WebSocketMessage.fromDywaEntity(subject.getDywaId(), m));
 				}
-		
-		        return Response.status(Response.Status.BAD_REQUEST).build();
-		    }
+				return response;
+			} else if (m instanceof ProjectMessage) {
+				return Response.ok("OK").build();
+			}
+	
+	        return Response.status(Response.Status.BAD_REQUEST).build();
+	    }
 		    
 		private Response executePropertyUpdate(PropertyMessage pm,PyroUser user) {
 	        «g.name.escapeJava»ControllerBundle bundle = buildBundle();
@@ -344,22 +460,28 @@ class GraphModelController extends Generatable {
 				}
 	        	return Response.ok(ccm).build();
 	        }
-			CompoundCommandMessage response = new CompoundCommandMessage();
+			String type = "";
 			if(ccm.getType().equals("basic")){
-				response.setType("basic_valid_answer");
+				type = "basic_valid_answer";
 			} else if(ccm.getType().equals("undo")){
-				response.setType("undo_valid_answer");
+				type = "undo_valid_answer";
 			} else if(ccm.getType().equals("redo")){
-				response.setType("redo_valid_answer");
+				type = "redo_valid_answer";
 			}
-			CompoundCommand cc = new CompoundCommand();
-			cc.setQueue(executer.getBatch().getCommands());
-			response.setCmd(cc);
-			response.setGraphModelId(graph.getDywaId());
-			response.setSenderDywaId(user.getDywaId());
-	        //propagate batch
-	        //response batch
-			return Response.ok(response).build();
+			return createResponse(type,executer,user.getDywaId(),graph.getDywaId());
+	    }
+	    
+	    private Response createResponse(String type,PetriNetCommandExecuter executer,long userId,long graphId) {
+	       	CompoundCommandMessage response = new CompoundCommandMessage();
+	   		response.setType(type);
+	   		CompoundCommand cc = new CompoundCommand();
+	   		cc.setQueue(executer.getBatch().getCommands());
+	   		response.setCmd(cc);
+	   		response.setGraphModelId(graphId);
+	   		response.setSenderDywaId(userId);
+	           //propagate batch
+	           //response batch
+	   		return Response.ok(response).build();
 	    }
 	
 	

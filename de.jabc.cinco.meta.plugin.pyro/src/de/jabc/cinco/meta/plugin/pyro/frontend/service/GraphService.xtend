@@ -109,6 +109,28 @@ class GraphService extends Generatable {
 	        return newGraph;
 	    });
 	  }
+	  
+	  Future<Map<String,String>> fetchCustomActionsFor«g.name.escapeDart»(int dywaId,«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph) async {
+	  	    return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/${graph.dywaId}/customaction/${dywaId}/fetch/private",method: "GET",requestHeaders: requestHeaders).then((response){
+	  	        Map map = JSON.decode(response.responseText);
+	  	        print("[PYRO] fetched custom action for «g.name.fuEscapeDart» ${graph.filename}");
+	  	        return map;
+	  	    });
+	  }
+	  Future<Message> triggerCustomActionsFor«g.name.escapeDart»(int dywaId,«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph,String fqn) async {
+	  	  	var data = {
+	  	  		'fqn':fqn
+	  	    };
+	  	  	return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/${graph.dywaId}/customaction/${dywaId}/trigger/private",sendData:JSON.encode(data),method: "POST",requestHeaders: requestHeaders).then((response){
+	  	  	   var p = Message.fromJSON(response.responseText);
+	  	  	});
+	  }
+	  
+	  Future<Message> triggerDoubleClickActionsFor«g.name.escapeDart»(int dywaId,«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph) async {
+	  	  return html.HttpRequest.request("rest/«g.name.lowEscapeDart»/${graph.dywaId}/dbaction/${elem.dywaId}/trigger/private",method: "GET",requestHeaders: requestHeaders).then((response){
+	  	      var p = Message.fromJSON(response.responseText);
+	  	  });
+	  }
 
 	  
 	  Future<«g.name.lowEscapeDart»CG.«g.name.fuEscapeDart»CommandGraph> loadCommandGraph«g.name.fuEscapeDart»(«g.name.lowEscapeDart».«g.name.fuEscapeDart» graph) async{

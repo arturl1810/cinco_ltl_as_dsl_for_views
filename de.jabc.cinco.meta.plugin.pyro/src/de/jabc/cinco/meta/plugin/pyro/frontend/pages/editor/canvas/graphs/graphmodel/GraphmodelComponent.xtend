@@ -317,6 +317,8 @@ class GraphmodelComponent extends Generatable {
 		  	 	      cb_update_bendpoint,
 		  	 	      cb_can_move_node,
 		  	 	      cb_can_connect_edge,
+		  	 	      cb_get_custom_actions,
+		  	 	      cb_fire_dbc_actions,
 		  	 	      «FOR elem : g.nodes + g.edges SEPARATOR ","»
 		  	 	      	«IF elem instanceof Node»
 		  	 	      		cb_create_node_«elem.name.lowEscapeDart»,
@@ -464,6 +466,42 @@ class GraphmodelComponent extends Generatable {
 		 			 return currentGraphModel;
 		 		 }
 		 		 return currentGraphModel.allElements().firstWhere((n)=>n.dywaId==dywaId);
+		 	 }
+		 	 
+		 	 void cb_get_custom_actions(int dywaId,int x,int y) {
+	 	 		«'''
+	 	 		graphService.fetchCustomActionsFor«g.name.escapeDart»(dywaId,currentGraphModel).then((map){
+	 	 			if(map.isNotEmpty){
+				 	 	js.context.callMethod('showContextMenu',[
+				 	 	map,
+				 	 	x,
+				 	 	y,
+				 	 	elem,
+				 	 	cb_fire_cm_action
+				 	 	]);
+		 	 		}
+		 	 	});
+		 	 	'''.propagation»
+		 	 }
+		 	 
+		 	 void cb_fire_cm_action(String fqn,int dywaId) {
+		 	 	graphService.triggerCustomActionsFor«g.name.escapeDart»(dywaId, currentGraphModel,fqn).then((m){
+		 	 		«'''
+		 	 			«'''
+		 	 			commandGraph.receiveCommand(ccm);
+		 	 			'''.checkCommand("basic_valid_answer",false)»
+		 	 		'''.propagation»
+		 	 	});
+		 	 }
+		 	 
+		 	 void cb_fire_dbc_actions(int dywaId) {
+		 	 	graphService.triggerDoubleClickActionsFor«g.name.escapeDart»(dywaId, currentGraphModel).then((m){
+		 	 	«'''
+		 	 		«'''
+		 	 		commandGraph.receiveCommand(ccm);
+		 	 		'''.checkCommand("basic_valid_answer",false)»
+		 	 	'''.propagation»
+		 	 	});
 		 	 }
 			 
 			 void cb_element_selected(int dywaId) {
