@@ -20,7 +20,7 @@ public class Acceptor implements IMetaPluginAcceptor {
 	public List<String> getAcceptedStrings(Annotation annotation) {
 		ArrayList<String> aList = new ArrayList<>();
 		if(annotation.getName().equals("pyro")){
-			if(annotation.getValue().size()<=2) {
+			if(annotation.getValue().size()<=1) {
 				aList.add("Choose folder...");
 			}
 		}
@@ -31,7 +31,7 @@ public class Acceptor implements IMetaPluginAcceptor {
 
 	@Override
 	public IReplacementTextApplier getTextApplier(Annotation annotation) {
-		if(annotation.getName().equals("pyro") && annotation.getValue().size()<=2) {
+		if(annotation.getName().equals("pyro") && annotation.getValue().size()<=1) {
 			return new ChooseFolderApplier(annotation,false);
 
 		}

@@ -34,7 +34,8 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
- de.jabc.cinco.meta.core.ge.style.generator.runtime.utils
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.utils,
+ de.jabc.cinco.meta.core.ge.style.model.xapi
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Import-Package: com.sun.el;version="2.2.0",

@@ -427,7 +427,7 @@ class MGLUtil {
 	}
 	
 	def static topSort(Iterable<? extends ModelElement> elements) {
-		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[dependencies], new ArrayList).
+		new DependencyGraph<ModelElement>().createGraph(elements.map[dependencies]).
 			topSort
 
 	}

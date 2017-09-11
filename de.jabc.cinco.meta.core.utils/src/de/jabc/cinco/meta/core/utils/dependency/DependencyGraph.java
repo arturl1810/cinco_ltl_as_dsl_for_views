@@ -1,19 +1,15 @@
 package de.jabc.cinco.meta.core.utils.dependency;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 
 public class DependencyGraph<T> {
 	HashMap<T,DependencyNode<T>> nodes;
-	private List<T> ignore;
 	
-	public DependencyGraph(List<T> ignore){
-		this.ignore = ignore;
+	public DependencyGraph(){
 		this.nodes = new HashMap<T, DependencyNode<T>>();
 	}
 	
@@ -21,8 +17,8 @@ public class DependencyGraph<T> {
 		nodes.put(node.getPath(),node);
 	}
 	
-	public  DependencyGraph<T> createGraph(Iterable<DependencyNode<T>> nodes, List<T> stacked){
-		DependencyGraph<T> dpg = new DependencyGraph<T>(stacked);
+	public  DependencyGraph<T> createGraph(Iterable<DependencyNode<T>> nodes){
+		DependencyGraph<T> dpg = new DependencyGraph<T>();
 		nodes.forEach(node -> dpg.addNode(node));
 		
 		return dpg;
@@ -47,9 +43,6 @@ public class DependencyGraph<T> {
  			for(T current: toVisit){
  				lastCurrent = current;
 				DependencyNode<T> dn = nodes.get(current);
-				for(T ign: this.ignore){
-					dn.removeDependency(ign);
-				}
 				for(T stacked : stck){
 					dn.removeDependency(stacked);
 					
@@ -64,10 +57,6 @@ public class DependencyGraph<T> {
  			else
  				throw new RuntimeException(String.format("Could not resolve Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
 		}
-		
-		
-		
-		
 		return stck;
 	}
 

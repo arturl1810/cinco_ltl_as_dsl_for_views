@@ -1,0 +1,112 @@
+<notification
+></notification>
+<header class="navbar navbar-static-top" style="border-radius: 5px;margin-left: 5px;margin-right: 5px;margin-top:14px;padding-right: 5px;background-color: rgb(82, 82, 82);color: #cacaca;">
+    <div class="navbar-header">
+        <a class="navbar-brand" href (click)="print($event)">
+            <img alt="Brand" src="asset/img/pyro_flame_white.svg" style="height: 40px;margin-top: -10px;">
+        </a>
+        <button aria-expanded="false" class="collapsed navbar-toggle" data-target="#bs-navbar" data-toggle="collapse" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button> <a href (click)="back.emit($event)" style="color: white;" class="navbar-brand">Pyro</a>
+    </div>
+</header>
+<div class="row" style="padding-left: 5px;padding-right: 5px;">
+    <div class="col-xs-5">
+        <ul class="nav nav-tabs nav-tabs-justified">
+            <li role="presentation" [ngClass]="{'active':isActive('owned')}"><a href (click)="showProjects(user.ownedProjects,'owned',$event)" style="background-color: rgba(199, 199, 199, 0.13);color: white;">Owned Projects</a></li>
+            <li role="presentation" [ngClass]="{'active':isActive('shared')}"><a href (click)="showProjects(user.sharedProjects,'shared',$event)" style="background-color: rgba(199, 199, 199, 0.13);color: white;">Shared Projects</a></li>
+        </ul>
+        <div class="list-group">
+            <div *ngFor="let project of currentProjects" class="list-group-item pyro-list-entry" >
+                <div class="row list-group-item-heading">
+                    <div class="col-sm-8" (click)="openCurrentProject(project)" style="cursor: pointer">
+                        <h4 style="color:#ff8001">{{project.name}}</h4>
+                    </div>
+                    <div class="col-sm-4" style="text-align: right">
+                        <button *ngIf="isActive('owned')" (click)="showEditProject(project)" type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button (click)="removeProject(project)" type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+
+                <div class="list-group-item-text" >
+                    Owner: {{project.owner.username}}<br />
+                    {{project.description}}<br />
+                    Shared users:<br />
+                    <ul>
+                        <li *ngFor="let sharedUser of project.shared">{{sharedUser.username}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-7">
+        <div class="panel panel-default pyro-panel">
+            <div class="panel-body pyro-panel-body" style="background-color: rgb(82, 82, 82);color:white;">
+                <div class="row">
+                    <div class="col-xs-4" style="text-align: center">
+                        <img src="asset/img/pyro.png" style="width: 65%;">
+                    </div>
+                    <div class="col-xs-8">
+                        <h3>Project Explorer</h3>
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-6">
+                                <button class="btn btn-default btn-block" type="button" (click)="showNewProjectModal=true"><span class="glyphicon glyphicon-plus"></span> Create new Empty Project</button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-xs-12 col-lg-6">
+                                <button class="btn btn-default btn-block" type="button" (click)="showFindUserModal=true"><span class="glyphicon glyphicon-user"></span> Show known Users</button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-xs-12 col-lg-6">
+                                <button class="btn btn-default btn-block" type="button" (click)="refresh()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-xs-12 col-lg-6">
+                                <a class="btn btn-default btn-block" href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                Logged in as {{user.username}}
+            </div>
+        </div>
+    </div>
+</div>
+<find-user
+        *ngIf="showFindUserModal"
+        [user]="user"
+        (searchUser)="findUser($event)"
+        (close)="showFindUserModal=false"
+>
+</find-user>
+<edit-project
+        *ngIf="showEditProjectModal"
+        [user]="user"
+        [project]="editProject"
+        (close)="showEditProjectModal=false"
+>
+</edit-project>
+<delete-project
+        *ngIf="showDeleteProjectModal"
+        [user]="user"
+        [shared]="isActive('shared')"
+        [project]="deleteProject"
+        (close)="showDeleteProjectModal=false"
+>
+</delete-project>
+<new-project
+    *ngIf="showNewProjectModal"
+    [user]="user"
+    (newProject)="openCurrentProject($event)"
+    (close)="showNewProjectModal=false"
+>
+</new-project>

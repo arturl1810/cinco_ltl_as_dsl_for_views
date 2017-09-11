@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.editor.DiagramEditor
+import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.swt.widgets.Display
 import org.eclipse.ui.IEditorPart
@@ -214,7 +215,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 *   be retrieved for whatever reason.
 	 */
 	def getDiagramTypeProvider(PictogramElement pictogramElement) {
-		pictogramElement.editor?.diagramTypeProvider
+		pictogramElement.diagram.diagramTypeProvider
 	}
 	
 	/**

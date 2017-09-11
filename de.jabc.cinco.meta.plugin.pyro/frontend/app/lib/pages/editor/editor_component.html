@@ -1,0 +1,81 @@
+<notification
+#notification
+></notification>
+<div style="background-color: #333;" *ngIf="project!=null">
+    <menu
+        style="padding-left: 0;"
+        [user]="user"
+        [project]="project"
+        [currentGraphModel]="currentGraphModel"
+        (back)="back.emit($event)"
+        (logout)="logout.emit($event)"
+        (hasDeleted)="hasDeleted($event)"
+        (changeLayout)="changeLayout($event)"
+        (changeScale)="changeScale($event)"
+        (openProject)="openProject.emit($event)"
+        (undo)="triggerUndo($event)"
+        (redo)="triggerRedo($event)"
+        (export)="triggerExport($event)"
+    >
+    </menu>
+    <div style="padding-left: 0;padding-right: 0;">
+        <div class="row" style="padding-left: 5px;padding-right: 5px;">
+            <div class="col-xs-3">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <explorer
+                            [user]="user"
+                            [project]="project"
+                            [currentGraphModel]="currentGraphModel"
+                            (hasDeleted)="hasDeleted($event)"
+                            (hasChanged)="changeStructure($event)"
+                            (openGraphModel)="addAndOpenGraphModel($event)"
+                        ></explorer>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <map
+                            [currentGraphModel]="currentGraphModel"
+                        ></map>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <pyro-canvas
+                            #canvas
+                            [user]="user"
+                            [project]="project"
+                            [currentGraphModel]="currentGraphModel"
+                            [currentLocalSettings]="currentLocalSettings"
+                            (selectionChanged)="selectionChanged($event)"
+                            (hasChanged)="changedGraph($event)"
+                            (tabChanged)="changedTabbing($event)"
+                        ></pyro-canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <properties
+                            *ngIf="currentGraphModel!=null && selectedElement!=null"
+                            [user]="user"
+                            [currentGraphModel]="currentGraphModel"
+                            [currentGraphElement]="selectedElement"
+                            (hasChanged)="changedProperties($event)"
+                        >
+                        </properties>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <palette
+                    [currentGraphModel]="currentGraphModel"
+                    (dragged)="currentDragging($event)"
+                ></palette>
+            </div>
+        </div>
+    </div>
+</div>
+

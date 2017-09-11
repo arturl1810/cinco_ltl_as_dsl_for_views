@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.gef.ContextMenuProvider;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -14,8 +16,21 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 		super(editor);
 	}
 	
+	@Override
+	protected void initActionRegistry(ZoomManager zoomManager) {
+		super.initActionRegistry(zoomManager);
+		for (EdgeLayout value : EdgeLayout.values()) {
+			registerAction(value.createAction(getParentPart()));
+		}
+	}
+	
 	protected IConfigurationProvider createConfigurationProvider(IDiagramTypeProvider diagramTypeProvider) {
 		return new CincoConfigurationProvider(this, diagramTypeProvider);
+	}
+	
+	protected ContextMenuProvider createContextMenuProvider() {
+		return new CincoDiagramEditorContextMenuProvider(getDiagramContainer().getGraphicalViewer(),
+			getDiagramContainer().getActionRegistry(), getConfigurationProvider());
 	}
 	
 	@Override

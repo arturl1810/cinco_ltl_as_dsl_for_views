@@ -35,4 +35,9 @@ public class DependencyNode<T> {
 	  return dependsOf.addAll(strings);
 	}
 	
+	@Override
+	public String toString() {
+		return "DependencyNode [path=" + path + "]";
+	}
+	
 }

@@ -62,16 +62,7 @@ public class MultiPageContributor extends MultiPageEditorActionBarContributor {
 	
 	void activateDiagramEditorActionContributor(IEditorPart editor) {
 		if (diagramEditorAC == null) {
-			diagramEditorAC = new DiagramEditorActionBarContributor() {
-				@SuppressWarnings("unchecked")
-				@Override public void dispose() {
-					IActionBars bars = getActionBars();
-					getActionRegistry().getActions().forEachRemaining((action) -> {
-						String id = ((IAction) action).getId();
-						bars.setGlobalActionHandler(id, null);
-					});
-				}
-			};
+			diagramEditorAC = new CincoDiagramEditorActionBarContributor();
 			diagramEditorAC.init(getActionBars(), getPage());
 		}
 		diagramEditorAC.setActiveEditor(editor);

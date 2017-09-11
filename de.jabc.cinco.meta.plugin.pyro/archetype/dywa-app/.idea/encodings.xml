@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-addon" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-business" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-connector" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-persistence" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-presentation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-process" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-process-adapter" charset="UTF-8" />
+  </component>
+</project>

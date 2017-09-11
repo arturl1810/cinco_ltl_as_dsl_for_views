@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>info.scce.dime</groupId>
+		<artifactId>dywa-app</artifactId>
+		<version>0.1</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>app-persistence</artifactId>
+
+	<name>${project.artifactId}</name>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>properties-maven-plugin</artifactId>
+					<version>1.0-alpha-2</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>set-system-properties</goal>
+							</goals>
+							<configuration>
+								<properties>
+									<property>
+										<name>javax.persistence.jdbc.url</name>
+										<value>${de.ls5.dywa.jdbc-connection-url}</value>
+									</property>
+									<property>
+										<name>hibernate.connection.url</name>
+										<value>${de.ls5.dywa.jdbc-connection-url}</value>
+									</property>
+									<property>
+										<name>javax.persistence.jdbc.driver</name>
+										<value>${de.ls5.dywa.jdbc-driver-class}</value>
+									</property>
+									<property>
+										<name>javax.persistence.jdbc.user</name>
+										<value>sa</value>
+									</property>
+									<property>
+										<name>javax.persistence.jdbc.password</name>
+										<value>sa</value>
+									</property>
+								</properties>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>de.ls5.dywa</groupId>
+					<artifactId>connect-maven-plugin</artifactId>
+					<version>${de.ls5.dywa.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>connect</goal>
+							</goals>
+							<!-- archetype plugin invokes generate-sources phase, but at this point, dependencies are not
+							build yet, so do not invoke it -->
+							<phase>generate-resources</phase>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>info.scce.dime</groupId>
+							<artifactId>app-connector</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>de.ls5.dywa</groupId>
+							<artifactId>adapter</artifactId>
+							<version>${de.ls5.dywa.version}</version>
+						</dependency>
+
+						<dependency>
+							<groupId>org.postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>9.4-1202-jdbc42</version>
+						</dependency>
+						<dependency>
+							<groupId>com.h2database</groupId>
+							<artifactId>h2</artifactId>
+							<version>1.3.173</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>de.ls5.dywa</groupId>
+					<artifactId>domain-generator-maven-plugin</artifactId>
+					<version>${de.ls5.dywa.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<!-- archetype plugin invokes generate-sources phase, but at this point, dependencies are not
+							build yet, so do not invoke it -->
+							<phase>generate-resources</phase>
+						</execution>
+					</executions>
+					<configuration>
+						<packageName>${de.ls5.dywa.generation.packageName}</packageName>
+						<finalArtifactName>${de.ls5.dywa.finalName}${de.ls5.dywa.instanceId}</finalArtifactName>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>info.scce.dime</groupId>
+							<artifactId>app-connector</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+
+						<dependency>
+							<groupId>org.postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>9.4-1202-jdbc42</version>
+						</dependency>
+						<dependency>
+							<groupId>com.h2database</groupId>
+							<artifactId>h2</artifactId>
+							<version>1.3.173</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+				</plugin>
+
+				<plugin>
+					<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+					<artifactId>maven-java-formatter-plugin</artifactId>
+				</plugin>
+			</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.173</version>
+		</dependency>
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>core</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>adapter</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>annotations</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>api</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.ls5.dywa</groupId>
+			<artifactId>entities</artifactId>
+			<version>${de.ls5.dywa.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<version>1.0.0.Final</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+
+</project>

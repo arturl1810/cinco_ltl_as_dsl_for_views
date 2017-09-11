@@ -18,6 +18,9 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getURI
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.osgi.framework.FrameworkUtil
+import org.osgi.framework.Bundle
 
 /**
  * Workspace-specific extension methods.
@@ -299,5 +302,42 @@ class WorkspaceExtension {
 			}
 		}
 		return list
+	}
+	
+	/**
+	 * Creates a {@code Resource} object for the specified URI.
+	 * 
+	 * @param uri The URI. Must not be {@code null}.
+	 * @return the {@code Resource} object, or {@code null} if its creation failed.
+	 */
+	def createResource(URI uri) {
+		extension val ext = new CodingExtension;
+		[ (new ResourceSetImpl).getResource(uri, true) ]
+			.onException[warn("Failed to create Resource object for URI: " + uri)]
+	}
+	
+	/**
+	 * Retrieves the OSGi context of the caller, i.e. the bundle context of its class.
+	 */
+	def getOSGiContext(Object caller) {
+		FrameworkUtil.getBundle(caller.class)?.bundleContext
+	}
+	
+	/**
+	 * Retrieves a list of bundle files with specific file extensions.
+	 * 
+	 * @param bundle  The bundle to be searched through.
+	 * @param fileExtension  Must not be {@code null} or empty.
+	 * @return  the URIs of the files that match the specified criteria.
+	 * @throws IllegalArgumentException  if {@code fileExtension} is {@code null} or empty.
+	 */
+	def findFiles(Bundle bundle, String fileExtension) {
+		extension val ext = new CollectionExtension
+		if (fileExtension.nullOrEmpty)
+			throw new IllegalArgumentException("fileExtension must not be empty")
+   		(bundle.findEntries("/", '''*.«fileExtension»''',true)?.toList ?: newArrayList)
+   			.map[toString]
+   			.drop[endsWith("/")] // findEntries also lists hidden directories, like .data/
+   			.map[URI.createURI(it)]
 	}
 }

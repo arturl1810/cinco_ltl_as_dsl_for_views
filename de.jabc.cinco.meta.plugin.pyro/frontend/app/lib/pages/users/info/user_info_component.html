@@ -1,0 +1,42 @@
+<!-- Show Users Modal -->
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="showUsersLabel" style="display: block; padding-left: 0px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="close.emit($event)" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="showUsersLabel">User Information</h4>
+            </div>
+            <div class="modal-body">
+                <h4>User Info for {{user.username}}</h4>
+                <dl class="dl-horizontal">
+                    <dt>Username</dt>
+                    <dd>{{user.username}}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Email</dt>
+                    <dd>{{user.email}}</dd>
+                </dl>
+                <h4>Known Users</h4>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let sharedUser of user.knownUsers; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{sharedUser.username}}</td>
+                        <td>{{sharedUser.email}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close.emit($event)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

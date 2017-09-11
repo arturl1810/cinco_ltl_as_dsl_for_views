@@ -6,6 +6,9 @@ import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
 import static extension org.jooq.lambda.Seq.*
+import java.util.Enumeration
+import org.apache.commons.collections.EnumerationUtils
+import java.util.List
 
 /**
  * Some collection extensions for cinco meta, cinco, and cinco products.
@@ -183,6 +186,28 @@ class CollectionExtension {
 		seq.map[new Tuple2(keyExtractor.apply(it), it)]
 	}
 	
+	/**
+	 * Maps the values of a sequence of tuples without touching the keys.
+	 * 
+	 * @param seq a sequence of tuples.
+	 * @param valueMapper a lambda that maps values.
+	 * @return a new sequence of tuples with the original keys and mapped values.
+	 */
+	def <T, U, V> mapValue(Seq<Tuple2<T, U>> seq, (U) => V valueMapper) {
+		seq.map[new Tuple2(v1, valueMapper.apply(v2))]
+	}
+	
+	/**
+	 * Maps the keys of a sequence of tuples without touching the values.
+	 * 
+	 * @param seq a sequence of tuples.
+	 * @param keyMapper a lambda that maps keys.
+	 * @return a new sequence of tuples with the original values and mapped keys.
+	 */
+	def <T, U, V> mapKey(Seq<Tuple2<T, U>> seq, (T) => V keyMapper) {
+		seq.map[new Tuple2(keyMapper.apply(v1), v2)]
+	}
+	
 	def <T> match(Iterable<T> iterable, (T) => boolean predicate) {
 		iterable.partition(predicate)
 	}
@@ -260,5 +285,12 @@ class CollectionExtension {
 	@Pure
 	def <T> Iterable<T> drop(Iterable<T> unfiltered, Class<?> type) {
 		unfiltered.filter[!type.isInstance(it)]
+	}
+	
+	/**
+	 * Transforms an {@code Enumeration} into a list.
+	 */
+	def <T> toList(Enumeration<T> enumeration) {
+		EnumerationUtils.toList(enumeration) as List<T>
 	}
 }

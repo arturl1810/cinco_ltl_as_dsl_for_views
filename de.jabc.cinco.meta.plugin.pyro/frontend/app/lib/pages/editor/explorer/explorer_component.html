@@ -1,0 +1,79 @@
+<div class="panel panel-default pyro-panel">
+    <div class="panel-heading pyro-panel-heading">
+        <strong>Project Explorer</strong>
+        <div class="btn-group btn-group-sm pull-right" role="group" style="margin-top: -5px;">
+            <button
+                    type="button"
+                    class="btn btn-sm btn-default btn-link pyro-button"
+                    (click)="expandAll($event)">
+                <span class="glyphicon glyphicon-resize-full"></span>
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-sm btn-default btn-link pyro-button"
+                    (click)="collapseAll($event)">
+                <span class="glyphicon glyphicon-resize-small"></span>
+            </button>
+        </div>
+    </div>
+    <div class="panel-body pyro-panel-body" style="max-width: inherit;
+    overflow-x: scroll;">
+        <span style="white-space: nowrap">
+            <span class="glyphicon glyphicon-home"></span> {{project.name}}
+            <button
+                style="padding-left: 0;padding-right: 0;color: white;"
+                (click)="createFolder(project)"
+                type="button"
+                class="btn btn-xs btn-link btn-success"
+            >
+                <span class="glyphicon glyphicon-folder-close"></span>
+            </button>
+            <button
+                style="padding-left: 0;padding-right: 0;color: white;"
+                (click)="createFile(project)"
+                type="button"
+                class="btn btn-xs btn-link btn-success"
+            >
+                <span class="glyphicon glyphicon-file"></span>
+            </button>
+        </span>
+        <ul style="LIST-STYLE-TYPE: none;">
+            <li *ngFor="let entry of project.innerFolders" style="white-space: nowrap">
+                <folder-entry
+                        [folder]="entry"
+                        [currentGraphModel]="currentGraphModel"
+                        (delete)="removeFolder($event)"
+                        (hasDeleted)="hasDeleted.emit($event)"
+                        (hasChanged)="hasChanged.emit($event)"
+                        (createFile)="createFile($event)"
+                        (createFolder)="createFolder($event)"
+                        (openGraphModel)="openGraphModel.emit($event)"
+                ></folder-entry>
+            </li>
+            <li *ngFor="let graph of project.graphModels" style="white-space: nowrap">
+                <graph-entry
+                        [graph]="graph"
+                        [currentGraphModel]="currentGraphModel"
+                        (openGraphModel)="openGraphModel.emit($event)"
+                        (hasChanged)="hasChanged.emit($event)"
+                        (createFile)="createFile($event)"
+                        (createFolder)="createFolder($event)"
+                        (delete)="deleteGraph($event)"
+                ></graph-entry>
+            </li>
+        </ul>
+    </div>
+</div>
+<create-file
+    *ngIf="showCreateFileModal"
+    [folder]="currentFolder"
+    (close)="hideCreateFile($event)"
+>
+</create-file>
+<create-folder
+    *ngIf="showCreateFolderModal"
+    [folder]="currentFolder"
+    (close)="hideCreateFolder($event)"
+>
+</create-folder>
+

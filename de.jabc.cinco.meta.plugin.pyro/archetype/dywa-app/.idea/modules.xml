@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app-addon/app-addon.iml" filepath="$PROJECT_DIR$/app-addon/app-addon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-business/app-business.iml" filepath="$PROJECT_DIR$/app-business/app-business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-connector/app-connector.iml" filepath="$PROJECT_DIR$/app-connector/app-connector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-persistence/app-persistence.iml" filepath="$PROJECT_DIR$/app-persistence/app-persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-presentation/app-presentation.iml" filepath="$PROJECT_DIR$/app-presentation/app-presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-process/app-process.iml" filepath="$PROJECT_DIR$/app-process/app-process.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-process-adapter/app-process-adapter.iml" filepath="$PROJECT_DIR$/app-process-adapter/app-process-adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dywa-app.iml" filepath="$PROJECT_DIR$/dywa-app.iml" />
+    </modules>
+  </component>
+</project>
