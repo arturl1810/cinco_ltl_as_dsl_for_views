@@ -439,22 +439,44 @@ class CodingExtension {
 	}
 	
 	/**
-	 * This is an alternative to the => operator in order to create a 
-	 * with/let block. A benefit of this extension method is, that it 
-	 * allows optional execution if the left expression evaluates to 
-	 * <code>null</code>.
+	 * This is an slightly adapted alternative to the <code>=></code> operator 
+	 * in order to create a let-block. A benefit of this extension method is, that it 
+	 * allows <strong>optional execution</strong> if the left expression evaluates to 
+	 * <code>null</code>. Instead of returning the left-hand side, it returns the result 
+	 * of the block or <code>null</code> if the left-hand side is <code>null</code>.
 	 * 
 	 * <pre>
 	 * nullableStuff?.let [ 
 	 *   // do something with `it` as it will never be null
-	 * ]
+	 * ]?.workOnTheResultOfBlock
 	 * </pre>
 	 * 
 	 * @param it the object used as receiver.
-	 * @param block the let/with lambda expression.
+	 * @param block the let lambda expression.
 	 * @return the receiver.
 	 */
-	def <T, U> let(T it, (T) => void block) {
+	def <T, U> let(T it, (T) => U block) {
+		block.apply(it)
+	}
+	
+	/**
+	 * This is an alternative to the <code>=></code> operator 
+	 * in order to create a with-block. A benefit of this extension method is, that it 
+	 * allows <strong>optional execution</strong> if the left expression evaluates to 
+	 * <code>null</code>. like the double arrow operator it will return the left-hand 
+	 * side and the lambda expression is of type <code>void</code>. 
+	 * 
+	 * <pre>
+	 * nullableStuff?.let [ 
+	 *   // do something with `it` as it will never be null
+	 * ]?.workOnNullableStuff
+	 * </pre>
+	 * 
+	 * @param it the object used as receiver.
+	 * @param block the let lambda expression.
+	 * @return the receiver.
+	 */
+	def <T> with(T it, (T) => void block) {
 		block.apply(it)
 		it
 	}
