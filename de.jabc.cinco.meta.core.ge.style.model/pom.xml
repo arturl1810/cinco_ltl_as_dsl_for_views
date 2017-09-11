@@ -47,17 +47,6 @@
 							<appArgLine>-data ${java.io.tmpdir}/cinco-emf-ge-style -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/Style.genmodel ${project.basedir}/</appArgLine>
 						</configuration>
 					</execution>
-					<execution>
-						<id>graphicalGraphModel</id>
-						<goals>
-							<goal>eclipse-run</goal>
-						</goals>
-						<phase>generate-sources</phase>
-						<configuration>
-							<!-- linebreaks not permitted in this arg line -->
-							<appArgLine>-data ${java.io.tmpdir}/cinco-emf-ge-style -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/GraphicalGraphModel.genmodel ${project.basedir}/</appArgLine>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>

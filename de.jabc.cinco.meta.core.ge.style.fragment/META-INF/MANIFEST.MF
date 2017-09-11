@@ -9,4 +9,5 @@ Require-Bundle: de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.core.resources
 Import-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.xtext,
- org.eclipse.jface.text.contentassist
+ org.eclipse.jface.text.contentassist,
+ style
