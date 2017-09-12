@@ -160,8 +160,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						pairs.add(
 								new Pair<>(String.format("%s: Generating Ecore/GenModel...", file.getFullPath().lastSegment()),
 										() -> generateEcoreModel(file)));
-						pairs.add(new Pair<>(String.format("%s: Generating model code...", file.getFullPath().lastSegment()),
-								() -> generateGenmodelCode(file)));
+//						pairs.add(new Pair<>(String.format("%s: Generating model code...", file.getFullPath().lastSegment()),
+//								() -> generateGenmodelCode(file)));
 						pairs.add(
 								new Pair<>(String.format("%s: Generating Graphiti editor...", file.getFullPath().lastSegment()),
 										() -> generateGraphitiEditor(file)));
@@ -484,8 +484,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 					MGLEPackageRegistry.INSTANCE.addMGLEPackage(getEPackageForMGL(mglFile, project));
 				}				
 			}
-			
-
 		}
 		DependencyGraph<String> dg = new DependencyGraph<String>().createGraph(dns);
 		List<IFile> topSortMGLs = dg.topSort().stream().map(path -> cpdFile.getProject().getFile(path))

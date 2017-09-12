@@ -367,7 +367,7 @@ class GraphicalGraphModelExtension {
 				setLocation(x,y)
 				targetContainer = target.pictogramElement as ContainerShape
 				sourceContainer = switch it:node.container {
-					CGraphModel: pictogramElement
+					CGraphModel: pictogramElement as ContainerShape
 					Container: pictogramElement as ContainerShape
 				}
 			]
