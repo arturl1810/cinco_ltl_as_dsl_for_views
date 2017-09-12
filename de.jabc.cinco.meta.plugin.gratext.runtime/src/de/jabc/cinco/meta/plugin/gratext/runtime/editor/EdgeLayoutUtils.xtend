@@ -3,7 +3,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.editor
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import graphmodel.Edge
 import graphmodel.ModelElement
-import java.util.List
 import org.eclipse.graphiti.features.IFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IContext
@@ -18,7 +17,7 @@ class EdgeLayoutUtils {
 	extension val WorkbenchExtension = new WorkbenchExtension
 	
 	def getGraphicsAlgorithm(ModelElement it) {
-		pictogramElement?.graphicsAlgorithm
+		internalElement?.pictogramElement?.graphicsAlgorithm
 	}
 	
 	def getX(ModelElement it) {
@@ -73,7 +72,8 @@ class EdgeLayoutUtils {
 	}
 	
 	def FreeFormConnection getConnection(Edge it) {
-		switch pe:pictogramElement {
+		val pe = internalElement.pictogramElement
+		switch pe {
 			FreeFormConnection: pe
 		}
 	}
@@ -107,8 +107,9 @@ class EdgeLayoutUtils {
 	}
 	
 	def removeBendpoints(Edge it, IFeatureProvider fp) {
-		transact[
-			for (i: 0 ..< bendpoints.size)
+		val points = bendpoints
+		if (!points.nullOrEmpty) transact[
+			for (i: 0 ..< points.size)
 				removeBendpoint(0, fp)
 		]
 	}
@@ -126,8 +127,9 @@ class EdgeLayoutUtils {
 	
 	def moveBendpoints(Edge it, (Location) => Location move) {
 		val fp = diagram.diagramTypeProvider.featureProvider
-		transact[
-			for (i: 0 ..< bendpoints.size)
+		val points = bendpoints
+		if (!points.nullOrEmpty) transact[
+			for (i: 0 ..< points.size)
 				moveBendpoint(i, move, fp)
 		]
 	}
