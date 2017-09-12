@@ -171,6 +171,14 @@
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getContainableTypes"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getModelElements.1"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getInternalContainerElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getEdges">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElementContainer/getEdges/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getEdges/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getNodes">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElementContainer/getNodes/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getNodes/T"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>
