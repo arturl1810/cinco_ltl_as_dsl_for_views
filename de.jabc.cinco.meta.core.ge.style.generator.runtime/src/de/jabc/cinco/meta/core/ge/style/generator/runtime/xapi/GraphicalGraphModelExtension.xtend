@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ge.style.model.xapi
+package de.jabc.cinco.meta.core.ge.style.generator.runtime.xapi
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CGraphModel
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
@@ -28,7 +28,7 @@ class GraphicalGraphModelExtension {
 	
 	protected extension WorkbenchExtension = new WorkbenchExtension
 	protected extension GraphModelExtension = new GraphModelExtension
-	protected extension ResourceExtension = new ResourceExtension	
+	protected extension ResourceExtension = new ResourceExtension
 	
 	/**
 	 * Find all elements of specific type inside the specified container.
