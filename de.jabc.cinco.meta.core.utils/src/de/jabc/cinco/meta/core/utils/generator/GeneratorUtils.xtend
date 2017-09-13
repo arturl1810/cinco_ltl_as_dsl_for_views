@@ -251,6 +251,12 @@ class GeneratorUtils extends InheritanceUtil{
 		else s
 	}
 	
+	def paramEscape(String s){
+		if (ReservedKeyWords.values.map[it.keyword].map[toLowerCase].contains(s.toLowerCase))
+			s+'_'
+		else s
+	}
+	
 	def dispatch CharSequence fqBeanName(ContainingElement ce) {
 		switch ce {
 			GraphModel : (ce as ModelElement).fqBeanName
@@ -537,6 +543,7 @@ class GeneratorUtils extends InheritanceUtil{
 		}
 	}
 	
+	
 	def String primeTypePackagePrefix(Node n) {
 		val prime = n.retrievePrimeReference
 		switch prime {
@@ -545,15 +552,6 @@ class GeneratorUtils extends InheritanceUtil{
 		}
 	}
 	
-	def primeElementLabel(Node n) {
-		var labelAnnot = n.retrievePrimeReference.annotations.filter[name == "pvLabel"]
-		if (!labelAnnot.isNullOrEmpty) {
-			var value = labelAnnot.get(0).value.get(0)
-			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»")).toString()'''
-		} else {
-			n.primeFqTypeName
-		}
-	}
 	
 	/**
 	 * This method retrieves the {@link GraphModel} of the {@link ReferencedModelElement}'s type
