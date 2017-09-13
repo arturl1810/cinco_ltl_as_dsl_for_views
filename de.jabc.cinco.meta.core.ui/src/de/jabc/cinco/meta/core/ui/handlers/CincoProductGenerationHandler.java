@@ -63,8 +63,8 @@ import mgl.Import;
 import mgl.MglPackage;
 import productDefinition.CincoProduct;
 import productDefinition.MGLDescriptor;
-import transem.utility.helper.Tuple;
 import org.eclipse.xtext.xbase.lib.Pair;
+import org.jooq.lambda.tuple.Tuple2;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -444,7 +444,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void calculateMGL_Sets() {
 		this.resetRegistries();
 		IProject project = cpdFile.getProject();
-		ArrayList<Tuple<String,List<String>>> unsorted = new ArrayList<>();
+		ArrayList<Tuple2<String,List<String>>> unsorted = new ArrayList<>();
 		HashMap<String,Integer> mglPrios = new HashMap<>();
 		List<DependencyNode<String>> dns = new ArrayList<DependencyNode<String>>();
 		List<String> stacked = new ArrayList<>();
