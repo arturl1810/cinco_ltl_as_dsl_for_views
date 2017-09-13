@@ -1,13 +1,11 @@
 package de.jabc.cinco.meta.plugin.primeviewer.templates
 
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
+import de.jabc.cinco.meta.plugin.primeviewer.PrimeViewerExtension
 import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import mgl.Node
-import mgl.ReferencedEClass
-import mgl.ReferencedModelElement
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IWorkspace
@@ -23,7 +21,7 @@ import org.eclipse.swt.graphics.Image
 
 class LabelProviderTemplate {
 
-	static extension GeneratorUtils = new GeneratorUtils
+	static extension PrimeViewerExtension pvExtension = new PrimeViewerExtension
 	
 	def static doGenerateLabelProviderContent(Node n, IProject p) {
 		println(n.primeTypePackagePrefix)

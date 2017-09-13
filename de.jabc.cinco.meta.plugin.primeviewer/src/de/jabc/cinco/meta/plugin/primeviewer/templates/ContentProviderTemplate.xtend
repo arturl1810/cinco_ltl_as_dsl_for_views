@@ -13,10 +13,11 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import java.util.ArrayList
 import org.eclipse.emf.common.util.TreeIterator
+import de.jabc.cinco.meta.plugin.primeviewer.PrimeViewerExtension
 
 class ContentProviderTemplate {
 
-	static extension GeneratorUtils = new GeneratorUtils
+	static extension PrimeViewerExtension pvExtension = new PrimeViewerExtension
 
 	def static doGenerateContentProviderContent(Node n, IProject p) {
 		val packageName = n.graphModel.package+'.primeviewer.'+n.primeTypePackagePrefix
@@ -52,7 +53,7 @@ class ContentProviderTemplate {
 			try{
 			if(parentElement instanceof «IFile.name»){
 			«IFile.name» file = («IFile.name») parentElement;
-			if(file.getName().endsWith("«n.primeTypePackagePrefix»")){
+			if(file.getName().endsWith("«n.primeFileExtension»")){
 				«URI.name» fileURI = «URI.name».createPlatformResourceURI(file.getFullPath().toString(), true) ;
 				«EObject.name» prime = null;
 				«Resource.name» resource = new «ResourceSetImpl.name»().getResource(fileURI, true);
