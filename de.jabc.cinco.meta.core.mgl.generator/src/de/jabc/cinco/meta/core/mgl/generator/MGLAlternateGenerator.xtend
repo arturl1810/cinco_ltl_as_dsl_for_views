@@ -285,7 +285,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	 */
 	private def getPrimeTypeCast(Node node){
 			switch(node.retrievePrimeReference){
-				case node.retrievePrimeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
+				case node.retrievePrimeReference instanceof ReferencedModelElement : return '''(«node.primeFqTypeName»)'''
 				default: return ''''''
 			}
 	}

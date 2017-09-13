@@ -521,11 +521,19 @@ class GeneratorUtils extends InheritanceUtil{
 		return n.retrievePrimeReference.name
 	}
 	
-	def primeTypeName(Node n) {
+	def primeFqTypeName(Node n) {
 		val prime = n.retrievePrimeReference
 		switch prime {
 			ReferencedEClass : prime.type.fqBeanName
 			ReferencedModelElement : prime.type.fqBeanName
+		}
+	}
+
+	def primeTypeName(Node n) {
+		val prime = n.retrievePrimeReference
+		switch prime {
+			ReferencedEClass : prime.type.name
+			ReferencedModelElement : prime.type.name
 		}
 	}
 	
@@ -543,7 +551,7 @@ class GeneratorUtils extends InheritanceUtil{
 			var value = labelAnnot.get(0).value.get(0)
 			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»")).toString()'''
 		} else {
-			n.primeTypeName
+			n.primeFqTypeName
 		}
 	}
 	
