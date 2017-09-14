@@ -244,28 +244,16 @@ public abstract class Highlighter {
 		@Override
 		@SuppressWarnings("restriction")
 		public void dragStart(DragSourceEvent event) {
+			// inform that we are not interested in handling the drag
 			event.doit = false;
-//			System.out.println("[Highlighter] dragStart doit=" + event.doit);
 			try {
-//				System.out.println("[Highlighter] dragStart " + editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findHandleAt(new Point(event.x, event.y)));
-				
 				EditPart clicked = editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findObjectAt(new Point(event.x, event.y));
 				if (clicked instanceof ContainerShapeEditPart) {
 					contextKey = onDragStart(((ContainerShapeEditPart)clicked).getPictogramElement());
 				}
-//				else if (editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().getFocusEditPart() instanceof FreeFormConnectionEditPart) {
-//					FreeFormConnectionEditPart part = (FreeFormConnectionEditPart) editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().getFocusEditPart();
-//					EditPolicy policy = part.getEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE);
-//					if (policy != null && policy instanceof ConnectionHighlightEditPolicy) {
-//						ConnectionHighlightEditPolicy chep = (ConnectionHighlightEditPolicy) policy;
-//					}
-//				}
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			
-			// inform that we are not interested in handling the drag
-			
 		}
 		
 		@Override

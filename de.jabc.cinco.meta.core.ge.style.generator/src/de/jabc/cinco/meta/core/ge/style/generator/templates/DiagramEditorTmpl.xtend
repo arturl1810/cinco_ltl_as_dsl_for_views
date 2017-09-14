@@ -34,6 +34,12 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 «««			for («EObject.name» bo : pl.getBusinessObjects())
 «««				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
 		
+		de.jabc.cinco.meta.core.ui.highlight.Highlighter.INSTANCE.get().listenToDiagramDrag(this, getGraphicalControl());
+	}
+	
+	@Override
+	public void onPaletteViewerCreated(org.eclipse.gef.ui.palette.PaletteViewer pViewer) {
+		de.jabc.cinco.meta.core.ui.highlight.Highlighter.INSTANCE.get().listenToPaletteDrag(pViewer);
 	}
 	
 	@Override

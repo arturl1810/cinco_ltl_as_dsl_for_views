@@ -32,9 +32,9 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import mgl.ReferencedType
 import org.eclipse.emf.common.util.BasicEList
 import mgl.GraphicalModelElement
-import transem.utility.helper.Tuple
 import mgl.MglFactory
 import java.util.Arrays
+import org.jooq.lambda.tuple.Tuple2
 
 class MGLUtil {
 
@@ -87,7 +87,7 @@ class MGLUtil {
 
 	def static inheritAllConnectionConstraints(
 		GraphModel graphModel) {
-		var inoutMap = new HashMap<Node, Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>>;
+		var inoutMap = new HashMap<Node, Tuple2<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>>;
 
 		for (n : graphModel.nodes) {
 			val t = inheritConnectionConstraints(n)
@@ -95,8 +95,8 @@ class MGLUtil {
 		}
 		for (n : inoutMap.keySet) {
 			val inout = inoutMap.get(n)
-			n.incomingEdgeConnections.addAll(inout.left)
-			n.outgoingEdgeConnections.addAll(inout.right)
+			n.incomingEdgeConnections.addAll(inout.v1)
+			n.outgoingEdgeConnections.addAll(inout.v2)
 		}
 	}
 
@@ -126,7 +126,7 @@ class MGLUtil {
 			outgoingEdgeConnections.addAll(out)
 			currentNode = currentNode.extends
 		}
-		return new Tuple<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>(
+		return new Tuple2<ArrayList<IncomingEdgeElementConnection>, ArrayList<OutgoingEdgeElementConnection>>(
 			incomingEdgeConnections, outgoingEdgeConnections)
 	}
 	

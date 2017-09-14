@@ -21,8 +21,9 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import graphmodel.ModelElementContainer;
 import graphmodel.Node;
+import graphmodel.internal.InternalModelElementContainer;
+import graphmodel.internal.InternalNode;
 
 public class DefaultHighlighter extends Highlighter {
 
@@ -30,7 +31,7 @@ public class DefaultHighlighter extends Highlighter {
 	protected Set<PictogramElement> getHighlightablesOnDrag(PictogramElement dragged) {
 		return getShapes().stream()
 				.filter(pe -> pe != dragged
-					&& testBusinessObjectType(pe, ModelElementContainer.class)
+					&& testBusinessObjectType(pe, InternalModelElementContainer.class)
 					&& canContain(pe, dragged))
 				.collect(Collectors.toSet());
 	}
@@ -38,7 +39,7 @@ public class DefaultHighlighter extends Highlighter {
 	@Override
 	protected Set<PictogramElement> getHighlightablesOnCreate(ICreateFeature feature) {
 		return getContainerShapes().stream()
-				.filter(pe -> testBusinessObjectType(pe, ModelElementContainer.class))
+				.filter(pe -> testBusinessObjectType(pe, InternalModelElementContainer.class))
 				.filter(pe -> canCreate(feature, pe))
 				.collect(Collectors.toSet());
 	}
@@ -48,7 +49,7 @@ public class DefaultHighlighter extends Highlighter {
 		CreateConnectionContext ctx = new CreateConnectionContext();
 		ctx.setSourceAnchor(context.getSourceAnchor());
 		return getShapes().stream()
-				.filter(shape -> testBusinessObjectType(shape, Node.class))
+				.filter(shape -> testBusinessObjectType(shape, InternalNode.class))
 				.filter(shape -> {
 					if (!shape.getAnchors().isEmpty()) {
 						ctx.setTargetAnchor(shape.getAnchors().get(0));
@@ -68,7 +69,7 @@ public class DefaultHighlighter extends Highlighter {
 				context.getTargetLocation());
 		ctx.setReconnectType(context.getReconnectType());
 		return getShapes().stream()
-				.filter(shape -> testBusinessObjectType(shape, Node.class))
+				.filter(shape -> testBusinessObjectType(shape, InternalNode.class))
 				.filter(shape -> {
 					if (!shape.getAnchors().isEmpty()) {
 						ctx.setNewAnchor(shape.getAnchors().get(0));
@@ -87,10 +88,12 @@ public class DefaultHighlighter extends Highlighter {
 	
 	private boolean canContain(Shape containerShape, PictogramElement pe) {
 		try {
-			Node node = (Node) getBusinessObject(pe);
-			ModelElementContainer cont = (ModelElementContainer) getBusinessObject(containerShape);
-			return cont.equals(node.getContainer()) || cont.getInternalContainerElement().canContain(node.getClass());
+			InternalNode node = (InternalNode) getBusinessObject(pe);
+			InternalModelElementContainer cont = (InternalModelElementContainer) getBusinessObject(containerShape);
+			return cont.equals(node.getContainer())
+					|| cont.canContain(((Node) node.getElement()).getClass());
 		} catch(RuntimeException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

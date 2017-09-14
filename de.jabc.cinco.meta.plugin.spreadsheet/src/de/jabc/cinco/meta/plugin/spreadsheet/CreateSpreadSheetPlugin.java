@@ -37,8 +37,6 @@ import de.jabc.cinco.meta.plugin.template.SheetHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.UserInteractionTemplate;
 import de.jabc.cinco.meta.plugin.template.VersionNodeComparator;
 import de.jabc.cinco.meta.plugin.template.VersionNodeTemplate;
-import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
 public class CreateSpreadSheetPlugin {
 

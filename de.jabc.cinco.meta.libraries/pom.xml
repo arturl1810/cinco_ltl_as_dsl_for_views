@@ -25,11 +25,7 @@
 						</goals>
 						<configuration>
 							<artifactItems>
-								<artifactItem>
-									<groupId>javax.servlet.jsp</groupId>
-            						<artifactId>jsp-api</artifactId>
-            						<version>2.0</version>
-        						</artifactItem>
+							<!--
 								<artifactItem>
 									<groupId>de.jabc</groupId>
 									<artifactId>jabc-editor</artifactId>
@@ -152,24 +148,6 @@
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>
-									<groupId>commons-el</groupId>
-									<artifactId>commons-el</artifactId>
-									<version>1.0</version>
-									<type>jar</type>
-								</artifactItem>
-								<artifactItem>
-									<groupId>commons-io</groupId>
-									<artifactId>commons-io</artifactId>
-									<version>1.4</version>
-									<type>jar</type>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.freemarker</groupId>
-									<artifactId>freemarker</artifactId>
-									<version>2.3.20</version>
-									<type>jar</type>
-								</artifactItem>
-								<artifactItem>
 									<groupId>de.jabc.sib</groupId>
 									<artifactId>script-sibs-adapters</artifactId>
 									<version>1.2.3</version>
@@ -245,7 +223,7 @@
 									<type>jar</type>
 								</artifactItem>
 
-								<!-- Artifact Items for jABC4 Codegenerator -->
+								<- Artifact Items for jABC4 Codegenerator 
 								<artifactItem>
 									<groupId>de.jabc</groupId>
 									<artifactId>jabc4-codegenerator-api</artifactId>
@@ -262,7 +240,6 @@
 								<artifactItem>
 									<groupId>de.jabc</groupId>
 									<artifactId>jabc4-basic-java</artifactId>
-									<!-- <version>5.9.1</version> -->
 									<version>5.11-NOCDI-SNAPSHOT</version>
 								</artifactItem>
 
@@ -298,11 +275,6 @@
 									<groupId>org.jboss.classfilewriter</groupId>
 									<artifactId>jboss-classfilewriter</artifactId>
 									<version>1.0.4.Final</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.jboss.spec.javax.el</groupId>
-									<artifactId>jboss-el-api_3.0_spec</artifactId>
-									<version>1.0.0.Alpha1</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>org.jboss.spec.javax.interceptor</groupId>
@@ -360,6 +332,18 @@
 									<version>3.10.1</version>
 								</artifactItem>
 								<artifactItem>
+									<groupId>commons-el</groupId>
+									<artifactId>commons-el</artifactId>
+									<version>1.0</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.servlet.jsp</groupId>
+            						<artifactId>jsp-api</artifactId>
+            						<version>2.0</version>
+        						</artifactItem>
+								-->
+								<artifactItem>
 								  <groupId>org.jooq</groupId>
 								  <artifactId>jool</artifactId>
 								  <version>0.9.12</version>
@@ -369,6 +353,23 @@
 								  <artifactId>jool</artifactId>
                                   <classifier>sources</classifier>
 								  <version>0.9.12</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>commons-io</groupId>
+									<artifactId>commons-io</artifactId>
+									<version>1.4</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.jboss.spec.javax.el</groupId>
+									<artifactId>jboss-el-api_3.0_spec</artifactId>
+									<version>1.0.0.Alpha1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.freemarker</groupId>
+									<artifactId>freemarker</artifactId>
+									<version>2.3.20</version>
+									<type>jar</type>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${basedir}/lib</outputDirectory>

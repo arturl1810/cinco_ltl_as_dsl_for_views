@@ -28,8 +28,6 @@ import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import mgl.GraphModel;
 
 public class GenerateFeatureProjectHandler extends AbstractHandler {
@@ -89,7 +87,7 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 			String featureProjectPath = featureProject.getLocation().addTrailingSeparator().toPortableString();
 			
 			// Generating feature.xml
-			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
+			//LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 			//context.put("packageName", packageName);
 			try{
 			HashMap<String, Set<String>> annotationToMGLPackageMap = PluginRegistry.getInstance().getMGLDependentPlugins();

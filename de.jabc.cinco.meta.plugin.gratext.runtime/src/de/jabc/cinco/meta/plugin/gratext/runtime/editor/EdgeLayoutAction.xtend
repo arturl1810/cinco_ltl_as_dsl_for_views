@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.editor
 
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import graphmodel.Edge
+import graphmodel.internal.InternalEdge
 import org.eclipse.gef.EditPart
 import org.eclipse.gef.GraphicalEditPart
 import org.eclipse.gef.Request
@@ -16,7 +17,7 @@ class EdgeLayoutAction extends SelectionAction {
 	extension val WorkbenchExtension = new WorkbenchExtension
 	
 	final EdgeLayout layout
-	Iterable<Edge> selectedEdges
+	Iterable<InternalEdge> selectedEdges
 	
 	new(IWorkbenchPart part, EdgeLayout layout) {
 		super(part)
@@ -41,19 +42,17 @@ class EdgeLayoutAction extends SelectionAction {
 	
 	override calculateEnabled() {
 		val selection = getSelection(null)
-		val bos = selection.map[model]
+			.map[model]
 			.filter(PictogramElement)
 			.map[businessObject]
-			.filterNull
-		
-		val onlyEdges = !bos.exists[!(it instanceof Edge)]
+		val onlyEdges = !selection.exists[!(it instanceof InternalEdge)]
 		val enabled = onlyEdges && !selection.isEmpty
-		selectedEdges = if (enabled) bos.filter(Edge) else #[]
-		enabled
+		selectedEdges = if (enabled) selection.filter(InternalEdge) else #[]
+		return enabled
 	}
 	
 	override run() {
-		selectedEdges.forEach[ layout.apply(it) ]
+		selectedEdges.forEach[ layout.apply(it.element as Edge) ]
 	}
 	
 	def Iterable<EditPart> getSelection(Request request) {

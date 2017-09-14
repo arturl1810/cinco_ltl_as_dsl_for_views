@@ -141,6 +141,11 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 	}
 
 	@Override
+	public org.eclipse.graphiti.tb.IDecorator[] getDecorators(org.eclipse.graphiti.mm.pictograms.PictogramElement pe) {
+		return de.jabc.cinco.meta.core.ui.highlight.DecoratorRegistry.complementDecorators(pe, super.getDecorators(pe));
+	}
+
+	@Override
 	public boolean equalsBusinessObjects(«Object.name» o1, «Object.name» o2) {
 		if (o1 != null)
 			return o1.equals(o2);

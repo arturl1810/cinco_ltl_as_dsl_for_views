@@ -256,7 +256,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	}
 
 	def canMoveToMethodContent(Node node, ContainingElement ce) '''
-		return «ce.name.toFirstLower».canContain(«node.fqBeanName».class);
+		return «ce.name.toFirstLower.paramEscape».canContain(«node.fqBeanName».class);
 	'''
 	
 
@@ -287,14 +287,14 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		«ModelElementContainer.name» source = this.getContainer();
 		int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
 		int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
-		_moveTo(«ce.name.toFirstLower», x, y);
+		_moveTo(«ce.name.toFirstLower.paramEscape», x, y);
 		«IF node.booleanWriteMethodCallPostMove»
 		postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
 		«ENDIF»
 	'''
 
 	def _moveToMethodContent(Node node, ContainingElement ce) '''
-		«ce.name.toFirstLower».getInternalContainerElement().getModelElements().add(this.getInternalElement());
+		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
 		this.move(x, y);
 		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
 	'''

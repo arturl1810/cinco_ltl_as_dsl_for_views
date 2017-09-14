@@ -20,6 +20,7 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
+import de.jabc.cinco.meta.core.ui.highlight.Highlighter
 
 class EdgeCreateFeatures extends APIUtils{
 
@@ -34,6 +35,8 @@ class EdgeCreateFeatures extends APIUtils{
 	public class CreateFeature«e.fuName» extends «CincoCreateEdgeFeature.name»<«ModelElement.name»> {
 		
 		private «ECincoError.name» error = «ECincoError.name».OK;
+		private «ICreateConnectionContext.name» context;
+		private «String.name» highlightContextKey;
 		
 		/**
 		 * Call of the Superclass
@@ -121,8 +124,8 @@ class EdgeCreateFeatures extends APIUtils{
 		*/
 		@Override
 		public boolean canStartConnection(«ICreateConnectionContext.name» context) {
+			this.context = context;
 			«Object.name» source = getBusinessObject(context.getSourceAnchor());
-
 			if (source instanceof «InternalNode.name») {	
 				if (! ((«InternalNode.name») source).canStart(«e.fqBeanName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
@@ -160,6 +163,24 @@ class EdgeCreateFeatures extends APIUtils{
 		*/
 		public void setError(«ECincoError.name» error) {
 			this.error = error;
+		}
+		
+		@Override
+		public void startConnecting() {
+			super.startConnecting();
+			highlightContextKey = «Highlighter.name».INSTANCE.get().onConnectionStart(this, context);
+		}
+		
+		@Override
+		public void canceledAttaching(«ICreateConnectionContext.name» context) {
+			super.canceledAttaching(context);
+			«Highlighter.name».INSTANCE.get().onConnectionCancel(highlightContextKey);
+		}
+		
+		@Override
+		public void endConnecting() {
+			super.endConnecting();
+			«Highlighter.name».INSTANCE.get().onConnectionEnd(highlightContextKey);
 		}
 	}
 	'''

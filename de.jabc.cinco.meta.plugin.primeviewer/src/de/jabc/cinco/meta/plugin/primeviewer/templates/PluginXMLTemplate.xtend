@@ -14,25 +14,20 @@ class PluginXMLTemplate {
 	}
 	
 	def static getContent(Iterable<Node> primeNodes)'''
-	<?xml version="1.0" encoding="UTF-8"?>
-	<?eclipse version="3.4"?>
-	<plugin>
-	    «FOR n : primeNodes SEPARATOR '\n'»
-	    «n.navigatorContent»
-	    «ENDFOR»
-	    <extension
-	    	point="org.eclipse.ui.navigator.viewer">
-	      	<viewerContentBinding
-	        	viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+		«FOR n : primeNodes SEPARATOR '\n'»
+		«n.navigatorContent»
+		«ENDFOR»
+		<extension
+			point="org.eclipse.ui.navigator.viewer">
+			  <viewerContentBinding
+				viewerId="org.eclipse.ui.navigator.ProjectExplorer">
 				<includes>
-	         	«FOR n : primeNodes SEPARATOR '\n'»
-	         		«n.extensionContent»
-	         	«ENDFOR»
-	        	</includes>
+				 «FOR n : primeNodes SEPARATOR '\n'»
+					 «n.extensionContent»
+				 «ENDFOR»
+				</includes>
 			</viewerContentBinding>
 		</extension>
-	
-	</plugin>
 	''' 
 		
 	def static getNavigatorContent(Node n) '''
