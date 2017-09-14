@@ -285,13 +285,13 @@
     </eOperations>
     <eOperations name="setSourceElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="org.eclipse.emf.transaction.TransactionalEditingDomain dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.getEditingDomain(eResource().getResourceSet());&#xA;if (dom == null)&#xA;&#x9;dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(eResource().getResourceSet());&#xA;dom.getCommandStack().execute(new org.eclipse.emf.transaction.RecordingCommand(dom) {&#xA;&#x9;&#x9;    &#xA;&#x9;@Override &#xA;&#x9;protected void doExecute() {&#xA;&#x9;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);&#xA;&#x9;}&#xA;});"/>
+        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);"/>
       </eAnnotations>
       <eParameters name="sourceElement" eType="#//Node"/>
     </eOperations>
     <eOperations name="setTargetElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="org.eclipse.emf.transaction.TransactionalEditingDomain dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.getEditingDomain(eResource().getResourceSet());&#xA;if (dom == null)&#xA;&#x9;dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(eResource().getResourceSet());&#xA;dom.getCommandStack().execute(new org.eclipse.emf.transaction.RecordingCommand(dom) {&#xA;&#x9;&#x9;    &#xA;&#x9;@Override &#xA;&#x9;protected void doExecute() {&#xA;&#x9;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);&#xA;&#x9;}&#xA;});"/>
+        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);"/>
       </eAnnotations>
       <eParameters name="targetElement" eType="#//Node"/>
     </eOperations>
