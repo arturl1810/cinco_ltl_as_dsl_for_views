@@ -8,13 +8,12 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- de.jabc.cinco.meta.libraries,
  org.eclipse.core.resources,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.transaction,
- org.eclipse.ui,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ de.jabc.cinco.meta.libraries,
+ org.eclipse.ui;bundle-version="3.107.0"
 Export-Package: de.jabc.cinco.meta.util.xapi;x-friends:="de.jabc.cinco.meta.runtime"
 Bundle-ActivationPolicy: lazy
-

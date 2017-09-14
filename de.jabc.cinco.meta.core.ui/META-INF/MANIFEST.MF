@@ -56,8 +56,7 @@ Import-Package: de.jabc.cinco.meta.core.mgl,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.xtext.resource,
  org.eclipse.xtext.ui.resource,
- productDefinition,
- transem.utility.helper
+ productDefinition
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.ui,
  de.jabc.cinco.meta.core.ui.editor,

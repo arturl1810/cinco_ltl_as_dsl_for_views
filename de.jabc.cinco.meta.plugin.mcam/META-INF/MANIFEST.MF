@@ -11,7 +11,7 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.jface.text,
  org.eclipse.pde.core.project,
  org.eclipse.ui.dialogs
-Require-Bundle: de.jabc.cinco.meta.libraries,
- org.eclipse.graphiti.mm,
- org.eclipse.emf.ecore
+Require-Bundle: org.eclipse.graphiti.mm,
+ org.eclipse.emf.ecore,
+ de.jabc.cinco.meta.libraries
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
