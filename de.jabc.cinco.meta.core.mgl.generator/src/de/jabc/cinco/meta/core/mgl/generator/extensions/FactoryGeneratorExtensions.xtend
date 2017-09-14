@@ -2,16 +2,22 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import java.io.IOException
 import java.util.Map
 import mgl.GraphModel
+import mgl.ModelElement
+import mgl.Type
+import mgl.UserDefinedType
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.Path
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import mgl.GraphicalModelElement
-import mgl.Type
-import mgl.ModelElement
-import mgl.UserDefinedType
-import graphmodel.internal.InternalContainer
-import graphmodel.internal.InternalModelElement
 
 class FactoryGeneratorExtensions {
 	
@@ -73,11 +79,33 @@ class FactoryGeneratorExtensions {
 				]
 			}
 
+			/**
+			* This method creates a new «graphmodel.fuName» object with an underlying «Resource.name». Thus you can 
+			* simply call the «graphmodel.fuName»'s save method to save your changes.
+			*/
+			def «graphmodel.fqBeanName» create«graphmodel.fuName»(«String.name» path, «String.name» fileName) {
+				var filePath = new «Path.name»(path).append(fileName).addFileExtension("«graphmodel.name.toLowerCase»");
+				var uri = «URI.name».createPlatformResourceURI(filePath.toOSString(), true);
+				var res = new «ResourceSetImpl.name»().createResource(uri);
+				var graph = «graphmodel.fqFactoryName».eINSTANCE.create«graphmodel.fuName»();
+				
+				«EcoreUtil.name».setID(graph, «EcoreUtil.name».generateUUID());
+
+				res.getContents().add(graph);
+				
+				«IF graphmodel.hasPostCreateHook»
+				postCreates(graph);
+				«ENDIF»
+				try {
+					res.save(null);
+				} catch («IOException.name» e) {
+					e.printStackTrace();
+				}
+
+				return graph;
+			}
+
 			«getPostCreateHooks(graphmodel)»
-		
-«««			private static def setUID(«IdentifiableElement.name» me) {
-«««				«EcoreUtil.name».setID(me, «EcoreUtil.name».generateUUID);
-«««			}
 		}
 	'''
 	// FIXME: the classifier IDs are in arbitrary order! they do not match those of the model elements
@@ -94,23 +122,6 @@ class FactoryGeneratorExtensions {
 //		ecls.forEach[println(it.modelElement)]
 		ecls.map[modelElement].map[specificCreateMethod].join
 	}
-	
-//	dispatch static def specificCreateMethod(GraphModel gm)'''
-//		def create«gm.fuName»(String ID){
-//			val n = super.create«gm.fuName»
-//			val ime = createInternal«gm.fuName»
-//			n => [ internal = ime]
-//			setID(n,ID)
-//			setID(ime,generateUUID)
-//			«postCreate(gm, "n")»
-//			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
-//			n	
-//		}
-//		
-//		override create«gm.fuName»() {
-//			create«gm.fuName»(generateUUID)
-//		}
-//		'''
 	
 	static def specificCreateMethod(ModelElement it)'''
 		/**
@@ -176,28 +187,4 @@ class FactoryGeneratorExtensions {
 		}
 		'''
 	
-//	dispatch static def specificCreateMethod(Type it)'''
-//			def create«name»(){
-//				val n = super.create«name»
-//				//val ime = createInternal«name»
-//				//n => [ internal = ime]
-//				//n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-//				n
-//				
-//			}
-//			def create«name»(InternalModelElement ime) {
-//				val n = create«name»
-//				//n => [ internal = ime ]
-//				//n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-//				n
-//			}
-//			override def create«name»(){
-//				val «name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
-//				val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
-//				«ecl.mainEClass.name.toLowerCase».setInternalElement(«ecl.internalEClass.name.toLowerCase»);
-//				«ecl.mainEClass.name.toLowerCase».setUID();
-//				
-//				return «ecl.mainEClass.name.toLowerCase»
-//			}
-//		'''
 }

@@ -87,6 +87,10 @@ class EcoreExtensions {
 		createEParameter(EcorePackage.eINSTANCE.EInt,name,lb,ub)
 	}
 	
+	def static createEBoolean(String name, int lb, int ub) {
+		createEParameter(EcorePackage.eINSTANCE.EBoolean,name,lb,ub)
+	}
+	
 	def static createEObject(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EObject,name,lb,ub)
 	}

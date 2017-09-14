@@ -42,14 +42,10 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import com.google.common.collect.Iterables
-import java.util.List
-import java.util.Collections
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	extension AdapterGeneratorExtension = new AdapterGeneratorExtension
-	
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
@@ -113,6 +109,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
 		graphModel.createGetContainmentConstraintsMethod(eClassesMap)
 		graphModel.createModelElementGetter(eClassesMap)
+		graphModel.createNewGraphModel(eClassesMap)
 		
 		graphModel.nodes.forEach[node|
 			node.createInheritance(graphModel)

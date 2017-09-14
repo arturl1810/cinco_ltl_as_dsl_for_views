@@ -226,6 +226,9 @@ class APIUtils extends GeneratorUtils {
 		if (me.isIsAbstract) ""
 		else '''public «me.fuCName»(){}'''
 	}
-		
+	
+	def dtp_id(GraphModel gm) {
+		gm.package + gm.fuName + "DiagramTypeProvider"
+	}
 	
 }

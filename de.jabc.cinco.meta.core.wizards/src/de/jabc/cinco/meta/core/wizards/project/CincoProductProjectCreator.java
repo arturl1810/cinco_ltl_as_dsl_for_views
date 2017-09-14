@@ -228,6 +228,7 @@ public class CincoProductProjectCreator {
 		bundles.add("org.eclipse.core.runtime");
 		bundles.add("org.eclipse.core.resources");
 		bundles.add("org.eclipse.emf.ecore");
+		bundles.add("org.eclipse.emf.transaction");
 		bundles.add("org.eclipse.jface");
 		bundles.add("org.eclipse.ui");
 		bundles.add("de.jabc.cinco.meta.runtime");

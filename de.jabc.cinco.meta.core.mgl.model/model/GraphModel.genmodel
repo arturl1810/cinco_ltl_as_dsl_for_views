@@ -153,6 +153,7 @@
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getContainer"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getRootElement"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/highlight"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/update"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElementContainer">
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getModelElements">
@@ -181,6 +182,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/equals/obj"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/hashCode"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/save"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>

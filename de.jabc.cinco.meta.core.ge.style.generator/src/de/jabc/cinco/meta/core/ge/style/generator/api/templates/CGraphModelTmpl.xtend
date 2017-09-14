@@ -5,9 +5,18 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureP
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import graphmodel.ModelElement
+import java.io.IOException
 import java.util.List
 import mgl.GraphModel
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.CoreException
+import org.eclipse.core.runtime.IPath
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.impl.AddContext
@@ -19,7 +28,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import org.eclipse.emf.common.util.URI
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -134,6 +143,22 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	«ENDFOR»
 	
+	public «me.fqBeanName» new«me.fuName»(«String.name» path, «String.name» fileName, boolean postCreateHook) {
+		«me.fqBeanName» graph = super.new«me.fuName»(path, fileName, postCreateHook);
+		«Diagram.name» diagram = «Graphiti.name».getPeCreateService().createDiagram("«me.fuName»", fileName, true);
+		
+		«Resource.name» res = graph.eResource();
+		res.getContents().add(0,diagram);
+		
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().
+			createDiagramTypeProvider(diagram, "«me.dtp_id»");
+		dtp.getFeatureProvider().link(diagram, graph);
+		
+		graph.save();
+	
+		return graph;
+	}
+	
 	public void update() {
 		«IFeatureProvider.name» fp = getFeatureProvider();
 		if (fp != null) try {
@@ -184,6 +209,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			return pes.get(0);
 		return null;
 	}
+	
 }
 '''
 	

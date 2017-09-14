@@ -19,13 +19,22 @@ import mgl.IncomingEdgeElementConnection
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.IPath
+import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import org.eclipse.core.runtime.Path
+import java.io.IOException
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -453,6 +462,40 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			)
 		]
 	}
+
+	def createNewGraphModel(GraphModel gm, HashMap<String, ElementEClasses> elmClasses){
+		var eClass = elmClasses.get(gm.name).mainEClass
+		var opName = "new"+gm.fuName
+		var pathParam = createEString("path", 1,1)
+		var fileParam = createEString("fileName", 1,1)
+		var hookParam = createEBoolean("postCreateHook",1,1)
+		var content = gm.createNewGraphModelContent
+		eClass.createEOperation(opName, eClass, 1,1, content, pathParam, fileParam, hookParam)
+	}
+
+	def createNewGraphModelContent(GraphModel gm) '''
+		«IPath.name» filePath = new «Path.name»(path).append(fileName).addFileExtension("«gm.name.toLowerCase»");
+		«URI.name» uri = «URI.name».createPlatformResourceURI(filePath.toOSString(), true);
+		«IFile.name» file = «ResourcesPlugin.name».getWorkspace().getRoot().getFile(filePath);
+		«Resource.name» res = new «ResourceSetImpl.name»().createResource(uri);
+		«gm.fqBeanName» graph = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
+		
+		«EcoreUtil.name».setID(graph, «EcoreUtil.name».generateUUID());
+
+		res.getContents().add(graph);
+		
+		«IF gm.hasPostCreateHook»
+		if (postCreateHook)
+			«gm.fqFactoryName».eINSTANCE.postCreates((«gm.fqBeanName») graph);
+		«ENDIF»
+		try {
+			res.save(null);
+		} catch («IOException.name» e) {
+			e.printStackTrace();
+		}
+
+		return graph;
+	'''
 
 	def createRootElementGetter(ModelElement me, HashMap<String, ElementEClasses> elmClasses) {
 		var modelElementClass = elmClasses.get(me.name).mainEClass

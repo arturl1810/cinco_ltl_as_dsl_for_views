@@ -122,6 +122,21 @@ class MGLGenerator implements IGenerator {
 		}
 	}
 
+	protected def void generateGraphModelCreator(MGLAlternateGenerator altGen, GraphModel model, IFileSystemAccess access) {
+		val factoryContent = altGen.createFactory(model)
+		val path = "/src-gen/" + model.package.replaceAll("\\.", "/") + "/creator"
+		val name = model.name + "Creator.xtend"
+		val project = ProjectCreator.getProject(model.eResource)
+		val packageName=model.package
+		ProjectCreator.exportPackage(project,packageName+".creator")
+		val fullPath = path + "/" + name
+		val file = project.getFile(fullPath)
+		if (!file.exists) {
+			new WorkspaceExtension().create(file)
+		}
+		file.setContents(new StringInputStream(factoryContent.toString), true, true, null)
+	}
+
 	def saveEcoreModel(EPackage ePackage, GraphModel model) {
 
 		EPackage.Registry.INSTANCE.put(ePackage.nsURI, ePackage)
