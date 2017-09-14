@@ -97,10 +97,10 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/setY/y"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/setWidth">
-        <genParameters ecoreParameter="GraphModel.ecore#//Node/setWidth/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/setWidth/width"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/setHeight">
-        <genParameters ecoreParameter="GraphModel.ecore#//Node/setHeight/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/setHeight/height"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/postResize">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postResize/modelElement"/>
