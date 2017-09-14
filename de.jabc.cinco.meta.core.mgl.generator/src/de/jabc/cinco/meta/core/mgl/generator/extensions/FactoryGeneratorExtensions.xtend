@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
 class FactoryGeneratorExtensions {
 	
@@ -54,6 +55,8 @@ class FactoryGeneratorExtensions {
 «««			Can't call this method as extension...
 			final extension InternalFactory = InternalFactory.eINSTANCE
 			public static «graphmodel.name»Factory eINSTANCE = «graphmodel.name»Factory.init
+			
+			extension «WorkbenchExtension.name» = new «WorkbenchExtension.name»
 			
 			static def «graphmodel.name»Factory init() {
 				try {

@@ -6,6 +6,7 @@ import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExte
 import graphmodel.GraphmodelPackage
 import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
+import graphmodel.internal.InternalGraphModel
 import java.util.ArrayList
 import java.util.HashMap
 import mgl.Attribute
@@ -42,6 +43,8 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import mgl.impl.ReferencedModelElementImpl
+import graphmodel.internal.impl.InternalGraphModelImpl
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -263,7 +266,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
-		return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«IF (node.retrievePrimeReference as ReferencedModelElement).type instanceof Node»
+			return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«ELSE»
+			return «node.primeTypeCast» ((«InternalGraphModel.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«ENDIF»
 		«ENDIF»
 	'''
 
@@ -272,7 +279,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«IF node.retrievePrimeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
-		return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«IF (node.retrievePrimeReference as ReferencedModelElement).type instanceof Node»
+			return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«ELSE»
+			return «node.primeTypeCast» ((«InternalGraphModel.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			«ENDIF»
 		«ENDIF»
 	'''
 	
@@ -586,40 +597,39 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
-	«IF isUserDefinedType»
-	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
-	if (dom == null)
-		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
-	«ELSE»
-	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
-	if (dom == null)
-		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
-	«ENDIF»
-	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
-		@Override
-		protected void doExecute() {
+«««	«IF isUserDefinedType»
+«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
+«««	if (dom == null)
+«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
+«««	«ELSE»
+«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
+«««	if (dom == null)
+«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
+«««	«ENDIF»
+«««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
+«««		@Override
+«««		protected void doExecute() {
 			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
-		}
-	});
-
+«««		}
+«««	});
 	'''
 
 	private def createSetterContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
-	«IF isUserDefinedType»
-	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
-	if (dom == null)
-		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
-	«ELSE»
-	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
-	if (dom == null)
-		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
-	«ENDIF»
-	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
-		@Override
-		protected void doExecute() {
+«««	«IF isUserDefinedType»
+«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
+«««	if (dom == null)
+«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
+«««	«ELSE»
+«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
+«««	if (dom == null)
+«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
+«««	«ENDIF»
+«««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
+«««		@Override
+«««		protected void doExecute() {
 			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
-		}
-	});
+«««		}
+«««	});
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {

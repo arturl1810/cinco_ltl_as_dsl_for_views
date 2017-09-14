@@ -22,17 +22,10 @@ abstract class CincoPostCreateHook<T extends EObject> extends CincoRuntimeBaseCl
 
 	def void postCreateAndUpdate(T object, Diagram d) {
 		this.diagram = d
-		var dom = TransactionUtil.getEditingDomain(object);
-		if (dom == null)
-			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(d.eResource.resourceSet)
-		dom.commandStack.execute(new RecordingCommand(dom) {
-			
-			override protected doExecute() {
-				postCreate(object)
-				update(object)
-			}
-			
-		})
+		object.transact[
+			postCreate(object)
+			update(object)
+		]
 	}
 
 	def private void update(T object) {

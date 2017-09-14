@@ -377,7 +377,9 @@ class MGLUtil {
 	 	if (!empty) 
 	 	'''
 		public def postCreates(«(get(0).parent as ModelElement).fqBeanNameEscaped» me) {
-			«map[generatePostCreateCall].join("\n")»
+			me.transact[
+				«map[generatePostCreateCall].join("\n")»
+			]
 		}'''
 	 	else ""
 	 }

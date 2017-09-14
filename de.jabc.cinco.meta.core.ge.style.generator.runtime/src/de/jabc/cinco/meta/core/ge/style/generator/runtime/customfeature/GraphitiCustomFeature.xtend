@@ -10,8 +10,11 @@ import org.eclipse.graphiti.features.context.ICustomContext
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.services.Graphiti
+import de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 
 class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCustomFeature implements ICustomFeature{
+	
+	extension WorkbenchExtension = new WorkbenchExtension
 	
 	private CincoCustomAction<T> delegate;
 	
@@ -46,12 +49,14 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 	override execute(ICustomContext context) {
 		val pe = context.pictogramElements.get(0);
 		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
-		switch bo {
-			InternalModelElement : delegate.execute(bo.element as T)
-			InternalGraphModel : delegate.execute(bo.element as T)
-			IdentifiableElement : delegate.execute(bo as T)
-			default : throw new RuntimeException("Error in canExecute with element: " + bo) 
-		}
+		bo.transact[
+			switch bo {
+				InternalModelElement : delegate.execute(bo.element as T)
+				InternalGraphModel : delegate.execute(bo.element as T)
+				IdentifiableElement : delegate.execute(bo as T)
+				default : throw new RuntimeException("Error in canExecute with element: " + bo) 
+			}
+		]
 	}
 	
 	
