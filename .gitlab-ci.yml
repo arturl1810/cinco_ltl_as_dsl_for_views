@@ -1,7 +1,7 @@
 build:
   artifacts:
     paths:
-      - /builds/scce/cinco/de.jabc.cinco.meta.product/target/products
+      - /builds/scce/cinco/de.jabc.cinco.meta.product/target/products/*.zip
     expire_in: 1 week
   cache:
     paths:
