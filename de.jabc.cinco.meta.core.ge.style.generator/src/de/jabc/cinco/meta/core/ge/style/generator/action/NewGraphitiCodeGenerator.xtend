@@ -47,7 +47,6 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 	
 	
 	IProject project = null
-	Set<String> unprocessedMGLS = new HashSet<String>()
 
 
 	override Object execute(ExecutionEvent event) throws ExecutionException {
@@ -60,27 +59,20 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 			throw new RuntimeException("No current cpd file in MGLSelectionListener...");
 		
 		val cpd = CincoUtil::getCPD(cpdFile) as CincoProduct
-		
-		
 		var NullProgressMonitor monitor = new NullProgressMonitor()
-		var String name_editorProject = file.getProject().getName().concat(".editor.graphiti")
+
 		var GraphModel graphModel = new FileExtension().getContent(file, GraphModel)
 		if(graphModel === null) throw new RuntimeException('''Could not load graphmodel from file: «file»''');
 		
-		graphModel = prepareGraphModel(graphModel)
-		
+		val name_editorProject = '''«graphModel.package».editor.graphiti'''
 		var p = ResourcesPlugin.workspace.root.getProject(name_editorProject)
+		p?.delete(true, true, null)
 		
-		if (p != null && !p.exists) {
-			project = ProjectCreator.createDefaultPluginProject(name_editorProject,addReqBundles(cpdFile.getProject(), monitor), new ArrayList)
-			ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature")
-			new GraphitiGeneratorMain(graphModel, cpdFile, CincoUtil.getStyles(graphModel)).addPerspectiveContent()
-		} else project = p
+		project = ProjectCreator.createDefaultPluginProject(name_editorProject,addReqBundles(cpdFile.getProject(), monitor), new ArrayList)
+		ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature")
 		
-		if (unprocessedMGLS.nullOrEmpty) {
-			unprocessedMGLS.addAll(cpd.mgls.filter[!isDontGenerate].map[mglPath])
-			project.getFolder("src-gen").delete(true, null)
-		}
+		graphModel = prepareGraphModel(graphModel)
+		new GraphitiGeneratorMain(graphModel, cpdFile, CincoUtil.getStyles(graphModel)).addPerspectiveContent()
 		
 		copyImages(graphModel, project)
 		addExpPackages(graphModel).forEach[ProjectCreator.exportPackage(project, it)]
@@ -89,8 +81,6 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		
 		var CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel)
 		apiGenerator.doGenerate(project)
-//		println(file.projectRelativePath)
-		unprocessedMGLS.remove(file.projectRelativePath.toString)
 		
 		return null
 	}
