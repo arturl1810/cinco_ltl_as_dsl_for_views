@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 /**
  * Runtime job whose progress can be monitored.
@@ -129,6 +130,63 @@ public class CompoundJob extends Job {
 	}
 	
 	/**
+	 * Creates a task group that in total consumes the specified
+	 * work quota. The latter does not represent a percentage but
+	 * is interpreted as an installment relative to the total
+	 * workload of the corresponding job. The job's total workload
+	 * is the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks will be performed in the order of the specified
+	 * task list.
+	 * If you are interested in parallel execution use
+	 * {@linkplain #consumeConcurrent(int,List) consumeConcurrent(int quota, List tasks)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param tasks  The list of tasks to be performed.
+	 * @return Workload object
+	 */
+	public CompoundJob consume(int quota, List<Pair<String, Runnable>> tasks) {
+		Workload workload = new Workload(this, quota);
+		tasks.forEach(task -> 
+			workload.task(task.getKey(), task.getValue()));
+		steps.add(workload);
+		return this;
+	}
+	
+	/**
+	 * Creates a task group that in total consumes the specified
+	 * work quota. The latter does not represent a percentage but
+	 * is interpreted as an installment relative to the total
+	 * workload of the corresponding job. The job's total workload
+	 * is the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks will be performed in the order of the specified
+	 * task list.
+	 * If you are interested in parallel execution use
+	 * {@linkplain #consumeConcurrent(int,List) consumeConcurrent(int quota, List tasks)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @param tasks  The list of tasks to be performed.
+	 * @return Workload object
+	 */
+	public CompoundJob consume(int quota, String label, List<Pair<String, Runnable>> tasks) {
+		return label(label).consume(quota, tasks);
+	}
+	
+	/**
 	 * Initiates the creation of a task group that in
 	 * total consumes the specified work quota. The latter
 	 * does not represent a percentage but is interpreted
@@ -181,6 +239,61 @@ public class CompoundJob extends Job {
 	 */
 	public Workload consumeConcurrent(int quota, String label) {
 		return label(label).consumeConcurrent(quota);
+	}
+	
+	/**
+	 * Creates a task group that in total consumes the specified
+	 * work quota. The latter does not represent a percentage but
+	 * is interpreted as an installment relative to the total
+	 * workload of the corresponding job. The job's total workload
+	 * is the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks will be performed in parallel.
+	 * If you are interested in sequential execution use
+	 * {@linkplain #consume(int,List) consume(int quota, List tasks)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param tasks  The list of tasks to be performed.
+	 * @return Workload object
+	 */
+	public CompoundJob consumeConcurrent(int quota, Iterable<Pair<String, Runnable>> tasks) {
+		ConcurrentWorkload workload = new ConcurrentWorkload(this, quota);
+		tasks.forEach(task -> 
+			workload.task(task.getKey(), task.getValue()));
+		steps.add(workload);
+		return this;
+	}
+	
+	/**
+	 * Creates a task group that in total consumes the specified
+	 * work quota. The latter does not represent a percentage but
+	 * is interpreted as an installment relative to the total
+	 * workload of the corresponding job. The job's total workload
+	 * is the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks will be performed in parallel.
+	 * If you are interested in sequential execution use
+	 * {@linkplain #consume(int,List) consume(int quota, List tasks)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @param tasks  The list of tasks to be performed.
+	 * @return Workload object
+	 */
+	public CompoundJob consumeConcurrent(int quota, String label, Iterable<Pair<String, Runnable>> tasks) {
+		return label(label).consumeConcurrent(quota, tasks);
 	}
 	
 	public CompoundJob cancelOnFail(boolean flag) {

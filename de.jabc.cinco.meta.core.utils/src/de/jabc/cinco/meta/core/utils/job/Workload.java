@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.utils.job;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -11,6 +12,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 /**
  * Represents a workload object, that basically is a sequence
@@ -165,6 +167,18 @@ public class Workload implements ComplexStep {
 	}
 
 	/**
+	 * Creates a list of task to be added to the group of
+	 * tasks that share the current work quota.
+	 *
+	 * @param runnable  The runnable that represents the
+	 *   executable work of the task.
+	 * @return Workload object
+	 */
+	public Workload task(Pair<String, Runnable> pair) {
+		return task(pair.getKey(), pair.getValue());
+	}
+
+	/**
 	 * Creates a task to be added to the group of tasks
 	 * that share the current work quota.
 	 * 
@@ -300,6 +314,23 @@ public class Workload implements ComplexStep {
 	 */
 	public <T> Workload taskForEach(Stream<T> stream, Consumer<T> consumer) {
 		stream.forEach(item -> task(() -> consumer.accept(item)));
+		return this;
+	}
+
+	/**
+	 * Creates a task for every item in the Stream and adds it to
+	 * the group of tasks that share the current work quota.
+	 *
+	 * @param stream  The item stream.
+	 * @param tasks  A list of pairs that maps a task's name on the consumer
+	 *   that represents the executable work for each item of the stream.
+	 */
+	public <T> Workload taskForEach(Stream<T> stream, List<Pair<String, Consumer<T>>> tasks) {
+		Iterator<Pair<String, Consumer<T>>> it = tasks.iterator();
+		stream.forEach(item -> {
+			Pair<String, Consumer<T>> pair = it.next();
+			task(pair.getKey(), () -> ((Consumer<T>)pair.getValue()).accept(item));
+		});
 		return this;
 	}
 	
