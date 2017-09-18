@@ -76,6 +76,52 @@ class CodingExtension {
 	}
 	
 	/**
+	 * <p>
+	 * Concatenates an object and an iterable into a single iterable. The returned
+	 * iterable has an iterator that traverses the element {@code a}, followed by
+	 * the elements in {@code b}. The resulting iterable is effectivly a view on the
+	 * source iterable. That is, the source iterator is not polled until necessary
+	 * and the result will reflect changes in the sources.
+	 * </p>
+	 * <p>
+	 * The returned iterable's iterator supports {@code remove()} when the
+	 * corresponding input iterator supports it.
+	 * </p>
+	 *
+	 * @param a
+	 *            the first element. May not be <code>null</code>.
+	 * @param b
+	 *            the iterable to append. May not be <code>null</code>.
+	 * @return a combined iterable. Never <code>null</code>.
+	 */
+	def <T> Iterable<T> plus(T a, Iterable<? extends T> b) {
+		#[a] + b
+	}
+
+	/**
+	 * <p>
+	 * Concatenates an iterable and an object into a single iterable. The returned
+	 * iterable has an iterator that traverses the elements in {@code a}, followed by
+	 * the element {@code b}. The resulting iterable is effectivly a view on the
+	 * source iterable. That is, the source iterator is not polled until necessary
+	 * and the result will reflect changes in the sources.
+	 * </p>
+	 * <p>
+	 * The returned iterable's iterator supports {@code remove()} when the
+	 * corresponding input iterator supports it.
+	 * </p>
+	 *
+	 * @param a
+	 *            the first iterable. May not be <code>null</code>.
+	 * @param b
+	 *            the element to append. May not be <code>null</code>.
+	 * @return a combined iterable. Never <code>null</code>.
+	 */
+	def <T> Iterable<T> plus(Iterable<? extends T> a, T b) {
+		a + #[b]
+	}
+
+	/**
 	 * Convenience method for concise exception handling.
 	 * <p>
 	 * Executes the specified function, catches an eventual exception, maps it on an
@@ -116,7 +162,7 @@ class CodingExtension {
 			mapping.apply(e)?.newInstance
 		] ?: e
 	}
-	
+
 	/**
 	 * Convenience method for concise exception handling.
 	 * <p>
