@@ -8,15 +8,14 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.model,
  org.eclipse.graphiti.ui,
  org.eclipse.ui.workbench,
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ de.jabc.cinco.meta.core.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.plugin.generator.runtime,
  de.jabc.cinco.meta.plugin.generator.runtime.handler,
  de.jabc.cinco.meta.plugin.generator.runtime.registry
-Import-Package: de.jabc.cinco.meta.core.utils,
- de.jabc.cinco.meta.runtime.xapi,
- de.jabc.cinco.meta.core.utils.job,
+Import-Package: de.jabc.cinco.meta.runtime.xapi,
  de.jabc.cinco.meta.util.xapi,
  org.eclipse.core.commands,
  org.eclipse.core.resources,
