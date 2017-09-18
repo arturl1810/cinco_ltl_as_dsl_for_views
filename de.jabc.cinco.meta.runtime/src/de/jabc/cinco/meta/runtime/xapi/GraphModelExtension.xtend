@@ -3,17 +3,17 @@ package de.jabc.cinco.meta.runtime.xapi
 import graphmodel.Edge
 import graphmodel.IdentifiableElement
 import graphmodel.ModelElement
+import graphmodel.ModelElementContainer
+import graphmodel.Node
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
-import org.eclipse.emf.ecore.util.EcoreUtil
-import java.util.HashSet
-import graphmodel.Node
-import graphmodel.ModelElementContainer
-import org.eclipse.emf.ecore.EObject
-import java.util.Set
 import java.util.Collection
+import java.util.HashSet
+import java.util.Set
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 /**
  * GraphModel-specific extension methods.
@@ -115,8 +115,11 @@ class GraphModelExtension {
 	 * @param cls - The class of the elements to be found.
 	 * @return  A set of elements of the specified type. Might be empty but is never null.
 	 */
-	def <C extends ModelElement> find(ModelElementContainer container, Class<C> cls) {
-		findDeeply(container, cls, [])
+	def <C extends IdentifiableElement> Iterable<C> find(ModelElementContainer container, Class<C> clazz) {
+		val children = container.modelElements
+		children.filter(clazz)
+			+ children.filter(ModelElementContainer)
+				.map[find(clazz)].flatten
 	}
 	
 	/**
@@ -187,16 +190,21 @@ class GraphModelExtension {
 	 * @param progression  A function that defines how to dig deeper.
 	 * @return  A set of elements of the specified type. Might be empty but never null.
 	 */
-	def <C extends ModelElement> Set<C> findDeeply(ModelElementContainer container, Class<C> cls, (ModelElement) => ModelElementContainer progression) {
-		val filter = [ if (cls.isInstance(it)) it as C ]
-		val result = container.withChildren.map(filter).filterNull.toSet
-		val next = [ newArrayList(
-			progression.apply(it),
-			switch it { ModelElementContainer: it })
-		]
-		result.withAll(container.modelElements
-			.map(next).flatten.filterNull
-			.map[findDeeply(cls, progression)].flatten.filterNull.toSet)
+	def <C extends IdentifiableElement> Iterable<C> findDeeply(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression) {
+		findDeeply_recurse(container, clazz, progression, newHashSet)
+	}
+
+	/**
+	 * Cycle-aware recursion by applying the specified progression. 
+	 */
+	private def <C extends IdentifiableElement> Iterable<C> findDeeply_recurse(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression, Set<ModelElementContainer> visited) {
+		if (!visited.add(container))
+			return #[]
+		val children = container.find(ModelElementContainer)
+		children.filter(clazz)
+			+ container.plus(children)
+				.map(progression).filterNull
+				.map[findDeeply_recurse(clazz, progression, visited)].flatten
 	}
 	
 	/**
