@@ -1,0 +1,16 @@
+build:
+  cache:
+    paths:
+      - .m2/repository
+  before_script:
+    - cp .ci-maven-settings.xml /root/.m2/settings.xml
+    - sed -i 's/MAVEN_USERNAME/$MAVEN_USERNAME/g' /root/.m2/settings.xml
+    - sed -i 's/MAVEN_PASSWORD/$MAVEN_PASSWORD/g' /root/.m2/settings.xml
+  image: maven:3.5
+  stage: build
+  script:
+    - export MAVEN_OPTS="-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms128m -Xmx2048m"
+    - pushd de.jabc.cinco.meta.libraries
+    - mvn -e clean package
+    - popd;
+    - mvn -e clean package
