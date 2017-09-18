@@ -5,11 +5,11 @@ build:
     expire_in: 1 week
   cache:
     paths:
-      - /root/.m2/repository
+      - ~/.m2/repository
   before_script:
-    - cp .ci-maven-settings.xml /root/.m2/settings.xml
-    - sed -i 's/MAVEN_USERNAME/$MAVEN_USERNAME/g' /root/.m2/settings.xml
-    - sed -i 's/MAVEN_PASSWORD/$MAVEN_PASSWORD/g' /root/.m2/settings.xml
+    - cp .ci-maven-settings.xml ~/.m2/settings.xml
+    - sed -i 's/MAVEN_USERNAME/$MAVEN_USERNAME/g' ~/.m2/settings.xml
+    - sed -i 's/MAVEN_PASSWORD/$MAVEN_PASSWORD/g' ~/.m2/settings.xml
   image: maven:3.5
   stage: build
   script:
