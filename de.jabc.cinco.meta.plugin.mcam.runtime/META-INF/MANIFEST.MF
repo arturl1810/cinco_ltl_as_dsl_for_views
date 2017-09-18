@@ -7,7 +7,12 @@ Bundle-Activator: de.jabc.cinco.meta.plugin.mcam.runtime.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.e4.core.services;bundle-version="1.2.1",
- org.eclipse.e4.ui.di;bundle-version="1.0.0"
+ org.eclipse.e4.ui.di;bundle-version="1.0.0",
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: graphmodel,
@@ -30,7 +35,9 @@ Import-Package: graphmodel,
  org.eclipse.graphiti.mm.pictograms;version="0.11.2",
  org.eclipse.graphiti.ui.editor;version="0.11.2",
  org.eclipse.ui.ide,
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ org.jooq.lambda,
+ org.jooq.lambda.tuple
 Export-Package: de.jabc.cinco.meta.plugin.mcam.runtime,
  de.jabc.cinco.meta.plugin.mcam.runtime.core,
  de.jabc.cinco.meta.plugin.mcam.runtime.views,
