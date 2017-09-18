@@ -1,4 +1,8 @@
 build:
+  artifacts:
+    paths:
+      - /builds/scce/cinco/de.jabc.cinco.meta.product/target/products
+    expire_in: 1 week
   cache:
     paths:
       - .m2/repository
