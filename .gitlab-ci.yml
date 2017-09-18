@@ -5,7 +5,7 @@ build:
     expire_in: 1 week
   cache:
     paths:
-      - .m2/repository
+      - /root/.m2/repository
   before_script:
     - cp .ci-maven-settings.xml /root/.m2/settings.xml
     - sed -i 's/MAVEN_USERNAME/$MAVEN_USERNAME/g' /root/.m2/settings.xml
