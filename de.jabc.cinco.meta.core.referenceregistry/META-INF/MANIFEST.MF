@@ -11,10 +11,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.typesystem.emf,
  org.eclipse.graphiti.ui,
  org.eclipse.graphiti.mm,
- de.jabc.cinco.meta.core.mgl.model
+ de.jabc.cinco.meta.core.mgl.model,
+ de.jabc.cinco.meta.core.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.referenceregistry,
  de.jabc.cinco.meta.core.referenceregistry.implementing,
  de.jabc.cinco.meta.core.referenceregistry.listener
-Import-Package: de.jabc.cinco.meta.core.utils.job
