@@ -39,7 +39,6 @@ public class GratextGenerationHandler extends AbstractHandler {
 		IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 		if (mglFile == null) 
 			return null;
-		IProject mglProject = mglFile.getProject();
 		
 		GraphModel model = files.getContent(mglFile, GraphModel.class, 0);
 		
@@ -55,7 +54,19 @@ public class GratextGenerationHandler extends AbstractHandler {
 		
 		execute(new GratextModelBuild(gratextProject));
 		
-		build(mglProject);
+		build(mglFile.getProject());
+
+		IProject graphitiProject = workspace.getWorkspaceRoot().getProject(model.getPackage() + ".editor.graphiti");
+		if (graphitiProject != null && graphitiProject.exists()) {
+			try {
+				graphitiProject.close(null);
+				graphitiProject.open(null);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			build(graphitiProject);
+		}
+
 		build(gratextProject);
 		
 		gratextGen.proceed();
