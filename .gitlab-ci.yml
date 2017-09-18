@@ -14,5 +14,4 @@ build:
     - popd;
     - mvn -e clean package
   variables:
-    - MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=~/.m2/repository -Xms128m -Xmx2048m"
-
+    MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=~/.m2/repository -Xms128m -Xmx2048m"
