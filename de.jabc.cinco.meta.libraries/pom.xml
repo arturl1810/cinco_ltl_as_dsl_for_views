@@ -142,12 +142,6 @@
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>
-									<groupId>commons-collections</groupId>
-									<artifactId>commons-collections</artifactId>
-									<version>3.1</version>
-									<type>jar</type>
-								</artifactItem>
-								<artifactItem>
 									<groupId>de.jabc.sib</groupId>
 									<artifactId>script-sibs-adapters</artifactId>
 									<version>1.2.3</version>
@@ -371,6 +365,18 @@
 									<version>2.3.20</version>
 									<type>jar</type>
 								</artifactItem>
+								<artifactItem>
+									<groupId>info.scce.mcam.framework</groupId>
+									<artifactId>mcam-framework</artifactId>
+									<version>1.1</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>commons-collections</groupId>
+									<artifactId>commons-collections</artifactId>
+									<version>3.2.1</version>
+									<type>jar</type>
+								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${basedir}/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
@@ -386,14 +392,12 @@
 
 	<repositories>
 		<repository>
-			<id>vulturius-webdav</id>
-			<name>JavaABC Repository</name>
-			<url>https://vulturius.cs.tu-dortmund.de/maven</url>
-			<layout>default</layout>
-			<snapshots>
-			</snapshots>
+			<id>maven-public</id>
+			<name>LS5 Public Repository</name>
+			<url>https://ls5svn.cs.tu-dortmund.de/maven-public/</url>
 		</repository>
 	</repositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

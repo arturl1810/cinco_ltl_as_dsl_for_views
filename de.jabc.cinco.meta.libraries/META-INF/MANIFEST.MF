@@ -10,7 +10,8 @@ Bundle-ClassPath: .,
  lib/jboss-el-api_3.0_spec-1.0.0.Alpha1.jar,
  lib/jool-0.9.12.jar,
  lib_local/antlr-generator-3.2.0-patch.jar,
- lib_local/mcam_framework.jar
+ lib/commons-collections-3.2.1.jar,
+ lib/mcam-framework-1.1.jar
 Require-Bundle: org.eclipse.emf,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
