@@ -21,19 +21,14 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.ModelElement
-
-//import org.eclipse.graphiti.mm.pictograms.Diagram
-//import org.eclipse.graphiti.mm.pictograms.PictogramElement
-
+import graphmodel.Type
 
 abstract class GratextSerializer {
 
 	static extension val ResourceExtension = new ResourceExtension
 
-//  All information are now persisted in th
-//	NonEmptyRegistry<InternalModelElement,PictogramElement>
-//		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]
-			
+	InternalGraphModel model
+	
 	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>>
 		nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer c | c.allNodes.sort.toList]
 			
@@ -44,15 +39,11 @@ abstract class GratextSerializer {
 		c.modelElements.filter(InternalNode)
 	}
 	
-//	Diagram diagram 
-	InternalGraphModel model
-	
 	new (Resource res) {
-		this(/*res.diagram,*/ res.getContent(InternalGraphModel))
+		this(res.getContent(InternalGraphModel))
 	}
 	
-	new (/*Diagram diagram,*/ InternalGraphModel model) {
-//		this.diagram = diagram
+	new (InternalGraphModel model) {
 		this.model = model
 	}
 	
@@ -193,6 +184,7 @@ abstract class GratextSerializer {
 	def valueGratext(Object obj) {
 		switch obj {
 			ModelElement: obj?.internalElement?.id
+			Type: obj?.internalElement.valueGratext
 			InternalModelElement: obj?.id
 			String: '"' + obj.replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
