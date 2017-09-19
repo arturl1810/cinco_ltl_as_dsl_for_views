@@ -349,6 +349,17 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						elemClasses.get(n.name).mainEClass,
 						1,
 						1,
+						ce.newIdNodeSimpleMethodContent(n),
+						createEString("id",1,1),
+						createEInt("x",1,1),
+						createEInt("y",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
 						ce.newIdNodeMethodContent(n),
 						createEString("id",1,1),
 						createEInt("x",1,1),
@@ -388,6 +399,18 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						elemClasses.get(n.name).mainEClass,
 						1,
 						1,
+						ce.newIdPrimeNodeSimpleMethodContent(n),
+						createEObject(n.primeName, 1,1),
+						createEString("id", 1,1),
+						createEInt("x",1,1),
+						createEInt("y",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
 						ce.newIdPrimeNodeMethodContent(n),
 						createEObject(n.primeName, 1,1),
 						createEString("id", 1,1),
@@ -408,6 +431,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
+	'''
+	
+	def newIdNodeSimpleMethodContent(ContainingElement ce, Node n) '''
+		return new«n.fuName»(id,x,y,-1,-1);
 	'''
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
@@ -434,6 +461,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
+	'''
+
+	def newIdPrimeNodeSimpleMethodContent(ContainingElement ce, Node n) '''
+		return new«n.fuName»(«n.primeName»,id,x,y,-1,-1);
 	'''
 
 	def newPrimeNodeMethodContent(ContainingElement ce, Node n) '''
