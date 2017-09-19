@@ -42,9 +42,11 @@ class FactoryGeneratorExtensions {
 		import graphmodel.internal.InternalModelElementContainer
 		import graphmodel.internal.InternalGraphModel
 		import graphmodel.internal.InternalContainer
+		import graphmodel.internal.InternalType
 		import graphmodel.ModelElement
 		import graphmodel.IdentifiableElement
 		import graphmodel.GraphModel
+		import graphmodel.Type
 		
 		import org.eclipse.emf.ecore.EClass
 		import org.eclipse.emf.ecore.EPackage
@@ -78,6 +80,7 @@ class FactoryGeneratorExtensions {
 					switch elm {
 						GraphModel: elm.internalElement = internal as InternalGraphModel
 						ModelElement: elm.internalElement = internal as InternalModelElement
+						Type: elm.internalElement = internal as InternalType
 					}
 				]
 			}

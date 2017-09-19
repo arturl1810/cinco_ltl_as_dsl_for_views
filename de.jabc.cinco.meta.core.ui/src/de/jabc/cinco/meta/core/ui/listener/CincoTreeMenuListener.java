@@ -129,7 +129,7 @@ public class CincoTreeMenuListener implements IMenuListener2{
 					
 					@Override
 					protected void doExecute() {
-							EcoreUtil.remove(eObject);
+						EcoreUtil.remove(eObject);
 					}
 				});
 				viewer.refresh();
