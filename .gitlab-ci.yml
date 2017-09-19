@@ -4,10 +4,12 @@ build:
       - /builds/scce/cinco/de.jabc.cinco.meta.product/target/products/*.zip
     expire_in: 1 week
   before_script:
-    - mkdir -p /.m2/repository 
+    - mkdir -p ~/.m2/repository
   cache:
     paths:
-      - /.m2/repository
+      - ~/.m2/repository
+    key:
+      - maven
   image: maven:3.5
   stage: build
   script:
@@ -16,4 +18,4 @@ build:
     - popd;
     - mvn -e clean package
   variables:
-    MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=/.m2/repository -Xms128m -Xmx2048m"
+    MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=~/.m2/repository -Xms128m -Xmx2048m"
