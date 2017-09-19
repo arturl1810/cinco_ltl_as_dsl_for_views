@@ -115,11 +115,11 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
 					}
 					
-					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
-					if (dom == null)
-						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
-					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
-//					t.setValue(String.format(formatString,_values));
+//					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
+//					if (dom == null)
+//						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
+//					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
+					t.setValue(String.format(formatString,_values));
 					
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");

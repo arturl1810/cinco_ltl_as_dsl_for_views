@@ -314,6 +314,18 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return copy;
 	}
 	
+	@Override
+	public void setX(final int x) {
+		super.setX(x);
+		getPictogramElement().getGraphicsAlgorithm().setX(x);
+	}
+	
+	@Override
+	public void setY(int y) {
+		super.setY(y);
+		getPictogramElement().getGraphicsAlgorithm().setY(y);
+	}
+	
 	«me.updateContent»
 	
 	«me.deleteContent»

@@ -5,8 +5,11 @@ import graphmodel.GraphModel;
 import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
+import graphmodel.Type;
 import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalIdentifiableElement;
 import graphmodel.internal.InternalModelElement;
+import graphmodel.internal.InternalType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +40,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.GraphicalEditPart;
@@ -332,7 +336,12 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof EObject) {
 					disposeChildren(simpleViewComposite);
-					createSimplePropertyView((EObject) o, simpleViewComposite);
+					if (o instanceof Type) {
+						InternalType internalElement = ((Type) o).getInternalElement();
+						createSimplePropertyView(internalElement, simpleViewComposite);
+					}
+					else if (o instanceof EObject)
+						createSimplePropertyView((EObject) o, simpleViewComposite);
 				}
 			}
 		};
@@ -762,13 +771,26 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	
 	private TransactionalEditingDomain getOrCreateEditingDomain(EObject bo) {
 		domain = TransactionUtil.getEditingDomain(bo);
+		// Special handling for UserDefinedTypes...
 		if (domain == null)
-			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(bo.eResource().getResourceSet());
+			domain = TransactionUtil.getEditingDomain(getResource(bo).getResourceSet());
 		if (domain == null)
-			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(getResource(bo).getResourceSet());
+		if (domain == null)
+			domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		if (domain == null)
 			throw new RuntimeException("Could not get/create TransactionalEditingDomain for object: " + bo);
 		return domain;
+	}
+	
+	private Resource getResource(EObject bo) {
+		if (bo.eResource() != null)
+			return bo.eResource();
+		if (bo instanceof InternalType)
+			return ((InternalType) bo).getElement().eResource();
+		if (bo instanceof Type)
+			return ((Type) bo).getInternalElement().eResource();
+		return null;
 	}
 
 	@Override
