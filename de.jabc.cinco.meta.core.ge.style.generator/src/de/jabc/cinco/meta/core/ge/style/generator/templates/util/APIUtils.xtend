@@ -227,8 +227,8 @@ class APIUtils extends GeneratorUtils {
 		else '''public «me.fuCName»(){}'''
 	}
 	
-	def dtp_id(GraphModel gm) {
-		gm.package + gm.fuName + "DiagramTypeProvider"
+	def dtp_id(GraphModel it) {
+		'''«package».«fuName»DiagramTypeProvider'''
 	}
 	
 }

@@ -150,9 +150,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«Resource.name» res = graph.eResource();
 		res.getContents().add(0,diagram);
 		
-		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().
-			createDiagramTypeProvider(diagram, "«me.dtp_id»");
-		dtp.getFeatureProvider().link(diagram, graph);
+		«IFeatureProvider.name» fp = «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		fp.link(diagram, graph);
 		
 		graph.save();
 	

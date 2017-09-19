@@ -94,7 +94,7 @@ class FactoryGeneratorExtensions {
 				
 				«EcoreUtil.name».setID(graph, «EcoreUtil.name».generateUUID());
 
-				res.getContents().add(graph);
+				res.getContents().add(graph.internalElement);
 				
 				«IF graphmodel.hasPostCreateHook»
 				postCreates(graph);
