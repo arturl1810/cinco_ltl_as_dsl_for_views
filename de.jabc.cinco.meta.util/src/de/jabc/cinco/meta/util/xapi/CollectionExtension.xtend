@@ -1,14 +1,14 @@
 package de.jabc.cinco.meta.util.xapi
 
+import java.util.Enumeration
 import java.util.HashSet
+import java.util.List
+import org.apache.commons.collections.EnumerationUtils
 import org.eclipse.xtext.xbase.lib.Functions.Function1
 import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
 import static extension org.jooq.lambda.Seq.*
-import java.util.Enumeration
-import org.apache.commons.collections.EnumerationUtils
-import java.util.List
 
 /**
  * Some collection extensions for cinco meta, cinco, and cinco products.
@@ -292,5 +292,19 @@ class CollectionExtension {
 	 */
 	def <T> toList(Enumeration<T> enumeration) {
 		EnumerationUtils.toList(enumeration) as List<T>
+	}
+
+	/**
+	 * Returns {@code true} if one or more elements in iterable are assignment-compatible with the
+	 * specified class.
+	 * This is a convenient way for calling {@code exists[clazz.isInstance(it)]}
+	 *
+	 * @param it
+	 *            the iterable. May not be {@code null}.
+	 * @param clazz
+	 *            the type of elements to be tested.
+	 */
+	def <T> exists(Iterable<? super T> it, Class<? extends T> clazz) {
+		exists[clazz.isInstance(it)]
 	}
 }

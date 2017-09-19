@@ -482,7 +482,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		
 		«EcoreUtil.name».setID(graph, «EcoreUtil.name».generateUUID());
 
-		res.getContents().add(graph);
+		res.getContents().add(graph.getInternalElement());
 		
 		«IF gm.hasPostCreateHook»
 		if (postCreateHook)

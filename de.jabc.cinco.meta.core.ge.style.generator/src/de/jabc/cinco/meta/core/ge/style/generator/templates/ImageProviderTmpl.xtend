@@ -93,7 +93,7 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 	 * Each image is logged in by adding the images and creating the related path.
 	*/
 	public void initImages() {
-		«Bundle.name» b = «Platform.name».getBundle("«gm.projectName».editor.graphiti");
+		«Bundle.name» b = «Platform.name».getBundle("«gm.packageName»");
 		«File.name» file;
 		try {
 			«URL.name» url = null;
