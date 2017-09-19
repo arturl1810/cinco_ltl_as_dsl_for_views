@@ -10,6 +10,8 @@ build:
       - ~/.m2/repository
     key: maven
   image: maven:3.5
+  only:
+    - schedules
   stage: build
   script:
     - pushd de.jabc.cinco.meta.libraries
