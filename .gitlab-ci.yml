@@ -8,8 +8,7 @@ build:
   cache:
     paths:
       - ~/.m2/repository
-    key:
-      - maven
+    key: maven
   image: maven:3.5
   stage: build
   script:
