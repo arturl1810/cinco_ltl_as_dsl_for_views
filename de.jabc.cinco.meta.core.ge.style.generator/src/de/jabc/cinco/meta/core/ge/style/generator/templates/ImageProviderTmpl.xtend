@@ -57,7 +57,7 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 			images = new «Hashtable.name»<«String.name», «String.name»>();
 		}
 		images.put(id, path);
-		addAvailableImages();
+«««		addAvailableImages();
 	}
 	
 	/**
@@ -93,43 +93,47 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 	 * Each image is logged in by adding the images and creating the related path.
 	*/
 	public void initImages() {
-		«Bundle.name» b = «Platform.name».getBundle("«gm.packageName»");
+		«Bundle.name» b = «Platform.name».getBundle("«gm.projectName»");
 		«File.name» file;
-		try {
+«««		try {
 			«URL.name» url = null;
-			
 			
 			//Search for all used images in graphmodel and register them in the image provider
 			
 			«FOR entry : MGLUtil::getAllImages(gm).entrySet»
 			url =  «FileLocator.name».find(b, new «Path.name»("«entry.key»"), null);
-			addImage("«entry.key»", url.getPath());		
+			addImage("«entry.key»", url.toString());		
 			«ENDFOR»
 		
-			file = «FileLocator.name».getBundleFile(b);
-			«File.name» genIconsFile = file.toPath().resolve("resources-gen/icons").toFile();
-			if (genIconsFile.exists()) {
-				for («File.name» f : genIconsFile.listFiles()){
-					«String.name» fileName = f.getName();
-					«String.name» id = fileName;
-					addImage(id, "/resources-gen/icons/"+fileName);
-				}
-			}
-			if (!genIconsFile.exists() ) {
-				«Enumeration.name»<«URL.name»> entries = b.findEntries("resources-gen/icons/", "*", true);
-				while(entries.hasMoreElements()){
-					«URL.name» entry = entries.nextElement();
-					«IPath.name» path = new «Path.name»(entry.getPath());
-					«File.name» i = path.toFile();
-					«String.name» fileName = i.getName();
-					«String.name» id = fileName;
-					addImage(id, path.toString());
-				}
-			}
-		} catch («IOException.name» e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			b = «Platform.name».getBundle("de.jabc.cinco.meta.core.ge.style.generator.runtime");
+			url =  «FileLocator.name».find(b, new «Path.name»("/icons/_Connection.gif"), null);
+			addImage("_Connection.gif", url.toString());
+		
+			addAvailableImages();
+«««			file = «FileLocator.name».getBundleFile(b);
+«««			«File.name» genIconsFile = file.toPath().resolve("resources-gen/icons").toFile();
+«««			if (genIconsFile.exists()) {
+«««				for («File.name» f : genIconsFile.listFiles()){
+«««					«String.name» fileName = f.getName();
+«««					«String.name» id = fileName;
+«««					addImage(id, "/resources-gen/icons/"+fileName);
+«««				}
+«««			}
+«««			if (!genIconsFile.exists() ) {
+«««				«Enumeration.name»<«URL.name»> entries = b.findEntries("resources-gen/icons/", "*", true);
+«««				while(entries.hasMoreElements()){
+«««					«URL.name» entry = entries.nextElement();
+«««					«IPath.name» path = new «Path.name»(entry.getPath());
+«««					«File.name» i = path.toFile();
+«««					«String.name» fileName = i.getName();
+«««					«String.name» id = fileName;
+«««					addImage(id, path.toString());
+«««				}
+«««			}
+«««		} catch («IOException.name» e) {
+«««			// TODO Auto-generated catch block
+«««			e.printStackTrace();
+«««		}
 	}
 }
 
