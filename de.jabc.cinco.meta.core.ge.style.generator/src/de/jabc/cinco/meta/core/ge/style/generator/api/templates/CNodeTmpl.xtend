@@ -177,7 +177,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
 		if (dtp != null)
 			return dtp.getFeatureProvider();
-		else null;
+		else return null;
 	}
 	
 	@Override
