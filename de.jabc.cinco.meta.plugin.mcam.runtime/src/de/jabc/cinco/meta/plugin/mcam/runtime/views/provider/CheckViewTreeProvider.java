@@ -178,8 +178,11 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		if (obj instanceof CheckResult<?, ?>) {
 			CheckResult<E, A> result = (CheckResult<E, A>) obj;
 			node = new CheckResultNode(result);
-			node.setLabel(result.getId().toString() + ": "
-					+ result.getMessage());
+			String id =
+				result.getId() != null
+					? result.getId().toString()
+					: "null";
+			node.setLabel(id + ": " + result.getMessage());
 			node = findExistingNode(node, parentNode);
 		}
 

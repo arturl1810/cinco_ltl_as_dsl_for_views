@@ -35,7 +35,7 @@ abstract class CincoCheckModule<
 		this.adapter = adapter
 		this.cache = 
 			adapter.entityIds
-				.associateWithKey[adapter.getElementById(it)]
+				.associateWithKey[element]
 				.filterKeys(IdentifiableElement).toMap
 		try {
 			check(adapter.model)

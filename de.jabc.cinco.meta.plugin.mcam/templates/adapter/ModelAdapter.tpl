@@ -13,6 +13,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsPackage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import graphmodel.ModelElement;
 import graphmodel.IdentifiableElement;
+import graphmodel.internal.InternalGraphModel;
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName?lower_case?capitalize}Package;
 
@@ -31,14 +32,14 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 	
 	@Override
 	protected ${GraphModelName}Id createId(IdentifiableElement obj) {
-		return new ${GraphModelName}Id(obj.getId(), obj.eClass());
+		return new ${GraphModelName}Id(obj);
 	}
 
 	@Override
 	protected void readModelFromResource() {
 		for (EObject obj : getResource().getContents()) {
-			if ("${GraphModelName}".equals(obj.eClass().getName()))
-				model = (${GraphModelName}) obj;
+			if ("Internal${GraphModelName}".equals(obj.eClass().getName()))
+				model = (${GraphModelName}) ((InternalGraphModel) obj).getElement();
 		}
 	}
 

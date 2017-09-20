@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
@@ -30,20 +29,23 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 
 	protected String modelName = "";
 	protected String path = "";
-
+	
 	@Override
 	public List<T> getEntityIds() {
-		ArrayList<T> ids = new ArrayList<>();
-		ids.add(createId(getModel()));
+		List<T> ids = new ArrayList<>();
+		T id = createId(getModel());
+		id.setElement(getModel());
+		ids.add(id);
 		
-		TreeIterator<EObject> it = getModel().eAllContents();
+		TreeIterator<EObject> it = getModel().getInternalElement().eAllContents();
 		while (it.hasNext()) {
 			Object obj = it.next();
 			if (obj instanceof ModelElement == false)
 				continue;
 			
 			ModelElement me = (ModelElement) obj;
-			T id = createId(me);
+			id = createId(me);
+			id.setElement(me);
 			String label = getLabel(me);
 			if (label != null)
 				id.setLabel(label);
@@ -84,21 +86,22 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 		this.path = path;
 	}
 
-	public EObject getElementById(T id) {
-		if (id.getId().equals(getModel().getId()))
-			return getModel();
-		TreeIterator<EObject> it = getModel().eAllContents();
-		while (it.hasNext()) {
-			Object obj = it.next();
-			if (obj instanceof ModelElement == false)
-				continue;
-			
-			ModelElement me = (ModelElement) obj;
-			if (id.getId().equals(me.getId()))
-				return me;
-		}
-		throw new RuntimeException("Could not find element for '" + id + "'");
-	}
+//	public EObject getElementById(T id) {
+//		return id.getElement();
+//		if (id.getId().equals(getModel().getId()))
+//			return getModel();
+//		TreeIterator<EObject> it = getModel().eAllContents();
+//		while (it.hasNext()) {
+//			Object obj = it.next();
+//			if (obj instanceof ModelElement == false)
+//				continue;
+//			
+//			ModelElement me = (ModelElement) obj;
+//			if (id.getId().equals(me.getId()))
+//				return me;
+//		}
+//		throw new RuntimeException("Could not find element for '" + id + "'");
+//	}
 
 	public T getIdByString(String idString) {
 		for (T id : getEntityIds()) {
