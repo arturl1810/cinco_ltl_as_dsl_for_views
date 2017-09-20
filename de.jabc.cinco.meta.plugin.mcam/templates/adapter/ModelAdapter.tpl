@@ -58,15 +58,6 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 	}
 
 	@Override
-	public void highlightElement(${GraphModelName}Id id) {
-		Object element = getElementById(id);
-		if (element != null)
-			if (!(element instanceof ${GraphModelName}))
-			 	if (element instanceof ModelElement)
-			 		((ModelElement) element).highlight();
-	}
-
-	@Override
 	public void readModel(java.io.File arg0) {
 		modelName = arg0.getName();
 		this.path = arg0.getPath();

@@ -178,7 +178,11 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 
 	public abstract String getLabel(ModelElement element);
 
-	public abstract void highlightElement(T id);
+	public void highlightElement(T id) {
+		Object element = id.getElement();
+		if (element instanceof ModelElement)
+			 ((ModelElement) element).highlight();
+	}
 
 	@Override
 	public abstract void readModel(java.io.File arg0);
