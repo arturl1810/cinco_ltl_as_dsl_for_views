@@ -73,6 +73,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«IF !me.allSuperTypes.empty» ,«FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;
+	private «IFeatureProvider.name» fp;
 	
 	«me.constructor»
 	
@@ -180,15 +181,22 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		throw new «UnsupportedOperationException.name»("Deleting a Graphmodel by api is not supported at the moment.");
 	}
 	
-	private «IFeatureProvider.name» getFeatureProvider() {
+	public «IFeatureProvider.name» getFeatureProvider() {
+		if (this.fp != null) return this.fp;
+		
 		«Diagram.name» diagram = null;
 		try {
 			diagram = getDiagram();
 		} catch(NullPointerException ignore) {}
 		if (diagram != null)
-			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+			this.fp = «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
 		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
-		return dtp.getFeatureProvider();
+		this.fp = dtp.getFeatureProvider();
+		return fp;
+	}
+	
+	public void setFeatureProvider(«IFeatureProvider.name» provider) {
+		this.fp = provider;
 	}
 	
 	@Override

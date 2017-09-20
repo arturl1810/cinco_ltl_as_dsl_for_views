@@ -168,16 +168,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		«Diagram.name» diagram = null;
-		try {
-			diagram = getDiagram();
-		} catch(NullPointerException ignore) {}
-		if (diagram != null)
-			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
-		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
-		if (dtp != null)
-			return dtp.getFeatureProvider();
-		else return null;
+		return ((«me.graphModel.fqCName») getRootElement()).getFeatureProvider();
 	}
 	
 	@Override

@@ -340,76 +340,49 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 	@Override
 	public «Object.name»[] executeFeature(final «IFeature.name» f, final «IContext.name» c) {
-		«TransactionalEditingDomain.name» dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
-		if (dom == null) 
-			dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
-		«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
 		if (f instanceof «CincoCreateFeature.name») {
 			final «Object.name»[] created = new Object[2];
 			
-			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
-				
-				@Override
-				protected void doExecute() {
-					«CincoCreateFeature.name» cf = («CincoCreateFeature.name») f;
-					if (cf.canCreate((«ICreateContext.name») c, true)) {
-						«Object.name»[] result = cf.create((«ICreateContext.name») c);
-						if (result.length == 2) {
-							created[0] = result[0];
-							created[1] = result[1];
-						}
-					}
+			«CincoCreateFeature.name» cf = («CincoCreateFeature.name») f;
+			if (cf.canCreate((«ICreateContext.name») c, true)) {
+				«Object.name»[] result = cf.create((«ICreateContext.name») c);
+				if (result.length == 2) {
+					created[0] = result[0];
+					created[1] = result[1];
 				}
-			});
+			}
 			
 			return created;
 			
 		} else if (f instanceof «CincoCreateEdgeFeature.name») {
 					final «Object.name»[] created = new «Object.name»[2];
 					
-					dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
-						
-						@Override
-						protected void doExecute() {
-							«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
-							if (cf.canCreate((«ICreateConnectionContext.name») c, true)) {
-								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
-								if (conn != null) {
-									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
-									created[0] = ((«InternalModelElement.name») bo).getElement();
-									created[1] = conn;
-								}
-							}
+					«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
+					if (cf.canCreate((«ICreateConnectionContext.name») c, true)) {
+						«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
+						if (conn != null) {
+							«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
+							created[0] = ((«InternalModelElement.name») bo).getElement();
+							created[1] = conn;
 						}
-					});
+					}
 					return created;
 		} else if (f instanceof «IAddFeature.name») {
 					final «Object.name»[] created = new «Object.name»[2];
 					
-					dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
-						
-						@Override
-						protected void doExecute() {
-							«IAddFeature.name» af = («IAddFeature.name») f;
-							if (af.canAdd((«IAddContext.name») c)) {
-								«PictogramElement.name» pe = af.add((«IAddContext.name») c);
-								if (pe != null) {
-									«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
-									created[0] = ((«InternalModelElement.name») bo).getElement();
-									created[1] = pe;
-								}
-							}
+					«IAddFeature.name» af = («IAddFeature.name») f;
+					if (af.canAdd((«IAddContext.name») c)) {
+						«PictogramElement.name» pe = af.add((«IAddContext.name») c);
+						if (pe != null) {
+							«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
+							created[0] = ((«InternalModelElement.name») bo).getElement();
+							created[1] = pe;
 						}
-					});
+					}
 					return created;
 		} else {
-			dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
-							
-				@Override
-				protected void doExecute() {
-					getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
-				}
-			});
+			if (f.canExecute(c))
+				f.execute(c);
 			return null;
 		}
 	}
