@@ -18,6 +18,8 @@ import org.eclipse.jface.resource.ImageDescriptor
 import org.eclipse.jface.viewers.ILabelProvider
 import org.eclipse.jface.viewers.ILabelProviderListener
 import org.eclipse.swt.graphics.Image
+import org.eclipse.emf.ecore.EClass
+import graphmodel.ModelElement
 
 class LabelProviderTemplate {
 
@@ -101,17 +103,21 @@ class LabelProviderTemplate {
 			}
 				return null;
 		}
-	
+		
 		@Override
 		public String getText(«Object.name» element) {
 			if(element instanceof «EObject.name»){
 				«EObject.name» eElement = («EObject.name») element;
-				if(eElement.eClass().getName().equals("«n.primeTypeName»"))
-				if((eElement.eClass().getName().equals("«n.primeTypeName»")||eElement.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«n.primeTypeName»"))))
-					return «n.primeElementLabel»;
+				if (eElement.eClass().getName().equals("«n.primeTypeName»")
+						|| eElement.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«n.primeTypeName»"))) {
+					if (eElement instanceof «ModelElement.name») {
+						eElement = ((«ModelElement.name») eElement).getInternalElement();
+					}
+					Object val = «n.primeElementLabel»;
+					return (val != null) ? val.toString() : "«n.primeTypeName»";
+				}
 			}
-				return null;
-			
+			return null;
 		}
 	
 		private «IProject.name» getProject(«Resource.name» res){
