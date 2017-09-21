@@ -107,6 +107,7 @@ class LabelProviderTemplate {
 			if(element instanceof «EObject.name»){
 				«EObject.name» eElement = («EObject.name») element;
 				if(eElement.eClass().getName().equals("«n.primeTypeName»"))
+				if((eElement.eClass().getName().equals("«n.primeTypeName»")||eElement.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«n.primeTypeName»"))))
 					return «n.primeElementLabel»;
 			}
 				return null;
