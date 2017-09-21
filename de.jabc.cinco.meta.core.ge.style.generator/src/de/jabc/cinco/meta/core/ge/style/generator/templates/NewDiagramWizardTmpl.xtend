@@ -102,7 +102,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 
 	
 	private void createDiagram(«String.name» dir, «String.name» fName) {
-		«String.name» extension = "«gm.name.toLowerCase»";
+		«String.name» extension = "«gm.fileExtension»";
 		«String.name» fNameWithExt = (fName.contains(".")) ? fName : fName.concat("." + extension);
 		«String.name» dName = fNameWithExt.split("\\.")[0];
 		
