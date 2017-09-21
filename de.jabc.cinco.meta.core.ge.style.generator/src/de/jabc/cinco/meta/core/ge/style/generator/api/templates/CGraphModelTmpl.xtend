@@ -29,6 +29,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
+import org.eclipse.emf.transaction.util.TransactionUtil
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -181,9 +184,24 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		throw new «UnsupportedOperationException.name»("Deleting a Graphmodel by api is not supported at the moment.");
 	}
 	
+	@SuppressWarnings("restriction")
 	public «IFeatureProvider.name» getFeatureProvider() {
-		if (this.fp != null) return this.fp;
-		
+		if (this.fp != null) try {
+			«Diagram.name» diagram = getDiagram();
+			if (diagram != null) {
+				«IDiagramTypeProvider.name» dtp = fp.getDiagramTypeProvider();
+				if (dtp.getDiagram() == null) {
+					«TransactionalEditingDomain.name» editingDomain = «TransactionUtil.name».getEditingDomain(diagram);
+					«DiagramEditorDummy.name» diagramEditor = new «DiagramEditorDummy.name»(dtp, editingDomain);
+					dtp.init(diagram, diagramEditor.getDiagramBehavior());
+				}
+			}
+			return this.fp;
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+		} finally {
+			return this.fp;
+		}
 		«Diagram.name» diagram = null;
 		try {
 			diagram = getDiagram();
