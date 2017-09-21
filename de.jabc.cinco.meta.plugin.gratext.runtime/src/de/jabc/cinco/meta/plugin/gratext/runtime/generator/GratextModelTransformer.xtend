@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import graphmodel.internal.InternalType
+import graphmodel.Type
+import graphmodel.GraphmodelPackage
 
 class GratextModelTransformer {
 	
@@ -50,7 +53,7 @@ class GratextModelTransformer {
 		val cp = element.counterpart
 		if (cp != null)
 			return cp as InternalModelElement
-		val baseElm = element.createModelElement => [
+		val baseElm = element.createBaseModelElement => [
 			cache(internalElement, element)
 			counterparts.put(it, element)
 			transformAttributes
@@ -92,13 +95,21 @@ class GratextModelTransformer {
 		}
 	}
 	
-	private def createModelElement(InternalModelElement elm) {
+	def createBaseModelElement(InternalModelElement elm) {
+		createBaseElement(elm) as ModelElement
+	}
+	
+	def createBaseType(InternalType elm) {
+		createBaseElement(elm) as Type
+	}
+	
+	def createBaseElement(InternalIdentifiableElement elm) {
 		elm.eClass.ESuperTypes
 			.filter[
 				modelPackage.eContents.filter(EClass).exists[name === it.name]
 			]
 			.map[modelFactory.create(it)]
-			.head as ModelElement
+			.head as IdentifiableElement
 	}
 	
 	private def getAttributes(EObject elm) {

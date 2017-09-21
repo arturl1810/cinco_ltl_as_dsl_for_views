@@ -39,7 +39,6 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import graphmodel.internal._Point
 
 abstract class GratextModelizer {
 	

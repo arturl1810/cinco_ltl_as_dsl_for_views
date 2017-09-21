@@ -1,9 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
-import mgl.Edge
 import mgl.ComplexAttribute
+import mgl.Edge
 import mgl.ModelElement
-import graphmodel.IdentifiableElement
 
 class ScopeProviderTemplate extends AbstractGratextTemplate {
 
@@ -15,7 +14,7 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		package «project.basePackage».scoping
 		
 		import graphmodel.IdentifiableElement
-		import graphmodel.internal.InternalModelElement
+		import graphmodel.internal.InternalIdentifiableElement
 		import «project.basePackage».*
 		import «project.basePackage».generator.«model.name»Modelizer
 		import java.util.stream.Collectors
@@ -69,9 +68,9 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 				if (type.package.name == "«project.basePackage»") {
 					type.isInstance(obj)
 				}
-				if (obj instanceof InternalModelElement) {
-					val ime = transformer.transform(obj as InternalModelElement)
-					type.isInstance(ime.element)
+				if (obj instanceof InternalIdentifiableElement) {
+					val ime = transformer.createBaseElement(obj as InternalIdentifiableElement)
+					type.isInstance(ime)
 				}
 			}
 			
