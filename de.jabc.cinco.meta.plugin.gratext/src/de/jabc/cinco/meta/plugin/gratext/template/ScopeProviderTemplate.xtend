@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.gratext.template
 import mgl.Edge
 import mgl.ComplexAttribute
 import mgl.ModelElement
+import graphmodel.IdentifiableElement
 
 class ScopeProviderTemplate extends AbstractGratextTemplate {
 
@@ -14,7 +15,9 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		package «project.basePackage».scoping
 		
 		import graphmodel.IdentifiableElement
+		import graphmodel.internal.InternalModelElement
 		import «project.basePackage».*
+		import «project.basePackage».generator.«model.name»Modelizer
 		import java.util.stream.Collectors
 		import java.util.stream.StreamSupport
 		import org.eclipse.emf.ecore.EObject
@@ -29,6 +32,8 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		 * This class contains custom scoping description.
 		 */
 		class «project.targetName»ScopeProvider extends AbstractDeclarativeScopeProvider {
+			
+			val transformer = «model.name»Modelizer.createTransformer
 			
 			override getScope(EObject context, EReference reference) {
 				getScope(context, reference.name) ?: super.getScope(context, reference)
@@ -57,7 +62,17 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 			}
 			
 			def anyTypeOf(Class<?>... types) {
-				[Object obj | types.stream.anyMatch[isAssignableFrom(obj.class)]]
+				[Object obj | types.stream.anyMatch[obj.isInstance(it)]]
+			}
+			
+			def isInstance(Object obj, Class<?> type) {
+				if (type.package.name == "«project.basePackage»") {
+					type.isInstance(obj)
+				}
+				if (obj instanceof InternalModelElement) {
+					val ime = transformer.transform(obj as InternalModelElement)
+					type.isInstance(ime.element)
+				}
 			}
 			
 			def <T extends EObject> IScope scope(Iterable<? extends T> elements) {
@@ -76,13 +91,18 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 				switch refName {
 					«if (it instanceof Edge) '''
 					case "_targetElement": element.scopeForContents(
-						«targetNodes.map[name].join(',\n')» )
+						«targetNodes.map[toModelType].join(',\n')» )
 					'''»
 					«modelElementRefs.map['''
-						case "«name»": element.scopeForContents(«type.name»)
+						case "«name»": element.scopeForContents(
+							«type.toModelType»
+						)
 					'''].join("\n")»
 				}
 			}
 		'''
 	}
+	
+	def toModelType(mgl.Type it)
+		'''«graphmodel.package».«model.name.toLowerCase».^«name»'''
 }

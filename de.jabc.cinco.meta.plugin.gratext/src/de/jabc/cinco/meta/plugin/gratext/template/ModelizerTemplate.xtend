@@ -17,16 +17,14 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		package «project.basePackage».generator
 		
 		import graphmodel.IdentifiableElement
-		import graphmodel.internal.InternalEdge
-		import graphmodel.internal.InternalModelElement
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.DiagramBuilder
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.ModelBuilder
 		
 		import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
-		import «graphmodel.package».«model.name.toLowerCase».internal.InternalPackage
-		import «project.basePackage».*
+		import «project.basePackage».«model.name»Diagram
+		import «project.basePackage»._Placed
 		
 		import org.eclipse.emf.ecore.resource.Resource
 		import org.eclipse.emf.ecore.EPackage
@@ -34,13 +32,15 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		
 		class «model.name»Modelizer extends ModelBuilder {
 		
-			new() {
-				super(new GratextModelTransformer(
+			public static def createTransformer() {
+				new GratextModelTransformer(
 					EPackage.Registry.INSTANCE.getEFactory("«graphmodel.nsURI»"),
 					EPackage.Registry.INSTANCE.getEPackage("«graphmodel.nsURI»/internal"),
 					«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
-				))
+				)
 			}
+		
+			new() { super(createTransformer) }
 		
 			override run(Resource resource) {
 				super.run(resource)

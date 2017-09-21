@@ -73,7 +73,7 @@ abstract class GratextSerializer {
 	def String gratext(InternalEdge edge) {
 		'''
 		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.route» «edge.decorations» {
-			id «edge.id»
+			id «if (edge.id.nullOrEmpty) edge.element.id else edge.id»
 			«edge.attributes»
 		}
 		'''

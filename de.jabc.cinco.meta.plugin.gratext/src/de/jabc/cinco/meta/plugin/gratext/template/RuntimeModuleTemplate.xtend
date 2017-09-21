@@ -176,7 +176,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 	
 	public static EObject createNonInternal(EObject internal, EClass requiredType) {
 		EPackage ePackage = requiredType.getEPackage();
-		if (ePackage != null && ePackage.getEFactoryInstance() != null) {
+		if (ePackage != null && ePackage.getEFactoryInstance() != null) try {
 			EObject elm = ePackage.getEFactoryInstance().create(requiredType);
 			EStructuralFeature idFeature = elm.eClass().getEStructuralFeature(GraphmodelPackage.IDENTIFIABLE_ELEMENT__ID);
 			elm.eSet(idFeature, internal.eGet(idFeature));
@@ -187,6 +187,8 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 			EStructuralFeature intElmFeature = elm.eClass().getEStructuralFeature(intElmFeatureID);
 			elm.eSet(intElmFeature, internal);
 			return elm;
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
