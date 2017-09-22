@@ -56,7 +56,6 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		graphModel.prepareGraphModel
 		new GraphitiGeneratorMain(graphModel, cpdFile, graphModel.styles)
 		=> [
-			addPerspectiveContent
 			copyImages(graphModel)
 			graphModel.expPackages.forEach[project.exportPackage(it)]
 			doGenerate(project)
