@@ -20,6 +20,8 @@ import org.eclipse.jface.viewers.ILabelProviderListener
 import org.eclipse.swt.graphics.Image
 import org.eclipse.emf.ecore.EClass
 import graphmodel.ModelElement
+import graphmodel.Type
+import graphmodel.GraphModel
 
 class LabelProviderTemplate {
 
@@ -110,9 +112,17 @@ class LabelProviderTemplate {
 				«EObject.name» eElement = («EObject.name») element;
 				if (eElement.eClass().getName().equals("«n.primeTypeName»")
 						|| eElement.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«n.primeTypeName»"))) {
-					if (eElement instanceof «ModelElement.name») {
-						eElement = ((«ModelElement.name») eElement).getInternalElement();
+					
+					if (eElement instanceof «GraphModel.name») {
+						eElement = ((«GraphModel.name»)element).getInternalElement();
 					}
+					else if (eElement instanceof «ModelElement.name») {
+						eElement = ((«ModelElement.name»)element).getInternalElement();
+					}
+					else if (eElement instanceof «Type.name») {
+						eElement = ((«Type.name»)element).getInternalElement();
+					}
+					
 					Object val = «n.primeElementLabel»;
 					return (val != null) ? val.toString() : "«n.primeTypeName»";
 				}
