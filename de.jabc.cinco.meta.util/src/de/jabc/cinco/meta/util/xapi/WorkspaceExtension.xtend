@@ -116,13 +116,7 @@ class WorkspaceExtension {
 	 * Only replaces its content if the file already exists.
 	 */
 	def createFile(IContainer container, String name, String content) {
-		val file = container.getFile(new Path(name))
-		try {
-			container.createFile(name, new ByteArrayInputStream(content.getBytes(file.charset)))
-		} catch (Exception e) {
-			e.printStackTrace()
-		}
-		return file
+		container.createFile(name, content, true)
 	}
 	
 	/**
@@ -133,13 +127,17 @@ class WorkspaceExtension {
 		if (createFolders) {
 			val index = name.lastIndexOf("/")
 			if (index > -1) {
-				val fileName = name.substring(index + 1)
 				val folderPath = name.substring(0, index)
-				val folder = createFolder(container, folderPath)
-				folder.createFile(fileName, content)                 
+				createFolder(container, folderPath)             
 			}
 		}
-		container.createFile(name, content)
+		val file = container.getFile(new Path(name))
+		try {
+			container.createFile(name, new ByteArrayInputStream(content.getBytes(file.charset)))
+		} catch (Exception e) {
+			e.printStackTrace()
+		}
+		return file
 	}
 	
 	/**
@@ -148,17 +146,7 @@ class WorkspaceExtension {
 	 * Only replaces its content if the file already exists.
 	 */
 	def createFile(IContainer container, String name, InputStream stream) {
-		val file = container.getFile(new Path(name))
-		try {
-			if (file.exists)
-				file.setContents(stream, true, true, null)
-			else
-				file.create(stream, true, null)
-			stream.close
-		} catch (Exception e) {
-			e.printStackTrace
-		}
-		return file
+		container.createFile(name, stream, true)
 	}
 	
 	/**
@@ -170,13 +158,21 @@ class WorkspaceExtension {
 		if (createFolders) {
 			val index = name.lastIndexOf("/")
 			if (index > -1) {
-				val fileName = name.substring(index + 1)
 				val folderPath = name.substring(0, index)
-				val folder = container.createFolder(folderPath)
-				folder.createFile(fileName, stream)
+				container.createFolder(folderPath)
 			}
 		}
-		container.createFile(name, stream)
+		val file = container.getFile(new Path(name))
+		try {
+			if (file.exists)
+				file.setContents(stream, true, true, null)
+			else
+				file.create(stream, true, null)
+			stream.close
+		} catch (Exception e) {
+			e.printStackTrace
+		}
+		return file
 	}
 	
 	/**
