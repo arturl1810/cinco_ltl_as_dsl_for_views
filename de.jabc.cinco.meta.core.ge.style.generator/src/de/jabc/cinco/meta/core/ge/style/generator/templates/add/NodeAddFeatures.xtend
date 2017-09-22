@@ -24,6 +24,10 @@ import graphmodel.internal.InternalModelElementContainer
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 import graphmodel.internal.InternalGraphModel
+import graphmodel.IdentifiableElement
+import graphmodel.GraphModel
+import graphmodel.ModelElement
+import graphmodel.Type
 
 class NodeAddFeatures extends StyleUtil {
 
@@ -127,15 +131,15 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		if (!(target instanceof «InternalModelElementContainer.name»))
 			return false;
 		
-		«EObject.name» element = null;
+		«EObject.name» element = bo;
 		if (bo instanceof «InternalModelElement.name»)
 			element = ((«InternalModelElement.name») bo).getElement();
 		if (bo instanceof «InternalGraphModel.name»)
 			element = ((«InternalGraphModel.name») bo).getElement();
 			
-		if((bo.eClass().getName().equals("«n.retrievePrimeReference.primeType»")
+		if((element.eClass().getName().equals("«n.retrievePrimeReference.primeTypeElement»")
 				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeTypeElement»"))))
-				&& bo.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))
+				&& element.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))
 		
 			return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 		return false;
@@ -152,14 +156,25 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«CreateContext.name» cc = 
 			new «CreateContext.name»();
 			
+		«EObject.name» element = («EObject.name») context.getNewObject();
+		if (element instanceof «GraphModel.name») {
+			element = ((«GraphModel.name»)element).getInternalElement();
+		}
+		else if (element instanceof «ModelElement.name») {
+			element = ((«ModelElement.name»)element).getInternalElement();
+		}
+		else if (element instanceof «Type.name») {
+			element = ((«Type.name»)element).getInternalElement();
+		}
+			
 		cc.setTargetContainer(context.getTargetContainer());
 		«Object.name»[] newObject = cf.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
 		«Object.name» object = newObject[0];
 		if (object instanceof «n.fqBeanName») {
 			«n.fqInternalBeanName» ime = («n.fqInternalBeanName») ((«n.fqBeanName») object).getInternalElement();
-			ime.setLibraryComponentUID(«EcoreUtil.name».getID((«EObject.name») context.getNewObject()));
-			«ReferenceRegistry.name».getInstance().addElement((«EObject.name») context.getNewObject());
+			ime.setLibraryComponentUID(«EcoreUtil.name».getID(element));
+			«ReferenceRegistry.name».getInstance().addElement(element);
 			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
 			«AddContext.name» ac = new «AddContext.name»(context, ime);
 			if (af.canAdd(ac)) {

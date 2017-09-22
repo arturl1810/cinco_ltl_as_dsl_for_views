@@ -561,7 +561,7 @@ class GeneratorUtils extends InheritanceUtil{
 	 * @return The {@link GraphModel#getNsURI nsURI} of the {@link ReferencedModelElement}'s {@link GraphModel}
 	 */
 	dispatch def nsURI(ReferencedModelElement rem) {
-		return rem.type.graphModel.nsURI+"/internal"
+		return rem.type.graphModel.nsURI
 	}
 	
 	/**

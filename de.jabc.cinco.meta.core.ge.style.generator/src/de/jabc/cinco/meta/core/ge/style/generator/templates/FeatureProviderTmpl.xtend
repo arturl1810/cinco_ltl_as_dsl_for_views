@@ -108,7 +108,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		}
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			«EObject.name» element = null;
+			«EObject.name» element = bo;
 			if (bo instanceof «InternalModelElement.name»)
 				element = ((«InternalModelElement.name») bo).getElement();
 			if (bo instanceof «InternalGraphModel.name»)
@@ -120,9 +120,9 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (sameResource && «internalInstanceofCheck(me,"bo")») 
 				return new «gm.packageNameAdd».AddFeature«me.fuName»(this);
 			«IF isPrime(me)»
-			if((bo.eClass().getName().equals("«me.retrievePrimeReference.primeType»")
+			if((element.eClass().getName().equals("«me.retrievePrimeReference.primeTypeElement»")
 				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«me.retrievePrimeReference.primeTypeElement»"))))
-				&& bo.eClass().getEPackage().getNsURI().equals("«me.retrievePrimeReference.nsURI»")
+				&& element.eClass().getEPackage().getNsURI().equals("«me.retrievePrimeReference.nsURI»")
 				&& !sameResource)
 				return new «LibraryComponentAddFeature.name»(this);
 			«ENDIF»		
