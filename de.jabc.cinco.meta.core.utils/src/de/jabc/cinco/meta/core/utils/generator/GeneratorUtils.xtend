@@ -548,7 +548,7 @@ class GeneratorUtils extends InheritanceUtil{
 		val prime = n.retrievePrimeReference
 		switch prime {
 			ReferencedEClass : prime.type.EPackage.nsPrefix
-			ReferencedModelElement : prime.type.graphModel.fileExtension
+			ReferencedModelElement : prime.type.graphModel.name.toLowerCase
 		}
 	}
 	
