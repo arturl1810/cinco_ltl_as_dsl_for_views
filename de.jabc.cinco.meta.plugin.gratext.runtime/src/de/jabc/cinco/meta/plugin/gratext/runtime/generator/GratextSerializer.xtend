@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.ModelElement
 import graphmodel.Type
+import graphmodel.internal.InternalType
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 abstract class GratextSerializer {
 
@@ -77,6 +79,10 @@ abstract class GratextSerializer {
 			«edge.attributes»
 		}
 		'''
+	}
+	
+	def id(EObject obj) {
+		EcoreUtil.getID(obj)
 	}
 	
 	def name(EObject obj) {
@@ -181,17 +187,17 @@ abstract class GratextSerializer {
 		}
 	}
 	
-	def valueGratext(Object obj) {
-		switch obj {
-			ModelElement: obj?.internalElement?.id
-			Type: obj?.internalElement.valueGratext
-			InternalModelElement: obj?.id
-			String: '"' + obj.replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
+	def valueGratext(Object it) {
+		switch it {
+			ModelElement: internalElement?.id
+			InternalModelElement: id
+			Type: internalElement.valueGratext
+			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
-				«obj.name» {
-						«obj.attributes»
+				«name» «id?.toString» {
+						«attributes»
 					}''' 
-			default: obj
+			default: it
 		}
 	}
 	
