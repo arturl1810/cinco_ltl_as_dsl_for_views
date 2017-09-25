@@ -158,11 +158,11 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	override resolveLazyCrossReferences(CancelIndicator mon) {
 		getContents.forEach[
-			it.resolveLazyCrossReferences(mon ?: CancelIndicator.NullImpl)
+			resolveCrossReferences(mon ?: CancelIndicator.NullImpl)
 		]
 	}
 	
-	def resolveLazyCrossReferences(Object obj, CancelIndicator monitor) {
+	def resolveCrossReferences(Object obj, CancelIndicator monitor) {
 		if (monitor.canceled) return;
 		
 		if (obj instanceof EObject && !(obj instanceof Diagram)) {
@@ -175,7 +175,7 @@ abstract class GratextResource extends LazyLinkingResource {
 					doResolveLazyCrossReference(iEobj, it)
 			]
 			EcoreUtil.getAllContents(iEobj, true).forEachRemaining[
-				resolveLazyCrossReferences(monitor)
+				resolveCrossReferences(monitor)
 			]
 		}
 	}

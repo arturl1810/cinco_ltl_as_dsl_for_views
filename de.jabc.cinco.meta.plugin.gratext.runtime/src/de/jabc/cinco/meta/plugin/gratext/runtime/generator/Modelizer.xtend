@@ -10,6 +10,7 @@ import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.eclipse.emf.ecore.resource.Resource
+import graphmodel.GraphModel
 
 abstract class Modelizer {
 	
@@ -17,6 +18,7 @@ abstract class Modelizer {
 	
 	protected NonEmptyRegistry<IdentifiableElement,List<EObject>> nodesInitialOrder = new NonEmptyRegistry[newArrayList]
 	protected GratextModelTransformer transformer
+	protected GraphModel model
 	
 	new(GratextModelTransformer transformer) {
 		this.transformer = transformer
@@ -26,7 +28,7 @@ abstract class Modelizer {
 		val gratextModel = getContent(InternalGraphModel)
 		nodesInitialOrder.clear
 		gratextModel.cacheInitialOrder
-		val model = transformer.transform(gratextModel).element
+		model = transformer.transform(gratextModel).element
 		val internal = (model as EObjectImpl).eInternalContainer()
 		transact[
 			contents.remove(gratextModel)
