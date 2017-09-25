@@ -78,15 +78,18 @@ abstract class CincoCheckModule<
 		}
 		
 		def elseError(String msg) {
-			check.addError(elm, msg)
+			if (!test?.apply(elm))
+				check.addError(elm, msg)
 		}
 		
 		def elseWarning(String msg) {
-			check.addError(elm, msg)
+			if (!test?.apply(elm))
+				check.addWarning(elm, msg)
 		}
 		
 		def elseInfo(String msg) {
-			check.addError(elm, msg)
+			if (!test?.apply(elm))
+				check.addInfo(elm, msg)
 		}
 	}
 }
