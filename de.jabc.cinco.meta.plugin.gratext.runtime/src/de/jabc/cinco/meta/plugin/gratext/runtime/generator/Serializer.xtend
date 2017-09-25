@@ -25,7 +25,7 @@ import graphmodel.Type
 import graphmodel.internal.InternalType
 import org.eclipse.emf.ecore.util.EcoreUtil
 
-abstract class GratextSerializer {
+abstract class Serializer {
 
 	static extension val ResourceExtension = new ResourceExtension
 

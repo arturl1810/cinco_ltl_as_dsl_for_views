@@ -20,7 +20,7 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.DiagramBuilder
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
-		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.ModelBuilder
+		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Modelizer
 		
 		import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
 		import «project.basePackage».«model.name»Diagram
@@ -30,7 +30,7 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		import org.eclipse.emf.ecore.EPackage
 		
 		
-		class «model.name»Modelizer extends ModelBuilder {
+		class «model.name»Modelizer extends Modelizer {
 		
 			public static def createTransformer() {
 				new GratextModelTransformer(

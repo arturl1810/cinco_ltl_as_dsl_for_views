@@ -14,9 +14,9 @@ class SerializerTemplate extends AbstractGratextTemplate {
 		import org.eclipse.emf.ecore.resource.Resource
 		import org.eclipse.graphiti.mm.pictograms.Diagram
 		
-		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextSerializer
+		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Serializer
 		
-		class «model.name»Serializer extends GratextSerializer {
+		class «model.name»Serializer extends Serializer {
 			
 			new(Resource res) {
 				super(res)

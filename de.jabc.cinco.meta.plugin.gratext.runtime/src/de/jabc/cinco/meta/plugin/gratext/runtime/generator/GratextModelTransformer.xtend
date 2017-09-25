@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
 import graphmodel.ModelElement
+import graphmodel.Type
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalIdentifiableElement
@@ -14,15 +15,11 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
-import graphmodel.internal.InternalType
-import graphmodel.Type
-import graphmodel.GraphmodelPackage
 
 class GratextModelTransformer {
 	
 	private Map<IdentifiableElement,IdentifiableElement> counterparts = new IdentityHashMap
 	private List<InternalEdge> edges = newArrayList
-
 	private EFactory modelFactory
 	private EPackage modelPackage
 	private EClass modelClass
@@ -33,54 +30,36 @@ class GratextModelTransformer {
 		this.modelClass = modelClass
 	}
 	
-	def transform(InternalGraphModel model) {
-		val cp = model.counterpart
-		if (cp != null)
-			return cp as InternalGraphModel
-		val baseModel = modelFactory.create(modelClass) as GraphModel
-		baseModel.internalElement => [
-			cache(it, model)
-			transformAttributes
-			transformReferences
-			model.modelElements.forEach[me|
-				it.modelElements.add(me.transform)
+	def transform(InternalGraphModel internal) {
+		val baseModel = (internal as InternalIdentifiableElement).transform
+		baseModel as InternalGraphModel => [
+			internal.modelElements.forEach[elm|
+				modelElements.add(elm.transform as InternalModelElement)
 			]
 			modelElements.addAll(edges)
 		]
 	}
 	
-	def transform(InternalModelElement element) {
-		val cp = element.counterpart
+	def transform(InternalIdentifiableElement internal) {
+		val cp = internal.counterpart
 		if (cp != null)
-			return cp as InternalModelElement
-		val baseElm = element.createBaseModelElement => [
-			cache(internalElement, element)
-			counterparts.put(it, element)
+			return cp as InternalIdentifiableElement
+		internal.createBaseElement.internalElement => [
+			cache(it, internal)
 			transformAttributes
 			transformReferences
 		]
-		return baseElm.internalElement
-	}
-
-	private def transformAttributes(ModelElement elm) {
-		elm.internalElement.transformAttributes
 	}
 	
-	private def transformAttributes(InternalIdentifiableElement element) {
-		element.attributes.forEach[attr|
-			element.eSet(attr, element.counterpart.eGet(attr))
+	private def transformAttributes(InternalIdentifiableElement internal) {
+		internal.attributes.forEach[attr|
+			internal.eSet(attr, internal.counterpart.eGet(attr))
 		]
 	}
-
-	private def transformReferences(ModelElement it) {
-		internalElement.transformReferences
-	}
 	
-	private def transformReferences(InternalIdentifiableElement element) {
-		element.references.forEach[ref|
-			if (ref.name != "element") {
-				element.eSet(ref, element.counterpart.eGet(ref).transformValue)
-			}
+	private def transformReferences(InternalIdentifiableElement internal) {
+		internal.references.filter[name != "element"].forEach[ref|
+			internal.eSet(ref, internal.counterpart.eGet(ref).transformValue)
 		]
 	}
 	
@@ -95,21 +74,19 @@ class GratextModelTransformer {
 		}
 	}
 	
-	def createBaseModelElement(InternalModelElement elm) {
-		createBaseElement(elm) as ModelElement
-	}
-	
-	def createBaseType(InternalType elm) {
-		createBaseElement(elm) as Type
-	}
-	
 	def createBaseElement(InternalIdentifiableElement elm) {
 		elm.eClass.ESuperTypes
-			.filter[
-				modelPackage.eContents.filter(EClass).exists[name === it.name]
-			]
+			.filter[modelPackage.eContents.filter(EClass).exists[name == it.name]]
 			.map[modelFactory.create(it)]
 			.head as IdentifiableElement
+	}
+	
+	def InternalIdentifiableElement getInternalElement(IdentifiableElement it) {
+		switch it {
+			GraphModel: internalElement
+			ModelElement: internalElement
+			Type: internalElement
+		}
 	}
 	
 	private def getAttributes(EObject elm) {

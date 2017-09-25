@@ -16,9 +16,12 @@ import «project.basePackage».generator.«model.name»Modelizer;
 import graphmodel.GraphmodelPackage;
 import graphmodel.Node;
 import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalGraphModel;
 import graphmodel.internal.InternalIdentifiableElement;
+import graphmodel.internal.InternalModelElement;
 import graphmodel.internal.InternalNode;
 import graphmodel.internal.InternalPackage;
+import graphmodel.internal.InternalType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +59,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import com.google.inject.Inject;
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer;
+import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource;
 import de.jabc.cinco.meta.plugin.gratext.runtime.util.TerminalConverters;
 
 public class «project.targetName»RuntimeModule extends «project.basePackage».Abstract«project.targetName»RuntimeModule {
@@ -177,8 +181,26 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 	}
 	
 	public static EObject createNonInternal(EObject internal, EClass requiredType) {
-		GratextModelTransformer transformer = «model.name»Modelizer.createTransformer();
-		return transformer.createBaseElement((InternalIdentifiableElement)internal);
+		InternalIdentifiableElement ime = (InternalIdentifiableElement) internal;
+		GratextResource res = (GratextResource) internal.eResource();
+		GratextModelTransformer transformer = 
+			(res != null)
+				? res.getModelizer().getTransformer()
+				: «model.name»Modelizer.createTransformer();
+		return toNonInternal(transformer.transform(ime));
+	}
+	
+	public static EObject toNonInternal(InternalIdentifiableElement ime) {
+		if (ime instanceof InternalGraphModel) {
+			return ((InternalGraphModel) ime).getElement();
+		}
+		if (ime instanceof InternalModelElement) {
+			return ((InternalModelElement) ime).getElement();
+		}
+		if (ime instanceof InternalType) {
+			return ((InternalType) ime).getElement();
+		}
+		return null;
 	}
     
     @Override
