@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IFile
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
+import java.util.NoSuchElementException
 
 /**
  * File-specific extension methods.
@@ -62,6 +63,10 @@ class FileExtension extends de.jabc.cinco.meta.util.xapi.FileExtension {
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends GraphModel> getGraphModel(IFile file, Class<T> modelClass) {
-		getContent(file, modelClass, 1)
+		val model = file.getGraphModel
+		if (model.eClass.name == modelClass.simpleName) {
+			return model as T
+		} else throw new NoSuchElementException(
+			"No model of type " + modelClass + " found in " + file)
 	}
 }

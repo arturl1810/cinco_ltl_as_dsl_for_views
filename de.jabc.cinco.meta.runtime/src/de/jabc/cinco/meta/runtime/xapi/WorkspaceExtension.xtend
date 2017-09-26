@@ -44,6 +44,6 @@ class WorkspaceExtension extends de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 	 */
 	def <T extends GraphModel> getGraphModel(IFile file, Class<T> modelClass) {
 		extension val FileExtension = new FileExtension
-		getContent(file, modelClass, 1)
+		file.getGraphModel(modelClass)
 	}
 }

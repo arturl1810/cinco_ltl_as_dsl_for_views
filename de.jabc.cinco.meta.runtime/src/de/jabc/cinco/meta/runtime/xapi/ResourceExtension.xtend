@@ -4,6 +4,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
+import java.util.NoSuchElementException
 
 /**
  * Resource-specific extension methods.
@@ -61,6 +62,10 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends GraphModel> getGraphModel(Resource resource, Class<T> modelClass) {
-		getContent(resource, modelClass, 1);
+		val model = resource.getGraphModel
+		if (model.eClass.name == modelClass.simpleName) {
+			return model as T
+		} else throw new NoSuchElementException(
+			"No model of type " + modelClass + " found in " + resource)
 	}
 }
