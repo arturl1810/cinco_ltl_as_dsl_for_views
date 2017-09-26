@@ -144,9 +144,9 @@ class GratextModelTransformer {
 	}
 	
 	def registerBaseElement(String id, IdentifiableElement baseElm) {
-		baseElements.put(id, baseElm)
-		for (req : replacements.get(id)) {
-			req.apply(id)
+		if (!id.nullOrEmpty) {
+			baseElements.put(id, baseElm)
+			replacements.get(id).forEach[apply(id)]
 		}
 	}
 	
