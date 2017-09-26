@@ -31,7 +31,7 @@ build:
     - mvn -e clean package
     - popd;
     - mvn -e clean package
-    - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/\*.zip root@$DELIVERY_HOST:/var/www/cinco/$(date +%F)-$CI_COMMIT_SHA/
+    - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip root@$DELIVERY_HOST:/var/www/cinco/$(date +%F)-$CI_COMMIT_SHA/
   variables:
     MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=~/.m2/repository -Xms128m -Xmx2048m"
     DELIVERY_HOST: cinco.fetchandadd.net
