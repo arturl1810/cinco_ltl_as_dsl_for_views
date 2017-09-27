@@ -43,6 +43,7 @@ class FactoryGeneratorExtensions {
 		import graphmodel.internal.InternalGraphModel
 		import graphmodel.internal.InternalContainer
 		import graphmodel.internal.InternalType
+		import graphmodel.internal.InternalIdentifiableElement
 		import graphmodel.ModelElement
 		import graphmodel.IdentifiableElement
 		import graphmodel.GraphModel
@@ -74,7 +75,7 @@ class FactoryGeneratorExtensions {
 			
 			«elmClasses.values.specificCreateMethods»
 			
-			private def <T extends IdentifiableElement> setInternal(T elm, IdentifiableElement internal) {
+			private def <T extends IdentifiableElement> setInternal(T elm, InternalIdentifiableElement internal) {
 				elm => [
 					ID = generateUUID
 					switch elm {

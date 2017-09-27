@@ -296,7 +296,15 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/_Decoration/locationShift"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Decoration/location"/>
       </genClasses>
-      <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalIdentifiableElement"/>
+      <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalIdentifiableElement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/InternalIdentifiableElement/id"/>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalIdentifiableElement/equals">
+          <genParameters ecoreParameter="GraphModel.ecore#//internal/InternalIdentifiableElement/equals/obj"/>
+        </genOperations>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalIdentifiableElement/hashCode"/>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalIdentifiableElement/save"/>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalIdentifiableElement/getElement"/>
+      </genClasses>
       <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalType">
         <genFeatures createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalType/element"/>
       </genClasses>
