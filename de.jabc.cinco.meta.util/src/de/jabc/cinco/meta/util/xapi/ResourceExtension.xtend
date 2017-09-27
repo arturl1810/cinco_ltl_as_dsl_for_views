@@ -109,8 +109,10 @@ class ResourceExtension {
 	 */
 	def getEditingDomain(Resource resource) {
 		val factory = TransactionalEditingDomain.Factory.INSTANCE
-		TransactionUtil.getEditingDomain(resource) ?:
-			if (resource.resourceSet != null)
+		if (resource == null)
+			factory.createEditingDomain
+		else TransactionUtil.getEditingDomain(resource)
+			?: if (resource.resourceSet != null)
 				factory.createEditingDomain(resource.resourceSet)
 			else
 				factory.createEditingDomain
