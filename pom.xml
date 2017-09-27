@@ -180,6 +180,12 @@
 							<include>**/*</include>
 						</includes>
 					</fileset>
+					<fileset>
+						<directory>${project.basedir}/workspace-emf-tmp</directory>
+					</fileset>
+					<fileset>
+						<directory>${project.basedir}/workspace</directory>
+					</fileset>
 				</filesets>
 			</configuration>
 		</plugin>

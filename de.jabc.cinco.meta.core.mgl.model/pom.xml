@@ -40,7 +40,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<!-- linebreaks not permitted in this arg line -->
-							<appArgLine>-data ${java.io.tmpdir}/cinco-emf-core-mgl -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/GraphModel.genmodel ${project.basedir}/</appArgLine>
+							<appArgLine>-data ${project.basedir}/../workspace-emf-tmp/ -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/GraphModel.genmodel ${project.basedir}/</appArgLine>
 						</configuration>
 					</execution>
 					<execution>
@@ -51,7 +51,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<!-- linebreaks not permitted in this arg line -->
-							<appArgLine>-data ${java.io.tmpdir}/cinco-emf-core-mgl -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/MGL.genmodel ${project.basedir}/</appArgLine>
+							<appArgLine>-data ${project.basedir}/../workspace-emf-tmp -application org.eclipse.emf.codegen.ecore.Generator -projects ${project.basedir} -model ${project.basedir}/model/MGL.genmodel ${project.basedir}/</appArgLine>
 						</configuration>
 					</execution>
 				</executions>
