@@ -1,9 +1,12 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.CincoUtil
-import graphmodel.ModelElementContainer
+import graphmodel.IdentifiableElement
+import graphmodel.internal.InternalIdentifiableElement
+import graphmodel.internal.InternalModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -18,20 +21,8 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
-import graphmodel.internal.InternalModelElement
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import graphmodel.internal.InternalModelElementContainer
-import de.jabc.cinco.meta.core.utils.MGLUtil
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
-import graphmodel.internal.InternalGraphModel
-import graphmodel.IdentifiableElement
-import graphmodel.GraphModel
-import graphmodel.ModelElement
-import graphmodel.Type
 
 class NodeAddFeatures extends StyleUtil {
-
-	extension APIUtils = new APIUtils()
 	
 	var Node n;
 	var NodeStyle s;
@@ -132,10 +123,8 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 			return false;
 		
 		«EObject.name» element = bo;
-		if (bo instanceof «InternalModelElement.name»)
-			element = ((«InternalModelElement.name») bo).getElement();
-		if (bo instanceof «InternalGraphModel.name»)
-			element = ((«InternalGraphModel.name») bo).getElement();
+		if (bo instanceof «InternalIdentifiableElement.name»)
+			element = ((«InternalIdentifiableElement.name») bo).getElement();
 			
 		if((element.eClass().getName().equals("«n.retrievePrimeReference.primeTypeElement»")
 				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeTypeElement»"))))
@@ -157,14 +146,8 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 			new «CreateContext.name»();
 			
 		«EObject.name» element = («EObject.name») context.getNewObject();
-		if (element instanceof «GraphModel.name») {
-			element = ((«GraphModel.name»)element).getInternalElement();
-		}
-		else if (element instanceof «ModelElement.name») {
-			element = ((«ModelElement.name»)element).getInternalElement();
-		}
-		else if (element instanceof «Type.name») {
-			element = ((«Type.name»)element).getInternalElement();
+		if (element instanceof «IdentifiableElement.name») {
+			element = ((«IdentifiableElement.name»)element).getInternalElement();
 		}
 			
 		cc.setTargetContainer(context.getTargetContainer());
