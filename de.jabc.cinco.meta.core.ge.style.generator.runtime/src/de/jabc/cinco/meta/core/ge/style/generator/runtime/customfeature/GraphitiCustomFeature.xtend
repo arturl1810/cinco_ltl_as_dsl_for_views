@@ -1,16 +1,14 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature
 
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import graphmodel.IdentifiableElement
-import graphmodel.ModelElement
-import graphmodel.internal.InternalGraphModel
-import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalIdentifiableElement
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICustomContext
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.services.Graphiti
-import de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 
 class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCustomFeature implements ICustomFeature{
 	
@@ -37,22 +35,20 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 	
 	override canExecute(ICustomContext context) {
 		val pe = context.pictogramElements.get(0);
-		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
+		val bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe)
 		switch bo {
-			InternalModelElement : delegate.canExecute(bo.element as T)
-			InternalGraphModel : delegate.canExecute(bo.element as T)
-			IdentifiableElement : delegate.canExecute(bo as T) 
+			InternalIdentifiableElement : delegate.canExecute(bo.element as T)
+			IdentifiableElement : delegate.canExecute(bo as T)
 			default : throw new RuntimeException("Error in canExecute with element: " + bo) 
 		}
 	}
 	
 	override execute(ICustomContext context) {
 		val pe = context.pictogramElements.get(0);
-		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
+		val bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe)
 		bo.transact[
 			switch bo {
-				InternalModelElement : delegate.execute(bo.element as T)
-				InternalGraphModel : delegate.execute(bo.element as T)
+				InternalIdentifiableElement : delegate.execute(bo.element as T)
 				IdentifiableElement : delegate.execute(bo as T)
 				default : throw new RuntimeException("Error in canExecute with element: " + bo) 
 			}
