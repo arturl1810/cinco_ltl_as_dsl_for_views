@@ -20,8 +20,8 @@ import graphmodel.internal.InternalType
 
 class GratextModelTransformer {
 	
-	private Map<IdentifiableElement,IdentifiableElement> counterparts = new IdentityHashMap
-	private Map<String,IdentifiableElement> baseElements = newHashMap
+	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
+	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
 	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
 	private List<InternalEdge> edges = newArrayList
 	private EFactory modelFactory
@@ -63,7 +63,7 @@ class GratextModelTransformer {
 		]
 	}
 	
-	def getNonInternal(IdentifiableElement it) {
+	def getNonInternal(InternalIdentifiableElement it) {
 		switch it {
 			InternalGraphModel: element
 			InternalModelElement: element
@@ -135,7 +135,7 @@ class GratextModelTransformer {
 		edges
 	}
 	
-	def getBaseElement(IdentifiableElement elm) {
+	def getBaseElement(InternalIdentifiableElement elm) {
 		elm.id.baseElement
 	}
 	
@@ -143,7 +143,7 @@ class GratextModelTransformer {
 		baseElements.get(id)
 	}
 	
-	def registerBaseElement(String id, IdentifiableElement baseElm) {
+	def registerBaseElement(String id, InternalIdentifiableElement baseElm) {
 		if (!id.nullOrEmpty) {
 			baseElements.put(id, baseElm)
 			replacements.get(id).forEach[apply(id)]
@@ -154,7 +154,7 @@ class GratextModelTransformer {
 		replacements.get(id).add(replacement)
 	}
 	
-	private def cache(IdentifiableElement baseElm, IdentifiableElement gtxElm) {
+	private def cache(InternalIdentifiableElement baseElm, InternalIdentifiableElement gtxElm) {
 		counterparts => [
 			put(baseElm, gtxElm)
 			put(gtxElm, baseElm)

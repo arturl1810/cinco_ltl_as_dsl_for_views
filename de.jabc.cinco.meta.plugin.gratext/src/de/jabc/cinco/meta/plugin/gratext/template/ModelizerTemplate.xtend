@@ -17,6 +17,7 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		package «project.basePackage».generator
 		
 		import graphmodel.IdentifiableElement
+		import graphmodel.internal.InternalIdentifiableElement
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.DiagramBuilder
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
@@ -93,13 +94,13 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				transformer.getCounterpart(elm)
 			}
 			
-			override getElementIndex(IdentifiableElement element) {
+			override getElementIndex(InternalIdentifiableElement element) {
 				if (element instanceof _Placed)
 					element.index
 				else -1
 			}
 			
-			override setElementIndex(IdentifiableElement element, int i) {
+			override setElementIndex(InternalIdentifiableElement element, int i) {
 				if (element instanceof _Placed && i >= 0)
 					(element as _Placed).index = i
 			}

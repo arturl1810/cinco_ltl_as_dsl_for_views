@@ -17,7 +17,7 @@ class EdgeLayoutUtils {
 	extension val WorkbenchExtension = new WorkbenchExtension
 	
 	def getGraphicsAlgorithm(ModelElement it) {
-		internalElement?.pictogramElement?.graphicsAlgorithm
+		pictogramElement?.graphicsAlgorithm
 	}
 	
 	def getX(ModelElement it) {
@@ -72,8 +72,7 @@ class EdgeLayoutUtils {
 	}
 	
 	def FreeFormConnection getConnection(Edge it) {
-		val pe = internalElement.pictogramElement
-		switch pe {
+		switch pe:pictogramElement {
 			FreeFormConnection: pe
 		}
 	}

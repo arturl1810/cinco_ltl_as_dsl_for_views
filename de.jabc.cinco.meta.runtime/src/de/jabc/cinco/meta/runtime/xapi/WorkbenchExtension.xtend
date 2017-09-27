@@ -271,7 +271,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getPictogramElement(IdentifiableElement element) {
 		extension val ResourceExtension = new ResourceExtension
-		element.eResource?.diagram?.pictogramLinks
+		element.internalElement.eResource?.diagram?.pictogramLinks
 			.filter[businessObjects.exists[equals(it, element)]]
 			.map[pictogramElement]
 			.findFirst[it != null]

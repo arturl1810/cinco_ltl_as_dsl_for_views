@@ -39,6 +39,7 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import graphmodel.internal.InternalIdentifiableElement
 
 abstract class GratextModelizer {
 	
@@ -49,8 +50,8 @@ abstract class GratextModelizer {
 	
 	GratextModelTransformer transformer
 
-	Map<IdentifiableElement, PictogramElement> pes = new HashMap
-	Map<String, IdentifiableElement> byId = new HashMap
+	Map<InternalIdentifiableElement, PictogramElement> pes = newHashMap
+	Map<String, InternalIdentifiableElement> byId = newHashMap
 
 	protected GraphModel model
 	LazyDiagram diagram
@@ -217,7 +218,7 @@ abstract class GratextModelizer {
 			]
 	}
 	
-	def getPe(IdentifiableElement elm) {
+	def getPe(InternalIdentifiableElement elm) {
 		pes.get(elm)
 	}
 	
@@ -237,9 +238,9 @@ abstract class GratextModelizer {
 		model.modelElements.filter(Node).sortBy[(counterpart as InternalNode).index]
 	}
 	
-	def int getIndex(IdentifiableElement element)
+	def int getIndex(InternalIdentifiableElement element)
 	
-	def void setIndex(IdentifiableElement element, int i)
+	def void setIndex(InternalIdentifiableElement element, int i)
 	
 	def link(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
@@ -253,7 +254,7 @@ abstract class GratextModelizer {
 		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, diagram.diagramTypeProviderId))
 	}
 	
-	def cache(IdentifiableElement bo, PictogramElement pe) {
+	def cache(InternalIdentifiableElement bo, PictogramElement pe) {
 		byId.put(bo.id, bo)
 		pes.put(bo, pe)
 	}

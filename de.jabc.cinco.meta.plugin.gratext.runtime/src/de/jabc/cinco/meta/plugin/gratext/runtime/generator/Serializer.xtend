@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
-import graphmodel.IdentifiableElement
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
@@ -22,8 +21,8 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.ModelElement
 import graphmodel.Type
-import graphmodel.internal.InternalType
 import org.eclipse.emf.ecore.util.EcoreUtil
+import graphmodel.internal.InternalIdentifiableElement
 
 abstract class Serializer {
 
@@ -113,7 +112,7 @@ abstract class Serializer {
 		Stream.concat(l1.stream, Stream.concat(l2.stream, StreamSupport.stream(l3.spliterator, false))).collect(Collectors.toList)
 	}
 	
-	def containments(IdentifiableElement element) {
+	def containments(InternalIdentifiableElement element) {
 		switch element {
 			InternalModelElementContainer: nodesInitialOrder.get(element).map[gratext].join('\n')
 		}
