@@ -33,6 +33,7 @@ import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.InternalPackageTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ModelizerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
@@ -150,6 +151,11 @@ public class GratextGenerator extends ProjectGenerator {
 			.inPackage(basePkg)
 			.createFile(modelName + "Diagram.xtend")
 			.withContent(DiagramTemplate.class);
+		
+		inSrcFolder("src")
+		.inPackage("internal")
+		.createFile("InternalPackage.xtend")
+		.withContent(InternalPackageTemplate.class);
 	}
 	
 	public void proceed() {
