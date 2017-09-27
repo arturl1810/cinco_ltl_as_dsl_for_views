@@ -75,7 +75,7 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 			}
 			
 			def <T extends EObject> IScope scope(Iterable<? extends T> elements) {
-				Scopes.scopeFor(elements, [ QualifiedName::create((it as IdentifiableElement).id) ], IScope.NULLSCOPE)
+				Scopes.scopeFor(elements, [ QualifiedName::create((it as InternalIdentifiableElement).id) ], IScope.NULLSCOPE)
 			}
 		}
 		'''

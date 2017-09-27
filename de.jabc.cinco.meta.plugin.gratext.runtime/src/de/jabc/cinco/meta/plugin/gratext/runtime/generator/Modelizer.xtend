@@ -2,21 +2,21 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
-import graphmodel.IdentifiableElement
+import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalIdentifiableElement
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.eclipse.emf.ecore.resource.Resource
-import graphmodel.GraphModel
 
 abstract class Modelizer {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	protected NonEmptyRegistry<IdentifiableElement,List<EObject>> nodesInitialOrder = new NonEmptyRegistry[newArrayList]
+	protected NonEmptyRegistry<InternalIdentifiableElement,List<EObject>> nodesInitialOrder = new NonEmptyRegistry[newArrayList]
 	protected GratextModelTransformer transformer
 	protected GraphModel model
 	
@@ -61,7 +61,7 @@ abstract class Modelizer {
 		this.transformer
 	}
 	
-	def int getElementIndex(IdentifiableElement element)
+	def int getElementIndex(InternalIdentifiableElement element)
 	
-	def void setElementIndex(IdentifiableElement element, int i)
+	def void setElementIndex(InternalIdentifiableElement element, int i)
 }
