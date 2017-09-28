@@ -27,6 +27,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import com.sun.el.ExpressionFactoryImpl;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext;
+import graphmodel.IdentifiableElement;
 import graphmodel.internal.InternalModelElement;
 
 abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
@@ -41,14 +42,17 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	@Override
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
+		System.out.println("Can update: " + bo);
 		return (bo instanceof InternalModelElement);
 	}
 
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
+
+		System.out.println("Update needed: " + checkUpdateNeeded(bo, pe));
 		if (checkUpdateNeeded(bo, pe))
 			return Reason.createTrueReason();
 		return Reason.createFalseReason();
@@ -57,7 +61,8 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	@Override
 	public boolean update(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
+		System.out.println("Update: " + bo);
 		updateText(bo, pe);
 		if (pe instanceof Connection)
 			updateStyle(bo, (Connection) pe);
@@ -72,6 +77,14 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 			return lf.layout(lContext);
 		return false;
 	}
+	
+	public EObject getBusinessObjectForLinkedPictogramElement(PictogramElement pe) {
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if (bo instanceof IdentifiableElement) {
+			bo = ((IdentifiableElement)bo).getInternalElement();
+		}
+		return bo;
+	}
 
 	/**
 	 * Updates the text of the object
@@ -84,7 +97,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	private void updateText(EObject bo, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			PictogramElement tmp = pe;
-			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
+			Object o = getBusinessObjectForLinkedPictogramElement(tmp);
 			if (bo.equals(o) || o == null)
 				for (Shape _s : ((ContainerShape) pe).getChildren()) {
 					updateText(bo, _s);

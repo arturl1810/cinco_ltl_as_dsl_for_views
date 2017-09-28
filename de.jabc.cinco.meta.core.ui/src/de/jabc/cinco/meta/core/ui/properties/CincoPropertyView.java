@@ -173,6 +173,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				pe = getPictogramElement(element);
 			
 			EObject bo = getBusinessObject(pe);
+			if (bo instanceof graphmodel.IdentifiableElement)
+				bo = ((graphmodel.IdentifiableElement)bo).getInternalElement();
 			if (bo != null) {
 				init_PropertyView(bo);
 			}
@@ -441,6 +443,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 
 	private List<Object> getInput(EObject bo, Class<?> searchFor) {
 		List<Object> result = new ArrayList<Object>();
+		if (bo instanceof ModelElement)
+			bo = ((ModelElement)bo).getInternalElement();
 		if (bo instanceof InternalModelElement) {
 			GraphModel gm = ((InternalModelElement) bo).getRootElement().getElement();
 			getAllModelElements(gm, result, searchFor);
@@ -659,7 +663,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			public String getText(Object element) {
 				if (!(element instanceof EObject))
 					return super.getText(element);
-
+				if (element instanceof ModelElement)
+					element = ((ModelElement)element).getInternalElement();
 				if (element instanceof InternalModelElement || element instanceof InternalGraphModel)
 					return element.getClass().getSimpleName()
 							.replace("Internal", "").replace("Impl", "");

@@ -15,18 +15,18 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoRemoveFe
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
+import graphmodel.IdentifiableElement
+import graphmodel.ModelElement
 import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalIdentifiableElement
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalNode
 import mgl.GraphModel
 import org.eclipse.core.resources.IFile
-import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.emf.transaction.RecordingCommand
-import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IAddBendpointFeature
 import org.eclipse.graphiti.features.IAddFeature
@@ -109,10 +109,8 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
 			«EObject.name» element = bo;
-			if (bo instanceof «InternalModelElement.name»)
-				element = ((«InternalModelElement.name») bo).getElement();
-			if (bo instanceof «InternalGraphModel.name»)
-				element = ((«InternalGraphModel.name») bo).getElement();
+			if (bo instanceof «InternalIdentifiableElement.name»)
+				element = ((«InternalIdentifiableElement.name») bo).getElement();
 							 
 			boolean sameResource = bo.eResource() != null ? bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource()) : true ;
 			
@@ -171,7 +169,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 
 	@Override
 	public «IDeleteFeature.name» getDeleteFeature(«IDeleteContext.name» context) {
-		«EObject.name» bo = («EObject.name») getBusinessObjectForPictogramElement(context.getPictogramElement());
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		
 		«FOR n : gm.modelElements.filter[!(it instanceof GraphModel) && !isIsAbstract]»
 		if («n.internalInstanceofCheck("bo")»)
@@ -183,20 +181,17 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 	@Override
 	public «ILayoutFeature.name» getLayoutFeature(«ILayoutContext.name» context) {
-		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+		if (bo instanceof «InternalModelElement.name»){
 			
-			if (bo instanceof «InternalModelElement.name»){
-				
-					if (bo instanceof «InternalNode.name»)
-						return new «CincoLayoutFeature.name»(this);
-				
-				«FOR e : gm.edges.filter[!isIsAbstract]»
-					if («e.internalInstanceofCheck("bo")»)
-					    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);
-				«ENDFOR»
-			}
+				if (bo instanceof «InternalNode.name»)
+					return new «CincoLayoutFeature.name»(this);
+			
+			«FOR e : gm.edges.filter[!isIsAbstract]»
+				if («e.internalInstanceofCheck("bo")»)
+				    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);
+			«ENDFOR»
 		}
 
 		return super.getLayoutFeature(context);
@@ -204,16 +199,13 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 	@Override
 	public «IResizeShapeFeature.name» getResizeShapeFeature(«IResizeShapeContext.name» context) {
-		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
-			
-			if (bo instanceof «InternalModelElement.name»){
-				«FOR n : gm.nodes.filter[!isIsAbstract]»
-					if («n.internalInstanceofCheck("bo")»)
-						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
-				«ENDFOR»
-			}
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+		if (bo instanceof «InternalModelElement.name»){
+			«FOR n : gm.nodes.filter[!isIsAbstract]»
+				if («n.internalInstanceofCheck("bo")»)
+					return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
+			«ENDFOR»
 		}
 
 		return super.getResizeShapeFeature(context);
@@ -221,16 +213,13 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 	@Override
 	public «IMoveShapeFeature.name» getMoveShapeFeature(«IMoveShapeContext.name» context) {
-		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
-			
-			if (bo instanceof «InternalModelElement.name»){
-				«FOR n : gm.nodes.filter[!isIsAbstract]»
-					if («n.internalInstanceofCheck("bo")»)
-						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
-				«ENDFOR»
-			}
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+		if (bo instanceof «InternalModelElement.name»){
+			«FOR n : gm.nodes.filter[!isIsAbstract]»
+				if («n.internalInstanceofCheck("bo")»)
+					return new «n.packageNameMove».MoveFeature«n.fuName»(this);
+			«ENDFOR»
 		}
 
 		return super.getMoveShapeFeature(context);
@@ -238,16 +227,13 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 		@Override
 	public «IUpdateFeature.name» getUpdateFeature(«IUpdateContext.name» context) {
-		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
-
-«««			Specific update feature needed due to appearance provider...
-			«FOR me : gm.modelElements.filter[!(it instanceof GraphModel) && !isIsAbstract]»
-			if («me.internalInstanceofCheck("bo")»)
-				return new «me.packageNameUpdate».UpdateFeature«me.fuName»(this);
-			«ENDFOR»
-		}
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		
+«««		Specific update feature needed due to appearance provider...
+		«FOR me : gm.modelElements.filter[!(it instanceof GraphModel) && !isIsAbstract]»
+		if («me.internalInstanceofCheck("bo")»)
+			return new «me.packageNameUpdate».UpdateFeature«me.fuName»(this);
+		«ENDFOR»
 
 		return super.getUpdateFeature(context);
 	}
@@ -256,50 +242,45 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 
 	@Override
 	public «IReconnectionFeature.name» getReconnectionFeature(«IReconnectionContext.name» context) {
-		«Object.name» o = getBusinessObjectForPictogramElement(context.getConnection());
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
-			«FOR e : gm.edges.filter[!isIsAbstract]»
-			if («e.internalInstanceofCheck("o")»)
-				return new «e.packageNameReconnect».ReconnectFeature«e.fuName»(this);
-			«ENDFOR»
-		}
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getConnection());
+			
+		«FOR e : gm.edges.filter[!isIsAbstract]»
+		if («e.internalInstanceofCheck("bo")»)
+			return new «e.packageNameReconnect».ReconnectFeature«e.fuName»(this);
+		«ENDFOR»
+			
 		return super.getReconnectionFeature(context);
 	}
 
 
 	@Override
 	public «ICustomFeature.name»[] getCustomFeatures(«ICustomContext.name» context) {
-		«PictogramElement.name» pe = context.getPictogramElements()[0];
-		«Object.name» o = getBusinessObjectForPictogramElement(pe);
-		if (o instanceof «EObject.name») {
-			«EObject.name» bo = («EObject.name») o;
-			
-			if (bo instanceof «InternalGraphModel.name») {
-				«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
-				if («gm.instanceofCheck("ime.getElement()")») {
-					return new «ICustomFeature.name»[] {
-						«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", gm) SEPARATOR ","»
-						new «GraphitiCustomFeature.name»<«gm.fqBeanName»>(this,new «annotValue»())
-						«ENDFOR»
-					};
-				}
+		«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElements()[0]);
+		
+		if (bo instanceof «InternalGraphModel.name») {
+			«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
+			if («gm.instanceofCheck("ime.getElement()")») {
+				return new «ICustomFeature.name»[] {
+					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", gm) SEPARATOR ","»
+					new «GraphitiCustomFeature.name»<«gm.fqBeanName»>(this,new «annotValue»())
+					«ENDFOR»
+				};
 			}
-			
-			«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
-			if (bo instanceof «InternalModelElement.name») {
-				«InternalModelElement.name» ime = («InternalModelElement.name») bo;
-				if («me.instanceofCheck("ime.getElement()")») {
-					return new «ICustomFeature.name»[] {
-						«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-						new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
-						«ENDFOR»
-					};
-				}
-			}
-			«ENDFOR»
-			
 		}
+		
+		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
+		if (bo instanceof «InternalModelElement.name») {
+			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
+			if («me.instanceofCheck("ime.getElement()")») {
+				return new «ICustomFeature.name»[] {
+					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
+					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
+					«ENDFOR»
+				};
+			}
+		}
+		«ENDFOR»
+		
 		return new «ICustomFeature.name»[] {};
 	}
 	
@@ -387,7 +368,15 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		}
 	}
 	
+	@Override
+	public «Object.name» getBusinessObjectForPictogramElement(«PictogramElement.name» pictogramElement) {
+		«Object.name» bo = super.getBusinessObjectForPictogramElement(pictogramElement);
+		if (bo instanceof «IdentifiableElement.name») {
+			bo = ((«IdentifiableElement.name»)bo).getInternalElement();
+		}
+		return bo;
+	}
 }
 '''
-	
+
 }

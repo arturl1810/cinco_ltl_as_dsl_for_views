@@ -144,7 +144,7 @@ class FactoryGeneratorExtensions {
 			super.create«name» => [ 
 				setID(ID)
 				internal = ime ?: createInternal«name» => [
-					setID(generateUUID)
+					setID(ID + "_INTERNAL")
 					«IF !(it instanceof Type)»
 						container = parent
 					«ENDIF»

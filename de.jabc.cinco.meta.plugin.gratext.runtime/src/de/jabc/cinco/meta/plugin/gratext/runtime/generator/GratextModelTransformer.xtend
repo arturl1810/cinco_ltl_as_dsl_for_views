@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import graphmodel.internal.InternalType
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class GratextModelTransformer {
 	
@@ -61,6 +62,8 @@ class GratextModelTransformer {
 			val v = gratextElm.eGet(attr)
 			baseElm.eSet(attr, v)
 		]
+		EcoreUtil.setID(baseElm.element, baseElm.id)
+		EcoreUtil.setID(baseElm, baseElm.id + "_INTERNAL")
 	}
 	
 	def getNonInternal(InternalIdentifiableElement it) {

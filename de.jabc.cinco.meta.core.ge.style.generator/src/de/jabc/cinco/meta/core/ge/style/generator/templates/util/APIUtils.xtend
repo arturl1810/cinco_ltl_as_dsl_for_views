@@ -231,4 +231,5 @@ class APIUtils extends GeneratorUtils {
 		'''«package».«fuName»DiagramTypeProvider'''
 	}
 	
+	
 }

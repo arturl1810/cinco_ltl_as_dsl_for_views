@@ -21,6 +21,8 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
+import java.util.List
+import org.eclipse.graphiti.mm.pictograms.Shape
 
 class NodeAddFeatures extends StyleUtil {
 	
@@ -79,9 +81,17 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param bo : A representation of the model object "EObject". EObject is the root of all modeled objects
 	*/
 	private void linkAllShapes(«PictogramElement.name» pe, «EObject.name» bo) {
-		link(pe, bo);
+		«EObject.name» elm = bo;
+		if (bo instanceof «InternalIdentifiableElement.name») {
+			elm = ((«InternalIdentifiableElement.name»)bo).getElement();
+		}
+		link(pe, elm);
 		if (pe instanceof «ContainerShape.name») {
-			((«ContainerShape.name») pe).getChildren().forEach(c -> linkAllShapes(c, bo));
+			«List.name»<«Shape.name»> children =
+					((«ContainerShape.name») pe).getChildren();
+			for («Shape.name» child : children) {
+				linkAllShapes(child, elm);
+			}
 		}
 	}
 }
@@ -146,8 +156,8 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 			new «CreateContext.name»();
 			
 		«EObject.name» element = («EObject.name») context.getNewObject();
-		if (element instanceof «IdentifiableElement.name») {
-			element = ((«IdentifiableElement.name»)element).getInternalElement();
+		if (element instanceof «InternalIdentifiableElement.name») {
+			element = ((«InternalIdentifiableElement.name»)element).getElement();
 		}
 			
 		cc.setTargetContainer(context.getTargetContainer());

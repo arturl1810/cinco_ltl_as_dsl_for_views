@@ -21,8 +21,9 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.ModelElement
 import graphmodel.Type
-import org.eclipse.emf.ecore.util.EcoreUtil
 import graphmodel.internal.InternalIdentifiableElement
+
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
 
 abstract class Serializer {
 
@@ -52,9 +53,19 @@ abstract class Serializer {
 		template.toString
 	}
 	
+	def getNonInternalID(InternalIdentifiableElement it) {
+		val nonInternal = element
+		if (!nonInternal?.id.nullOrEmpty)
+			return nonInternal.id
+		val index = id?.lastIndexOf("_INTERNAL")
+		if (index > -1)
+			id.substring(0, index)
+		else id
+	}
+	
 	def template() {
 		'''
-		«model.name» «model.id» {
+		«model.name» «model.nonInternalID» {
 		  «model.attributes»
 		  «model.containments»
 		}
@@ -63,7 +74,7 @@ abstract class Serializer {
 	
 	def String gratext(InternalNode node) {
 		'''
-		«node.name» «node.id» «node.placement» {
+		«node.name» «node.nonInternalID» «node.placement» {
 			«node.attributes»
 			«node.containments»
 			«node.edges»
@@ -73,15 +84,11 @@ abstract class Serializer {
 	
 	def String gratext(InternalEdge edge) {
 		'''
-		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.route» «edge.decorations» {
-			id «if (edge.id.nullOrEmpty) edge.element.id else edge.id»
+		-«edge.name»-> «edge.targetElement.id» «edge.route» «edge.decorations» {
+			id «edge.nonInternalID»
 			«edge.attributes»
 		}
 		'''
-	}
-	
-	def id(EObject obj) {
-		EcoreUtil.getID(obj)
 	}
 	
 	def name(EObject obj) {
@@ -193,7 +200,7 @@ abstract class Serializer {
 			Type: internalElement.valueGratext
 			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
-				«name» «id?.toString» {
+				«name» «ID» {
 						«attributes»
 					}''' 
 			default: it

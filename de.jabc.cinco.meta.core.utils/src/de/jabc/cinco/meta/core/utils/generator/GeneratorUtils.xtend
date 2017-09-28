@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.utils.generator
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 import de.jabc.cinco.meta.core.utils.CincoUtil
+import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.util.xapi.CollectionExtension
 import de.jabc.cinco.meta.util.xapi.FileExtension
@@ -9,7 +10,9 @@ import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import graphmodel.Container
+import graphmodel.IdentifiableElement
 import java.util.ArrayList
+import java.util.Collections
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -31,6 +34,7 @@ import mgl.Type
 import mgl.UserDefinedType
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.graphiti.features.IAddFeature
 import org.eclipse.graphiti.features.ICreateFeature
@@ -39,8 +43,6 @@ import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
-import de.jabc.cinco.meta.core.utils.InheritanceUtil
-import java.util.Collections
 
 class GeneratorUtils extends InheritanceUtil{
 	
@@ -744,5 +746,11 @@ class GeneratorUtils extends InheritanceUtil{
 			new ArrayList<T>
 		}
 	}
+	
+	def toInternalElement(String varName) '''
+		if («varName» instanceof «graphmodel.ModelElement.name») {
+			«varName» = ((«graphmodel.ModelElement.name»)«varName»).getInternalElement();
+		}
+	'''
 
 }

@@ -159,6 +159,7 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 			return super.getDoubleClickFeature(context);
 		}
 		«Object.name» bo = pes[0].getLink().getBusinessObjects().get(0);
+		«"bo".toInternalElement»
 		if (bo instanceof «InternalModelElement.name») {
 			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
 		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»

@@ -45,6 +45,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.Factory
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import mgl.impl.ReferencedModelElementImpl
 import graphmodel.internal.impl.InternalGraphModelImpl
+import org.eclipse.emf.ecore.EObject
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -269,7 +270,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			«IF (node.retrievePrimeReference as ReferencedModelElement).type instanceof Node»
 			return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
 			«ELSE»
-			return «node.primeTypeCast» ((«InternalGraphModel.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+			return «node.primeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 			«ENDIF»
 		«ENDIF»
 	'''

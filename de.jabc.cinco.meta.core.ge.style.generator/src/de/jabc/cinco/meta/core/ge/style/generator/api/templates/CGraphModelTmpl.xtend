@@ -99,6 +99,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		return new«n.fuName»(x,y,-1,-1);
 	}
 	
+«««	@Override
+«««	public «n.fqBeanName» new«n.fuName»(«String.name» id, int x, int y, int width, int height) {
+«««		«n.fuCName» obj = («n.fuCName») new«n.fuName»(x, y, width, height);
+«««		obj.getInternalElement().setId(id);
+«««		obj.setId(id);
+«««		return obj;
+«««	}
+	
 	@Override
 	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height) {
 			«CreateContext.name» cc = new «CreateContext.name»();
