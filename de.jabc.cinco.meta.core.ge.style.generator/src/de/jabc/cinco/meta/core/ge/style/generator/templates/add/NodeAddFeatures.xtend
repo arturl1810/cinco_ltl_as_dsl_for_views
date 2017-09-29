@@ -4,9 +4,9 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.CincoUtil
-import graphmodel.IdentifiableElement
 import graphmodel.internal.InternalIdentifiableElement
 import graphmodel.internal.InternalModelElementContainer
+import java.util.List
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -16,13 +16,12 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
-import java.util.List
-import org.eclipse.graphiti.mm.pictograms.Shape
 
 class NodeAddFeatures extends StyleUtil {
 	
@@ -128,6 +127,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«ContainerShape.name» container = context.getTargetContainer();
 		«EObject.name» target = 
 			«Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(container);
+		«"target".toInternalElement»
 		«EObject.name» bo = («EObject.name») context.getNewObject();
 		if (!(target instanceof «InternalModelElementContainer.name»))
 			return false;

@@ -748,8 +748,8 @@ class GeneratorUtils extends InheritanceUtil{
 	}
 	
 	def toInternalElement(String varName) '''
-		if («varName» instanceof «graphmodel.ModelElement.name») {
-			«varName» = ((«graphmodel.ModelElement.name»)«varName»).getInternalElement();
+		if («varName» instanceof «graphmodel.IdentifiableElement.name») {
+			«varName» = ((«graphmodel.IdentifiableElement.name»)«varName»).getInternalElement();
 		}
 	'''
 

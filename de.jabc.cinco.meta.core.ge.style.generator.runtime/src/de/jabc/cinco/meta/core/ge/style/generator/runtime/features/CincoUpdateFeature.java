@@ -43,7 +43,6 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
-		System.out.println("Can update: " + bo);
 		return (bo instanceof InternalModelElement);
 	}
 
@@ -52,7 +51,6 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
 
-		System.out.println("Update needed: " + checkUpdateNeeded(bo, pe));
 		if (checkUpdateNeeded(bo, pe))
 			return Reason.createTrueReason();
 		return Reason.createFalseReason();
@@ -62,7 +60,6 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	public boolean update(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
-		System.out.println("Update: " + bo);
 		updateText(bo, pe);
 		if (pe instanceof Connection)
 			updateStyle(bo, (Connection) pe);
