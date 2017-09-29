@@ -24,6 +24,7 @@ import graphmodel.Type
 import graphmodel.internal.InternalIdentifiableElement
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
+import graphmodel.IdentifiableElement
 
 abstract class Serializer {
 
@@ -51,16 +52,6 @@ abstract class Serializer {
 	
 	def run() {
 		template.toString
-	}
-	
-	def getNonInternalID(InternalIdentifiableElement it) {
-		val nonInternal = element
-		if (!nonInternal?.id.nullOrEmpty)
-			return nonInternal.id
-		val index = id?.lastIndexOf("_INTERNAL")
-		if (index > -1)
-			id.substring(0, index)
-		else id
 	}
 	
 	def template() {
@@ -200,11 +191,30 @@ abstract class Serializer {
 			Type: internalElement.valueGratext
 			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
-				«name» «ID» {
+				«name» «nonInternalID» {
 						«attributes»
 					}''' 
 			default: it
 		}
+	}
+	
+	
+	dispatch def getNonInternalID(EObject it) {
+		getID
+	}
+	
+	dispatch def getNonInternalID(IdentifiableElement it) {
+		id
+	}
+	
+	dispatch def getNonInternalID(InternalIdentifiableElement it) {
+		val nonInternal = element
+		if (!nonInternal?.id.nullOrEmpty)
+			return nonInternal.id
+		val index = id?.lastIndexOf("_INTERNAL")
+		if (index > -1)
+			id.substring(0, index)
+		else id
 	}
 	
 }
