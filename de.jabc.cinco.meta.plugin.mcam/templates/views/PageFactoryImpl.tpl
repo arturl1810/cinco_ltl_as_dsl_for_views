@@ -9,18 +9,25 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.PageFactory;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension;
+import graphmodel.GraphModel;
 
 public class PageFactoryImpl implements PageFactory {
+
+	private ResourceExtension resourceHelper = new ResourceExtension();
 
 	@Override
 	public boolean canHandle(Resource resource) {
 		if (resource == null)
 			return false;
-		for (EObject obj : resource.getContents()) {
-			// @FACTORY_HANDLE
-			// if (obj instanceof info.scce.dime.process.process.Process)
-			//    return true;
-		}
+			
+		GraphModel model = resourceHelper.getGraphModel(resource);
+		if (model == null)
+			return false;
+			
+		// @FACTORY_HANDLE
+		// if (obj instanceof info.scce.dime.process.process.Process) return true;
+			
 		return false;
 	}
 
@@ -29,14 +36,12 @@ public class PageFactoryImpl implements PageFactory {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
 		Resource resource = EclipseUtils.getResource(editor);
+		GraphModel model = resourceHelper.getGraphModel(resource);
 
-		for (EObject obj : resource.getContents()) {
+		// @FACTORY_CHECK
+		// if (model instanceof info.scce.cinco.product.flowgraph.flowgraph.FlowGraph)
+		//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id);
 
-			// @FACTORY_CHECK
-			// if (res instanceof info.scce.cinco.product.flowgraph.flowgraph.FlowGraph)
-			//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id);
-
-		}
 		return null;
 	}
 
@@ -44,7 +49,6 @@ public class PageFactoryImpl implements PageFactory {
 	public CheckViewPage<?, ?, ?> createProjectCheckViewPage(String id, IEditorPart editor) {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
-		Resource resource = EclipseUtils.getResource(editor);
 
 		// @FACTORY_PROJECT_CHECK
 		// return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id);
@@ -55,14 +59,12 @@ public class PageFactoryImpl implements PageFactory {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);
 		Resource resource = EclipseUtils.getResource(editor);
+		GraphModel model = resourceHelper.getGraphModel(resource);
+		
+		// @FACTORY_CONFLICT
+		// if (model instanceof info.scce.cinco.product.flowgraph.flowgraph.FlowGraph)
+		//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphConflictViewPage(id, iFile, resource);
 
-		for (EObject obj : resource.getContents()) {
-
-			// @FACTORY_CONFLICT
-			// if (res instanceof info.scce.cinco.product.flowgraph.flowgraph.FlowGraph)
-			//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphConflictViewPage(id, iFile, resource);
-
-		}
 		return null;
 	}
 

@@ -21,8 +21,11 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension;
 
 public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _CincoAdapter<_CincoId, GraphModel>> {
+
+	private ResourceExtension resourceHelper = new ResourceExtension();
 
 	private String[] fileExtensions = { 
 		// @PROJECT_CHECK_PAGE_EXT
@@ -98,19 +101,17 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _C
 		ResourceSet resSet = new ResourceSetImpl();
 		URI uri = URI.createFileURI(file.getAbsolutePath());
 		
-		EObject eObj = ReferenceRegistry.getInstance().getGraphModelFromURI(uri);
-		if (eObj != null && eObj instanceof GraphModel) {
-			return eObj;
-		}
+		GraphModel model = ReferenceRegistry.getInstance().getGraphModelFromURI(uri);
+		if (model != null)
+			return model;
 			
 		Resource resource = resSet.getResource(uri, true);
-		for (EObject obj : resource.getContents()) {
-			if (obj instanceof GraphModel) {
-				ReferenceRegistry.getInstance().addElement((GraphModel) obj);
-				return (GraphModel) obj;
-			}
-				
+		model = resourceHelper.getGraphModel(resource);
+		if (model != null) {
+			ReferenceRegistry.getInstance().addElement(model);
+			return model;
 		}
+		
 		System.out.println("Model " + file.getName() + " not found");
 		return null;
 	}

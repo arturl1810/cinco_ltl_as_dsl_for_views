@@ -49,9 +49,8 @@ import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupp
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
-import graphmodel.IdentifiableElement;
+import graphmodel.GraphModel;
 import graphmodel.internal.InternalGraphModel;
-import graphmodel.internal.InternalIdentifiableElement;
 
 public class ReferenceRegistry {
 
@@ -109,38 +108,19 @@ public class ReferenceRegistry {
 		if (id == null || id.isEmpty())
 			showError(bo);
 		if (!map.containsKey(id)) {
-			System.out.println("[RefReg] Add " + id);
 			URI uri = bo.eResource().getURI();
 			uri = toWorkspaceRelativeURI(uri);
-			System.out.println("[RefReg]  > URI: " + uri);
 			map.put(id, uri.toPlatformString(true));
 			EObject newBo = getEObject(id);
-			System.out.println("[RefReg]  > Object: " + print(newBo));
 			cache.put(id, newBo);
 		} else {
 //			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
 		}
 	}
-	
-	String print(Object obj) {
-		if (obj instanceof IdentifiableElement) {
-			IdentifiableElement elm = (IdentifiableElement) obj;
-			return elm.getClass().getSimpleName() + " (ID:" + elm.getId() + ") > " + elm.getInternalElement().getClass().getSimpleName() + " (ID:" + elm.getInternalElement().getId() + ")";
-		}
-		
-		if (obj instanceof InternalIdentifiableElement) {
-			InternalIdentifiableElement elm = (InternalIdentifiableElement) obj;
-			return elm.getClass().getSimpleName() + " (ID:" + elm.getId() + ") > " + elm.getElement().getClass().getSimpleName() + " (ID:" + elm.getElement().getId() + ")";
-		}
-		
-		return obj.toString();
-	}
 
 	public EObject getEObject(String key) {
-		System.out.println("[RefReg] Get " + key);
 		if (cache.containsKey(key)) {
 			EObject v = cache.get(key);
-			System.out.println("[RefReg]  > from cache: " + print(v));
 			return v;
 		}
 		EObject bo = null;
@@ -149,7 +129,6 @@ public class ReferenceRegistry {
 			URI full = URI.createURI(uri, true);
 			Resource res = new ResourceSetImpl().getResource(full, true);
 			bo = res.getEObject(key);
-			System.out.println("[RefReg]  > from resource (" + full + "): " + print(bo));
 		} else {
 			if (!refreshedOnStartup) {
 				reinitializeOnStartup(ResourcesPlugin.getWorkspace().getRoot());
@@ -164,8 +143,6 @@ public class ReferenceRegistry {
 				}
 			}
 			bo = searchInAllMaps(key);
-
-			System.out.println("[RefReg]  > after re-init: " + print(bo));
 			
 			if (bo != null) {
 				refreshCurrentMap(key);
@@ -541,7 +518,6 @@ public class ReferenceRegistry {
 				URI objectUri = libCompObject.eResource().getURI();
 				objectUri = toWorkspaceRelativeURI(objectUri);
 				map.put(id, objectUri.toPlatformString(true));
-				System.out.println("[RefReg] Put " + id + " > " + print(libCompObject));
 				cache.put(id, libCompObject);
 			}
 		});
@@ -714,14 +690,14 @@ public class ReferenceRegistry {
 		return extensions;
 	}
 
-	public InternalGraphModel getGraphModelFromURI(URI uri) {
+	public GraphModel getGraphModelFromURI(URI uri) {
 		String searchFor = toWorkspaceRelativeURI(uri).toPlatformString(true);
 		for (Entry<IProject, HashMap<String, String>> map : registriesMap.entrySet()) {
 			for (Entry<String, String> e : map.getValue().entrySet()) {
 				if (e.getValue().equals(searchFor)) {
 					EObject eObj = cachesMap.get(map.getKey()).get(e.getKey());
-					if (eObj instanceof InternalGraphModel)
-						return (InternalGraphModel) eObj;
+					if (eObj instanceof GraphModel)
+						return (GraphModel) eObj;
 				}
 			}
 		}

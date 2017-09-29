@@ -266,8 +266,8 @@ public class McamViewGenerator {
 		IFile file = mcamViewProject.getFile(filename);
 
 		if (generateCheck) {
-			String code_check = "if (obj instanceof " + graphModelPackage + "."
-					+ graphModelName.toLowerCase() + ".internal.Internal" + graphModelName
+			String code_check = "if (model instanceof " + graphModelPackage + "."
+					+ graphModelName.toLowerCase() + "." + graphModelName
 					+ ") { \n "
 					+ (String) data.get("McamViewPagePackage") + "." 
 					+ graphModelName + "CheckViewPage page = new "
@@ -291,7 +291,7 @@ public class McamViewGenerator {
 		}
 
 		if (generateMerge) {
-			String code_conflict = "if (obj instanceof " + graphModelPackage
+			String code_conflict = "if (model instanceof " + graphModelPackage
 					+ "." + graphModelName.toLowerCase() + ".internal.Internal" + graphModelName
 					+ ") return new "
 					+ (String) data.get("McamViewPagePackage") + "."
@@ -301,8 +301,8 @@ public class McamViewGenerator {
 					"// @FACTORY_CONFLICT", code_conflict);
 		}
 		
-		String code_handle = "if (obj instanceof " + graphModelPackage
-				+ "." + graphModelName.toLowerCase() + ".internal.Internal" + graphModelName + ") return true;";
+		String code_handle = "if (model instanceof " + graphModelPackage
+				+ "." + graphModelName.toLowerCase() + "." + graphModelName + ") return true;";
 		insertCodeAfterMarker(
 				file.getRawLocation().makeAbsolute().toFile(),
 				"// @FACTORY_HANDLE", code_handle);

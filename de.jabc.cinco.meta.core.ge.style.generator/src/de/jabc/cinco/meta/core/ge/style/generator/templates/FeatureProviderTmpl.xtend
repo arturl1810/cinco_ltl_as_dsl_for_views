@@ -343,6 +343,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 						«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
 						if (conn != null) {
 							«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
+							«"bo".toInternalElement»
 							created[0] = ((«InternalModelElement.name») bo).getElement();
 							created[1] = conn;
 						}
@@ -356,6 +357,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 						«PictogramElement.name» pe = af.add((«IAddContext.name») c);
 						if (pe != null) {
 							«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
+							«"bo".toInternalElement»
 							created[0] = ((«InternalModelElement.name») bo).getElement();
 							created[1] = pe;
 						}

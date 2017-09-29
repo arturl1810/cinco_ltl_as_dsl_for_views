@@ -100,12 +100,16 @@ class GratextModelTransformer {
 		}
 	}
 	
-	def toBaseInternal(InternalIdentifiableElement gtxInternal) {
-		gtxInternal.eClass.ESuperTypes
-			.filter[modelPackage.eContents.filter(EClass).exists[name == it.name]]
+	def toBaseInternal(InternalIdentifiableElement it) {
+		(#[eClass] + eClass.ESuperTypes)
+			.filter[modelPackage.knows(it)]
 			.map[modelFactory.create(it)]
 			.filter(IdentifiableElement)
 			.head.internalElement
+	}
+	
+	private def knows(EPackage it, EClass elmClazz) {
+		eContents.filter(EClass).exists[name == elmClazz.name]
 	}
 	
 	private def getAttributes(EObject elm) {
@@ -125,7 +129,6 @@ class GratextModelTransformer {
 	}
 	
 	def getBaseElement(IdentifiableElement elm) {
-		println("[Gratext] lookup baseElement for " + elm.id)
 		elm.id.baseElement
 	}
 	
@@ -135,14 +138,12 @@ class GratextModelTransformer {
 	
 	def registerBaseElement(String id, InternalIdentifiableElement baseInternal) {
 		if (!id.nullOrEmpty) {
-			println("[Gratext] register base element: " + id)
 			baseElements.put(id, baseInternal)
 			replacements.get(id).forEach[apply(id)]
 		}
 	}
 	
 	def addReplacementRequest(String id, (String)=>void replacement) {
-		println("[Gratext] add replacement request for: " + id)
 		replacements.get(id).add(replacement)
 	}
 	
