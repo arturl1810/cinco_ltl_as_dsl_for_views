@@ -187,20 +187,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 			(res != null)
 				? res.getModelizer().getTransformer()
 				: «model.name»Modelizer.createTransformer();
-		return toNonInternal(transformer.transform(ime));
-	}
-	
-	public static EObject toNonInternal(InternalIdentifiableElement ime) {
-		if (ime instanceof InternalGraphModel) {
-			return ((InternalGraphModel) ime).getElement();
-		}
-		if (ime instanceof InternalModelElement) {
-			return ((InternalModelElement) ime).getElement();
-		}
-		if (ime instanceof InternalType) {
-			return ((InternalType) ime).getElement();
-		}
-		return null;
+		return transformer.transform(ime, false).getElement();
 	}
     
     @Override
@@ -210,7 +197,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
     
     @Override
     public Class<? extends XtextResource> bindXtextResource() {
-    		return «project.targetName»Resource.class;
+    	return «project.targetName»Resource.class;
     }
 	
 	@Override

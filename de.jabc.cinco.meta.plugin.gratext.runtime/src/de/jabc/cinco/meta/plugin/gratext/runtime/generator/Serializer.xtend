@@ -195,8 +195,8 @@ abstract class Serializer {
 	
 	def valueGratext(Object it) {
 		switch it {
-			ModelElement: internalElement?.id
-			InternalModelElement: id
+			ModelElement: internalElement?.nonInternalID
+			InternalModelElement: nonInternalID
 			Type: internalElement.valueGratext
 			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''

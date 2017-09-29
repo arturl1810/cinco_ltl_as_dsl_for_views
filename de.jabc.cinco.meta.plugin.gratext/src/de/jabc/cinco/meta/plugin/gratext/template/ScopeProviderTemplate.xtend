@@ -69,8 +69,8 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 					type.isInstance(obj)
 				}
 				if (obj instanceof InternalIdentifiableElement) {
-					val ime = transformer.createBaseElement(obj as InternalIdentifiableElement)
-					type.isInstance(ime)
+					val ime = transformer.toBaseInternal(obj)
+					type.isInstance(ime.element)
 				}
 			}
 			
