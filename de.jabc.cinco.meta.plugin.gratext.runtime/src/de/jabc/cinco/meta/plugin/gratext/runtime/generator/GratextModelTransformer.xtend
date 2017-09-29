@@ -76,11 +76,12 @@ class GratextModelTransformer {
 			val baseValue = switch refValue {
 				IdentifiableElement: {
 					refValue.baseElement?.element
-					?: null => [
+					?: {
 						addReplacementRequest(refValue.id) [theID|
 							baseInternal.eSet(ref, getBaseElement(theID).element)
 						]
-					]
+						refValue
+					}
 				}
 				default: refValue.transformValue
 			}
