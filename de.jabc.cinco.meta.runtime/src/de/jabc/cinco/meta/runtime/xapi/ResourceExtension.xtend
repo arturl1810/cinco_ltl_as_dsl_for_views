@@ -22,7 +22,7 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(Diagram.class, 0)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any diagram.
+	 * @return The diagram, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def Diagram getDiagram(Resource resource) {
@@ -39,7 +39,7 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(GraphModel.class, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph model.
+	 * @return The graph model, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModel(Resource resource) {
@@ -64,8 +64,8 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(<ModelClass>, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph
-	 *   model of the specified type.
+	 * @return The diagram, or {@code null} if the resource does not contain any
+	 *   graph model of the specified type.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends GraphModel> getGraphModel(Resource resource, Class<T> modelClass) {

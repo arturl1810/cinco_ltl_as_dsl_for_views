@@ -23,7 +23,7 @@ class FileExtension extends de.jabc.cinco.meta.util.xapi.FileExtension {
 	 * 
 	 * Convenience method for {@code getContent(Diagram.class, 0)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any diagram.
+	 * @return The diagram, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getDiagram(IFile file) {
@@ -40,7 +40,7 @@ class FileExtension extends de.jabc.cinco.meta.util.xapi.FileExtension {
 	 * 
 	 * Convenience method for {@code getContent(GraphModel.class, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph model.
+	 * @return The graph model, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModel(IFile file) {
@@ -58,8 +58,8 @@ class FileExtension extends de.jabc.cinco.meta.util.xapi.FileExtension {
 	 * 
 	 * Convenience method for {@code getContent(<ModelClass>, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph
-	 *   model of the specified type.
+	 * @return The diagram, or {@code null} if the resource does not contain any
+	 *   graph model of the specified type.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends GraphModel> getGraphModel(IFile file, Class<T> modelClass) {
