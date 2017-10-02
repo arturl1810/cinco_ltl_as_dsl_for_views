@@ -210,9 +210,16 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«IF me instanceof NodeContainer»
 	«FOR containableNode : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
+«««	@Override
+«««	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
+«««		return new«containableNode.fuName»(x,y,-1,-1);
+«««	}
+	
 	@Override
-	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
-		return new«containableNode.fuName»(x,y,-1,-1);
+	public «containableNode.fqBeanName» new«containableNode.fuName»(«String.name» id, int x, int y, int width, int height) {
+		«containableNode.fqBeanName» obj = new«containableNode.fuName»(x, y, width, height);
+		«EcoreUtil.name».setID(obj, id);
+		return obj;
 	}
 	
 	@Override

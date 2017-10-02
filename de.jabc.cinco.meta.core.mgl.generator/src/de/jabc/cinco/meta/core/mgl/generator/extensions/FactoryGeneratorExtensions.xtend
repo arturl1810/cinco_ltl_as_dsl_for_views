@@ -63,7 +63,9 @@ class FactoryGeneratorExtensions {
 			
 			static def «graphmodel.name»Factory init() {
 				try {
-					EPackage::Registry.INSTANCE.getEFactory(«graphmodel.name.toLowerCase.toFirstUpper»Package.eNS_URI) as «graphmodel.name»Factory
+					val fct = EPackage::Registry.INSTANCE.getEFactory(«graphmodel.name.toLowerCase.toFirstUpper»Package.eNS_URI) as «graphmodel.name»Factory
+					if (fct != null)
+						return fct as «graphmodel.name»Factory
 				}
 				catch (Exception exception) {
 					EcorePlugin.INSTANCE.log(exception);
