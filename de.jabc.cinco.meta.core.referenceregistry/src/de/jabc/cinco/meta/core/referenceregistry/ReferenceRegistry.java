@@ -290,9 +290,16 @@ public class ReferenceRegistry {
 				} else {
 					loadedObject = loadObject(objectId, uri);
 				}
-				loadedResources.put(uri,loadedObject.eResource());
-				HashMap<String, EObject> tmpCache = cachesMap.get(p);
-				tmpCache.replace(objectId, loadedObject);
+				if (loadedObject != null) {
+					loadedResources.put(uri,loadedObject.eResource());
+					HashMap<String, EObject> tmpCache = cachesMap.get(p);
+					tmpCache.replace(objectId, loadedObject);
+				} else {
+					System.out.println(String.format("Failed to load object %s from %s", objectId, uri));
+					loadedResources.remove(uri);
+					HashMap<String, EObject> tmpCache = cachesMap.get(p);
+					tmpCache.remove(objectId);
+				}
 			}
 		}
 		if (affected != null && !affected.isEmpty())
