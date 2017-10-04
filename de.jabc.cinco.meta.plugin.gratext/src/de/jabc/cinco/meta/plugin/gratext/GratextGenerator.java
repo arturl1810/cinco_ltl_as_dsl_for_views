@@ -1,14 +1,10 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import mgl.GraphModel;
-import mgl.Import;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -18,13 +14,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.FormatterTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
@@ -37,6 +29,8 @@ import de.jabc.cinco.meta.plugin.gratext.template.InternalPackageTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ModelizerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
+import mgl.GraphModel;
 
 public class GratextGenerator extends ProjectGenerator {
 	
@@ -293,7 +287,6 @@ public class GratextGenerator extends ProjectGenerator {
 			"src",
 			"src-gen",
 			"xtend-gen",
-			"model",
 			"model-gen"
 		);
 	}
