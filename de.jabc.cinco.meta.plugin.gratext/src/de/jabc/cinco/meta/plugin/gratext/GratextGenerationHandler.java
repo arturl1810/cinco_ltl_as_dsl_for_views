@@ -47,29 +47,29 @@ public class GratextGenerationHandler extends AbstractHandler {
 		
 		GratextGenerator gratextGen = new GratextGenerator(model);
 		IProject gratextProject = gratextGen.execute(ctx);
-		GeneratedGratextProjectRegistry.INSTANCE.add(gratextProject);
+		GeneratedGratextProjectRegistry.INSTANCE.add(gratextGen);
 		
 		GratextUiProjectGenerator gratextUiGen = new GratextUiProjectGenerator();
 		gratextUiGen.execute(ctx);
 		
 		execute(new GratextModelBuild(gratextProject));
 		
-		build(mglFile.getProject());
-
-		IProject graphitiProject = workspace.getWorkspaceRoot().getProject(model.getPackage() + ".editor.graphiti");
-		if (graphitiProject != null && graphitiProject.exists()) {
-			try {
-				graphitiProject.close(null);
-				graphitiProject.open(null);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
-			build(graphitiProject);
-		}
-
-		build(gratextProject);
-		
-		gratextGen.proceed();
+//		build(mglFile.getProject());
+//
+//		IProject graphitiProject = workspace.getWorkspaceRoot().getProject(model.getPackage() + ".editor.graphiti");
+//		if (graphitiProject != null && graphitiProject.exists()) {
+//			try {
+//				graphitiProject.close(null);
+//				graphitiProject.open(null);
+//			} catch (CoreException e) {
+//				e.printStackTrace();
+//			}
+//			build(graphitiProject);
+//		}
+//
+//		build(gratextProject);
+//		
+//		gratextGen.proceed();
 		
 		assertAntlrPatch(gratextProject);
 		
