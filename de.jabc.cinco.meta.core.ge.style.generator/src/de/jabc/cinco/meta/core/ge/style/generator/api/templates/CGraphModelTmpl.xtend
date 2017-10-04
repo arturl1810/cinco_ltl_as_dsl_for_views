@@ -33,6 +33,8 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
 import org.eclipse.emf.transaction.util.TransactionUtil
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.isReferencedModelElement
+
 class CGraphModelTmpl extends APIUtils {
 	
 def doGenerateView(GraphModel me)'''
@@ -138,7 +140,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«AddContext.name» ac = new «AddContext.name»();
 			ac.setLocation(10, 10);
 			ac.setTargetContainer((«ContainerShape.name») getPictogramElement());
-			
+			ac.setNewObject(«n.retrievePrimeReference.name»);
 			ac.setLocation(x,y);
 			ac.setSize(width,height);
 			
