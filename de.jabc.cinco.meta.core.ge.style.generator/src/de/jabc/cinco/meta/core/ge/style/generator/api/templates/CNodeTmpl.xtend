@@ -76,6 +76,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«FOR e : MGLUtil::getOutgoingConnectingEdges(me as Node).filter[!isIsAbstract]»
 	«FOR target : e.possibleTargets»
+	
+	@Override
+	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target, «String.name» id) {
+		«e.fqBeanName» obj = new«e.fuName»(target);
+		«EcoreUtil.name».setID(obj, id);
+		return obj;
+	}
+	
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target) {
 		if (!(target instanceof «target.fuCName»))
