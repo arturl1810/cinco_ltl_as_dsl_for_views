@@ -31,6 +31,7 @@ import style.Styles
 import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
 import style.EdgeStyle
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
+import graphmodel.internal.InternalIdentifiableElement
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -145,6 +146,14 @@ class EdgeAddFeatures extends APIUtils {
 		«FOR d : CincoUtil.getStyleForEdge(e, styles).decorator.filter[decoratorShape != null]»
 		«d.code(e)»
 		«ENDFOR»
+		
+		@Override
+		protected void link(«PictogramElement.name» pe, «Object.name» bo) {
+			if (bo instanceof «InternalIdentifiableElement.name») {
+				bo = ((«InternalIdentifiableElement.name»)bo).getElement();
+			}
+			super.link(pe, bo);
+		}
 	}
 	'''
 	}
