@@ -90,20 +90,10 @@ abstract class Serializer {
 		obj.eClass.attributes.gratext(obj)
 	}
 	
-	def List<? extends EStructuralFeature> attributes(EClass cls) {
-		switch cls.name {
-			case "InternalGraphModel": #[]
-			case "InternalContainer": #[]
-			case "InternalNode": #[]
-			case "InternalEdge": #[]
-			case "InternalType": #[]
-			case "GraphModel": #[]
-			case "Container": #[]
-			case "Node": #[]
-			case "Edge": #[]
-			case "Type": #[]
-			default: combine(cls.getEAttributes, cls.getEReferences, cls.getESuperTypes.map[attributes].flatten)
-		}
+	def Iterable<EStructuralFeature> attributes(EClass it) {
+		if (InternalPackage.eINSTANCE.EClassifiers.contains(it))
+			#[]
+		else EAttributes + EReferences + ESuperTypes.map[attributes].flatten
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
@@ -165,7 +155,7 @@ abstract class Serializer {
 		node.getOutgoing(InternalEdge).map[gratext].join('\n')
 	}
 	
-	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {
+	def gratext(Iterable<EStructuralFeature> ftrs, EObject obj) {
 		switch obj {
 			InternalModelElement: ftrs.filter[featureID != InternalPackage.INTERNAL_MODEL_ELEMENT__ID]
 			default: ftrs
