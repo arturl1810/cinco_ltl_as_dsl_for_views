@@ -23,15 +23,15 @@ class AdapterGeneratorExtension {
 				val feature = notification.feature
 				if (o instanceof «fqInternalBeanName») {
 					switch feature {
-						«EStructuralFeature.name» case feature.isRelevant:
+						«EStructuralFeature.name» case feature.isRelevant: {
 							«postAttributeValueChange("o")»
-					}
+					}}
 				}
 			}
-		}
-		
-		private def isRelevant(«EStructuralFeature.name» ftr) {
-			! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+			
+			private def isRelevant(«EStructuralFeature.name» ftr) {
+				! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+			}
 		}
 	'''
 	
