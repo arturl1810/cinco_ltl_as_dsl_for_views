@@ -159,23 +159,12 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 			return super.getDoubleClickFeature(context);
 		}
 		«Object.name» bo = pes[0].getLink().getBusinessObjects().get(0);
-		«"bo".toInternalElement»
-		if (bo instanceof «InternalModelElement.name») {
-			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
-		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
-		«IF me.booleanWriteMethodCallDoubleClick»
-			if («me.instanceofCheck("ime.getElement()")») 
+		«"bo".toNonInternalElement»
+		
+		«FOR me : gm.modelElements.filter[booleanWriteMethodCallDoubleClick]»
+			if («me.instanceofCheck("bo")») 
 				«me.writeMethodCallDoubleClick»
-		«ENDIF»
 		«ENDFOR»
-		}
-		if (bo instanceof «InternalGraphModel.name») {
-			«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
-		«IF gm.booleanWriteMethodCallDoubleClick»
-		if («gm.internalInstanceofCheck("ime.getElement()")») 
-			«gm.writeMethodCallDoubleClick»
-		«ENDIF»
-		}
 		return super.getDoubleClickFeature(context);
 	}
 
