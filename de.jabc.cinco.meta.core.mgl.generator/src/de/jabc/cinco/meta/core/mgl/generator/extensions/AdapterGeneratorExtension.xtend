@@ -35,13 +35,16 @@ class AdapterGeneratorExtension {
 				return true;
 			
 			switch (feature.getName()) {
-				case "incoming": return true
-				case "outgoing": return true
-				case "sourceElement": return true
-				case "targetElement": return true
-				case "modelElements": return true
+				«FOR attr : allAttributes(it)»
+				case "«attr.attributeName»": return false
+				«ENDFOR»
+«««				case "incoming": return true
+«««				case "outgoing": return true
+«««				case "sourceElement": return true
+«««				case "targetElement": return true
+«««				case "modelElements": return true
 			}
-			return false
+			return true
 		}
 	}
 	'''
