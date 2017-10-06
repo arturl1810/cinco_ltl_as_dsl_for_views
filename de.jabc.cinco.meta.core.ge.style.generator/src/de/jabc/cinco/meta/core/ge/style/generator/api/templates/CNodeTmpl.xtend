@@ -334,6 +334,18 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		getPictogramElement().getGraphicsAlgorithm().setY(y);
 	}
 	
+	@Override
+	public void setWidth(final int width) {
+		super.setWidth(width);
+		getPictogramElement().getGraphicsAlgorithm().setWidth(width);
+	}
+	
+	@Override
+	public void setHeight(int height) {
+		super.setHeight(height);
+		getPictogramElement().getGraphicsAlgorithm().setHeight(height);
+	}
+	
 	«me.updateContent»
 	
 	«me.deleteContent»
