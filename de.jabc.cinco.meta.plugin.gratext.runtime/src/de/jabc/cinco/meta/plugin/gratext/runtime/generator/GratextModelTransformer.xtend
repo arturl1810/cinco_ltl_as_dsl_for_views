@@ -61,9 +61,12 @@ class GratextModelTransformer {
 	
 	private def transformAttributes(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
 		baseInternal => [
-			attributes.forEach[attr|
-				baseInternal.eSet(attr, gtxInternal.eGet(attr))
-			]
+			attributes.forEach[attr | baseInternal => [
+				val deliver = eDeliver
+				eSetDeliver(false)
+				eSet(attr, gtxInternal.eGet(attr))
+				eSetDeliver(deliver)
+			]]
 			val baseId = if (id.nullOrEmpty) generateUUID else id
 			element.setID(baseId)
 			setID(baseId + "_INTERNAL")
