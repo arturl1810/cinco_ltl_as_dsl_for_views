@@ -137,12 +137,12 @@
     </eOperations>
     <eOperations name="getIncoming" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getIncoming(Edge.class);"/>
+        <details key="body" value="return getIncoming(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getOutgoing" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getOutgoing(Edge.class);"/>
+        <details key="body" value="return getOutgoing(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="move">
@@ -409,7 +409,7 @@
     </eOperations>
     <eOperations name="getAllEdges" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(Edge.class);"/>
+        <details key="body" value="return getModelElements(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getAllContainers" upperBound="-1" eType="#//Container">
