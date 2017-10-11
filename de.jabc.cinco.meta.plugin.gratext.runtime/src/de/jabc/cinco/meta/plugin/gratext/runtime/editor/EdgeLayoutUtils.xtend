@@ -16,6 +16,8 @@ class EdgeLayoutUtils {
 	
 	extension val WorkbenchExtension = new WorkbenchExtension
 	
+	static protected final int GRID_DISTANCE = 10;
+	
 	def getGraphicsAlgorithm(ModelElement it) {
 		pictogramElement?.graphicsAlgorithm
 	}
@@ -65,6 +67,25 @@ class EdgeLayoutUtils {
 	def Iterable<Location> alignRight(Iterable<Location> locs, int margin) {
 		val right = locs.map[x].sort.last
 		locs.map[it => [x = right + margin]]
+	}
+	
+	def int snapToGrid(int value) {
+		GRID_DISTANCE*Math.round(value as double/GRID_DISTANCE) as int
+	}
+	
+	def Iterable<Location> snapToGrid(Iterable<Location> locs) {
+		locs.map[it => [
+			x = x.snapToGrid
+			y = y.snapToGrid
+		]]
+	}
+	
+	def Iterable<Location> snapXToGrid(Iterable<Location> locs) {
+		locs.map[it => [x = x.snapToGrid]]
+	}
+	
+	def Iterable<Location> snapYToGrid(Iterable<Location> locs) {
+		locs.map[it => [y = y.snapToGrid]]
 	}
 	
 	def getBendpoints(Edge edge) {

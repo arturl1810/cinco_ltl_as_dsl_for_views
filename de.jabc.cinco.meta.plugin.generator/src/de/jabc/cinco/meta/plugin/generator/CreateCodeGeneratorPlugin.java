@@ -327,8 +327,11 @@ public class CreateCodeGeneratorPlugin{
 				String oldValues = mainAttr.getValue("Export-Package");
 				if (oldValues == null)
 					oldValues = new String();
-				if(!oldValues.contains(packageName)){
-					mainAttr.putValue("Export-Package", oldValues.concat(",").concat(packageName));
+				if(!oldValues.contains(packageName)) {
+					String newValues = oldValues.isEmpty()
+						? packageName
+						: oldValues.concat(",").concat(packageName);
+					mainAttr.putValue("Export-Package", newValues);
 					manni.write(new FileOutputStream(manniFile));
 				}
 			} catch (IOException e) {
