@@ -171,24 +171,24 @@ class Layouter_Z_VERTICAL extends EdgeLayouter {
 
 class Layouter_TO_LEFT extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [x = (x-OFFSET_TO_BENDPOINT).snapToGrid]]
+		moveBendpoints[it => [x = x.snapToGrid(-OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_TOP extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [y = (y-OFFSET_TO_BENDPOINT).snapToGrid]]
+		moveBendpoints[it => [y = y.snapToGrid(-OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_RIGHT extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [x = (x+OFFSET_TO_BENDPOINT).snapToGrid]]
+		moveBendpoints[it => [x = x.snapToGrid(OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_BOTTOM extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [y = (y+OFFSET_TO_BENDPOINT).snapToGrid]]
+		moveBendpoints[it => [y = y.snapToGrid(OFFSET_TO_BENDPOINT)]]
 	}
 }
