@@ -86,8 +86,8 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 		this.path = path;
 	}
 
-//	public EObject getElementById(T id) {
-//		return id.getElement();
+	public EObject getElementById(T id) {
+		return id.getElement();
 //		if (id.getId().equals(getModel().getId()))
 //			return getModel();
 //		TreeIterator<EObject> it = getModel().eAllContents();
@@ -101,7 +101,7 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 //				return me;
 //		}
 //		throw new RuntimeException("Could not find element for '" + id + "'");
-//	}
+	}
 
 	public T getIdByString(String idString) {
 		for (T id : getEntityIds()) {

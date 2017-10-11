@@ -449,8 +449,14 @@ public class McamImplementationGenerator {
 			data.put("AttributeType", data.get("GraphModelPackage") + "." + data.get("GraphModelName").toString().toLowerCase() + "." + getEnumType(attribute).getName());
 		} else {
 			data.put("AttributeCategory", "Normal");
-			data.put("AttributeType", EcorePackage.eINSTANCE
+			if(attribute instanceof PrimitiveAttribute){
+				data.put("AttributeType", EcorePackage.eINSTANCE
 					.getEClassifier(((PrimitiveAttribute) attribute).getType().getName()).getInstanceClass().getName());
+			}else if(attribute instanceof ComplexAttribute){
+				data.put("AttributeType", ((ComplexAttribute) attribute).getType().getName());
+			}else{
+				throw new RuntimeException(String.format("Attribute %s is neither PrimitiveAttibute nor ComplextAttribute", attribute.getName()));
+			}
 		}
 
 		TemplateGenerator templateGen = new TemplateGenerator("templates/modules/AttributeChangeModule.tpl",
