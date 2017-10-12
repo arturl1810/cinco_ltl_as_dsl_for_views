@@ -1,9 +1,21 @@
 build:
-  artifacts:
-    paths:
-      - /builds/scce/cinco/de.jabc.cinco.meta.product/target/products/*.zip
-    expire_in: 1 week
   before_script:
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in $DELIVERY_CINCO_SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$DELIVERY_CINCO_SSH_PRIVATE_KEY")
+
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are suspectible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    # Install dependencies for delivery
+    - apt-get update && apt-get install -y --no-install-recommends openssh-client rsync
+
     - mkdir -p ~/.m2/repository
   cache:
     paths:
@@ -18,5 +30,7 @@ build:
     - mvn -e clean package
     - popd;
     - mvn -e clean package
+    - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/nightly/$(date +%F)-$CI_COMMIT_SHA/
   variables:
     MAVEN_OPTS: "-Dsun.lang.ClassLoader.allowArraySyntax=true -Dmaven.repo.local=~/.m2/repository -Xms128m -Xmx2048m"
+    DELIVERY_HOST: ls5vs001.cs.tu-dortmund.de 
