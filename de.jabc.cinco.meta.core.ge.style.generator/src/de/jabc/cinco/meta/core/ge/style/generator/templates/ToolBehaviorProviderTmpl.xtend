@@ -178,17 +178,17 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 		return super.getSelection(originalPe, oldSelection);
 	}
 	
-	@Override
-	public void postExecute(«IExecutionInfo.name» executionInfo) {
-		«IFeature.name» f = executionInfo.getExecutionList()[0].getFeature();
-		«IContext.name» c = executionInfo.getExecutionList()[0].getContext();
-		
-		«TransactionalEditingDomain.name» _dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
-		_dom.getCommandStack().execute(new «RecordingCommand.name»(_dom) {
-		
-		
-			@Override
-			protected void doExecute() {
+«««	@Override
+«««	public void postExecute(«IExecutionInfo.name» executionInfo) {
+«««		«IFeature.name» f = executionInfo.getExecutionList()[0].getFeature();
+«««		«IContext.name» c = executionInfo.getExecutionList()[0].getContext();
+«««		
+«««		«TransactionalEditingDomain.name» _dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
+«««		_dom.getCommandStack().execute(new «RecordingCommand.name»(_dom) {
+«««		
+«««		
+«««			@Override
+«««			protected void doExecute() {
 «««				«FOR n : gm.modelElements»
 «««				«IF n instanceof Node»
 «««				«IF booleanWriteMethodCallPostCreate(n)»
@@ -255,9 +255,9 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 «««	«««		}
 «««	«««		«ENDIF»
 «««			«ENDFOR»
-			}
-		});
-	}
+«««			}
+«««		});
+«««	}
 }
 '''
 	
