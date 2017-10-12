@@ -26,11 +26,15 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 	}
 	
 	override getDescription() {
-		return delegate.name
+		delegate.name
 	}
 	
 	override getName() {
-		return delegate.name
+		delegate.name
+	}
+	
+	override hasDoneChanges() {
+		delegate.hasDoneChanges
 	}
 	
 	override canExecute(ICustomContext context) {
