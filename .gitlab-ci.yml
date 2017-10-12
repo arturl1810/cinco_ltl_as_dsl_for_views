@@ -23,7 +23,6 @@ build:
     key: maven
   image: maven:3.5
   only:
-    - continuous-delivery-setup
     - schedules
   stage: build
   script:
