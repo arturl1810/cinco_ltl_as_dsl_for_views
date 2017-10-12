@@ -22,7 +22,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getSuccessors();&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
+        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getSuccessors();&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors/M"/>
       <eTypeParameters name="M">
@@ -31,7 +31,7 @@
     </eOperations>
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> successors = this.getSuccessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;retval.add((T) n);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
+        <details key="body" value="EList&lt;Node> successors = this.getSuccessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;&#x9;T t = (T) n;&#xA;&#x9;&#x9;retval.add(t);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors.1/T"/>
       <eTypeParameters name="T">
@@ -45,7 +45,7 @@
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getPredecessors();&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
+        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getPredecessors();&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors/M"/>
       <eTypeParameters name="M">
@@ -54,7 +54,7 @@
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> successors = this.getPredecessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;retval.add((T) n);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
+        <details key="body" value="EList&lt;Node> successors = this.getPredecessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;&#x9;T t = (T) n;&#xA;&#x9;&#x9;retval.add(t);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors.1/T"/>
       <eTypeParameters name="T">
@@ -137,12 +137,12 @@
     </eOperations>
     <eOperations name="getIncoming" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getIncoming(Edge.class);"/>
+        <details key="body" value="return getIncoming(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getOutgoing" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getOutgoing(Edge.class);"/>
+        <details key="body" value="return getOutgoing(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="move">
@@ -200,7 +200,7 @@
     </eOperations>
     <eOperations name="clone">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, getId());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
+        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, getId());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;T t = (T) copy.getElement();&#xA;return t;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/clone/T"/>
       <eTypeParameters name="T">
@@ -230,7 +230,7 @@
     </eOperations>
     <eOperations name="copy">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
+        <details key="body" value="graphmodel.internal.InternalNode copy = (graphmodel.internal.InternalNode) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;T t = (T) copy.getElement();&#xA;return t;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/copy/T"/>
       <eTypeParameters name="T">
@@ -314,7 +314,7 @@
     </eOperations>
     <eOperations name="clone">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="graphmodel.internal.InternalEdge copy = (graphmodel.internal.InternalEdge) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;copy.set_sourceElement((graphmodel.internal.InternalNode) source.getInternalElement());&#xA;copy.set_targetElement((graphmodel.internal.InternalNode) target.getInternalElement());&#xA;org.eclipse.emf.ecore.EObject container = source.getContainer().getInternalContainerElement();&#xA;while (container != null &amp;&amp; !org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(container, target)) {&#xA;&#x9;container = container.eContainer();&#xA;}&#xA;if (container != null) {&#xA;&#x9;((graphmodel.internal.InternalModelElementContainer) container).getModelElements().add(copy);&#xA;} else {&#xA;&#x9;container = target.getContainer().getInternalContainerElement();&#xA;&#x9;while (container != null &amp;&amp; !org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(container, source)) {&#xA;&#x9;&#x9;container = container.eContainer();&#xA;&#x9;}&#xA;&#x9;if (container != null) {&#xA;&#x9;&#x9;((graphmodel.internal.InternalModelElementContainer) container).getModelElements().add(copy);&#xA;&#x9;} else {&#xA;&#x9;&#x9;source.getRootElement().getInternalContainerElement().getModelElements().add(copy);&#xA;&#x9;}&#xA;} &#xA;return (T) copy.getElement();"/>
+        <details key="body" value="graphmodel.internal.InternalEdge copy = (graphmodel.internal.InternalEdge) org.eclipse.emf.ecore.util.EcoreUtil.copy(this.getInternalElement());&#xA;copy.set_sourceElement((graphmodel.internal.InternalNode) source.getInternalElement());&#xA;copy.set_targetElement((graphmodel.internal.InternalNode) target.getInternalElement());&#xA;org.eclipse.emf.ecore.EObject container = source.getContainer().getInternalContainerElement();&#xA;while (container != null &amp;&amp; !org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(container, target)) {&#xA;&#x9;container = container.eContainer();&#xA;}&#xA;if (container != null) {&#xA;&#x9;((graphmodel.internal.InternalModelElementContainer) container).getModelElements().add(copy);&#xA;} else {&#xA;&#x9;container = target.getContainer().getInternalContainerElement();&#xA;&#x9;while (container != null &amp;&amp; !org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(container, source)) {&#xA;&#x9;&#x9;container = container.eContainer();&#xA;&#x9;}&#xA;&#x9;if (container != null) {&#xA;&#x9;&#x9;((graphmodel.internal.InternalModelElementContainer) container).getModelElements().add(copy);&#xA;&#x9;} else {&#xA;&#x9;&#x9;source.getRootElement().getInternalContainerElement().getModelElements().add(copy);&#xA;&#x9;}&#xA;} &#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;T t = (T) copy.getElement();&#xA;return t;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Edge/clone/T"/>
       <eTypeParameters name="T">
@@ -337,7 +337,7 @@
     </eOperations>
     <eOperations name="copy">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="Edge copy = this.clone(source, target);&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;return (T) copy;"/>
+        <details key="body" value="Edge copy = this.clone(source, target);&#xA;org.eclipse.emf.ecore.util.EcoreUtil.setID(copy, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;T t = (T) copy;&#xA;return t;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Edge/copy/T"/>
       <eTypeParameters name="T">
@@ -409,7 +409,7 @@
     </eOperations>
     <eOperations name="getAllEdges" upperBound="-1" eType="#//Edge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(Edge.class);"/>
+        <details key="body" value="return getModelElements(graphmodel.Edge.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getAllContainers" upperBound="-1" eType="#//Container">
@@ -508,6 +508,7 @@
         <details key="body" value="try {&#xA;&#x9;this.eResource().save(null);&#xA;} catch (java.io.IOException e) {&#xA;&#x9;e.printStackTrace();&#xA;}"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="getInternalElement" eType="#//internal/InternalIdentifiableElement"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="" derived="true" iD="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -521,15 +522,15 @@
       abstract="true" interface="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" interface="true"
       eSuperTypes="#//IdentifiableElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" eType="#//internal/InternalType"
-        eOpposite="#//internal/InternalType/element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" lowerBound="1"
+        eType="#//internal/InternalType" containment="true" eOpposite="#//internal/InternalType/element"/>
   </eClassifiers>
   <eSubpackages name="internal" nsURI="http://www.jabc.de/cinco/gdl/graphmodel/internal"
       nsPrefix="graphmodel-internal">
     <eClassifiers xsi:type="ecore:EClass" name="InternalNode" eSuperTypes="#//internal/InternalModelElement">
       <eOperations name="getSuccessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return (EList&lt;M>) getSuccessors(InternalNode.class);"/>
+          <details key="body" value="@SuppressWarnings(&quot;unchecked&quot;)&#xA;EList&lt;M> m = (EList&lt;M>) getSuccessors(InternalNode.class);&#xA;return m;"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getSuccessors/M"/>
         <eTypeParameters name="M">
@@ -552,7 +553,7 @@
       </eOperations>
       <eOperations name="getPredecessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return (EList&lt;M>) getPredecessors(InternalNode.class);"/>
+          <details key="body" value="@SuppressWarnings(&quot;unchecked&quot;)&#xA;EList&lt;M> m = (EList&lt;M>) getPredecessors(InternalNode.class);&#xA;return m;"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getPredecessors/M"/>
         <eTypeParameters name="M">
@@ -770,10 +771,34 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InternalIdentifiableElement" abstract="true"
-        interface="true" eSuperTypes="#//IdentifiableElement"/>
+        interface="true">
+      <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return obj != null &amp;&amp; ((obj == this) || obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() == this.getId()&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName()));"/>
+        </eAnnotations>
+        <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eOperations>
+      <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return java.util.Objects.hash(getId(),getClass().getName());"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="save">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="try {&#xA;&#x9;this.eResource().save(null);&#xA;} catch (java.io.IOException e) {&#xA;&#x9;e.printStackTrace();&#xA;}"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="getElement" eType="#//IdentifiableElement"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="" derived="true" iD="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="suppressedSetVisibility" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InternalType" abstract="true" eSuperTypes="#//internal/InternalIdentifiableElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//Type"
-          eOpposite="#//Type/internalElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+          eType="#//Type" eOpposite="#//Type/internalElement"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

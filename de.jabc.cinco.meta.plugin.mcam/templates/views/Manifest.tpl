@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.plugin.mcam.runtime,
  org.eclipse.ui.workbench,
  org.eclipse.core.resources,
- de.jabc.cinco.meta.core.referenceregistry
+ de.jabc.cinco.meta.core.referenceregistry,
+ de.jabc.cinco.meta.runtime
 Bundle-ActivationPolicy: lazy
 Import-Package: info.scce.mcam.framework.adapter,
  info.scce.mcam.framework.modules,

@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
-import graphmodel.IdentifiableElement
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
@@ -21,19 +20,18 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.ModelElement
+import graphmodel.Type
+import graphmodel.internal.InternalIdentifiableElement
 
-//import org.eclipse.graphiti.mm.pictograms.Diagram
-//import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
+import graphmodel.IdentifiableElement
 
-
-abstract class GratextSerializer {
+abstract class Serializer {
 
 	static extension val ResourceExtension = new ResourceExtension
 
-//  All information are now persisted in th
-//	NonEmptyRegistry<InternalModelElement,PictogramElement>
-//		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]
-			
+	InternalGraphModel model
+	
 	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>>
 		nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer c | c.allNodes.sort.toList]
 			
@@ -44,15 +42,11 @@ abstract class GratextSerializer {
 		c.modelElements.filter(InternalNode)
 	}
 	
-//	Diagram diagram 
-	InternalGraphModel model
-	
 	new (Resource res) {
-		this(/*res.diagram,*/ res.getContent(InternalGraphModel))
+		this(res.getContent(InternalGraphModel))
 	}
 	
-	new (/*Diagram diagram,*/ InternalGraphModel model) {
-//		this.diagram = diagram
+	new (InternalGraphModel model) {
 		this.model = model
 	}
 	
@@ -62,7 +56,7 @@ abstract class GratextSerializer {
 	
 	def template() {
 		'''
-		«model.name» «model.id» {
+		«model.name» «model.nonInternalID» {
 		  «model.attributes»
 		  «model.containments»
 		}
@@ -71,7 +65,7 @@ abstract class GratextSerializer {
 	
 	def String gratext(InternalNode node) {
 		'''
-		«node.name» «node.id» «node.placement» {
+		«node.name» «node.nonInternalID» «node.placement» {
 			«node.attributes»
 			«node.containments»
 			«node.edges»
@@ -81,8 +75,8 @@ abstract class GratextSerializer {
 	
 	def String gratext(InternalEdge edge) {
 		'''
-		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.route» «edge.decorations» {
-			id «edge.id»
+		-«edge.name»-> «edge.targetElement.id» «edge.route» «edge.decorations» {
+			id «edge.nonInternalID»
 			«edge.attributes»
 		}
 		'''
@@ -96,27 +90,17 @@ abstract class GratextSerializer {
 		obj.eClass.attributes.gratext(obj)
 	}
 	
-	def List<? extends EStructuralFeature> attributes(EClass cls) {
-		switch cls.name {
-			case "InternalGraphModel": #[]
-			case "InternalContainer": #[]
-			case "InternalNode": #[]
-			case "InternalEdge": #[]
-			case "InternalType": #[]
-			case "GraphModel": #[]
-			case "Container": #[]
-			case "Node": #[]
-			case "Edge": #[]
-			case "Type": #[]
-			default: combine(cls.getEAttributes, cls.getEReferences, cls.getESuperTypes.map[attributes].flatten)
-		}
+	def Iterable<EStructuralFeature> attributes(EClass it) {
+		if (InternalPackage.eINSTANCE.EClassifiers.contains(it))
+			#[]
+		else EAttributes + EReferences + ESuperTypes.map[attributes].flatten
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
 		Stream.concat(l1.stream, Stream.concat(l2.stream, StreamSupport.stream(l3.spliterator, false))).collect(Collectors.toList)
 	}
 	
-	def containments(IdentifiableElement element) {
+	def containments(InternalIdentifiableElement element) {
 		switch element {
 			InternalModelElementContainer: nodesInitialOrder.get(element).map[gratext].join('\n')
 		}
@@ -171,7 +155,7 @@ abstract class GratextSerializer {
 		node.getOutgoing(InternalEdge).map[gratext].join('\n')
 	}
 	
-	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {
+	def gratext(Iterable<EStructuralFeature> ftrs, EObject obj) {
 		switch obj {
 			InternalModelElement: ftrs.filter[featureID != InternalPackage.INTERNAL_MODEL_ELEMENT__ID]
 			default: ftrs
@@ -190,17 +174,37 @@ abstract class GratextSerializer {
 		}
 	}
 	
-	def valueGratext(Object obj) {
-		switch obj {
-			ModelElement: obj?.internalElement?.id
-			InternalModelElement: obj?.id
-			String: '"' + obj.replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
+	def valueGratext(Object it) {
+		switch it {
+			ModelElement: internalElement?.nonInternalID
+			InternalModelElement: nonInternalID
+			Type: internalElement.valueGratext
+			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
-				«obj.name» {
-						«obj.attributes»
+				«name» «nonInternalID» {
+						«attributes»
 					}''' 
-			default: obj
+			default: it
 		}
+	}
+	
+	
+	dispatch def getNonInternalID(EObject it) {
+		getID
+	}
+	
+	dispatch def getNonInternalID(IdentifiableElement it) {
+		id
+	}
+	
+	dispatch def getNonInternalID(InternalIdentifiableElement it) {
+		val nonInternal = element
+		if (!nonInternal?.id.nullOrEmpty)
+			return nonInternal.id
+		val index = id?.lastIndexOf("_INTERNAL")
+		if (index > -1)
+			id.substring(0, index)
+		else id
 	}
 	
 }

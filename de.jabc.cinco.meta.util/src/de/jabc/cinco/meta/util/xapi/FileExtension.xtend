@@ -8,6 +8,7 @@ import org.eclipse.ui.ide.IDE
 import java.util.jar.JarFile
 import org.apache.commons.io.FilenameUtils
 import java.util.jar.JarEntry
+import org.eclipse.ui.IEditorPart
 
 /**
  * File-specific extension methods.

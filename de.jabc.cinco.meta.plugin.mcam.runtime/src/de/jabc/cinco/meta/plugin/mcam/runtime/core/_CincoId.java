@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.core;
 
 import org.eclipse.emf.ecore.EClass;
 
+import graphmodel.IdentifiableElement;
 import info.scce.mcam.framework.adapter.EntityId;
 
 public class _CincoId implements EntityId {
@@ -9,8 +10,15 @@ public class _CincoId implements EntityId {
 	private String id = "";
 	private EClass eClass = null;
 	private String label = null;
-	
-	public _CincoId(String id, EClass eClass) {
+	private IdentifiableElement element = null;
+
+	public _CincoId(IdentifiableElement element) {
+		super();
+		this.element = element;
+		this.id = element.getId();
+		this.eClass = element.eClass();
+	}
+	public _CincoId(IdentifiableElement element, String id, EClass eClass) {
 		super();
 		this.id = id;
 		this.eClass = eClass;
@@ -23,6 +31,10 @@ public class _CincoId implements EntityId {
 	public EClass geteClass() {
 		return eClass;
 	}
+	
+	public IdentifiableElement getElement() {
+		return element;
+	}
 
 	public String getLabel() {
 		return label;
@@ -30,6 +42,10 @@ public class _CincoId implements EntityId {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public void setElement(IdentifiableElement element) {
+		this.element = element;
 	}
 
 	@Override

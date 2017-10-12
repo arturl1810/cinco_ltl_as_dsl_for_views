@@ -36,7 +36,7 @@ class ModelElementEContentAdapter extends GeneratorUtils{
 				«me.fqInternalBeanName» tmp = 
 					(«me.fqInternalBeanName») o;
 				
-				if («me.cInstanceofCheck("tmp.getElement()")») {
+				if («me.cInstanceofCheck("tmp.getElement()")» && tmp.getRootElement() != null) {
 					((«me.fqCName») tmp.getElement()).update();
 				}
 «««				if (getDiagram() == null)

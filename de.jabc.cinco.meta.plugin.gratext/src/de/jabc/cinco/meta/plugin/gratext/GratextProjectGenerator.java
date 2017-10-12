@@ -515,23 +515,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		return list();
 	}
 	
-	private GraphModelDescriptor modelDesc;
-	
-	public GraphModelDescriptor getModelDescriptor() {
-		if (model == null) 
-			model = (GraphModel) getContext().get("graphModel");
-			
-		if (modelDesc == null)
-			modelDesc = ModelDescriptorRegistry.INSTANCE.get(model);
-		
-		if (modelDesc == null) {
-			modelDesc = new GraphModelDescriptor(model);
-			modelDesc.setBasePackage(model.getPackage());
-			ModelDescriptorRegistry.INSTANCE.add(modelDesc);
-		}
-		return modelDesc;
-	}
-	
 	private ProjectDescriptor projectDesc;
 	
 	public ProjectDescriptor getProjectDescriptor() {

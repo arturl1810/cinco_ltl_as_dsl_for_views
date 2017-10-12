@@ -76,6 +76,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«FOR e : MGLUtil::getOutgoingConnectingEdges(me as Node).filter[!isIsAbstract]»
 	«FOR target : e.possibleTargets»
+	
+	@Override
+	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target, «String.name» id) {
+		«e.fqBeanName» obj = new«e.fuName»(target);
+		«EcoreUtil.name».setID(obj, id);
+		return obj;
+	}
+	
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target) {
 		if (!(target instanceof «target.fuCName»))
@@ -168,14 +176,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		«Diagram.name» diagram = null;
-		try {
-			diagram = getDiagram();
-		} catch(NullPointerException ignore) {}
-		if (diagram != null)
-			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
-		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
-		return dtp.getFeatureProvider();
+		return ((«me.graphModel.fqCName») getRootElement()).getFeatureProvider();
 	}
 	
 	@Override
@@ -217,9 +218,16 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«IF me instanceof NodeContainer»
 	«FOR containableNode : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
+«««	@Override
+«««	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
+«««		return new«containableNode.fuName»(x,y,-1,-1);
+«««	}
+	
 	@Override
-	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
-		return new«containableNode.fuName»(x,y,-1,-1);
+	public «containableNode.fqBeanName» new«containableNode.fuName»(«String.name» id, int x, int y, int width, int height) {
+		«containableNode.fqBeanName» obj = new«containableNode.fuName»(x, y, width, height);
+		«EcoreUtil.name».setID(obj, id);
+		return obj;
 	}
 	
 	@Override
@@ -312,6 +320,30 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«me.fqBeanName» copy = («me.fqBeanName») this.clone(targetContainer);
 		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
 		return copy;
+	}
+	
+	@Override
+	public void setX(final int x) {
+		super.setX(x);
+		getPictogramElement().getGraphicsAlgorithm().setX(x);
+	}
+	
+	@Override
+	public void setY(int y) {
+		super.setY(y);
+		getPictogramElement().getGraphicsAlgorithm().setY(y);
+	}
+	
+	@Override
+	public void setWidth(final int width) {
+		super.setWidth(width);
+		getPictogramElement().getGraphicsAlgorithm().setWidth(width);
+	}
+	
+	@Override
+	public void setHeight(int height) {
+		super.setHeight(height);
+		getPictogramElement().getGraphicsAlgorithm().setHeight(height);
 	}
 	
 	«me.updateContent»

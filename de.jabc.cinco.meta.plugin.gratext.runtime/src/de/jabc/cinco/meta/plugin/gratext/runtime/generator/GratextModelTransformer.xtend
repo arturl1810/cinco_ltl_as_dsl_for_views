@@ -1,8 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
-import graphmodel.GraphModel
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import graphmodel.IdentifiableElement
-import graphmodel.ModelElement
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalIdentifiableElement
@@ -15,11 +14,15 @@ import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.setID
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.generateUUID
+
 class GratextModelTransformer {
 	
-	private Map<IdentifiableElement,IdentifiableElement> counterparts = new IdentityHashMap
+	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
+	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
+	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
 	private List<InternalEdge> edges = newArrayList
-
 	private EFactory modelFactory
 	private EPackage modelPackage
 	private EClass modelClass
@@ -30,61 +33,70 @@ class GratextModelTransformer {
 		this.modelClass = modelClass
 	}
 	
-	def transform(InternalGraphModel model) {
-		val cp = model.counterpart
-		if (cp != null)
-			return cp as InternalGraphModel
-		val baseModel = modelFactory.create(modelClass) as GraphModel
-		baseModel.internalElement => [
-			cache(it, model)
-			transformAttributes
-			transformReferences
-			model.modelElements.forEach[me|
-				it.modelElements.add(me.transform)
+	def transform(InternalGraphModel gtxInternal) {
+		val baseModel = (gtxInternal as InternalIdentifiableElement).transform
+		baseModel as InternalGraphModel => [
+			gtxInternal.modelElements.forEach[elm|
+				modelElements.add(elm.transform as InternalModelElement)
 			]
 			modelElements.addAll(edges)
 		]
 	}
 	
-	def transform(InternalModelElement element) {
-		val cp = element.counterpart
-		if (cp != null)
-			return cp as InternalModelElement
-		val baseElm = element.createModelElement => [
-			cache(internalElement, element)
-			counterparts.put(it, element)
-			transformAttributes
-			transformReferences
-		]
-		return baseElm.internalElement
-	}
-
-	private def transformAttributes(ModelElement elm) {
-		elm.internalElement.transformAttributes
+	def transform(InternalIdentifiableElement gtxInternal) {
+		transform(gtxInternal, true)
 	}
 	
-	private def transformAttributes(InternalIdentifiableElement element) {
-		element.attributes.forEach[attr|
-			element.eSet(attr, element.counterpart.eGet(attr))
-		]
-	}
-
-	private def transformReferences(ModelElement it) {
-		internalElement.transformReferences
+	def transform(InternalIdentifiableElement gtxInternal, boolean resolveReferences) {
+		gtxInternal.counterpart
+		?:{ 
+			gtxInternal.toBaseInternal => [
+				transformAttributes(gtxInternal)
+				cache(it, gtxInternal)
+				if (resolveReferences)
+					transformReferences(gtxInternal)
+			]
+		}
 	}
 	
-	private def transformReferences(InternalIdentifiableElement element) {
-		element.references.forEach[ref|
-			if (ref.name != "element") {
-				element.eSet(ref, element.counterpart.eGet(ref).transformValue)
+	private def transformAttributes(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
+		baseInternal => [
+			attributes.forEach[attr | baseInternal => [
+				val deliver = eDeliver
+				eSetDeliver(false)
+				eSet(attr, gtxInternal.eGet(attr))
+				eSetDeliver(deliver)
+			]]
+			val baseId = if (id.nullOrEmpty) generateUUID else id
+			element.setID(baseId)
+			setID(baseId + "_INTERNAL")
+		]
+	}
+	
+	private def transformReferences(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
+		baseInternal.references.filter[name != "element"].forEach[ref|
+			val refValue = gtxInternal.eGet(ref)
+			val baseValue = switch refValue {
+				IdentifiableElement: {
+					refValue.baseElement?.element
+					?: {
+						addReplacementRequest(refValue.id) [theID|
+							baseInternal.eSet(ref, getBaseElement(theID).element)
+						]
+						refValue
+					}
+				}
+				default: refValue.transformValue
 			}
+			if (baseValue != null)
+				baseInternal.eSet(ref, baseValue)
 		]
 	}
 	
 	private def Object transformValue(Object value) {
 		switch value {
 			InternalGraphModel: value.transform
-			InternalModelElement: value.transform
+			InternalIdentifiableElement: value.transform
 			List<?>: value.map[transformValue]
 			EObject: value
 			case null: value
@@ -92,13 +104,16 @@ class GratextModelTransformer {
 		}
 	}
 	
-	private def createModelElement(InternalModelElement elm) {
-		elm.eClass.ESuperTypes
-			.filter[
-				modelPackage.eContents.filter(EClass).exists[name === it.name]
-			]
+	def toBaseInternal(InternalIdentifiableElement it) {
+		(#[eClass] + eClass.ESuperTypes)
+			.filter[modelPackage.knows(it)]
 			.map[modelFactory.create(it)]
-			.head as ModelElement
+			.filter(IdentifiableElement)
+			.head.internalElement
+	}
+	
+	private def knows(EPackage it, EClass elmClazz) {
+		eContents.filter(EClass).exists[name == elmClazz.name]
 	}
 	
 	private def getAttributes(EObject elm) {
@@ -117,13 +132,33 @@ class GratextModelTransformer {
 		edges
 	}
 	
-	private def cache(IdentifiableElement baseElm, IdentifiableElement gtxElm) {
+	def getBaseElement(IdentifiableElement elm) {
+		elm.id.baseElement
+	}
+	
+	def getBaseElement(String id) {
+		baseElements.get(id)
+	}
+	
+	def registerBaseElement(String id, InternalIdentifiableElement baseInternal) {
+		if (!id.nullOrEmpty) {
+			baseElements.put(id, baseInternal)
+			replacements.get(id).forEach[apply(id)]
+		}
+	}
+	
+	def addReplacementRequest(String id, (String)=>void replacement) {
+		replacements.get(id).add(replacement)
+	}
+	
+	private def cache(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
 		counterparts => [
-			put(baseElm, gtxElm)
-			put(gtxElm, baseElm)
+			put(baseInternal, gtxInternal)
+			put(gtxInternal, baseInternal)
 		]
-		switch baseElm {
-			InternalEdge: edges.add(baseElm)
+		registerBaseElement(gtxInternal.id, baseInternal)
+		switch baseInternal {
+			InternalEdge: edges.add(baseInternal)
 		}
 	}
 	

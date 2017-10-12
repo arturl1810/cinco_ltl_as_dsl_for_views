@@ -29,6 +29,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
+import org.eclipse.emf.transaction.util.TransactionUtil
+
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.isReferencedModelElement
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -73,6 +78,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«IF !me.allSuperTypes.empty» ,«FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;
+	private «IFeatureProvider.name» fp;
 	
 	«me.constructor»
 	
@@ -93,6 +99,13 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	@Override
 	public «n.fqBeanName» new«n.fuName»(int x, int y) {
 		return new«n.fuName»(x,y,-1,-1);
+	}
+	
+	@Override
+	public «n.fqBeanName» new«n.fuName»(«String.name» id, int x, int y, int width, int height) {
+		«n.fqBeanName» obj = new«n.fuName»(x, y, width, height);
+		«EcoreUtil.name».setID(obj, id);
+		return obj;
 	}
 	
 	@Override
@@ -127,7 +140,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«AddContext.name» ac = new «AddContext.name»();
 			ac.setLocation(10, 10);
 			ac.setTargetContainer((«ContainerShape.name») getPictogramElement());
-			
+			ac.setNewObject(«n.retrievePrimeReference.name»);
 			ac.setLocation(x,y);
 			ac.setSize(width,height);
 			
@@ -150,9 +163,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«Resource.name» res = graph.eResource();
 		res.getContents().add(0,diagram);
 		
-		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().
-			createDiagramTypeProvider(diagram, "«me.dtp_id»");
-		dtp.getFeatureProvider().link(diagram, graph);
+		«IFeatureProvider.name» fp = «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+		fp.link(diagram, graph);
 		
 		graph.save();
 	
@@ -181,15 +193,37 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		throw new «UnsupportedOperationException.name»("Deleting a Graphmodel by api is not supported at the moment.");
 	}
 	
-	private «IFeatureProvider.name» getFeatureProvider() {
+	@SuppressWarnings("restriction")
+	public «IFeatureProvider.name» getFeatureProvider() {
+		if (this.fp != null) try {
+			«Diagram.name» diagram = getDiagram();
+			if (diagram != null) {
+				«IDiagramTypeProvider.name» dtp = fp.getDiagramTypeProvider();
+				if (dtp.getDiagram() == null) {
+					«TransactionalEditingDomain.name» editingDomain = «TransactionUtil.name».getEditingDomain(diagram);
+					«DiagramEditorDummy.name» diagramEditor = new «DiagramEditorDummy.name»(dtp, editingDomain);
+					dtp.init(diagram, diagramEditor.getDiagramBehavior());
+				}
+			}
+			return this.fp;
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+		} finally {
+			return this.fp;
+		}
 		«Diagram.name» diagram = null;
 		try {
 			diagram = getDiagram();
 		} catch(NullPointerException ignore) {}
 		if (diagram != null)
-			return «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
+			this.fp = «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
 		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
-		return dtp.getFeatureProvider();
+		this.fp = dtp.getFeatureProvider();
+		return fp;
+	}
+	
+	public void setFeatureProvider(«IFeatureProvider.name» provider) {
+		this.fp = provider;
 	}
 	
 	@Override

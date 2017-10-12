@@ -42,9 +42,9 @@ public abstract class ProjectGenerator {
 	
 	protected Map<String, Object> ctx;
 	
-	protected GraphModel model;
+	public GraphModel model;
 	private GraphModelDescriptor modelDesc;
-	protected IProject project;
+	public IProject project;
 	private ProjectDescriptor projectDesc;
 	
 	private IProgressMonitor monitor;

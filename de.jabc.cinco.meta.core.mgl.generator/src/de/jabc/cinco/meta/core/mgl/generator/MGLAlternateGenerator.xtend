@@ -45,6 +45,8 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.Factory
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import mgl.impl.ReferencedModelElementImpl
 import graphmodel.internal.impl.InternalGraphModelImpl
+import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -263,28 +265,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	private def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
-		«IF node.retrievePrimeReference instanceof ReferencedEClass»
-		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
-		«ELSE»
-			«IF (node.retrievePrimeReference as ReferencedModelElement).type instanceof Node»
-			return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
-			«ELSE»
-			return «node.primeTypeCast» ((«InternalGraphModel.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
-			«ENDIF»
-		«ENDIF»
+		return «node.primeTypeCast» «ReferenceRegistry.name».getInstance().getEObject(uid);
 	'''
 
 	private def getPrimeReferenceInternalGetter(Node node)'''
 		String uid = getLibraryComponentUID();
-		«IF node.retrievePrimeReference instanceof ReferencedEClass»
-		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
-		«ELSE»
-			«IF (node.retrievePrimeReference as ReferencedModelElement).type instanceof Node»
-			return «node.primeTypeCast» ((«InternalNode.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
-			«ELSE»
-			return «node.primeTypeCast» ((«InternalGraphModel.name») de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
-			«ENDIF»
-		«ENDIF»
+		return «node.primeTypeCast» «ReferenceRegistry.name».getInstance().getEObject(uid);
 	'''
 	
 	/**

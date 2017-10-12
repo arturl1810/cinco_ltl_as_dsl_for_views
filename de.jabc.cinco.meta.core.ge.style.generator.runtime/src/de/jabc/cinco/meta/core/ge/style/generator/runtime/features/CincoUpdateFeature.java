@@ -27,6 +27,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import com.sun.el.ExpressionFactoryImpl;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext;
+import graphmodel.IdentifiableElement;
 import graphmodel.internal.InternalModelElement;
 
 abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
@@ -41,14 +42,15 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	@Override
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
 		return (bo instanceof InternalModelElement);
 	}
 
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
+
 		if (checkUpdateNeeded(bo, pe))
 			return Reason.createTrueReason();
 		return Reason.createFalseReason();
@@ -57,7 +59,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	@Override
 	public boolean update(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		EObject bo = getBusinessObjectForLinkedPictogramElement(pe);
 		updateText(bo, pe);
 		if (pe instanceof Connection)
 			updateStyle(bo, (Connection) pe);
@@ -72,6 +74,14 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 			return lf.layout(lContext);
 		return false;
 	}
+	
+	public EObject getBusinessObjectForLinkedPictogramElement(PictogramElement pe) {
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if (bo instanceof IdentifiableElement) {
+			bo = ((IdentifiableElement)bo).getInternalElement();
+		}
+		return bo;
+	}
 
 	/**
 	 * Updates the text of the object
@@ -84,7 +94,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	private void updateText(EObject bo, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			PictogramElement tmp = pe;
-			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
+			Object o = getBusinessObjectForLinkedPictogramElement(tmp);
 			if (bo.equals(o) || o == null)
 				for (Shape _s : ((ContainerShape) pe).getChildren()) {
 					updateText(bo, _s);
@@ -115,11 +125,11 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
 					}
 					
-					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
-					if (dom == null)
-						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
-					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
-//					t.setValue(String.format(formatString,_values));
+//					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
+//					if (dom == null)
+//						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
+//					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
+					t.setValue(String.format(formatString,_values));
 					
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");

@@ -31,7 +31,6 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.ModelElementUpdateFeatures
-import de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
 import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
@@ -45,6 +44,8 @@ import productDefinition.CincoProduct
 import style.Styles
 import java.util.List
 import java.util.ArrayList
+
+import static extension de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.*
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -80,11 +81,13 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	var GraphModel gm
 	var IFile cpdFile
 	var Styles styles
+	val CincoProduct cincoProduct
 	var List<CharSequence> pluginXMLContent = new ArrayList<CharSequence>
 	
 	new (GraphModel gm, IFile cpdFile, Styles s) {
 		this.gm = gm
 		this.cpdFile = cpdFile
+		this.cincoProduct = CincoUtil::getCPD(cpdFile) as CincoProduct
 		styles = s
 	}
 	
@@ -188,27 +191,15 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	    ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper+ "FileExtensions" +".java",fileExtensionClassContent)
 		
 		pluginXMLContent = gm.generatePluginXML
+		if (cincoProduct.defaultPerspective.nullOrEmpty) {
+			content = cincoProduct.generateXMLPerspective(cpdFile.project.name)
+			pluginXMLContent.add(content)
+			content = cincoProduct.generateDefaultPerspective(cpdFile)
+			ContentWriter::writeJavaFileInSrcGen(project, cpdFile.project.name+".editor.graphiti", cincoProduct.name+"Perspective.java", content)
+		}
 				
 		ContentWriter::writePluginXML(project, pluginXMLContent, '''<!--@CincoGen «gm.fuName»-->''')
 		CincoUtil.refreshProject(new NullProgressMonitor(), project)
-	
-	}
-	
-	def addPerspectiveContent() {
-		var cp = CincoUtil::getCPD(cpdFile) as CincoProduct
-		cp.addPerspectiveContent(pluginXMLContent, cpdFile.project)
-	}
-	
-	private def addPerspectiveContent(CincoProduct cp, List<CharSequence> pluginXMLContent, IProject project) {
-		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
-			return;
-		 
-		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, cpdFile)
-		var defaultXMLPerspectiveContent = DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
-		
-		ContentWriter::writeJavaFileInSrcGen(project, cpdFile.project.name+".editor.graphiti", cp.name+"Perspective.java",defaultPerspectiveContent)
-		pluginXMLContent.add(defaultXMLPerspectiveContent)
-		
 	}
 	
 }

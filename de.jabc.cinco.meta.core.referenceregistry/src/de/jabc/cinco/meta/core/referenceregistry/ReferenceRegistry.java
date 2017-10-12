@@ -49,6 +49,7 @@ import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupp
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
+import graphmodel.GraphModel;
 import graphmodel.internal.InternalGraphModel;
 
 public class ReferenceRegistry {
@@ -119,7 +120,8 @@ public class ReferenceRegistry {
 
 	public EObject getEObject(String key) {
 		if (cache.containsKey(key)) {
-			return cache.get(key);
+			EObject v = cache.get(key);
+			return v;
 		}
 		EObject bo = null;
 		String uri = map.get(key);
@@ -288,9 +290,16 @@ public class ReferenceRegistry {
 				} else {
 					loadedObject = loadObject(objectId, uri);
 				}
-				loadedResources.put(uri,loadedObject.eResource());
-				HashMap<String, EObject> tmpCache = cachesMap.get(p);
-				tmpCache.replace(objectId, loadedObject);
+				if (loadedObject != null) {
+					loadedResources.put(uri,loadedObject.eResource());
+					HashMap<String, EObject> tmpCache = cachesMap.get(p);
+					tmpCache.replace(objectId, loadedObject);
+				} else {
+					System.out.println(String.format("Failed to load object %s from %s", objectId, uri));
+					loadedResources.remove(uri);
+					HashMap<String, EObject> tmpCache = cachesMap.get(p);
+					tmpCache.remove(objectId);
+				}
 			}
 		}
 		if (affected != null && !affected.isEmpty())
@@ -688,14 +697,14 @@ public class ReferenceRegistry {
 		return extensions;
 	}
 
-	public InternalGraphModel getGraphModelFromURI(URI uri) {
+	public GraphModel getGraphModelFromURI(URI uri) {
 		String searchFor = toWorkspaceRelativeURI(uri).toPlatformString(true);
 		for (Entry<IProject, HashMap<String, String>> map : registriesMap.entrySet()) {
 			for (Entry<String, String> e : map.getValue().entrySet()) {
 				if (e.getValue().equals(searchFor)) {
 					EObject eObj = cachesMap.get(map.getKey()).get(e.getKey());
-					if (eObj instanceof InternalGraphModel)
-						return (InternalGraphModel) eObj;
+					if (eObj instanceof GraphModel)
+						return (GraphModel) eObj;
 				}
 			}
 		}

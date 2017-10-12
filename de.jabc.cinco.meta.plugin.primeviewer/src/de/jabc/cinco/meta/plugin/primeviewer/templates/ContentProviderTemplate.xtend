@@ -92,7 +92,7 @@ class ContentProviderTemplate {
 			try{
 			if(element instanceof «IFile.name»){
 			«IFile.name» file = («IFile.name») element;
-			if(file.getName().endsWith("$fileEnding$")){
+			if(file.getName().endsWith("«n.primeFileExtension»")){
 				«URI.name» fileURI = «URI.name».createPlatformResourceURI(file.getFullPath().toString(), true) ;
 				«Resource.name» resource = new «ResourceSetImpl.name»().getResource(fileURI, true);	        
 				return resource.getContents().size()>=1;

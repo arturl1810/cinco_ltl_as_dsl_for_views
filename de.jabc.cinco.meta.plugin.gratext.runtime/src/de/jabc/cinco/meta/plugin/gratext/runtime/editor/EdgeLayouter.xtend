@@ -16,36 +16,48 @@ abstract class EdgeLayouter {
 class Layouter_C_TOP extends EdgeLayouter {
 	override apply(Edge it) {
 		replaceBendpoints(#[
-			sourceElement.topCenter,
-			targetElement.topCenter
-		].alignTop(OFFSET_TO_NODE))
+				sourceElement.topCenter,
+				targetElement.topCenter
+			]
+			.alignTop(OFFSET_TO_NODE)
+			.snapYToGrid
+		)
 	}
 }
 
 class Layouter_C_BOTTOM extends EdgeLayouter {
 	override apply(Edge it) {
 		replaceBendpoints(#[
-			sourceElement.bottomCenter,
-			targetElement.bottomCenter
-		].alignBottom(OFFSET_TO_NODE))
+				sourceElement.bottomCenter,
+				targetElement.bottomCenter
+			]
+			.alignBottom(OFFSET_TO_NODE)
+			.snapYToGrid
+		)
 	}
 }
 
 class Layouter_C_LEFT extends EdgeLayouter {
 	override apply(Edge it) {
 		replaceBendpoints(#[
-			sourceElement.middleLeft,
-			targetElement.middleLeft
-		].alignLeft(OFFSET_TO_NODE))
+				sourceElement.middleLeft,
+				targetElement.middleLeft
+			]
+			.alignLeft(OFFSET_TO_NODE)
+			.snapXToGrid
+		)
 	}
 }
 
 class Layouter_C_RIGHT extends EdgeLayouter {
 	override apply(Edge it) {
 		replaceBendpoints(#[
-			sourceElement.middleRight,
-			targetElement.middleRight
-		].alignRight(OFFSET_TO_NODE))
+				sourceElement.middleRight,
+				targetElement.middleRight
+			]
+			.alignRight(OFFSET_TO_NODE)
+			.snapXToGrid
+		)
 	}
 }
 
@@ -159,24 +171,24 @@ class Layouter_Z_VERTICAL extends EdgeLayouter {
 
 class Layouter_TO_LEFT extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [x -= OFFSET_TO_BENDPOINT]]
+		moveBendpoints[it => [x = x.snapToGrid(-OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_TOP extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [y -= OFFSET_TO_BENDPOINT]]
+		moveBendpoints[it => [y = y.snapToGrid(-OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_RIGHT extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [x += OFFSET_TO_BENDPOINT]]
+		moveBendpoints[it => [x = x.snapToGrid(OFFSET_TO_BENDPOINT)]]
 	}
 }
 
 class Layouter_TO_BOTTOM extends EdgeLayouter {
 	override apply(Edge it) {
-		moveBendpoints[it => [y += OFFSET_TO_BENDPOINT]]
+		moveBendpoints[it => [y = y.snapToGrid(OFFSET_TO_BENDPOINT)]]
 	}
 }

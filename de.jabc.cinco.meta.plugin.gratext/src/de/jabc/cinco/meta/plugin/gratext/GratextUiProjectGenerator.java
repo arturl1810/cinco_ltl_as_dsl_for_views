@@ -27,8 +27,8 @@ public class GratextUiProjectGenerator extends EmptyProjectGenerator {
 		return new HashSet<>(list(
 			getModelDescriptor().getBasePackage() + ".gratext",
 			"de.jabc.cinco.meta.plugin.gratext.runtime",
-			getModelProject().getName() + ".editor.graphiti",
-//			getModelDescriptor().getBasePackage() + ".editor.graphiti",
+//			getModelProject().getName() + ".editor.graphiti",
+			getModelDescriptor().getBasePackage() + ".editor.graphiti",
 			"org.eclipse.graphiti",
 			"org.eclipse.graphiti.ui"
 		));

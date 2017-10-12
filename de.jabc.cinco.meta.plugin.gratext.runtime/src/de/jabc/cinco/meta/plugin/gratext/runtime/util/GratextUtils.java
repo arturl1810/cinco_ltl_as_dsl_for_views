@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.util;
 
+import java.net.MalformedURLException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -7,6 +9,7 @@ import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IURIEditorInput;
 
 
 public class GratextUtils {
@@ -40,6 +43,15 @@ public class GratextUtils {
 	 */
 	public static URI getUri(IEditorInput input) {
 		URI uri = null;
+		if (input instanceof IURIEditorInput) {
+			java.net.URI inputUri = ((IURIEditorInput) input).getURI();
+    		try {
+    			java.net.URL inputUrl = new java.net.URL(inputUri.toString());
+				uri = URI.createURI(inputUrl.toString());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
 		if (input instanceof IAdaptable) {
 			IFile file = (IFile) ((IAdaptable) input).getAdapter(IFile.class);
 			if (file != null) {

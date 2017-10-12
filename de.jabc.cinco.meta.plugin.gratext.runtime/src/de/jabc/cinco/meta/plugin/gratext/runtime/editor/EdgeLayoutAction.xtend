@@ -52,7 +52,9 @@ class EdgeLayoutAction extends SelectionAction {
 	}
 	
 	override run() {
-		selectedEdges.forEach[ layout.apply(it.element as Edge) ]
+		selectedEdges.head?.transact("Edge layouting") [
+			selectedEdges.forEach[ layout.apply(it.element as Edge) ]
+		]
 	}
 	
 	def Iterable<EditPart> getSelection(Request request) {

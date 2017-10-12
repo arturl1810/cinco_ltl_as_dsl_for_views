@@ -42,9 +42,12 @@ class FactoryGeneratorExtensions {
 		import graphmodel.internal.InternalModelElementContainer
 		import graphmodel.internal.InternalGraphModel
 		import graphmodel.internal.InternalContainer
+		import graphmodel.internal.InternalType
+		import graphmodel.internal.InternalIdentifiableElement
 		import graphmodel.ModelElement
 		import graphmodel.IdentifiableElement
 		import graphmodel.GraphModel
+		import graphmodel.Type
 		
 		import org.eclipse.emf.ecore.EClass
 		import org.eclipse.emf.ecore.EPackage
@@ -60,7 +63,9 @@ class FactoryGeneratorExtensions {
 			
 			static def «graphmodel.name»Factory init() {
 				try {
-					EPackage::Registry.INSTANCE.getEFactory(«graphmodel.name.toLowerCase.toFirstUpper»Package.eNS_URI) as «graphmodel.name»Factory
+					val fct = EPackage::Registry.INSTANCE.getEFactory(«graphmodel.name.toLowerCase.toFirstUpper»Package.eNS_URI) as «graphmodel.name»Factory
+					if (fct != null)
+						return fct as «graphmodel.name»Factory
 				}
 				catch (Exception exception) {
 					EcorePlugin.INSTANCE.log(exception);
@@ -72,12 +77,13 @@ class FactoryGeneratorExtensions {
 			
 			«elmClasses.values.specificCreateMethods»
 			
-			private def <T extends IdentifiableElement> setInternal(T elm, IdentifiableElement internal) {
+			private def <T extends IdentifiableElement> setInternal(T elm, InternalIdentifiableElement internal) {
 				elm => [
 					ID = generateUUID
 					switch elm {
 						GraphModel: elm.internalElement = internal as InternalGraphModel
 						ModelElement: elm.internalElement = internal as InternalModelElement
+						Type: elm.internalElement = internal as InternalType
 					}
 				]
 			}
@@ -94,7 +100,7 @@ class FactoryGeneratorExtensions {
 				
 				«EcoreUtil.name».setID(graph, «EcoreUtil.name».generateUUID());
 
-				res.getContents().add(graph);
+				res.getContents().add(graph.internalElement);
 				
 				«IF graphmodel.hasPostCreateHook»
 				postCreates(graph);
@@ -140,7 +146,7 @@ class FactoryGeneratorExtensions {
 			super.create«name» => [ 
 				setID(ID)
 				internal = ime ?: createInternal«name» => [
-					setID(generateUUID)
+					setID(ID + "_INTERNAL")
 					«IF !(it instanceof Type)»
 						container = parent
 					«ENDIF»

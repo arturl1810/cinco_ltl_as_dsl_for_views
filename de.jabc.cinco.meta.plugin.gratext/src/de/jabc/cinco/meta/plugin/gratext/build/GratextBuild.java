@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -31,6 +32,7 @@ import de.jabc.cinco.meta.core.utils.job.ReiteratingJob;
 public class GratextBuild extends ReiteratingJob {
 
 	private IProject project;
+	private IFolder modelFolder;
 	private IFile genmodel;
 	private IFile mwe2;
 	private IFile xtext;
@@ -76,6 +78,7 @@ public class GratextBuild extends ReiteratingJob {
 				.filter(file -> file.getName().endsWith("Gratext.genmodel"))
 				.collect(Collectors.toList())
 				.get(0);
+			modelFolder = project.getFolder("model");
 		} catch(Exception e) {
 			fail("Failed to retrieve .genmodel file.", e);
 			return;
@@ -161,6 +164,7 @@ public class GratextBuild extends ReiteratingJob {
 			monitor.setTaskName("Cleaning up " + mwe2.getName());
 			xtext.delete(true, null);
 			mwe2.delete(true, null);
+			modelFolder.delete(true, null);
 		} catch(Exception e) {
 			fail("Build process fine, but failed to delete .genmodel and/or .xtext file.", e);
 			return;

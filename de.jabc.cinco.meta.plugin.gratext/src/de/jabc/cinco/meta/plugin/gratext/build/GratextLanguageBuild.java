@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -14,17 +15,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
-import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.job.ReiteratingJob;
 
@@ -32,7 +25,7 @@ import de.jabc.cinco.meta.core.utils.job.ReiteratingJob;
 public class GratextLanguageBuild extends ReiteratingJob {
 
 	private IProject project;
-	private IFile genmodel;
+	private IFolder modelFolder;
 	private IFile mwe2;
 	private IFile xtext;
 	private IProgressMonitor monitor;
@@ -74,10 +67,11 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	private void findGenmodel() {
 		if (!failed) try {
 			monitor.setTaskName("Retrieve .genmodel: " + project.getName());
-			genmodel = getProjectFiles("genmodel").stream()
-				.filter(file -> file.getName().endsWith("Gratext.genmodel"))
-				.collect(Collectors.toList())
-				.get(0);
+//			genmodel = getProjectFiles("genmodel").stream()
+//				.filter(file -> file.getName().endsWith("Gratext.genmodel"))
+//				.collect(Collectors.toList())
+//				.get(0);
+			modelFolder = project.getFolder("model");
 		} catch(Exception e) {
 			fail("Failed to retrieve .genmodel file.", e);
 			return;
@@ -110,33 +104,33 @@ public class GratextLanguageBuild extends ReiteratingJob {
 		}
 	}
 	
-	private void runGenmodel() {
-		if (!failed) try {
-			monitor.setTaskName("Genmodel job: " + project.getName());
-			Resource res = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(genmodel.getFullPath().toString(), true),true);
-			res.load(null);
-			res.getContents().stream()
-				.filter(GenModel.class::isInstance)
-				.map(GenModel.class::cast)
-				.forEach(genModel -> {
-					genModel.reconcile();
-					
-					// !!! Very important lines, do not delete !!!
-					genModel.getUsedGenPackages().stream()
-						.filter(pkg -> !pkg.getGenModel().equals(genModel))
-						.forEach(genModel.getUsedGenPackages()::add);
-					
-					genModel.setCanGenerate(true);
-					GenModelUtil.createGenerator(genModel).generate(genModel,
-						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
-						CodeGenUtil.EclipseUtil.createMonitor(new NullProgressMonitor(), 100));
-				});
-		} catch(Exception e) {
-			fail("Model code generation failed.", e);
-			return;
-		}
-	}
+//	private void runGenmodel() {
+//		if (!failed) try {
+//			monitor.setTaskName("Genmodel job: " + project.getName());
+//			Resource res = new ResourceSetImpl().getResource(
+//					URI.createPlatformResourceURI(genmodel.getFullPath().toString(), true),true);
+//			res.load(null);
+//			res.getContents().stream()
+//				.filter(GenModel.class::isInstance)
+//				.map(GenModel.class::cast)
+//				.forEach(genModel -> {
+//					genModel.reconcile();
+//					
+//					// !!! Very important lines, do not delete !!!
+//					genModel.getUsedGenPackages().stream()
+//						.filter(pkg -> !pkg.getGenModel().equals(genModel))
+//						.forEach(genModel.getUsedGenPackages()::add);
+//					
+//					genModel.setCanGenerate(true);
+//					GenModelUtil.createGenerator(genModel).generate(genModel,
+//						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
+//						CodeGenUtil.EclipseUtil.createMonitor(new NullProgressMonitor(), 100));
+//				});
+//		} catch(Exception e) {
+//			fail("Model code generation failed.", e);
+//			return;
+//		}
+//	}
 	
 	private void runMwe2() {
 		if (!failed) try {
@@ -173,8 +167,9 @@ public class GratextLanguageBuild extends ReiteratingJob {
 			monitor.setTaskName("Cleaning up " + mwe2.getName());
 			xtext.delete(true, null);
 			mwe2.delete(true, null);
+			modelFolder.delete(true, null);
 		} catch(Exception e) {
-			fail("Failed to delete .mwe2 and/or .xtext file.", e);
+			fail("Failed to delete model sources (mwe2, xtext, model folder)", e);
 			return;
 		}
 	}

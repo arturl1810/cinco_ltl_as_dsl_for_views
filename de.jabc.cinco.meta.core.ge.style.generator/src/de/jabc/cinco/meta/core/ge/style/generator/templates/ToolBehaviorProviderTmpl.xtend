@@ -159,22 +159,12 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 			return super.getDoubleClickFeature(context);
 		}
 		«Object.name» bo = pes[0].getLink().getBusinessObjects().get(0);
-		if (bo instanceof «InternalModelElement.name») {
-			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
-		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
-		«IF me.booleanWriteMethodCallDoubleClick»
-			if («me.instanceofCheck("ime.getElement()")») 
+		«"bo".toNonInternalElement»
+		
+		«FOR me : gm.modelElements.filter[booleanWriteMethodCallDoubleClick]»
+			if («me.instanceofCheck("bo")») 
 				«me.writeMethodCallDoubleClick»
-		«ENDIF»
 		«ENDFOR»
-		}
-		if (bo instanceof «InternalGraphModel.name») {
-			«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
-		«IF gm.booleanWriteMethodCallDoubleClick»
-		if («gm.internalInstanceofCheck("ime.getElement()")») 
-			«gm.writeMethodCallDoubleClick»
-		«ENDIF»
-		}
 		return super.getDoubleClickFeature(context);
 	}
 
@@ -188,17 +178,17 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 		return super.getSelection(originalPe, oldSelection);
 	}
 	
-	@Override
-	public void postExecute(«IExecutionInfo.name» executionInfo) {
-		«IFeature.name» f = executionInfo.getExecutionList()[0].getFeature();
-		«IContext.name» c = executionInfo.getExecutionList()[0].getContext();
-		
-		«TransactionalEditingDomain.name» _dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
-		_dom.getCommandStack().execute(new «RecordingCommand.name»(_dom) {
-		
-		
-			@Override
-			protected void doExecute() {
+«««	@Override
+«««	public void postExecute(«IExecutionInfo.name» executionInfo) {
+«««		«IFeature.name» f = executionInfo.getExecutionList()[0].getFeature();
+«««		«IContext.name» c = executionInfo.getExecutionList()[0].getContext();
+«««		
+«««		«TransactionalEditingDomain.name» _dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
+«««		_dom.getCommandStack().execute(new «RecordingCommand.name»(_dom) {
+«««		
+«««		
+«««			@Override
+«««			protected void doExecute() {
 «««				«FOR n : gm.modelElements»
 «««				«IF n instanceof Node»
 «««				«IF booleanWriteMethodCallPostCreate(n)»
@@ -265,9 +255,9 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 «««	«««		}
 «««	«««		«ENDIF»
 «««			«ENDFOR»
-			}
-		});
-	}
+«««			}
+«««		});
+«««	}
 }
 '''
 	

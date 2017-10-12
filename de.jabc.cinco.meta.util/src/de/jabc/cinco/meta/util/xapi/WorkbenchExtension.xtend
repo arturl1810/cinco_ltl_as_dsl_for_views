@@ -158,7 +158,21 @@ class WorkbenchExtension {
 	 * @param runnable that performs the actual modification.
 	 */
 	def transact(EObject object, Runnable runnable) {
+		transact(object, null, runnable)
+	}
+	
+	/**
+	 * Convenient method to wrap a modification of an {@link EObject} in a
+	 * {@link RecordingCommand}.
+	 * Retrieves a {@link TransactionalEditingDomain} for the specified object
+	 * via {@link TransactionUtil#getEditingDomain(EObject)}. If none is found,
+	 * a new one is created.
+	 * 
+	 * @param object to be modified.
+	 * @param runnable that performs the actual modification.
+	 */
+	def transact(EObject object, String label, Runnable runnable) {
 		extension val ResourceExtension = new ResourceExtension
-		object.eResource.transact(runnable)
+		object.eResource.transact(label, runnable)
 	}
 }

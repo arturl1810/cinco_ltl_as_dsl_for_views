@@ -11,10 +11,14 @@ override template()
 package «project.basePackage»;
 
 import «providerFile.className»;
+import «project.basePackage».generator.«model.name»Modelizer;
 
 import graphmodel.GraphmodelPackage;
 import graphmodel.Node;
 import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalIdentifiableElement;
+import graphmodel.internal.InternalModelElement;
 import graphmodel.internal.InternalNode;
 import graphmodel.internal.InternalPackage;
 import graphmodel.internal.InternalType;
@@ -54,6 +58,8 @@ import org.eclipse.xtext.resource.XtextResource;
 
 import com.google.inject.Inject;
 
+import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer;
+import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource;
 import de.jabc.cinco.meta.plugin.gratext.runtime.util.TerminalConverters;
 
 public class «project.targetName»RuntimeModule extends «project.basePackage».Abstract«project.targetName»RuntimeModule {
@@ -175,20 +181,13 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 	}
 	
 	public static EObject createNonInternal(EObject internal, EClass requiredType) {
-		EPackage ePackage = requiredType.getEPackage();
-		if (ePackage != null && ePackage.getEFactoryInstance() != null) {
-			EObject elm = ePackage.getEFactoryInstance().create(requiredType);
-			EStructuralFeature idFeature = elm.eClass().getEStructuralFeature(GraphmodelPackage.IDENTIFIABLE_ELEMENT__ID);
-			elm.eSet(idFeature, internal.eGet(idFeature));
-			int intElmFeatureID = 
-				(internal instanceof InternalType)
-					? GraphmodelPackage.TYPE__INTERNAL_ELEMENT
-					: GraphmodelPackage.MODEL_ELEMENT__INTERNAL_ELEMENT;
-			EStructuralFeature intElmFeature = elm.eClass().getEStructuralFeature(intElmFeatureID);
-			elm.eSet(intElmFeature, internal);
-			return elm;
-		}
-		return null;
+		InternalIdentifiableElement ime = (InternalIdentifiableElement) internal;
+		GratextResource res = (GratextResource) internal.eResource();
+		GratextModelTransformer transformer = 
+			(res != null)
+				? res.getModelizer().getTransformer()
+				: «model.name»Modelizer.createTransformer();
+		return transformer.transform(ime, false).getElement();
 	}
     
     @Override
@@ -198,7 +197,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
     
     @Override
     public Class<? extends XtextResource> bindXtextResource() {
-    		return «project.targetName»Resource.class;
+    	return «project.targetName»Resource.class;
     }
 	
 	@Override

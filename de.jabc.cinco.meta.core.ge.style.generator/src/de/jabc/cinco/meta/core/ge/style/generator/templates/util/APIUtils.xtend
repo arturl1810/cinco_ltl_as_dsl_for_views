@@ -22,6 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class APIUtils extends GeneratorUtils {
 
@@ -224,11 +225,16 @@ class APIUtils extends GeneratorUtils {
 	
 	def constructor(ModelElement me) {
 		if (me.isIsAbstract) ""
-		else '''public «me.fuCName»(){}'''
+		else '''
+			public «me.fuCName»() {
+				setId(«EcoreUtil.name».generateUUID());
+			}
+		'''
 	}
 	
-	def dtp_id(GraphModel gm) {
-		gm.package + gm.fuName + "DiagramTypeProvider"
+	def dtp_id(GraphModel it) {
+		'''«package».«fuName»DiagramTypeProvider'''
 	}
+	
 	
 }

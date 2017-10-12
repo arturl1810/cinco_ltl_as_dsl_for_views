@@ -17,30 +17,31 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 		package «project.basePackage».generator
 		
 		import graphmodel.IdentifiableElement
-		import graphmodel.internal.InternalEdge
-		import graphmodel.internal.InternalModelElement
+		import graphmodel.internal.InternalIdentifiableElement
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.DiagramBuilder
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
-		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.ModelBuilder
+		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Modelizer
 		
 		import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
-		import «graphmodel.package».«model.name.toLowerCase».internal.InternalPackage
-		import «project.basePackage».*
+		import «project.basePackage».«model.name»Diagram
+		import «project.basePackage»._Placed
 		
 		import org.eclipse.emf.ecore.resource.Resource
 		import org.eclipse.emf.ecore.EPackage
 		
 		
-		class «model.name»Modelizer extends ModelBuilder {
+		class «model.name»Modelizer extends Modelizer {
 		
-			new() {
-				super(new GratextModelTransformer(
+			public static def createTransformer() {
+				new GratextModelTransformer(
 					EPackage.Registry.INSTANCE.getEFactory("«graphmodel.nsURI»"),
 					EPackage.Registry.INSTANCE.getEPackage("«graphmodel.nsURI»/internal"),
 					«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
-				))
+				)
 			}
+		
+			new() { super(createTransformer) }
 		
 			override run(Resource resource) {
 				super.run(resource)
@@ -93,13 +94,13 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				transformer.getCounterpart(elm)
 			}
 			
-			override getElementIndex(IdentifiableElement element) {
+			override getElementIndex(InternalIdentifiableElement element) {
 				if (element instanceof _Placed)
 					element.index
 				else -1
 			}
 			
-			override setElementIndex(IdentifiableElement element, int i) {
+			override setElementIndex(InternalIdentifiableElement element, int i) {
 				if (element instanceof _Placed && i >= 0)
 					(element as _Placed).index = i
 			}

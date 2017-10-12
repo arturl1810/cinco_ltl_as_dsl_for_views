@@ -20,9 +20,11 @@ class PrimeViewerExtension extends GeneratorUtils{
 		var labelAnnot = retrievePrimeReference.annotations.filter[name == "pvLabel"]
 		if (!labelAnnot.isNullOrEmpty) {
 			var value = labelAnnot.get(0).value.get(0)
-			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»")).toString()'''
+			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»"))'''
 		} else {
-			primeTypeName
+			'''"primeTypeName"'''
 		}
 	}
+	
+	
 }

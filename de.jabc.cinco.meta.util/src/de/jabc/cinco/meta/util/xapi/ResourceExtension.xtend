@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.util.xapi
 
-import java.util.NoSuchElementException
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IResource
 import org.eclipse.emf.ecore.EObject
@@ -21,27 +20,13 @@ class ResourceExtension {
 	 * the specified type by searching through all content objects and the first
 	 * occurrence, if existent.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any content
-	 *   of the specified type.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends EObject> T getContent(Resource resource, Class<T> contentClass) {
-		try {
-			val opt = resource.contents.stream
-				.filter[c | contentClass.isAssignableFrom(c.class)]
-				.map[o | contentClass.cast(o)]
-				.findFirst
-			if (opt.isPresent)
-				return opt.get
-			else throw new NoSuchElementException(
-				"No content of type " + contentClass + " found in file: " + resource);
-		} catch(RuntimeException re) {
-			throw re;
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(
-				"Failed to retrieve resource content for file: " + resource, e);
-		}
+		resource.contents
+			.filter[contentClass.isAssignableFrom(class)]
+			.map[contentClass.cast(it)]
+			.head
 	}
 	
 	/**
@@ -51,28 +36,16 @@ class ResourceExtension {
 	 * all content content objects are searched through and the first occurrence
 	 * is returned, if existent.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any content
-	 *   of the specified type.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends EObject> T getContent(Resource resource, Class<T> contentClass, int defaultIndex) {
-		try {
-			val objs = resource.contents
-			if (defaultIndex >= 0 && defaultIndex < objs.size) {
-				val obj = objs.get(defaultIndex)
-				if (contentClass.isAssignableFrom(obj.class)) {
-					val retVal = obj as T
-					return retVal as T
-				}
-			}
-			return getContent(resource, contentClass)
-		} catch(RuntimeException re) {
-			throw re
-		} catch(Exception e) {
-			e.printStackTrace()
-			throw new RuntimeException(
-				"Failed to retrieve resource content for file: " + resource, e)
+		val contents = resource.contents
+		if (defaultIndex >= 0 && defaultIndex < contents.size) {
+			val obj = contents.get(defaultIndex)
+			if (contentClass.isAssignableFrom(obj.class))
+				return obj as T
 		}
+		return getContent(resource, contentClass)
 	}
 		
 	/**
@@ -109,8 +82,10 @@ class ResourceExtension {
 	 */
 	def getEditingDomain(Resource resource) {
 		val factory = TransactionalEditingDomain.Factory.INSTANCE
-		TransactionUtil.getEditingDomain(resource) ?:
-			if (resource.resourceSet != null)
+		if (resource == null)
+			factory.createEditingDomain
+		else TransactionUtil.getEditingDomain(resource)
+			?: if (resource.resourceSet != null)
 				factory.createEditingDomain(resource.resourceSet)
 			else
 				factory.createEditingDomain
@@ -135,6 +110,21 @@ class ResourceExtension {
 	 * @param runnable that performs the actual modification.
 	 */
 	def transact(Resource resource, Runnable runnable) {
+		transact(resource, null, runnable)
+	}
+	
+	/**
+	 * Convenient method to wrap a modification of a {@link Resource} in a
+	 * {@link RecordingCommand}.
+	 * Retrieves a {@link TransactionalEditingDomain} for the specified object
+	 * via {@link TransactionUtil#getEditingDomain(EObject)}. If none is found,
+	 * a new one is created.
+	 * 
+	 * @param resource to be modified.
+	 * @param label of the command.
+	 * @param runnable that performs the actual modification.
+	 */
+	def transact(Resource resource, String label, Runnable runnable) {
 		val domain = resource.editingDomain
 		domain.commandStack.execute(new RecordingCommand(domain) {
 			override protected doExecute() {
@@ -142,6 +132,8 @@ class ResourceExtension {
 					e.printStackTrace
 				}
 			}
-		})
+		} => [
+			setLabel(label)
+		])
 	}
 }

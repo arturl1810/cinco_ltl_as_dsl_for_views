@@ -57,6 +57,7 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.cpdpreprocessor.CPDPreprocessorPlugin;
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension;
 import de.jabc.cinco.meta.util.xapi.FileExtension;
 import mgl.GraphModel;
 import mgl.Import;
@@ -189,6 +190,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			 * BUILD GRATEXT
 			 */
 			if (isGratextEnabled()) {
+				job.consume(40, "Building Cinco project...")
+					.task(this::buildProject);
 				job.consumeConcurrent(60 * generateMGLs.size(), "Building Gratext...")
 						.taskForEach(() -> generateMGLs.stream(), this::buildGratext, t -> t.getFullPath().lastSegment());
 			}
@@ -382,6 +385,16 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void generateGratextModel(IFile mglFile) {
 		if (isGratextEnabled()) {
 			execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
+		}
+	}
+
+	private void buildProject() {
+		IProject project = new ResourceExtension().getProject(cpd.eResource());
+		try {
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

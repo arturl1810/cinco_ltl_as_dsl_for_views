@@ -22,7 +22,7 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(Diagram.class, 0)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any diagram.
+	 * @return The diagram, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def Diagram getDiagram(Resource resource) {
@@ -39,11 +39,19 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(GraphModel.class, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph model.
+	 * @return The graph model, or {@code null} if not existent.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModel(Resource resource) {
-		getContent(resource, InternalGraphModel, 1).element
+		getContent(resource, InternalGraphModel, 1)?.element
+	}
+	
+	/**
+	 * Returns {@code true} if the resource contains a graph model,
+	 * {@code false} otherwise.
+	 */
+	def containsGraphModel(Resource resource) {
+		resource.graphModel != null
 	}
 	
 	/**
@@ -56,11 +64,22 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * 
 	 * Convenience method for {@code getContent(<ModelClass>, 1)}.
 	 * 
-	 * @throws NoSuchElementException if the resource does not contain any graph
-	 *   model of the specified type.
+	 * @return The diagram, or {@code null} if the resource does not contain any
+	 *   graph model of the specified type.
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def <T extends GraphModel> getGraphModel(Resource resource, Class<T> modelClass) {
-		getContent(resource, modelClass, 1);
+		val model = resource.getGraphModel
+		if (model?.eClass?.name == modelClass.simpleName) {
+			return model as T
+		}
+	}
+	
+	/**
+	 * Returns {@code true} if the resource contains a graph model of the specified
+	 * type, {@code false} otherwise.
+	 */
+	def <T extends GraphModel> containsGraphModel(Resource resource, Class<T> modelClass) {
+		resource.getGraphModel(modelClass) != null
 	}
 }

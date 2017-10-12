@@ -170,8 +170,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 
 	@SuppressWarnings("unchecked")
 	protected void openAndHighlight(_CincoId id) {
-		Object element = ((_CincoAdapter<E, M>) getCheckProcessById(id)
-				.getModel()).getElementById((E) id);
+		Object element = id.getElement();
 
 		if (element instanceof ModelElement) {
 			ModelElement me = (ModelElement) element;

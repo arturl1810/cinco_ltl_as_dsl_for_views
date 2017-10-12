@@ -34,12 +34,13 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import graphmodel.internal.InternalIdentifiableElement
 
 abstract class DiagramBuilder {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	Map<IdentifiableElement, PictogramElement> pes = new HashMap
+	Map<InternalIdentifiableElement, PictogramElement> pes = new HashMap
 
 	GraphModel model
 	LazyDiagram diagram
@@ -160,7 +161,7 @@ abstract class DiagramBuilder {
 			]
 	}
 	
-	def getPe(IdentifiableElement elm) {
+	def getPe(InternalIdentifiableElement elm) {
 		pes.get(elm)
 	}
 	
@@ -192,7 +193,7 @@ abstract class DiagramBuilder {
 		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, diagram.diagramTypeProviderId))
 	}
 	
-	def cache(IdentifiableElement bo, PictogramElement pe) {
+	def cache(InternalIdentifiableElement bo, PictogramElement pe) {
 		pes.put(bo, pe)
 	}
 	

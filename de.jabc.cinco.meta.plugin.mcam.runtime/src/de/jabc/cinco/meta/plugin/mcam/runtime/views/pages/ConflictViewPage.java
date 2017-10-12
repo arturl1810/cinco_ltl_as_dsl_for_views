@@ -309,7 +309,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 		obj = getTreeNodeData(obj);
 		if (obj instanceof _CincoId) {
 			_CincoId id = (_CincoId) obj;
-			Object element = ((_CincoAdapter<E, M>) getAdapter(iFile, resource)).getElementById((E) id);
+			Object element = id.getElement();
 
 			if (element instanceof ModelElement) {
 				ModelElement me = (ModelElement) element;

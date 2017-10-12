@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
 
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.getRootContainer
+
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
 Map<String,String> references
@@ -38,19 +40,29 @@ def initReferences(ReferencedType reftype) {
 	}.addToReferences
 }
 
-def addToReferences(EObject obj) {
+def addToReferences(EObject it) {
 	
-	val entry = switch obj {
-		GraphModel: obj.acronym -> obj.nsURI
-		Node: 		obj.graphModel.acronym -> obj.graphModel.nsURI
-		Edge:		obj.graphModel.acronym -> obj.graphModel.nsURI
-		EClass:		obj.EPackage.acronym -> obj.EPackage.nsURI
+	val entry = switch it {
+		GraphModel: acronym -> nsURI
+		ModelElement: {
+			val gm = graphModel
+			gm.acronym -> gm.nsURI
+		}
+		EClass: EPackage.acronym -> EPackage.nsURI
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
 		if (entry?.key != null)
 			references.put(entry.key, entry.value)
 		if (entry?.value != null)
-			(ctx as GratextGenerator).addGenPackageReference(entry.value);
+			(ctx as GratextGenerator).addGenPackageReference(entry.value)
+	}
+}
+
+def getGraphModel(ModelElement it) {
+	switch it {
+		Node: 		graphModel
+		Edge:		graphModel
+		default:	rootContainer as GraphModel
 	}
 }
 
@@ -193,11 +205,10 @@ def type(ReferencedType ref) {
 	 	ReferencedEClass: ref.type
 	}
 	if (type != null) {
-		val entry = switch type {
-			GraphModel: type.acronym -> type.name
-			Node: 		type.graphModel.acronym -> type.name
-			Edge: 		type.graphModel.acronym -> type.name
-			EClass: 	type.EPackage.acronym -> type.name
+		val entry = switch it:type {
+			GraphModel: acronym -> name
+			ModelElement: graphModel.acronym -> name
+			EClass: EPackage.acronym -> name
 		}
 		'''[«entry.key»::«entry.value»|_ID]'''
 	}

@@ -102,7 +102,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 
 	
 	private void createDiagram(«String.name» dir, «String.name» fName) {
-		«String.name» extension = "«gm.name.toLowerCase»";
+		«String.name» extension = "«gm.fileExtension»";
 		«String.name» fNameWithExt = (fName.contains(".")) ? fName : fName.concat("." + extension);
 		«String.name» dName = fNameWithExt.split("\\.")[0];
 		
@@ -126,6 +126,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				«gm.flName».setPictogramElement(diagram);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
+				«gm.flName».setFeatureProvider(dtp.getFeatureProvider());
 				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
 				
 «««				TODO: This is quick and dirty... 

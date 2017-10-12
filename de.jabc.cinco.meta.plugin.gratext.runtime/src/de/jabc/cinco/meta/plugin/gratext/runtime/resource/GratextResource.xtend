@@ -14,6 +14,8 @@ import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.emf.ecore.impl.EClassImpl
 import org.eclipse.emf.ecore.InternalEObject
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Modelizer
+import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Serializer
 
 abstract class GratextResource extends LazyLinkingResource {
 	
@@ -21,18 +23,24 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	private Diagram diagram
 	private EObject model
+	private Modelizer modelizer
 	private Runnable internalStateChangedHandler
 	private Runnable newParseResultHandler
 	private boolean skipInternalStateUpdate
 	
-	def void generateContent()
+	def Modelizer createModelizer()
 	
-	def String serialize()
+	def Serializer createSerializer()
+	
+	def serialize() {
+		createSerializer.run
+	}
 	
 	override doSave(OutputStream outputStream, Map<?, ?> options) {
-		val writer = new OutputStreamWriter(outputStream, encoding)
-		writer.write(serialize)
-		writer.flush
+		new OutputStreamWriter(outputStream, encoding) => [
+			write(serialize)
+			flush
+		]
 	}
 	
 	override clearInternalState() {
@@ -54,13 +62,14 @@ abstract class GratextResource extends LazyLinkingResource {
 		getContents.get(index)
 	}
 	
+	def getModelizer() {
+		modelizer ?: (modelizer = createModelizer)
+	}
+	
 	override getEObjectByID(String id) {
-    	val map = getIntrinsicIDToEObjectMap
-    	if (map != null) {
-      		val eObject = map.get(id)
-      		if (eObject != null)
-        		return eObject
-    	}
+    	val eObject = intrinsicIDToEObjectMap?.get(id)
+  		if (eObject != null)
+    		return eObject
 		getContents.tail.toList.allProperContents.getEObjectById(id)
 		?: if (getContents.size > 0) {
 			getContents.head.allProperContents.getEObjectById(id)
@@ -71,9 +80,8 @@ abstract class GratextResource extends LazyLinkingResource {
 		while (iterator.hasNext) {
 			val eObject = iterator.next
 			val eObjectId = EcoreUtil.getID(eObject)
-			if (getIntrinsicIDToEObjectMap != null)
-				getIntrinsicIDToEObjectMap.put(eObjectId,eObject)
-			if (eObjectId.equals(id))
+			intrinsicIDToEObjectMap?.put(eObjectId,eObject)
+			if (eObjectId == id)
 	          return eObject
 		}
 	}
@@ -129,10 +137,11 @@ abstract class GratextResource extends LazyLinkingResource {
 					addSyntaxErrors
 					transact[
 						doLinking
-						generateContent
+						createModelizer.run(this)
 						diagram = getContent(0) as Diagram
 						model = getContent(1)
 					]
+					modelizer = createModelizer
 					internalStateChangedHandler?.run
 				}
 			} else {
@@ -148,27 +157,25 @@ abstract class GratextResource extends LazyLinkingResource {
 	}
 	
 	override resolveLazyCrossReferences(CancelIndicator mon) {
-		val monitor = 
-			if (mon == null) CancelIndicator.NullImpl
-			else mon
-		getContents.forEach[it.resolveLazyCrossReferences(monitor)]
+		getContents.forEach[
+			resolveCrossReferences(mon ?: CancelIndicator.NullImpl)
+		]
 	}
 	
-	def resolveLazyCrossReferences(Object obj, CancelIndicator monitor) {
+	def resolveCrossReferences(Object obj, CancelIndicator monitor) {
 		if (monitor.canceled) return;
 		
 		if (obj instanceof EObject && !(obj instanceof Diagram)) {
 			val iEobj = obj as InternalEObject
 			val cls = iEobj.eClass
-			val sup = cls.getEAllStructuralFeatures as EClassImpl.FeatureSubsetSupplier
+			val sup = cls.EAllStructuralFeatures as EClassImpl.FeatureSubsetSupplier
 			sup.crossReferences?.forEach[
 				if (monitor.canceled) return;
-				if (it.isPotentialLazyCrossReference)
+				if (isPotentialLazyCrossReference)
 					doResolveLazyCrossReference(iEobj, it)
 			]
-			
 			EcoreUtil.getAllContents(iEobj, true).forEachRemaining[
-				it.resolveLazyCrossReferences(monitor)
+				resolveCrossReferences(monitor)
 			]
 		}
 	}
