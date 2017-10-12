@@ -107,7 +107,7 @@ class EdgeLayoutUtils {
 	
 	def replaceBendpoints(Edge it, Location... locs) {
 		val fp = diagram.diagramTypeProvider.featureProvider
-		transact[
+		transact("Bendpoint editing") [
 			removeBendpoints(fp)
 			locs.forEach[loc|addBendpoint(loc.x, loc.y, fp)]
 		]
@@ -115,7 +115,7 @@ class EdgeLayoutUtils {
 	
 	def addBendpoints(Edge it, Location... locs) {
 		val fp = diagram.diagramTypeProvider.featureProvider
-		transact[
+		transact("Add bendpoints")[
 			locs.forEach[loc|addBendpoint(loc.x, loc.y, fp)]
 		]
 	}
@@ -134,7 +134,7 @@ class EdgeLayoutUtils {
 	}
 	
 	def removeBendpoints(Edge it, IFeatureProvider fp) {
-		transact[
+		transact("Delete bendpoints")[
 			for (i: 0 ..< bendpoints.size)
 				removeBendpoint(0, fp)
 		]
@@ -153,7 +153,7 @@ class EdgeLayoutUtils {
 	
 	def moveBendpoints(Edge it, (Location) => Location move) {
 		val fp = diagram.diagramTypeProvider.featureProvider
-		transact[
+		transact("Move bendpoints")[
 			for (i: 0 ..< bendpoints.size)
 				moveBendpoint(i, move, fp)
 		]
