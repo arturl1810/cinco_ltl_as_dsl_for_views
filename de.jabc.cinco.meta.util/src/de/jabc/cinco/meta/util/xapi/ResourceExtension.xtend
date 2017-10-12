@@ -110,6 +110,21 @@ class ResourceExtension {
 	 * @param runnable that performs the actual modification.
 	 */
 	def transact(Resource resource, Runnable runnable) {
+		transact(resource, null, runnable)
+	}
+	
+	/**
+	 * Convenient method to wrap a modification of a {@link Resource} in a
+	 * {@link RecordingCommand}.
+	 * Retrieves a {@link TransactionalEditingDomain} for the specified object
+	 * via {@link TransactionUtil#getEditingDomain(EObject)}. If none is found,
+	 * a new one is created.
+	 * 
+	 * @param resource to be modified.
+	 * @param label of the command.
+	 * @param runnable that performs the actual modification.
+	 */
+	def transact(Resource resource, String label, Runnable runnable) {
 		val domain = resource.editingDomain
 		domain.commandStack.execute(new RecordingCommand(domain) {
 			override protected doExecute() {
@@ -117,6 +132,8 @@ class ResourceExtension {
 					e.printStackTrace
 				}
 			}
-		})
+		} => [
+			setLabel(label)
+		])
 	}
 }
