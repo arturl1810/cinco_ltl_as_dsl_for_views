@@ -46,7 +46,7 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
 							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
-			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s).eContainer();
 			if («me.internalInstanceofCheck("object")») {
 				if (s instanceof «ContainerShape.name») {
 					for («Shape.name» g : ((«ContainerShape.name») s).getChildren()) {
@@ -70,7 +70,7 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
 							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
-			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s).eContainer();
 			if («me.internalInstanceofCheck("object")») {
 				
 				for («Shape.name» g : s.getConnectionDecorators()) {
