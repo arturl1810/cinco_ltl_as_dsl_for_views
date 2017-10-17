@@ -28,7 +28,7 @@ public class AppearanceWizard extends Wizard implements INewWizard {
 		setPackage(project);
 		
 		LinkedList <String> interfacesNames = new LinkedList<>() ;
-		interfacesNames.add("de.jabc.cinco.meta.core.ge.style.model.appearance.StyleAppearanceProvider<T>");
+		interfacesNames.add("de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance.StyleAppearanceProvider<T>");
 		page.setSuperInterfaces(interfacesNames , true);
 		page.setMethodStubSelection(false, true, true, true);
 		

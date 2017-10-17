@@ -16,6 +16,7 @@ import de.jabc.cinco.meta.core.utils.CincoUtil
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.gef.GraphicalEditPart
 import org.eclipse.gef.EditPart
+import graphmodel.IdentifiableElement
 
 class ModelElementUpdateFeatures extends GeneratorUtils{
 	
@@ -35,9 +36,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 	
 		@Override
 		protected void updateStyle(«EObject.name» bo, «Shape.name» s) {
-«««			«Diagram.name» d = (getDiagram() == null) ? FlowGraphGraphitiUtils.getInstance().getDTP().getDiagram() : getDiagram();
-			«IF CincoUtil::hasAppearanceProvider(me)»
+		«IF CincoUtil::hasAppearanceProvider(me)»
 			«Diagram.name» d = getDiagram();
+			if (bo instanceof «IdentifiableElement.name»)
+				bo = ((«IdentifiableElement.name») bo).getInternalElement();
 			«String.name» gaName = «Graphiti.name».getPeService().getPropertyValue(s.getGraphicsAlgorithm(), «CincoLayoutFeature.name».KEY_GA_NAME);
 			if (gaName != null && !gaName.isEmpty() && d != null) {
 				«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils
@@ -47,49 +49,51 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-			if («me.internalInstanceofCheck("object")») {
+			if («me.instanceofCheck("object")») {
+				object = ((«me.fqBeanName») object).getInternalElement();
 				if (s instanceof «ContainerShape.name») {
 					for («Shape.name» g : ((«ContainerShape.name») s).getChildren()) {
 						updateStyle((«me.fqInternalBeanName») object, g);
 					}
 				}
 			}
-			«ENDIF»
+		«ENDIF»
 		}
 		
 		@Override
 		protected void updateStyle(«EObject.name» bo, «Connection.name» s) {
-«««			«Diagram.name» d = (getDiagram() == null) ? FlowGraphGraphitiUtils.getInstance().getDTP().getDiagram() : getDiagram();
 			«IF CincoUtil::hasAppearanceProvider(me)»
-			«Diagram.name» d = getDiagram();
-			String gaName = «Graphiti.name».getPeService().getPropertyValue(s.getGraphicsAlgorithm(), «CincoLayoutFeature.name».KEY_GA_NAME);
-			if (gaName != null && !gaName.isEmpty() && d != null) {
-				«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils.
-					updateStyleFromAppearance(
-						s.getGraphicsAlgorithm(), 
-						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
-							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
-			}
-			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-			if («me.internalInstanceofCheck("object")») {
-				
-				for («Shape.name» g : s.getConnectionDecorators()) {
-					updateStyle((«me.fqInternalBeanName») object, g);
+				«Diagram.name» d = getDiagram();
+				if (bo instanceof «IdentifiableElement.name»)
+					bo = ((«IdentifiableElement.name») bo).getInternalElement();
+				String gaName = «Graphiti.name».getPeService().getPropertyValue(s.getGraphicsAlgorithm(), «CincoLayoutFeature.name».KEY_GA_NAME);
+				if (gaName != null && !gaName.isEmpty() && d != null) {
+					«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils.
+						updateStyleFromAppearance(
+							s.getGraphicsAlgorithm(), 
+							new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
+								(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
+				}
+				«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+				if («me.instanceofCheck("object")») {
+					object = ((«me.fqBeanName») object).getInternalElement();
+					for («Shape.name» g : s.getConnectionDecorators()) {
+						updateStyle((«me.fqInternalBeanName») object, g);
+					}
+					
 				}
 				
-			}
-	
-			if (!(getDiagramBehavior() instanceof «DiagramBehavior.name»))
-				return;
-			«DiagramBehavior.name» db = («DiagramBehavior.name») getDiagramBehavior();
-			if (db == null)
-				return;
-			«GraphicalEditPart.name» editPart = db.getEditPartForPictogramElement(s);
-			if (editPart == null)
-				return;
-			int selected_info = editPart.getSelected();
-			editPart.setSelected(«EditPart.name».SELECTED_NONE);
-			editPart.setSelected(selected_info);
+				if (!(getDiagramBehavior() instanceof «DiagramBehavior.name»))
+					return;
+				«DiagramBehavior.name» db = («DiagramBehavior.name») getDiagramBehavior();
+				if (db == null)
+					return;
+				«GraphicalEditPart.name» editPart = db.getEditPartForPictogramElement(s);
+				if (editPart == null)
+					return;
+				int selected_info = editPart.getSelected();
+				editPart.setSelected(«EditPart.name».SELECTED_NONE);
+				editPart.setSelected(selected_info);
 			«ENDIF»
 		}
 	}
