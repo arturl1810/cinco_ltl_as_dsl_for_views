@@ -346,6 +346,11 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		getPictogramElement().getGraphicsAlgorithm().setHeight(height);
 	}
 	
+	@Override
+	public int getLayer() {
+		return ((«ContainerShape.name») pe).getContainer().getChildren().indexOf(pe);
+	}
+	
 	«me.updateContent»
 	
 	«me.deleteContent»

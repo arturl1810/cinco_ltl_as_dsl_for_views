@@ -108,6 +108,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postResize/width"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postResize/height"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getLayer"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
