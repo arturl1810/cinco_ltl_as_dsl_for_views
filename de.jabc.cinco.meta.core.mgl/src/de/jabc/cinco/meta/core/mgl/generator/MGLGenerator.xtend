@@ -186,7 +186,7 @@ class MGLGenerator implements IGenerator {
 		val graphModelGenModel = (genResource.contents.get(0) as GenModel)
 		genModel.usedGenPackages += graphModelGenModel.genPackages
 		genModel.addImportedPackages(model)
-
+		genModel.operationReflection = true
 		if (model.package != null && model.package.length > 0) {
 			for (genPackage : genModel.genPackages) {
 				genPackage.basePackage = model.package
