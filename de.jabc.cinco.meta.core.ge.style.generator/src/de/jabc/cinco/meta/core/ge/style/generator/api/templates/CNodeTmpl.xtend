@@ -113,7 +113,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«FOR cont : MGLUtil::getPossibleContainers(me as Node)»
 	@Override
-	public void _moveTo(«cont.fqBeanName» target, int x, int y) {
+	public void s_moveTo(«cont.fqBeanName» target, int x, int y) {
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») getPictogramElement());
 «««		if (!(target instanceof «cont.fuCName»))
 «««			throw new «RuntimeException.name»(
@@ -129,7 +129,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp); 
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
-			super._moveTo(target,x,y);
+			super.s_moveTo(target,x,y);
 		}
 	}
 	

@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.jabc.cinco.meta.core.mgl.model/src-gen" modelPluginID="de.jabc.cinco.meta.core.mgl.model"
     modelName="GraphModel" modelPluginClass="" rootImplementsInterface="" featureMapWrapperInternalInterface=""
     booleanFlagsField="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
-    copyrightFields="false" language="">
+    copyrightFields="false" language="" operationReflection="true">
   <foreignModel>GraphModel.ecore</foreignModel>
   <genPackages prefix="Graphmodel" resource="XMI" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="GraphModel.ecore#/" publicationLocation="">

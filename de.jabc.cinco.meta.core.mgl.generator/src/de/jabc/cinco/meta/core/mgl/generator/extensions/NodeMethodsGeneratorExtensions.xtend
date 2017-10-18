@@ -274,7 +274,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
 				)
 				
-				nodeEClass.createEOperation("_moveTo",null,1,1,node._moveToMethodContent(c), 
+				nodeEClass.createEOperation("s_moveTo",null,1,1,node._moveToMethodContent(c), 
 					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
 				)
 		]
@@ -293,7 +293,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		«ModelElementContainer.name» source = this.getContainer();
 		int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
 		int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
-		_moveTo(«ce.name.toFirstLower.paramEscape», x, y);
+		s_moveTo(«ce.name.toFirstLower.paramEscape», x, y);
 		«IF node.booleanWriteMethodCallPostMove»
 		postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
 		«ENDIF»
