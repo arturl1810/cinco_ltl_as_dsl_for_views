@@ -109,8 +109,13 @@ public class ReferenceRegistry {
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
-			uri = toWorkspaceRelativeURI(uri);
-			map.put(id, uri.toPlatformString(true));
+			if(!uri.isPlatformPlugin()){
+				uri = toWorkspaceRelativeURI(uri);
+				map.put(id, uri.toPlatformString(true));
+			}else{
+				map.put(id, uri.toString());	
+			}
+			
 			EObject newBo = getEObject(id);
 			cache.put(id, newBo);
 		} else {
