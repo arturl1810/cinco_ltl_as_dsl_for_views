@@ -422,7 +422,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			val eattr = eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
 			eattr.defaultValue = attribute.defaultValue
 		} else if(attribute instanceof ComplexAttribute){
-			eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
+			val eattr = eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
+			eattr.defaultValue = attribute.defaultValue
 		}
 
 	}
