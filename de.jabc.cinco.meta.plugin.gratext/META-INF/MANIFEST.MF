@@ -11,6 +11,7 @@ Import-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.projects,
+ de.jabc.cinco.meta.core.utils.registry,
  de.jabc.cinco.meta.runtime.xapi,
  de.jabc.cinco.meta.util.xapi,
  graphmodel.internal,
@@ -22,9 +23,6 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.graphiti.ui.editor,
  org.eclipse.jface.dialogs
 Bundle-Version: 0.8.0.qualifier
-Require-Bundle: org.eclipse.emf.transaction,
- org.eclipse.emf.codegen.ecore,
- org.eclipse.graphiti
+Require-Bundle: org.eclipse.emf.codegen.ecore
 Export-Package: de.jabc.cinco.meta.plugin.gratext,
- de.jabc.cinco.meta.plugin.gratext.build,
- de.jabc.cinco.meta.plugin.gratext.util
+ de.jabc.cinco.meta.plugin.gratext.build

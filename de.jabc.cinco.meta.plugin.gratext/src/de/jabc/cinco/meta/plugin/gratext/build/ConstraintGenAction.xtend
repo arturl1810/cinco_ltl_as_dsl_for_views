@@ -19,7 +19,7 @@ import org.eclipse.ui.IActionDelegate
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
 
 import static extension java.util.stream.StreamSupport.stream
-import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
+import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension
 
 class ConstraintGenAction implements IActionDelegate {
 	

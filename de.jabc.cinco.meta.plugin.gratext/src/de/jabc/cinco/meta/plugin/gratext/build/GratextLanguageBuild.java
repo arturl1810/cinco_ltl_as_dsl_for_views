@@ -40,9 +40,7 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	@Override
 	protected void prepare() {
 		monitor = getMonitor();
-		findGenmodel();
-//		runGenmodel();
-//		buildProject();
+		findModelFolder();
 		triggerRefresh();
 		findMwe2();
 		runMwe2();
@@ -64,13 +62,9 @@ public class GratextLanguageBuild extends ReiteratingJob {
 		} else triggerRefresh();
 	}
 	
-	private void findGenmodel() {
+	private void findModelFolder() {
 		if (!failed) try {
 			monitor.setTaskName("Retrieve .genmodel: " + project.getName());
-//			genmodel = getProjectFiles("genmodel").stream()
-//				.filter(file -> file.getName().endsWith("Gratext.genmodel"))
-//				.collect(Collectors.toList())
-//				.get(0);
 			modelFolder = project.getFolder("model");
 		} catch(Exception e) {
 			fail("Failed to retrieve .genmodel file.", e);
@@ -80,57 +74,22 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	
 	private void findMwe2() {
 		if (!failed) try {
-//			xtext = WorkspaceUtil.resp(project.getFolder("src"))
-//				.getFiles(file -> file.getName().endsWith("Gratext.xtext"))
-//				.get(0);
-					
-					
+			
 			xtext = getProjectFiles("xtext").stream()
 				.filter(file -> file.getName().endsWith("Gratext.xtext"))
 				.collect(Collectors.toList())
 				.get(0);
 			
-//			mwe2 = WorkspaceUtil.resp(project.getFolder("src"))
-//				.getFiles(file -> file.getName().endsWith("Gratext.mwe2"))
-//				.get(0);
-			
 			mwe2 = getProjectFiles("mwe2").stream()
 				.filter(file -> file.getName().endsWith("Gratext.mwe2"))
 				.collect(Collectors.toList())
 				.get(0);
+			
 		} catch(Exception e) {
 			fail("Genmodel job fine, but failed to retrieve .mwe2 file.", e);
 			return;
 		}
 	}
-	
-//	private void runGenmodel() {
-//		if (!failed) try {
-//			monitor.setTaskName("Genmodel job: " + project.getName());
-//			Resource res = new ResourceSetImpl().getResource(
-//					URI.createPlatformResourceURI(genmodel.getFullPath().toString(), true),true);
-//			res.load(null);
-//			res.getContents().stream()
-//				.filter(GenModel.class::isInstance)
-//				.map(GenModel.class::cast)
-//				.forEach(genModel -> {
-//					genModel.reconcile();
-//					
-//					// !!! Very important lines, do not delete !!!
-//					genModel.getUsedGenPackages().stream()
-//						.filter(pkg -> !pkg.getGenModel().equals(genModel))
-//						.forEach(genModel.getUsedGenPackages()::add);
-//					
-//					genModel.setCanGenerate(true);
-//					GenModelUtil.createGenerator(genModel).generate(genModel,
-//						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
-//						CodeGenUtil.EclipseUtil.createMonitor(new NullProgressMonitor(), 100));
-//				});
-//		} catch(Exception e) {
-//			fail("Model code generation failed.", e);
-//			return;
-//		}
-//	}
 	
 	private void runMwe2() {
 		if (!failed) try {

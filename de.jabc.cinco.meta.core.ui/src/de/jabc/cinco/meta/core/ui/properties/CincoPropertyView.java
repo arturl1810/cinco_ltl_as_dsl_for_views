@@ -103,7 +103,6 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
-import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
@@ -178,7 +177,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			if (bo != null) {
 				init_PropertyView(bo);
 			}
-			else if (part instanceof MultiPageGratextEditor) {
+//			else if (part instanceof MultiPageGratextEditor) {
+			else {
 				clearPage();
 			}
 		}
@@ -899,7 +899,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	@Override
 	public void partClosed(IWorkbenchPartReference partRef) {
 		IWorkbenchPart activePart = partRef.getPage().getActivePart();
-		if (!(activePart instanceof MultiPageGratextEditor))
+//		if (!(activePart instanceof MultiPageGratextEditor))
 			clearPage();
 	}
 

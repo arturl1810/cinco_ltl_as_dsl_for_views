@@ -7,7 +7,6 @@ Bundle-Activator: de.jabc.cinco.meta.plugin.gratext.runtime.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.transaction,
- org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
  org.eclipse.xtext.builder,
  org.eclipse.xtext.ui,
@@ -19,7 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
+Import-Package: de.jabc.cinco.meta.core.ui.editor,
  de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.registry,
@@ -43,9 +42,9 @@ Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  org.eclipse.gef.ui.palette,
  org.eclipse.gef.util,
  org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.xtend.lib.annotations,
  org.eclipse.xtext.linking.lazy
 Export-Package: de.jabc.cinco.meta.plugin.gratext.runtime,
  de.jabc.cinco.meta.plugin.gratext.runtime.editor,
- de.jabc.cinco.meta.plugin.gratext.runtime.generator,
  de.jabc.cinco.meta.plugin.gratext.runtime.resource,
  de.jabc.cinco.meta.plugin.gratext.runtime.util

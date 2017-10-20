@@ -1,39 +1,43 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
+import de.jabc.cinco.meta.core.ui.editor.ResourceContributor
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareEditorRegistry
+import de.jabc.cinco.meta.plugin.gratext.runtime.resource.Serializer
+import de.jabc.cinco.meta.plugin.gratext.runtime.resource.Transformer
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import graphmodel.GraphModel
+import graphmodel.internal.InternalGraphModel
 import java.io.OutputStream
 import java.io.OutputStreamWriter
+import java.util.HashMap
 import java.util.Map
+import org.eclipse.emf.common.util.TreeIterator
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.emf.ecore.InternalEObject
+import org.eclipse.emf.ecore.impl.EClassImpl
+import org.eclipse.emf.ecore.impl.EObjectImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource
 import org.eclipse.xtext.parser.IParseResult
-
-import org.eclipse.emf.common.util.TreeIterator
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.util.CancelIndicator
-import org.eclipse.emf.ecore.impl.EClassImpl
-import org.eclipse.emf.ecore.InternalEObject
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
-import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Modelizer
-import de.jabc.cinco.meta.plugin.gratext.runtime.generator.Serializer
 
 abstract class GratextResource extends LazyLinkingResource {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	private Diagram diagram
-	private EObject model
-	private Modelizer modelizer
+	private GraphModel model
+	private final HashMap<InternalGraphModel,Transformer> transformers = newHashMap
+	private Iterable<ResourceContributor> contributors
+	private final HashMap<EObject,ResourceContributor> contributions = newHashMap
 	private Runnable internalStateChangedHandler
 	private Runnable newParseResultHandler
 	private boolean skipInternalStateUpdate
 	
-	def Modelizer createModelizer()
+	def Transformer createTransformer()
 	
-	def Serializer createSerializer()
-	
-	def serialize() {
-		createSerializer.run
+	def String serialize() {
+		val internalModel = model?.internalElement ?: getContent(InternalGraphModel)
+		new Serializer(this, internalModel, transformers.get(internalModel)).run
 	}
 	
 	override doSave(OutputStream outputStream, Map<?, ?> options) {
@@ -62,8 +66,11 @@ abstract class GratextResource extends LazyLinkingResource {
 		getContents.get(index)
 	}
 	
-	def getModelizer() {
-		modelizer ?: (modelizer = createModelizer)
+	def Iterable<ResourceContributor> getResourceContributors() {
+		contributors ?: if (file?.name != null) (
+			contributors = PageAwareEditorRegistry.INSTANCE.get(file.name)
+				.map[editor].map[resourceContributor].filterNull
+		)
 	}
 	
 	override getEObjectByID(String id) {
@@ -98,6 +105,14 @@ abstract class GratextResource extends LazyLinkingResource {
 		transact[getContents.removeAll(objects)]
 	}
 	
+	def clear() {
+		transact[
+			for (content : newArrayList(getContents))
+				unload
+			getContents.clear
+		]
+	}
+	
 	def unload(EObject... objects) {
 		objects?.filterNull.forEach[unload]
 	}
@@ -113,13 +128,9 @@ abstract class GratextResource extends LazyLinkingResource {
 	override updateInternalState(IParseResult oldParseResult, IParseResult newParseResult) {
 		val oldRoot = oldParseResult?.rootASTElement
 		if (oldRoot != null && oldRoot != newParseResult.rootASTElement) {
-			if (getContents.contains(oldRoot)) {
-				oldRoot.unload
-				remove(oldRoot)
-			}
 			if (!skipInternalStateUpdate) {
-				diagram.unload
-				remove(diagram, model)
+				clear
+				model = null
 			}
 		}
 		updateInternalState(newParseResult)
@@ -130,18 +141,16 @@ abstract class GratextResource extends LazyLinkingResource {
 		val newRoot = newParseResult.rootASTElement
 		if (newRoot != null) {
 			if (!skipInternalStateUpdate) {
-				if (diagram == null || !getContents.contains(diagram)) {
+				if (model == null) {
 					insert(0, newRoot)
 					newRoot.reattachModificationTracker
 					clearErrorsAndWarnings
 					addSyntaxErrors
 					transact[
 						doLinking
-						createModelizer.run(this)
-						diagram = getContent(0) as Diagram
-						model = getContent(1)
+						transformModel
+						addContributions
 					]
-					modelizer = createModelizer
 					internalStateChangedHandler?.run
 				}
 			} else {
@@ -149,34 +158,50 @@ abstract class GratextResource extends LazyLinkingResource {
 			}
 		}
 		newParseResultHandler?.run
-		// for debugging only
-		if (getContents.size != 2) {
-			System.err.println("[" + getClass().getSimpleName() + "] WARN: unexpected number of content objects")
-			getContents.forEach[System.err.println(" > content: " + it)]
-		}
 	}
 	
-	override resolveLazyCrossReferences(CancelIndicator mon) {
-		getContents.forEach[
-			resolveCrossReferences(mon ?: CancelIndicator.NullImpl)
+	def transformModel() {
+		val gratextModel = getContent(InternalGraphModel)
+		val transformer = createTransformer
+		model = transformer.transform(gratextModel).element
+		transformers.put(model.internalElement, transformer)
+		val internal = (model as EObjectImpl).eInternalContainer
+		remove(gratextModel)
+		add(model.internalElement)
+		model.internalElement = internal as InternalGraphModel
+	}
+	
+	def addContributions() {
+		resourceContributors?.forEach[contributor|
+			contributor.contributeToResource(this)?.forEach[contribution|
+				contributions.put(contribution, contributor)
+			]
 		]
 	}
 	
-	def resolveCrossReferences(Object obj, CancelIndicator monitor) {
+	override resolveLazyCrossReferences(CancelIndicator mon) {
+		getContents
+			.filter[isResolveCrossReferencesRequired]
+			.forEach[resolveCrossReferences(mon ?: CancelIndicator.NullImpl)]
+	}
+	
+	def isResolveCrossReferencesRequired(EObject obj) {
+		val contributor = contributions.get(obj)
+		(contributor == null) || contributor.isResolveCrossReferencesRequired(obj)
+	}
+	
+	def void resolveCrossReferences(EObject obj, CancelIndicator monitor) {
 		if (monitor.canceled) return;
-		
-		if (obj instanceof EObject && !(obj instanceof Diagram)) {
-			val iEobj = obj as InternalEObject
-			val cls = iEobj.eClass
-			val sup = cls.EAllStructuralFeatures as EClassImpl.FeatureSubsetSupplier
-			sup.crossReferences?.forEach[
-				if (monitor.canceled) return;
-				if (isPotentialLazyCrossReference)
-					doResolveLazyCrossReference(iEobj, it)
-			]
-			EcoreUtil.getAllContents(iEobj, true).forEachRemaining[
-				resolveCrossReferences(monitor)
-			]
-		}
+		val iEobj = obj as InternalEObject
+		val cls = iEobj.eClass
+		val sup = cls.EAllStructuralFeatures as EClassImpl.FeatureSubsetSupplier
+		sup.crossReferences?.forEach[
+			if (monitor.canceled) return;
+			if (isPotentialLazyCrossReference)
+				doResolveLazyCrossReference(iEobj, it)
+		]
+		EcoreUtil.getAllContents(iEobj, true).forEachRemaining[
+			resolveCrossReferences(monitor)
+		]
 	}
 }

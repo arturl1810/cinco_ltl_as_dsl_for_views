@@ -7,6 +7,17 @@ import org.eclipse.ui.IPathEditorInput
 import org.eclipse.ui.PlatformUI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.edit.domain.IEditingDomainProvider
+import org.eclipse.core.runtime.IAdaptable
+import org.eclipse.emf.common.util.URI
+import org.eclipse.ui.IEditorInput
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.ui.IURIEditorInput
+import org.eclipse.core.resources.IFile
+import java.net.URL
+
+import static extension org.eclipse.emf.common.util.URI.createURI
+import static extension org.eclipse.emf.common.util.URI.createPlatformResourceURI
+import org.eclipse.ui.part.FileEditorInput
 
 /**
  * Workbench-specific extension methods.
@@ -136,14 +147,39 @@ class WorkbenchExtension {
 	 * {@link IPathEditorInput}.
 	 */
 	def getFile(IEditorPart editor) {
-		val editorInput = editor?.editorInput
-		if (editorInput instanceof IPathEditorInput) {
-			extension val WorkspaceExtension = new WorkspaceExtension
-			val files = workspaceRoot.getFiles[
-				fullPath == editorInput.path || location == editorInput.path
-			]
-			if (files.size == 1)
-				return files.get(0)
+		switch input : editor?.editorInput {
+			FileEditorInput: input.file
+			IPathEditorInput: {
+				extension val WorkspaceExtension = new WorkspaceExtension
+				val files = workspaceRoot.getFiles[
+					fullPath == input.path || location == input.path
+				]
+				if (files.size == 1)
+					return files.get(0)
+			}
+		}
+	}
+	
+	/**
+	 * Retrieves the URI of the input of an editor. This can be both, the URI of a
+	 * file in the workspace (input is {@link IURIEditorInput}) as well an abstract
+	 * URI pointing to a resource in an archive or anywhere else (input is
+	 * {@link IAdaptable}).
+	 * 
+	 * @param input of the editor.
+	 * @return The URI of the input.
+	 */
+	def URI getURI(IEditorInput input) {
+		switch input {
+			IURIEditorInput: createURI(new URL(input.URI.toString).toString)
+			IAdaptable: {
+				val file = input.getAdapter(IFile)
+				if (file != null) {
+					new ResourceSetImpl().getURIConverter().normalize(
+						createPlatformResourceURI(file.fullPath.toString, true)
+					)
+				}
+			}
 		}
 	}
 	

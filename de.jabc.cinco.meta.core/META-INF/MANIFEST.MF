@@ -20,6 +20,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.feature.handler
-Import-Package: de.jabc.cinco.meta.core,
- de.jabc.cinco.meta.core.ui.listener,
+Import-Package: de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils.projects

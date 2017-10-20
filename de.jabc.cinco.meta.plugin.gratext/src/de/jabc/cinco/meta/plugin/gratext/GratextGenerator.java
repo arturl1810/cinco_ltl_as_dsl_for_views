@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.URI;
 
 import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.FormatterTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
@@ -26,10 +25,9 @@ import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.InternalPackageTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.ModelizerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.TransformerTemplate;
 import mgl.GraphModel;
 
 public class GratextGenerator extends ProjectGenerator {
@@ -96,55 +94,15 @@ public class GratextGenerator extends ProjectGenerator {
 			.createFile(targetName + ".genmodel")
 			.withContent(GratextGenmodelTemplate.class);
 			
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + ".xtext")
-//			.withContent(GratextGrammarTemplate.class);
-				
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + ".mwe2")
-//			.withContent(GratextMWETemplate.class);
-				
-//		inSrcFolder("src")
-//			.inPackage(basePkg + ".generator")
-//			.createFile("GratextGenerator.xtend")
-//			.withContent(GratextGeneratorTemplate.class);
-		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "Serializer.xtend")
-			.withContent(SerializerTemplate.class);
+			.createFile(modelName + "GratextTransformer.xtend")
+			.withContent(TransformerTemplate.class);
 		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "Modelizer.xtend")
-			.withContent(ModelizerTemplate.class);
-		
-//		inSrcFolder("src")
-//			.inPackage(basePkg + ".scoping")
-//			.createFile(targetName + "QualifiedNameProvider.java")
-//			.withContent(GratextQualifiedNameProviderTemplate.class);
-
-//		inSrcFolder("src")
-//			.inPackage(basePkg + ".scoping")
-//			.createFile(targetName + "ScopeProvider.xtend")
-//			.withContent(ScopeProviderTemplate.class);
-		
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + "RuntimeModule.java")
-//			.withContent(RuntimeModuleTemplate.class);
-
 		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + "Resource.xtend")
 			.withContent(GratextResourceTemplate.class);
-
-		inSrcFolder("src")
-			.inPackage(basePkg)
-			.createFile(modelName + "Diagram.xtend")
-			.withContent(DiagramTemplate.class);
 		
 		inSrcFolder("src")
 		.inPackage("internal")
@@ -165,7 +123,6 @@ public class GratextGenerator extends ProjectGenerator {
 		try {
 			file.setDerived(true, null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -269,13 +226,10 @@ public class GratextGenerator extends ProjectGenerator {
 				"org.eclipse.xtext.xbase",
 				"org.eclipse.xtext.xbase.lib",
 				"org.eclipse.xtext.common.types",
-				"org.eclipse.graphiti",
-				"org.eclipse.graphiti.ui",
 				"org.antlr.runtime",
 				"org.apache.commons.logging",
 				"de.jabc.cinco.meta.core.mgl.model",
-				"de.jabc.cinco.meta.core.ge.style.generator.runtime",
-				"de.jabc.cinco.meta.core.ge.style.model",
+				"de.jabc.cinco.meta.core.ui",
 				"de.jabc.cinco.meta.core.utils",
 				"de.jabc.cinco.meta.plugin.gratext.runtime"
 			);

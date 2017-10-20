@@ -1,10 +1,15 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.DecoratorRegistry
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import java.util.ArrayList
 import java.util.List
 import mgl.Edge
 import mgl.GraphModel
+import mgl.ModelElement
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.transaction.RecordingCommand
@@ -30,11 +35,9 @@ import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.tb.ContextButtonEntry
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider
 import org.eclipse.graphiti.tb.IContextButtonPadData
+import org.eclipse.graphiti.tb.IDecorator
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
-import graphmodel.internal.InternalModelElement
-import graphmodel.internal.InternalGraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
 
 class ToolBehaviorProviderTmpl extends GeneratorUtils{
 	
@@ -142,8 +145,8 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 	}
 
 	@Override
-	public org.eclipse.graphiti.tb.IDecorator[] getDecorators(org.eclipse.graphiti.mm.pictograms.PictogramElement pe) {
-		return de.jabc.cinco.meta.core.ui.highlight.DecoratorRegistry.complementDecorators(pe, super.getDecorators(pe));
+	public «IDecorator.name»[] getDecorators(«PictogramElement.name» pe) {
+		return «DecoratorRegistry.name».complementDecorators(pe, super.getDecorators(pe));
 	}
 
 	@Override
@@ -204,5 +207,14 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 	}
 }
 '''
+
+		def writeMethodCallDoubleClick(ModelElement me) {
+			var annot = CincoUtil.findAnnotationDoubleClick(me);
+			if (annot != null) '''
+				return new «GraphitiCustomFeature.name»<>(
+					getFeatureProvider(),
+					new «annot.value.get(0)»());
+			'''
+		}
 	
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point 
+   		id="de.jabc.cinco.meta.plugin.gratext.MultiPageEditorContributor"
+   		name="MultiPageEditorContributor"
+   		schema="schema/MultiPageEditorContributor.exsd"/>
+</plugin>

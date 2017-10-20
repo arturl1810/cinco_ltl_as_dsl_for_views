@@ -7,13 +7,13 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
-import de.jabc.cinco.meta.runtime.hook.CincoPostMoveHook;
-import de.jabc.cinco.meta.runtime.hook.CincoPostResizeHook;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostSelectHook;
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction;
 import de.jabc.cinco.meta.runtime.action.CincoDoubleClickAction;
 import de.jabc.cinco.meta.runtime.action.CincoPostValueChangeListener;
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostMoveHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostResizeHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostSelectHook;
 import de.jabc.cinco.meta.runtime.hook.CincoPreDeleteHook;
 import de.jabc.cinco.meta.runtime.provider.CincoValuesProvider;
 import mgl.Annotation;

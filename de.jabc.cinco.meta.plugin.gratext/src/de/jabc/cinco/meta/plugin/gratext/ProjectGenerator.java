@@ -31,8 +31,8 @@ import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.ModelDescriptorRegistry;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
-import de.jabc.cinco.meta.plugin.gratext.util.ModelDescriptorRegistry;
 import de.jabc.cinco.meta.runtime.xapi.FileExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 

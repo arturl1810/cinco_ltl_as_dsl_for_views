@@ -20,7 +20,8 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
-import de.jabc.cinco.meta.core.ui.highlight.Highlighter
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.Highlighter
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 class EdgeCreateFeatures extends APIUtils{
 
@@ -36,7 +37,6 @@ class EdgeCreateFeatures extends APIUtils{
 		
 		private «ECincoError.name» error = «ECincoError.name».OK;
 		private «ICreateConnectionContext.name» context;
-		private «String.name» highlightContextKey;
 		
 		/**
 		 * Call of the Superclass
@@ -165,23 +165,33 @@ class EdgeCreateFeatures extends APIUtils{
 			this.error = error;
 		}
 		
-		@Override
-		public void startConnecting() {
-			super.startConnecting();
-			highlightContextKey = «Highlighter.name».INSTANCE.get().onConnectionStart(this, context);
-		}
+		«IF ! CincoUtil.isHighlightReconnectionDisabled(e.graphModel)»
+			private «String.name» highlightContextKey;
+			
+			@Override
+			public void startConnecting() {
+				super.startConnecting();
+				highlightContextKey = «Highlighter.name».INSTANCE.get().onConnectionStart(this, context);
+			}
 		
-		@Override
-		public void canceledAttaching(«ICreateConnectionContext.name» context) {
-			super.canceledAttaching(context);
-			«Highlighter.name».INSTANCE.get().onConnectionCancel(highlightContextKey);
-		}
+			@Override
+			public void canceledAttaching(«ICreateConnectionContext.name» context) {
+				super.canceledAttaching(context);
+				if (highlightContextKey != null) {
+					«Highlighter.name».INSTANCE.get().onConnectionCancel(highlightContextKey);
+					highlightContextKey = null;
+				}
+			}
 		
-		@Override
-		public void endConnecting() {
-			super.endConnecting();
-			«Highlighter.name».INSTANCE.get().onConnectionEnd(highlightContextKey);
-		}
+			@Override
+			public void endConnecting() {
+				super.endConnecting();
+				if (highlightContextKey != null) {
+					«Highlighter.name».INSTANCE.get().onConnectionEnd(highlightContextKey);
+					highlightContextKey = null;
+				}
+			}
+		«ENDIF»
 	}
 	'''
 }

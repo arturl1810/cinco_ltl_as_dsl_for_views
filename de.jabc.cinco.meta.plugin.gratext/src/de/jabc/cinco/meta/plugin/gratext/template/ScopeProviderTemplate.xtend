@@ -9,6 +9,8 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 	def targetNodes(Edge edge) {
 		model.resp(edge).targetNodes
 	}
+	
+	def transformer() { fileFromTemplate(TransformerTemplate) }
 
 	override template() '''	
 		package «project.basePackage».scoping
@@ -16,7 +18,8 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		import graphmodel.IdentifiableElement
 		import graphmodel.internal.InternalIdentifiableElement
 		import «project.basePackage».*
-		import «project.basePackage».generator.«model.name»Modelizer
+		import «transformer.className»
+		
 		import java.util.stream.Collectors
 		import java.util.stream.StreamSupport
 		import org.eclipse.emf.ecore.EObject
@@ -32,7 +35,7 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		 */
 		class «project.targetName»ScopeProvider extends AbstractDeclarativeScopeProvider {
 			
-			val transformer = «model.name»Modelizer.createTransformer
+			val transformer = new «transformer.classSimpleName»
 			
 			override getScope(EObject context, EReference reference) {
 				getScope(context, reference.name) ?: super.getScope(context, reference)
@@ -78,7 +81,7 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 				Scopes.scopeFor(elements, [ QualifiedName::create((it as InternalIdentifiableElement).id) ], IScope.NULLSCOPE)
 			}
 		}
-		'''
+	'''
 	
 	def scopeMethodTmpl(ModelElement it) {
 		val modelElementRefs = model.resp(it).attributes

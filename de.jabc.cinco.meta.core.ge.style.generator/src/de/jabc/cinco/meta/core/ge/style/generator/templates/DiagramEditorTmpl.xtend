@@ -1,16 +1,16 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.CincoDiagramEditor
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
-import de.jabc.cinco.meta.core.ui.editor.CincoDiagramEditor
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.GraphModel
 import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm
-import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.editor.DiagramEditor
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.Highlighter
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 class DiagramEditorTmpl extends GeneratorUtils{
 
@@ -25,6 +25,11 @@ package «gm.packageName»;
 public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	
 	@Override
+	public «gm.fuName»Diagram createDiagram() {
+		return new «gm.fuName»Diagram();
+	}
+		
+	@Override
 	public void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		
@@ -34,13 +39,17 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 «««			for («EObject.name» bo : pl.getBusinessObjects())
 «««				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
 		
-		de.jabc.cinco.meta.core.ui.highlight.Highlighter.INSTANCE.get().listenToDiagramDrag(this, getGraphicalControl());
+		«IF ! CincoUtil.isHighlightContainmentDisabled(gm)»
+			«Highlighter.name».INSTANCE.get().listenToDiagramDrag(this, getGraphicalControl());
+		«ENDIF»
 	}
 	
-	@Override
-	public void onPaletteViewerCreated(org.eclipse.gef.ui.palette.PaletteViewer pViewer) {
-		de.jabc.cinco.meta.core.ui.highlight.Highlighter.INSTANCE.get().listenToPaletteDrag(pViewer);
-	}
+	«IF ! CincoUtil.isHighlightContainmentDisabled(gm)»
+		@Override
+		public void onPaletteViewerCreated(org.eclipse.gef.ui.palette.PaletteViewer pViewer) {
+			«Highlighter.name».INSTANCE.get().listenToPaletteDrag(pViewer);
+		}
+	«ENDIF»
 	
 	@Override
 	public void doSave(«IProgressMonitor.name» monitor) {

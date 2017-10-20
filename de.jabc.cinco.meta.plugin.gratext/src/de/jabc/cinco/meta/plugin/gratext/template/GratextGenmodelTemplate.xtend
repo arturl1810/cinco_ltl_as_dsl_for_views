@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets
 import java.util.HashMap
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.xmi.XMIResource
-import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
 
 class GratextGenmodelTemplate extends GratextEcoreTemplate {
 	

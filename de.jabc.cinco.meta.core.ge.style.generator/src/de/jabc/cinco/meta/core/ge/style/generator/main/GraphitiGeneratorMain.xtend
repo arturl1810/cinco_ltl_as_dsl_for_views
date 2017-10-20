@@ -46,9 +46,11 @@ import java.util.List
 import java.util.ArrayList
 
 import static extension de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.*
+import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTmpl
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
+	extension DiagramTmpl = new DiagramTmpl
 	extension DiagramEditorTmpl = new DiagramEditorTmpl
 	extension DiagramTypeProviderTmpl = new DiagramTypeProviderTmpl
 	extension FeatureProviderTmpl = new FeatureProviderTmpl
@@ -106,6 +108,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName.toString.concat(".wizard"), gm.name.toFirstUpper.concat("DiagramWizard.java"), content)
 		content = gm.generateNewDiagramWizardPage
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName.toString.concat(".wizard"), gm.name.toFirstUpper.concat("DiagramWizardPage.java"), content)
+		content = gm.generateDiagram
+		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("Diagram.java"), content)
 		content = gm.generateDiagramEditor
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("DiagramEditor.java"), content)
 		content = gm.generatePerspective

@@ -70,8 +70,7 @@ class DiagramExtension {
 	}
 	
 	def private <T extends Shape> List<T> collectChildShapes(ContainerShape container, List<T> shapes, Class<T> cls) {
-		container.children
-			.filter[child | cls == null || cls.isInstance(child)]
+		container?.children?.filter[child | cls == null || cls.isInstance(child)]
 			.forEach[child |
 				shapes.add(child as T)
 				if (child instanceof ContainerShape)

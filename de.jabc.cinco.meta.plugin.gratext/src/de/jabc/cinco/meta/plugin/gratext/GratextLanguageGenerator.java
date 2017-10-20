@@ -1,15 +1,11 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import mgl.GraphModel;
-import mgl.Import;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,19 +19,14 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
-import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
-import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
+import mgl.GraphModel;
+import mgl.Import;
 
 public class GratextLanguageGenerator extends ProjectGenerator {
 	

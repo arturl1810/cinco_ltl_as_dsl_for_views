@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import de.jabc.cinco.meta.core.utils.registry.KeygenRegistry;
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry;
 import mgl.Attribute;
 import mgl.ComplexAttribute;
 import mgl.Edge;
@@ -19,8 +21,6 @@ import mgl.Node;
 import mgl.NodeContainer;
 import mgl.PrimitiveAttribute;
 import mgl.UserDefinedType;
-import de.jabc.cinco.meta.plugin.gratext.util.KeygenRegistry;
-import de.jabc.cinco.meta.plugin.gratext.util.NonEmptyRegistry;
 
 
 public class GraphModelDescriptor extends Descriptor<GraphModel> {

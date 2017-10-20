@@ -10,6 +10,8 @@ import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 
 public abstract class CincoCreateEdgeFeature<T extends ModelElement> extends AbstractCreateConnectionFeature{
 
+	public static int index = 0;
+	
 	T newModelElement;
 	
 	public CincoCreateEdgeFeature(IFeatureProvider fp, String name, String description) {

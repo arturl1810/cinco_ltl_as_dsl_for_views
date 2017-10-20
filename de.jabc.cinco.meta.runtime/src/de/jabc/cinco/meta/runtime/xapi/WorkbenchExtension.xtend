@@ -2,21 +2,21 @@ package de.jabc.cinco.meta.runtime.xapi
 
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
+import graphmodel.internal.InternalIdentifiableElement
 import java.util.function.Predicate
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import org.eclipse.graphiti.services.Graphiti
+import org.eclipse.graphiti.ui.editor.DiagramBehavior
 import org.eclipse.graphiti.ui.editor.DiagramEditor
-import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.swt.widgets.Display
 import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.part.MultiPageEditorPart
 
 import static org.eclipse.emf.ecore.util.EcoreUtil.equals
-import org.eclipse.swt.graphics.Image
-import org.eclipse.swt.widgets.Shell
 
 /**
  * Workbench-specific extension methods.
@@ -80,8 +80,8 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	def getDiagramEditor(Predicate<DiagramEditor> predicate) {
 		activePage?.editorReferences
 			?.map[getEditor(true)?.diagramEditor]
-			.filterNull
-			.findFirst[predicate.test(it)]
+			?.filterNull
+			?.findFirst[predicate.test(it)]
 	}
 	
 	/**
@@ -215,7 +215,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 *   be retrieved for whatever reason.
 	 */
 	def getDiagramTypeProvider(PictogramElement pictogramElement) {
-		pictogramElement.diagram.diagramTypeProvider
+		pictogramElement.diagram?.diagramTypeProvider
 	}
 	
 	/**
@@ -259,7 +259,8 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 *   be retrieved for whatever reason.
 	 */
 	def getBusinessObject(PictogramElement pictogramElement) {
-		pictogramElement.editor?.featureProvider?.getBusinessObjectForPictogramElement(pictogramElement)
+		pictogramElement.featureProvider?.getBusinessObjectForPictogramElement(pictogramElement)
+		?: Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pictogramElement)
 	}
 	
 	/**
@@ -286,7 +287,13 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def testBusinessObjectType(PictogramElement pe, Class<?> cls) {
 		val bo = pe.businessObject
-		bo != null && cls.isAssignableFrom(bo.class)
+		if (bo == null)
+			return false
+		var test = cls.isAssignableFrom(bo.class)
+		if (!test && bo instanceof InternalIdentifiableElement) {
+			test = cls.isAssignableFrom((bo as InternalIdentifiableElement).element.class)
+		}
+		return test
 	}
 	
 	/**
@@ -374,6 +381,13 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	
 	def refreshDecorators(PictogramElement pe) {
 		async[| pe.editor?.diagramBehavior?.refreshRenderingDecorators(pe) ]
+	}
+	
+	def refreshDecorators(Iterable<PictogramElement> pes) {
+		val db = pes?.map[editor?.diagramBehavior]?.filterNull?.head
+		if (db != null) 
+			async[| for (pe : pes) db.refreshRenderingDecorators(pe) ] 
+		else System.err.println("No DiagramBehavior found for any pictogram")
 	}
 	
 	def getDisplay() {

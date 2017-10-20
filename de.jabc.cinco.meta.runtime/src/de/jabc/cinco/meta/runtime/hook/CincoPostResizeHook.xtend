@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.runtime.hook
 
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.features.context.IResizeShapeContext
 
 abstract class CincoPostResizeHook<T extends EObject> {
 	/** 

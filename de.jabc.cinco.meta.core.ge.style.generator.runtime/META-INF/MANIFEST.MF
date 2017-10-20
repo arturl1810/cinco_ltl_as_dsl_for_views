@@ -20,7 +20,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib.macro,
  de.jabc.cinco.meta.runtime,
  org.eclipse.gef,
- org.eclipse.emf.transaction
+ org.eclipse.emf.transaction,
+ org.eclipse.emf.workspace;bundle-version="1.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
@@ -30,13 +31,21 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance;uses:="style",
  de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.editor,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.animation,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.layout,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.utils,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.xapi
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Import-Package: com.sun.el;version="2.2.0",
- javax.el
+ de.jabc.cinco.meta.core.ui.editor,
+ de.jabc.cinco.meta.core.utils.job,
+ de.jabc.cinco.meta.core.utils.registry,
+ javax.el,
+ org.eclipse.ui.views.properties.tabbed

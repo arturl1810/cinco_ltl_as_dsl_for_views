@@ -9,18 +9,14 @@ import productDefinition.Annotation;
 
 public class CPDValidator implements IMetaPluginValidator {
 
-
 	@Override
 	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
-		if(eObject instanceof Annotation){
+		if (eObject instanceof Annotation) {
 			Annotation a = (Annotation) eObject;
-			if(a.getName().equals("disableGratext"))
-			{
-				if(!a.getValue().isEmpty()){
-						return new ErrorPair<String,EStructuralFeature>(
-								"No arguments allowed.",
-								eObject.eClass().getEStructuralFeature("value")
-								);						
+			if (a.getName().equals("disableGratext")) {
+				if (!a.getValue().isEmpty()) {
+					return new ErrorPair<String, EStructuralFeature>("No arguments allowed.",
+							eObject.eClass().getEStructuralFeature("value"));
 				}
 			}
 		}

@@ -85,22 +85,6 @@ class AbstractGratextTemplate {
 		return genModel;
 	}
 	
-//	def fullPath(URI uri) {
-//		/** to resolve this we need the workspace root */
-//		val myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-//		/** create an new IPath from the URI (decode blanks etc.) */
-//		val path = new Path(uri.toFileString);
-//		/** finally resolve the file with the workspace */
-//		val file = myWorkspaceRoot.getFile(path);
-//		return file.fullPath
-//		
-////			if (file != null && file.fullPathgetLocation() != null) {
-////				/** get java.io.File object */
-////				File f = file.getLocation().toFile();
-////				return f;
-////			}
-//	}
-	
 	def workspaceRoot() {
 		ResourcesPlugin.getWorkspace().getRoot().fullPath
 	}
@@ -108,10 +92,5 @@ class AbstractGratextTemplate {
 	def findFile(IPath path) {
 		ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(path).get(0)
 	}
-	
-//	def getFile(Path path) {
-//		ResourcesPlugin.getWorkspace().getRoot().getFile(path)
-//	}
 
-	protected val backupFileSuffix = "GT" 
 }

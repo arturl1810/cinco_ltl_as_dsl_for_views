@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.LinkedTransferQueue;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Notifier;
@@ -34,18 +35,20 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.XtextDocument;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
+import de.jabc.cinco.meta.core.ui.editor.PageAwareEditor;
+import de.jabc.cinco.meta.core.ui.editor.PageAwareEditorDescriptor;
+import de.jabc.cinco.meta.core.ui.editor.PageAwareEditorInput;
 import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource;
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 
-
-
+@SuppressWarnings("restriction")
 public abstract class MultiPageGratextEditor extends MultiPageEditorPart implements IEditingDomainProvider, IGotoMarker {
 
 	private static WorkbenchExtension workbench = new WorkbenchExtension();
 	
 	private XtextEditor sourceEditor;
-    private ArrayList<PageAwareEditorPart> pawEditors = new ArrayList<>();
-    private HashMap<PageAwareEditorPart, PageAwareEditorDescriptor> pawEditorDescriptors = new HashMap<>();
+    private ArrayList<PageAwareEditor> pawEditors = new ArrayList<>();
+    private HashMap<PageAwareEditor, PageAwareEditorDescriptor> pawEditorDescriptors = new HashMap<>();
 	
     private GratextResource innerState;
     private int currentPage = -1;
@@ -55,26 +58,14 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
         super();
     }
     
-    protected abstract Iterable<PageAwareEditorDescriptor> getEditorDescriptors();
+	protected Iterable<PageAwareEditorDescriptor> getEditorDescriptors() {
+		IFile file = workbench.getFile(this);
+		if (file != null)
+			return PageAwareEditorRegistry.INSTANCE.get(file.getName());
+		else return new ArrayList<>();
+	}
     
     protected abstract XtextEditor getSourceEditor();
-    
-    /**
-     * Generates Gratext source code to be used for updating the inner state of the
-     * Xtext editor according to the changes made by the specified editor.
-     * 
-     * @param editor The editor that changed the inner state.
-     * @param innerState The resource representing the shared inner state of the editor pages.
-     * @return The Gratext source code reflecting the current state.
-     */
-    protected String generateSourceCode(IEditorPart editor) {
-    		try {
-    			return pawEditorDescriptors.get(editor).getSourceCodeGenerator().apply(getInnerState());
-    		} catch(NullPointerException e) {
-    			e.printStackTrace();
-    			return null;
-    		}
-    }
     
     /**
      * Creates the pages of the multi-page editor.
@@ -126,7 +117,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 	}
     
 	protected void createEditorPage(PageAwareEditorDescriptor desc) {
-		PageAwareEditorPart editor = desc.newEditor();
+		PageAwareEditor editor = desc.newEditor();
 		pawEditors.add(editor);
 		pawEditorDescriptors.put(editor, desc);
 		
@@ -134,7 +125,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		input.setInnerStateSupplier(() -> getInnerState());
 		
 		int index = Math.max(0, getPageCount() - 1);
-		String name = desc.getName() != null ? desc.getName() : editor.getClass().getSimpleName();
+		String name = desc.getPageName() != null ? desc.getPageName() : editor.getClass().getSimpleName();
 		
 		workbench.sync(() -> {
 			try {
@@ -208,8 +199,8 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     }
 
     protected boolean activatePage(IEditorPart editor, IEditorPart prevEditor) {
-		if (editor instanceof PageAwareEditorPart) try {
-			((PageAwareEditorPart) editor).handlePageActivated(prevEditor);
+		if (editor instanceof PageAwareEditor) try {
+			((PageAwareEditor) editor).handlePageActivated(prevEditor);
 		} catch(Exception e) {
 			handlePageActivationError(editor, e);
 			return false;
@@ -225,8 +216,8 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     }
 
     protected boolean deactivatePage(IEditorPart editor, IEditorPart nextEditor) {
-		if (editor instanceof PageAwareEditorPart) try {
-    		((PageAwareEditorPart) editor).handlePageDeactivated(nextEditor);
+		if (editor instanceof PageAwareEditor) try {
+    		((PageAwareEditor) editor).handlePageDeactivated(nextEditor);
 		} catch(Exception e) {
 			handlePageDeactivationError(editor, e);
 			return false;
@@ -287,7 +278,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 				&& triggerEditor != sourceEditor
 				&& triggerEditor.isDirty()) {
 			XtextDocument doc = (XtextDocument) sourceEditor.getDocument();
-			String text = generateSourceCode(triggerEditor);
+			String text = getInnerState().serialize();
     		if (text != null) {
     			doc.stopListenerNotification();
     			doc.set(text);
@@ -425,7 +416,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 				// the inner state is NOT supposed to change during editor lifetime
 				System.err.println("[" + getClass().getSimpleName() + "] "
 						+ "WARN: inner state changed: hash " + hash + " => " + innerState.hashCode());
-				pawEditors.forEach(PageAwareEditorPart::handleNewInnerState);
+				pawEditors.forEach(PageAwareEditor::handleNewInnerState);
 			}
 			if (innerState instanceof GratextResource) {
 				((GratextResource) innerState).onInternalStateChanged(() -> {

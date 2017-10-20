@@ -1,14 +1,13 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.List
-import mgl.Node
 import mgl.ComplexAttribute
-import mgl.UserDefinedType
 import mgl.ModelElement
-import java.util.HashMap
-import de.jabc.cinco.meta.plugin.gratext.util.NonEmptyRegistry
+import mgl.Node
+import mgl.UserDefinedType
 
 class GratextEcoreTemplate extends AbstractGratextTemplate {
 

@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.utils.generator
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.MGLUtil
@@ -691,17 +690,6 @@ class GeneratorUtils extends InheritanceUtil{
 	def booleanWriteMethodCallDoubleClick(ModelElement me){
 		var annot = CincoUtil.findAnnotationDoubleClick(me);
 		return annot != null;
-	}
-	
-	def writeMethodCallDoubleClick(ModelElement me){
-		var annot = CincoUtil.findAnnotationDoubleClick(me);
-		if(annot != null)
-		{
-			'''return new «GraphitiCustomFeature.name»<>(
-				getFeatureProvider(),
-				new «annot.value.get(0)»());
-			'''
-		}
 	}
 	
 	def getName(ContainingElement ce) {

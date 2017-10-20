@@ -6,8 +6,6 @@ import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IReconnectionContext
-import de.jabc.cinco.meta.core.ui.highlight.ReconnectRegistry
-import de.jabc.cinco.meta.core.ui.highlight.Highlighter
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext
 import graphmodel.Node
@@ -15,6 +13,9 @@ import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.features.IUpdateFeature
 import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalEdge
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.ReconnectRegistry
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.Highlighter
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 class EdgeReconnectFeatures {
 	
@@ -31,25 +32,29 @@ class EdgeReconnectFeatures {
 			super(fp);
 		}
 		
-		@Override
-		public void canceledReconnect(«IReconnectionContext.name» context) {
-			«Highlighter.name».INSTANCE.get().onReconnectionCancel(«ReconnectRegistry.name».INSTANCE.remove(context.getConnection()));
-			super.canceledReconnect(context);
-		}
-		
-		@Override
-		public void preReconnect(«IReconnectionContext.name» context) {
-			«Highlighter.name».INSTANCE.get().onReconnectionEnd(«ReconnectRegistry.name».INSTANCE.remove(context.getConnection()));
-			super.preReconnect(context);
-		}
+		«IF ! CincoUtil.isHighlightReconnectionDisabled(e.graphModel)»
+			@Override
+			public void canceledReconnect(«IReconnectionContext.name» context) {
+				«Highlighter.name».INSTANCE.get().onReconnectionCancel(«ReconnectRegistry.name».INSTANCE.remove(context.getConnection()));
+				super.canceledReconnect(context);
+			}
+			
+			@Override
+			public void preReconnect(«IReconnectionContext.name» context) {
+				«Highlighter.name».INSTANCE.get().onReconnectionEnd(«ReconnectRegistry.name».INSTANCE.remove(context.getConnection()));
+				super.preReconnect(context);
+			}
+		«ENDIF»
 	
 		public boolean canReconnect(«IReconnectionContext.name» context, boolean apiCall) {
 			if (apiCall) {
-				if (!«ReconnectRegistry.name».INSTANCE.containsKey(context.getConnection())) {
-					«ReconnectRegistry.name».INSTANCE.put(context.getConnection(),"");
-					«ReconnectRegistry.name».INSTANCE.put(context.getConnection(),
-							«Highlighter.name».INSTANCE.get().onReconnectionStart(this, context));
-				}
+				«IF ! CincoUtil.isHighlightReconnectionDisabled(e.graphModel)»
+					if (!«ReconnectRegistry.name».INSTANCE.containsKey(context.getConnection())) {
+						«ReconnectRegistry.name».INSTANCE.put(context.getConnection(),"");
+						«ReconnectRegistry.name».INSTANCE.put(context.getConnection(),
+								«Highlighter.name».INSTANCE.get().onReconnectionStart(this, context));
+					}
+				«ENDIF»
 				«Anchor.name» newAnchor = context.getNewAnchor();
 				«Anchor.name» oldAnchor = context.getOldAnchor();
 					if (newAnchor != null && newAnchor.equals(oldAnchor))
