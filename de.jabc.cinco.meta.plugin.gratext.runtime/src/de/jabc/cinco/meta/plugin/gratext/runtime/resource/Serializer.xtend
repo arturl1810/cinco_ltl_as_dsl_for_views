@@ -28,20 +28,15 @@ import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
 
 class Serializer {
 
-	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>> 
-		nodesSerializationOrder = new NonEmptyRegistry[allNodes.sortBy[orderIndex]]
+	val nodesSerializationOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[orderIndex]]
 		
-	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>> 
-		nodesLayerOrder = new NonEmptyRegistry[allNodes.sortBy[layer]]
+	val nodesLayerOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[layer]]
 		
-	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>> 
-		nodesInitialOrder = new NonEmptyRegistry[container|
-			if (transformer == null) #[]
-			else {
-				(transformer.getCounterpart(container) as InternalModelElementContainer)
-					.modelElements.map[transformer.getCounterpart(it)]
-			}
-		]
+	val nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer container |
+		switch it : transformer?.getCounterpart(container) {
+			InternalModelElementContainer: modelElements.map[transformer?.getCounterpart(it)].filterNull.toList
+		} ?: #[]
+	]
 
 	InternalGraphModel model
 	GratextResource resource
