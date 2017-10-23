@@ -31,6 +31,7 @@ import org.eclipse.graphiti.features.IAddBendpointFeature
 import org.eclipse.graphiti.features.impl.DefaultAddBendpointFeature
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddBendpointFeature
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -202,7 +203,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«AddBendpointContext.name» context = new «AddBendpointContext.name»(
 			(«FreeFormConnection.name») getPictogramElement(), x, y, connection.getBendpoints().size()
 		);
-		«IAddBendpointFeature.name» feature = new «DefaultAddBendpointFeature.name»(getFeatureProvider());
+		«IAddBendpointFeature.name» feature = new «CincoAddBendpointFeature.name»(getFeatureProvider());
 		if (feature.canAddBendpoint(context))
 			feature.addBendpoint(context);
 	}
