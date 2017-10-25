@@ -158,15 +158,15 @@ class PluginXMLTmpl extends GeneratorUtils {
 	'''
 	
 	def contentTypes() {
-		contentTypes(pkgName, gmName)
+		contentTypes(pkgName, gmName, fileExtension)
 	}
 	
-	def contentTypes(String pkgName, String gmName) '''
+	def contentTypes(String pkgName, String gmName, String fileExtension) '''
 	<extension
 		point="org.eclipse.core.contenttype.contentTypes">
 	<!--@CincoGen «gmName»-->
 		<content-type
-			file-extensions="«gmName»"
+			file-extensions="«fileExtension»"
 			id="«pkgName».«gmName»ContentType"
 			name="«gmName» Content Type"
 			priority="normal">
@@ -179,21 +179,21 @@ class PluginXMLTmpl extends GeneratorUtils {
 	}
 	
 	def popupMenus(String pkgName, String gmName) '''
-	<extension
-		point="org.eclipse.ui.popupMenus">
-	<!--@CincoGen «gmName»-->
-		<objectContribution
-			adaptable="false"
-			id="«pkgName».«gmName»ObjectContributor"
-			nameFilter="*«gmName»"
-			objectClass="org.eclipse.core.resources.IResource">
-			<action
-				class="«pkgName».graphiti.Create«gmName»Diagram"
-				id="«pkgName».Create«gmName»DiagramAction"
-				label="Create «gmName» Diagram">
-			</action>
-		</objectContribution>
-	</extension>
+«««	<extension
+«««		point="org.eclipse.ui.popupMenus">
+«««	<!--@CincoGen «gmName»-->
+«««		<objectContribution
+«««			adaptable="false"
+«««			id="«pkgName».«gmName»ObjectContributor"
+«««			nameFilter="*«gmName»"
+«««			objectClass="org.eclipse.core.resources.IResource">
+«««			<action
+«««				class="«pkgName».graphiti.Create«gmName»Diagram"
+«««				id="«pkgName».Create«gmName»DiagramAction"
+«««				label="Create «gmName» Diagram">
+«««			</action>
+«««		</objectContribution>
+«««	</extension>
 	'''
 	def perspectives() {
 		perspectives(pkgName, gmName, icon)
