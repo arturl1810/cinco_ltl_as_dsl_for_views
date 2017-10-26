@@ -18,6 +18,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.emf.ecore.EObject
+import graphmodel.ModelElement
 
 class CincoGraphitiCopier {
 	
@@ -75,7 +76,7 @@ class CincoGraphitiCopier {
 	def create PictogramsFactory.eINSTANCE.createPictogramLink copy(PictogramLink link) {
 		pictogramElement = link.pictogramElement.copyPE
 		businessObjects.clear
-		businessObjects.addAll(link.businessObjects.map[(it as InternalModelElement).copy])
+		businessObjects.addAll(link.businessObjects.map[(it as ModelElement).internalElement.copy].map[element])
 	}
 	
 	def create EcoreUtil.copy(a) copy(Anchor a) {

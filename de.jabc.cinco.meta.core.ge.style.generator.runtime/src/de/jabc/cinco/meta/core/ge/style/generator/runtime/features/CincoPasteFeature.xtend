@@ -1,10 +1,14 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.Edge
+import graphmodel.ModelElement
+import graphmodel.Node
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
-import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
 import java.util.List
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IPasteContext
@@ -16,7 +20,6 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -46,13 +49,14 @@ class CincoPasteFeature extends AbstractPasteFeature{
 			Shape : { 
 				cs.children.add(pe as Shape);
 				var container = cs.link.businessObjects.get(0) as InternalModelElementContainer 
-				val ime = pe.link.businessObjects.get(0) as InternalModelElement
+				val ime = (pe.link.businessObjects.get(0) as ModelElement).internalElement
 				container.modelElements.add(ime)
+				print(container)
 			}
 			Connection : {
 				diagram.connections.add(pe)
 				var graphmodel = diagram.link.businessObjects.get(0) as InternalGraphModel
-				var edge = pe.link.businessObjects.get(0) as InternalEdge
+				var edge = (pe.link.businessObjects.get(0) as Edge).internalElement as InternalEdge
 				val commonContainer = getCommonContainer(graphmodel, edge)
 				commonContainer.modelElements.add(edge)
 			}
@@ -78,6 +82,10 @@ class CincoPasteFeature extends AbstractPasteFeature{
 				Shape: {
 					pe.graphicsAlgorithm.x = context.x - target.containerShift.x + (pe.graphicsAlgorithm.x - minX)
 					pe.graphicsAlgorithm.y = context.y - target.containerShift.y + (pe.graphicsAlgorithm.y - minY)
+					var bo = pe.link.businessObjects.head as Node
+					var internalNode = bo.internalElement as InternalNode
+					internalNode.x = pe.graphicsAlgorithm.x
+					internalNode.y = pe.graphicsAlgorithm.y					
 				}
 				FreeFormConnection: {
 //					pe.bendpoints.forEach[bp |
@@ -108,13 +116,14 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	}
 	
 	private def void setCModelElementPictogram(List<PictogramElement> pes) {
-		pes.forEach[pe | 
+		for (pe : pes){ 
 			var bo = pe.link.businessObjects.head
-			if (bo instanceof InternalModelElement) {
-				var element = bo.element
+			if (bo instanceof ModelElement) {
+				var element = bo
 				if (element instanceof CModelElement)
 					element.pictogramElement = pe
+				print(element)
 			}
-		]
+		}
 	}
 }
