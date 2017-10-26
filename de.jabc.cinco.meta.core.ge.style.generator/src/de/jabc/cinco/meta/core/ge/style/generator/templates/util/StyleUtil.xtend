@@ -80,6 +80,9 @@ class StyleUtil extends APIUtils {
 			
 			((«n.fqCName») bo.getElement()).setPictogramElement(«currentPeName»);
 			
+			bo.setX(«currentPeName».getGraphicsAlgorithm().getX());
+			bo.setY(«currentPeName».getGraphicsAlgorithm().getY());
+			
 			if (context.getWidth() != -1 && context.getHeight() != -1)  {
 			
 				«ResizeShapeContext.name» rc = new «ResizeShapeContext.name»(«currentPeName»);
@@ -110,8 +113,6 @@ class StyleUtil extends APIUtils {
 			peService.createChopboxAnchor(«currentPeName»);
 			layoutPictogramElement(«currentPeName»);
 			
-			bo.setX(«currentPeName».getGraphicsAlgorithm().getX());
-			bo.setY(«currentPeName».getGraphicsAlgorithm().getY());
 			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
 			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
