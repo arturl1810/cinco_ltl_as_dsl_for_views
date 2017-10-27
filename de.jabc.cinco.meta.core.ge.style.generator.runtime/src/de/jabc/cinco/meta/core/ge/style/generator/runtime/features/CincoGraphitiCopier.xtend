@@ -19,6 +19,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.emf.ecore.EObject
 import graphmodel.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
 
 class CincoGraphitiCopier {
 	
@@ -50,7 +51,8 @@ class CincoGraphitiCopier {
 		}
 		
 		EcoreUtil::setID(meCopy,EcoreUtil::generateUUID)
-		
+		if (!meCopy.eAdapters.exists[it instanceof CincoEContentAdapter])
+			meCopy.eAdapters.addAll(ime.eAdapters.filter[it instanceof CincoEContentAdapter])
 		meCopy
 	}
 	
