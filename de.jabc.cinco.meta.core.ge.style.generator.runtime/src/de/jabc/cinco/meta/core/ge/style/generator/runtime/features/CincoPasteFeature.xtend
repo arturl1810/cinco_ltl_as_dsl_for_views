@@ -121,9 +121,11 @@ class CincoPasteFeature extends AbstractPasteFeature{
 			if (bo instanceof ModelElement) {
 				var element = bo
 				if (element instanceof CModelElement)
-					element.pictogramElement = pe
-				print(element)
+					if (element.pictogramElement == null)
+						element.pictogramElement = pe
 			}
+			if (pe instanceof ContainerShape)
+				setCModelElementPictogram(pe.children.map[it as PictogramElement])
 		}
 	}
 }
