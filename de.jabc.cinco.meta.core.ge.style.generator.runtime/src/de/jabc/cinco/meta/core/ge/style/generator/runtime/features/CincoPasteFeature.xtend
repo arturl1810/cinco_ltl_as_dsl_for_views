@@ -4,6 +4,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.Edge
 import graphmodel.ModelElement
+import graphmodel.ModelElementContainer
 import graphmodel.Node
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
@@ -20,6 +21,7 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
+import org.eclipse.emf.common.util.BasicEList
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -48,10 +50,14 @@ class CincoPasteFeature extends AbstractPasteFeature{
 		switch (pe) {
 			Shape : { 
 				cs.children.add(pe as Shape);
-				var container = cs.link.businessObjects.get(0) as InternalModelElementContainer 
+				var bo = cs.link.businessObjects.get(0)
+				var InternalModelElementContainer container
+				if (bo instanceof ModelElementContainer)
+					container = bo.internalContainerElement
+				if (bo instanceof InternalModelElementContainer)
+					container = bo 
 				val ime = (pe.link.businessObjects.get(0) as ModelElement).internalElement
 				container.modelElements.add(ime)
-				print(container)
 			}
 			Connection : {
 				diagram.connections.add(pe)
