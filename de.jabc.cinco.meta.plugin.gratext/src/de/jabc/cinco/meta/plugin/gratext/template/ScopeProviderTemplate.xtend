@@ -9,33 +9,26 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 	def targetNodes(Edge edge) {
 		model.resp(edge).targetNodes
 	}
-	
-	def transformer() { fileFromTemplate(TransformerTemplate) }
 
 	override template() '''	
 		package «project.basePackage».scoping
 		
-		import graphmodel.IdentifiableElement
 		import graphmodel.internal.InternalIdentifiableElement
 		import «project.basePackage».*
-		import «transformer.className»
 		
-		import java.util.stream.Collectors
-		import java.util.stream.StreamSupport
 		import org.eclipse.emf.ecore.EObject
 		import org.eclipse.emf.ecore.EReference
-		import org.eclipse.xtext.EcoreUtil2
 		import org.eclipse.xtext.naming.QualifiedName
 		import org.eclipse.xtext.scoping.IScope
-		import org.eclipse.xtext.scoping.Scopes
 		import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+		
+		import static extension org.eclipse.xtext.EcoreUtil2.getRootContainer
+		import static extension org.eclipse.xtext.scoping.Scopes.scopeFor
 		
 		/**
 		 * This class contains custom scoping description.
 		 */
 		class «project.targetName»ScopeProvider extends AbstractDeclarativeScopeProvider {
-			
-			val transformer = new «transformer.classSimpleName»
 			
 			override getScope(EObject context, EReference reference) {
 				getScope(context, reference.name) ?: super.getScope(context, reference)
@@ -51,34 +44,23 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 			«model.userDefinedTypes.map[scopeMethodTmpl].filterNull.join('\n')»
 			
 			def scopeForContents(EObject obj, Class<?>... types) {
-				obj.root.contents.filter(anyTypeOf(types)).toList.scope
+				obj.rootContainer.contents
+					.filter(anyTypeOf(types))
+					.filter(InternalIdentifiableElement)
+					.toScope
 			}
 			
-			def root(EObject context) {
-				EcoreUtil2.getRootContainer(context)
-			}
-			
-			def contents(EObject obj) {
+			def getContents(EObject obj) {
 				val Iterable<EObject> iterable = [obj.eAllContents]
-				StreamSupport.stream(iterable.spliterator, false).collect(Collectors.toList)
+				return iterable
 			}
 			
 			def anyTypeOf(Class<?>... types) {
-				[Object obj | types.stream.anyMatch[obj.isInstance(it)]]
+				[Object obj | types.stream.anyMatch[isInstance(obj)]]
 			}
 			
-			def isInstance(Object obj, Class<?> type) {
-				if (type.package.name == "«project.basePackage»") {
-					type.isInstance(obj)
-				}
-				if (obj instanceof InternalIdentifiableElement) {
-					val ime = transformer.toBaseInternal(obj)
-					type.isInstance(ime.element)
-				}
-			}
-			
-			def <T extends EObject> IScope scope(Iterable<? extends T> elements) {
-				Scopes.scopeFor(elements, [ QualifiedName::create((it as InternalIdentifiableElement).id) ], IScope.NULLSCOPE)
+			def IScope toScope(Iterable<InternalIdentifiableElement> elements) {
+				scopeFor(elements, [QualifiedName::create(id)], IScope.NULLSCOPE)
 			}
 		}
 	'''
@@ -106,5 +88,5 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 	}
 	
 	def toModelType(mgl.Type it)
-		'''«graphmodel.package».«model.name.toLowerCase».^«name»'''
+		'''«graphmodel.package».«model.name.toLowerCase».internal.^Internal«name»'''
 }
