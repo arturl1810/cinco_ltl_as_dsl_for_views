@@ -11,6 +11,7 @@ import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
 import java.util.List
+import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IPasteContext
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory
@@ -21,7 +22,6 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
-import org.eclipse.emf.common.util.BasicEList
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -33,11 +33,23 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	}
 	
 	override canPaste(IPasteContext context) {
-		true
+		var objects = fromClipboard
+		var pes = context.pictogramElements
+		
+		if (objects.nullOrEmpty || pes.nullOrEmpty)
+			return false
+		
+		var InternalModelElementContainer target
+		if (getBusinessObjectForPictogramElement(pes.head) instanceof InternalModelElementContainer)
+			target = getBusinessObjectForPictogramElement(pes.head) as InternalModelElementContainer
+		else return false
+		
+ 		var nodes = objects.map[(it as PictogramElement).link.businessObjects.head].filter(typeof(Node))
+		target.canContainNodes(new BasicEList(nodes.toList))
 	}
 	
 	override paste(IPasteContext context) {
-		var copies = copiesFromClipBoard.map[it as PictogramElement]
+		var copies = fromClipboard.map[it as PictogramElement]
 		copies = copies.map[copyPE]
 		copies.translate(context)
 		copies.setCModelElementPictogram

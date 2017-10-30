@@ -735,6 +735,12 @@
           <details key="body" value=" org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint>constraints = &#xA;&#x9;&#x9;            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint>();&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return constraints;"/>
         </eAnnotations>
       </eOperations>
+      <eOperations name="canContainNodes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="EList&lt;Class&lt;? extends Node>> nodeClasses = new org.eclipse.emf.common.util.BasicEList&lt;>();&#xA;for (Node n : nodes) {&#xA;&#x9;nodeClasses.add(n.getClass());&#xA;}&#xA;return canContain(nodeClasses);"/>
+        </eAnnotations>
+        <eParameters name="nodes" upperBound="-1" eType="#//Node"/>
+      </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
           eType="#//internal/InternalModelElement" containment="true" eOpposite="#//internal/InternalModelElement/container"/>
     </eClassifiers>
