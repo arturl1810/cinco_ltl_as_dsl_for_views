@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.gratext.template
 import mgl.ComplexAttribute
 import mgl.Edge
 import mgl.ModelElement
+import mgl.Type
 
 class ScopeProviderTemplate extends AbstractGratextTemplate {
 
@@ -65,21 +66,21 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		}
 	'''
 	
-	def scopeMethodTmpl(ModelElement it) {
-		val modelElementRefs = model.resp(it).attributes
+	def scopeMethodTmpl(ModelElement me) {
+		val modelElementRefs = model.resp(me).attributes
 			.filter(ComplexAttribute)
 			.filter[model.contains(type.name)]
 			.filter[!model.containsUserDefinedType(type.name)]
-		if (it instanceof Edge || !modelElementRefs.isEmpty) '''
-			dispatch def IScope getScope(^«name» element, String refName) {
+		if (me instanceof Edge || !modelElementRefs.isEmpty) '''
+			dispatch def IScope getScope(^«me.name» element, String refName) {
 				switch refName {
-					«if (it instanceof Edge) '''
+					«if (me instanceof Edge) '''
 					case "_targetElement": element.scopeForContents(
-						«targetNodes.map[toModelType].join(',\n')» )
+						«me.targetNodes.map[fqn].join(',\n')» )
 					'''»
 					«modelElementRefs.map['''
 						case "«name»": element.scopeForContents(
-							«type.toModelType»
+							«(#[type] + type.nonAbstractSubTypes).map[fqn].join(',\n')»
 						)
 					'''].join("\n")»
 				}
@@ -87,6 +88,13 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		'''
 	}
 	
-	def toModelType(mgl.Type it)
+	def getNonAbstractSubTypes(Type type) {
+		switch type {
+			ModelElement: model.resp(type).nonAbstractSubTypes
+			default: #[]
+		}
+	}
+	
+	def getFqn(mgl.Type it)
 		'''«graphmodel.package».«model.name.toLowerCase».internal.^Internal«name»'''
 }
