@@ -364,8 +364,8 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 					}
 					return created;
 		} else {
-			if (f.canExecute(c))
-				f.execute(c);
+«««			if (f.canExecute(c))
+			f.execute(c);
 			return null;
 		}
 	}

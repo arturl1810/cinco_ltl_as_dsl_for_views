@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import mgl.Attribute;
 import mgl.ModelElement;
@@ -77,8 +78,11 @@ public class ModelElementDescriptor<T extends ModelElement> {
 	}
 	
 	public Set<T> getNonAbstractSubTypes(boolean recurse) {
-		return getSubTypes().stream()
-				.filter(element -> !element.isIsAbstract())
+		Stream<T> subTypes = getSubTypes().stream()
+			.filter(element -> !element.isIsAbstract());
+		if (recurse)
+			return subTypes.collect(Collectors.toSet());
+		return subTypes
 				.filter(sub -> model.resp(sub).hasSuperType(instance()))
 				.collect(Collectors.toSet());
 	}
