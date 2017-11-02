@@ -114,6 +114,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«FOR cont : MGLUtil::getPossibleContainers(me as Node)»
 	@Override
 	public void s_moveTo(«cont.fqBeanName» target, int x, int y) {
+		if (!canMoveTo(target)) return;
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») getPictogramElement());
 «««		if (!(target instanceof «cont.fuCName»))
 «««			throw new «RuntimeException.name»(
