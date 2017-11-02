@@ -20,6 +20,8 @@ import static extension org.eclipse.emf.ecore.util.EcoreUtil.setID
 
 class Transformer {
 	
+	private static val baseClassRegistry = <EClass, Class<?>> newHashMap
+	
 	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
 	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
 	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
@@ -111,11 +113,18 @@ class Transformer {
 	}
 	
 	def toBaseInternal(InternalIdentifiableElement it) {
-		(#[eClass] + eClass.getESuperTypes)
+		(#[eClass] + eClass.ESuperTypes)
 			.filter[modelPackage.knows(it)]
 			.map[modelFactory.create(it)]
 			.filter(IdentifiableElement)
 			.head.internalElement
+	}
+	
+	def Class<?> getBaseClass(InternalIdentifiableElement elm) {
+		baseClassRegistry.get(elm.eClass)
+		?: elm.toBaseInternal.element.class => [
+			baseClassRegistry.put(elm.eClass, it)
+		]
 	}
 	
 	private def knows(EPackage it, EClass elmClazz) {

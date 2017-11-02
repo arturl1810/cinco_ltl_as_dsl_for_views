@@ -20,6 +20,7 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.PrimitiveAttribute;
+import mgl.Type;
 import mgl.UserDefinedType;
 
 
@@ -151,7 +152,7 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	}
 	
 	protected Set<ModelElement> withSubTypes(ModelElement element) {
-		Set<ModelElement> set = (Set<ModelElement>) getSubTypes(element);
+		Set<ModelElement> set = new HashSet<>(getSubTypes(element));
 		set.add(element);
 		return set;
 	}
@@ -271,6 +272,4 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	public EdgeDescriptor resp(Edge edge) {
 		return (EdgeDescriptor) contexts.get(edge);
 	}
-	
-	
 }
