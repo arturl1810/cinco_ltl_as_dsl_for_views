@@ -4,5 +4,5 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public interface IMetaPluginValidator {
-	public ErrorPair<String,EStructuralFeature> checkAll(final EObject eObject);
+	public ValidationResult<String,EStructuralFeature> checkAll(final EObject eObject);
 }

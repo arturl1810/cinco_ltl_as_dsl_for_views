@@ -8,19 +8,21 @@ import mgl.Annotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
+import de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
+
+import static de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult.newError;
 
 public class OCLSyntaxValidator implements IMetaPluginValidator {
 
 	@Override
-	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
+	public ValidationResult<String, EStructuralFeature> checkAll(EObject eObject) {
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("ocl")){
 			List<String> constraints = ((Annotation)eObject).getValue();
 			for(String constraint: constraints){
 				String errorMessage = checkConstraint(constraint,((Annotation)eObject).getParent());
 				if(errorMessage!=null)
-					return new ErrorPair<String, EStructuralFeature>(errorMessage, eObject.eClass().getEStructuralFeature("value"));
+					return newError(errorMessage, eObject.eClass().getEStructuralFeature("value"));
 			}
 		}
 		return null;
