@@ -92,7 +92,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	@Override
 	public «IAddFeature.name»[] getAllLibComponentAddFeatures() {
 		return new «IAddFeature.name»[] {
-			«FOR pn : gm.nodes.filter[isPrime]»
+			«FOR pn : gm.nodes.filter[isPrime && !it.isCreateDisabled]»
 			«pn.addFeaturePrimeCode»
 			«ENDFOR»
 		};
