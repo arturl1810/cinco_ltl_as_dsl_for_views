@@ -77,7 +77,7 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 
 	private String generateDisplayName(IAddFeature af) {
 		String simpleName = af.getClass().getSimpleName();
-		simpleName = simpleName.replaceFirst("Add", "").replace("Feature", "");
+		simpleName = simpleName.replaceFirst("Add", "").replace("Feature", "").replaceFirst("Prime", "");
 		return simpleName;
 	}
 
