@@ -3,8 +3,6 @@ package de.jabc.cinco.meta.core.ge.style.fragment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -26,17 +24,16 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import style.AbstractShape;
-import style.ContainerShape;
 import style.EdgeStyle;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
+import de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 import de.jabc.cinco.meta.core.utils.CincoUtil;
-import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
+
+import static de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult.newError;
 
 public class StylesValidator implements IMetaPluginValidator {
 
@@ -45,8 +42,8 @@ public class StylesValidator implements IMetaPluginValidator {
 	}
 
 	@Override
-	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
-		ErrorPair<String, EStructuralFeature> ep = null;
+	public ValidationResult<String, EStructuralFeature> checkAll(EObject eObject) {
+		ValidationResult<String, EStructuralFeature> ep = null;
 		if ( !(eObject instanceof Annotation) )
 			return null;
 		Annotation annotation = (Annotation) eObject;
@@ -77,8 +74,8 @@ public class StylesValidator implements IMetaPluginValidator {
 		return ep;
 	} 
 	
-	private ErrorPair<String, EStructuralFeature> checkDisable(ModelElement me,	Annotation annotation) {
-		ErrorPair<String, EStructuralFeature> result = null;
+	private ValidationResult<String, EStructuralFeature> checkDisable(ModelElement me,	Annotation annotation) {
+		ValidationResult<String, EStructuralFeature> result = null;
 		if (me instanceof Node)
 			result = checkPredefinedValue(CincoUtil.DISABLE_NODE_VALUES, annotation);
 		if (me instanceof Edge)
@@ -86,40 +83,40 @@ public class StylesValidator implements IMetaPluginValidator {
 		return result;
 	}
 	
-	private ErrorPair<String, EStructuralFeature> checkPredefinedValue(Collection<String> values, Annotation annotation) {
+	private ValidationResult<String, EStructuralFeature> checkPredefinedValue(Collection<String> values, Annotation annotation) {
 		for (String s : annotation.getValue()) {
 			if (!values.contains(s))
-				return new ErrorPair<String, EStructuralFeature>(
+				return newError(
 					"Invalid value: \"" +s+ "\". Possible values are: " + values, 
 					annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME));
 		}
 		return null;
 	}
 	
-	private ErrorPair<String, EStructuralFeature> checkIcon(Annotation annotation) {
+	private ValidationResult<String, EStructuralFeature> checkIcon(Annotation annotation) {
 		if (annotation.getValue().size() == 0)
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Please specify an icon by relative or platform path", annotation.eClass()
 					.getEStructuralFeature("value"));
 		
 		String path = annotation.getValue().get(0);
 		String retval = PathValidator.checkPath(annotation, path);
-		ErrorPair<String, EStructuralFeature> ep = new ErrorPair<String, EStructuralFeature>(
+		ValidationResult<String, EStructuralFeature> ep = newError(
 				retval ,annotation.eClass()
 				.getEStructuralFeature("value"));
 		return (retval.isEmpty()) ? null : ep;
 	}
 
-	private ErrorPair<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {
+	private ValidationResult<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {
 		Styles styles = getStyles(getGraphModel(me));
 		if (annot.getValue().size() == 0) {
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Please define a style for this style annotation", annot.eClass()
 					.getEStructuralFeature("value"));
 		}
 		String styleName = annot.getValue().get(0);
 		if (styleName == null || styleName.isEmpty())
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"No style for this node defined", annot.eClass()
 							.getEStructuralFeature("value"));
 		if (styles == null)
@@ -129,7 +126,7 @@ public class StylesValidator implements IMetaPluginValidator {
 		for (Style s : styles.getStyles()) {
 			if (s.getName().equals(styleName) ){
 				if (s instanceof EdgeStyle)
-					return new ErrorPair<String, EStructuralFeature>(
+					return newError(
 							"Edge style assigned to a node...",
 							annot.eClass().getEStructuralFeature("value"));
 				style = s;
@@ -138,7 +135,7 @@ public class StylesValidator implements IMetaPluginValidator {
 		}
 		
 		if (style == null) {
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" does not exist",
 					annot.eClass().getEStructuralFeature("value"));
 		}
@@ -146,11 +143,11 @@ public class StylesValidator implements IMetaPluginValidator {
 		NodeStyle ns = (NodeStyle) style;
 		int params = ns.getParameterCount();//checkFormatStringParameters(ns.getMainShape());
 		if (params > annot.getValue().size()-1)
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		if (params < annot.getValue().size()-1) {
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		}
@@ -160,7 +157,7 @@ public class StylesValidator implements IMetaPluginValidator {
 				String retVal = "";
 				for (String s : errors)
 					retVal += s;
-				return new ErrorPair<String, EStructuralFeature>(
+				return newError(
 						retVal,
 						annot.eClass().getEStructuralFeature("value"));
 			}
@@ -168,13 +165,13 @@ public class StylesValidator implements IMetaPluginValidator {
 		return null;
 	}
 
-	private ErrorPair<String, EStructuralFeature> checkEdgeStyleAnnotation(Edge edge, Annotation annot) {
+	private ValidationResult<String, EStructuralFeature> checkEdgeStyleAnnotation(Edge edge, Annotation annot) {
 		Styles styles = getStyles(getGraphModel(edge));
 		if (annot.getValue() == null || annot.getValue().isEmpty())
 			return null;
 		String styleName = annot.getValue().get(0);
 		if (styleName == null || styleName.isEmpty())
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"No style for this node defined", annot.eClass()
 							.getEStructuralFeature("value"));
 		if (styles == null)
@@ -185,7 +182,7 @@ public class StylesValidator implements IMetaPluginValidator {
 		for (Style s : styles.getStyles()) {
 			if (s.getName().equals(styleName) ){
 				if (s instanceof NodeStyle)
-					return new ErrorPair<String, EStructuralFeature>(
+					return newError(
 							"Node style assigned to this edge...",
 							annot.eClass().getEStructuralFeature("value"));
 				style = s;
@@ -194,7 +191,7 @@ public class StylesValidator implements IMetaPluginValidator {
 		}
 		
 		if (style == null) {
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" does not exist",
 					annot.eClass().getEStructuralFeature("value"));
 		}
@@ -202,11 +199,11 @@ public class StylesValidator implements IMetaPluginValidator {
 		EdgeStyle es = (EdgeStyle) style;
 		int params = es.getParameterCount();
 		if (params > annot.getValue().size()-1)
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		if (params < annot.getValue().size()-1) {
-			return new ErrorPair<String, EStructuralFeature>(
+			return newError(
 					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		}
@@ -216,7 +213,7 @@ public class StylesValidator implements IMetaPluginValidator {
 				String retVal = "";
 				for (String s : errors)
 					retVal += s;
-				return new ErrorPair<String, EStructuralFeature>(
+				return newError(
 						retVal,
 						annot.eClass().getEStructuralFeature("value"));
 			}
@@ -271,21 +268,21 @@ public class StylesValidator implements IMetaPluginValidator {
 	}
 
 	
-	private ErrorPair<String, EStructuralFeature> checkGraphModelStyleAnnotation(GraphModel gm, Annotation annot) {
+	private ValidationResult<String, EStructuralFeature> checkGraphModelStyleAnnotation(GraphModel gm, Annotation annot) {
 		if (annot != null && annot.getValue().size() == 0) {
-			return new ErrorPair<String, EStructuralFeature>("Missing path to style file", 
+			return newError("Missing path to style file", 
 					annot.eClass().getEStructuralFeature("value"));
 		} else {
 			PathValidator.checkPath(annot, annot.getValue().get(0));
 			Styles styles = getStyles(gm);
 			if (styles == null)
-				return new ErrorPair<String, EStructuralFeature>("Style file " + annot.getValue().get(0)+" does not exist", 
+				return newError("Style file " + annot.getValue().get(0)+" does not exist", 
 						annot.eClass().getEStructuralFeature("value"));
 		}
 		return null;
 	}
 	
-	private ErrorPair<String, EStructuralFeature> checkGraphModelDisableHighlight(GraphModel me, Annotation annotation) {
+	private ValidationResult<String, EStructuralFeature> checkGraphModelDisableHighlight(GraphModel me, Annotation annotation) {
 		return checkPredefinedValue(CincoUtil.DISABLE_HIGHLIGHT_VALUES, annotation);
 	}
 	

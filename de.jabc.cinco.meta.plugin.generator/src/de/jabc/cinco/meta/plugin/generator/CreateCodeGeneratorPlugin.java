@@ -265,7 +265,12 @@ public class CreateCodeGeneratorPlugin{
     
     for(String[]gen: generators){
     	sb.append("<generator\n");
-        sb.append(String.format("bundle_id=\"%s\"\n",gen[0]));
+    	if(!gen[0].equals("")){
+    		sb.append(String.format("bundle_id=\"%s\"\n",gen[0]));
+    	}else{
+    		sb.append(String.format("bundle_id=\"%s\"\n",graphModel.getPackage()));
+    	}
+        
         sb.append(String.format("class=\"%s\"\n",gen[1]));
         sb.append(String.format("outlet=\"%s\">\n</generator>\n",gen[2]));
     }

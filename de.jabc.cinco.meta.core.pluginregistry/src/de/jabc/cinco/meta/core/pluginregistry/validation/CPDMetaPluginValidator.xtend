@@ -35,11 +35,8 @@ class CPDMetaPluginValidator extends AbstractCPDMetaPluginValidator {
 	
 	@Check
 	def checkValidators(EObject eObj) {
-		for (v : PluginRegistry::instance.pluginCPDGenerators.map[n|n.validator]) {
-			var pair = v.checkAll(eObj);
-			if (pair != null)
-				error(pair.getMessage, pair.getFeature());
-		}
+		PluginRegistry::instance.pluginCPDGenerators
+			.map[validator].map[checkAll(eObj)].forEach[applyResult]
 	}
 	
 	private def boolean metaPluginExists(Annotation annotation) {

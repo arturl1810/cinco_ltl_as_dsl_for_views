@@ -69,8 +69,8 @@ public class Activator extends AbstractUIPlugin {
 				  Class<?> cl = Platform.getBundle(element.getAttribute("bundle_id")).loadClass(generatorClassName);
 				  generator = (IGenerator<GraphModel>) cl.getConstructor().newInstance();
 				  outlet = element.getAttribute("outlet");
-				}catch(IllegalAccessException | InstantiationException | IllegalArgumentException | NoSuchMethodException | SecurityException| InvocationTargetException | ClassNotFoundException | InvalidRegistryObjectException e){
-					
+				}catch(NullPointerException| IllegalAccessException | InstantiationException | IllegalArgumentException | NoSuchMethodException | SecurityException| InvocationTargetException | ClassNotFoundException | InvalidRegistryObjectException e){
+					throw new IllegalStateException(String.format("Could not load Generator: %s", generatorClassName),e);
 				} 
 				GraphModelGeneratorRegistry.INSTANCE.addGenerator(graphModelClassName, generator,outlet);
 			}

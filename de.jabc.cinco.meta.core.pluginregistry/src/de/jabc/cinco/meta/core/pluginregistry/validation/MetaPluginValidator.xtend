@@ -17,7 +17,6 @@ import java.util.ArrayList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 
-
 class MetaPluginValidator extends AbstractMetaPluginValidator {
 	
 	static MetaPluginValidator instance
@@ -46,11 +45,7 @@ class MetaPluginValidator extends AbstractMetaPluginValidator {
 	
 	@Check
 	def checkValidators(EObject eObj) {
-		for (v : validators) {
-			var pair = v.checkAll(eObj);
-			if (pair != null)
-				error(pair.getMessage, pair.getFeature());
-		}
+		validators.map[checkAll(eObj)].forEach[applyResult]
 	}
 	
 	private def metaPluginExists(Annotation annotation) {

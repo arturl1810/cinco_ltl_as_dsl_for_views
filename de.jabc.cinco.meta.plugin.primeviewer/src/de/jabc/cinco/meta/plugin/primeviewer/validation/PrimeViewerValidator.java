@@ -16,8 +16,10 @@ import mgl.UserDefinedType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
+import de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
+
+import static de.jabc.cinco.meta.core.pluginregistry.validation.ValidationResult.newError;
 
 public class PrimeViewerValidator implements IMetaPluginValidator{
 
@@ -25,7 +27,7 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 		
 	}
 	
-	public ErrorPair<String,EStructuralFeature> checkPVLabelAndPVFileExtensionIsUsed(final Annotation anno){
+	public ValidationResult<String,EStructuralFeature> checkPVLabelAndPVFileExtensionIsUsed(final Annotation anno){
 //		try{
 //			GraphModel gm = (GraphModel)anno.getParent();
 //			for(Node n: gm.getNodes()){
@@ -58,10 +60,10 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 		return null;
 	}
 	
-	public ErrorPair<String,EStructuralFeature> checkPVLabelContainsLabel(final Annotation anno){
+	public ValidationResult<String,EStructuralFeature> checkPVLabelContainsLabel(final Annotation anno){
 		
 			if(anno.getValue()==null||anno.getValue().size()!=1){
-				return new ErrorPair<String,EStructuralFeature>("Annotation \"pvLabel\" must must have one valid Attribute as label",anno.eClass().getEStructuralFeature("name"));
+				return newError("Annotation \"pvLabel\" must must have one valid Attribute as label",anno.eClass().getEStructuralFeature("name"));
 				
 			}
 		
@@ -70,19 +72,19 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 	
 	
 	
-	public ErrorPair<String,EStructuralFeature> checkPVLabelContainsValidLabel(final Annotation anno){
-		ErrorPair<String, EStructuralFeature> pair = null;
+	public ValidationResult<String,EStructuralFeature> checkPVLabelContainsValidLabel(final Annotation anno){
+		ValidationResult<String, EStructuralFeature> pair = null;
 		if (anno.getParent() instanceof ReferencedType&&anno.getValue().size()==1){
 
 				String value = anno.getValue().get(0);
 				ReferencedType refType = (ReferencedType)anno.getParent();
 				if(refType instanceof ReferencedEClass){
 					if(((ReferencedEClass) refType).getType().getEStructuralFeature(value)==null){
-						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Reference or Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
+						pair = newError(String.format("%s ist not a valid Reference or Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
 					}
 				}else if(refType instanceof ReferencedModelElement){
 					if(!(getAllAttributes(((ReferencedModelElement) refType).getType()).stream().anyMatch(e -> e.equals(value)))){
-						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
+						pair = newError(String.format("%s ist not a valid Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
 					}
 				}
 			
@@ -110,10 +112,10 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 		}
 		return null;
 	}
-	public ErrorPair<String,EStructuralFeature> checkPVFileExtensionValueSize(final Annotation anno){
+	public ValidationResult<String,EStructuralFeature> checkPVFileExtensionValueSize(final Annotation anno){
 		
 		if(anno.getValue()==null||anno.getValue().size()!=1){
-			return new ErrorPair<String,EStructuralFeature>("Annotation \"pvFileExtension\" must must have exactly value as File Extension",anno.eClass().getEStructuralFeature("name"));
+			return newError("Annotation \"pvFileExtension\" must must have exactly value as File Extension",anno.eClass().getEStructuralFeature("name"));
 			
 		}
 	
@@ -121,8 +123,8 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 	}
 	
 	@Override
-	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
-		ErrorPair<String,EStructuralFeature> pair = null;
+	public ValidationResult<String, EStructuralFeature> checkAll(EObject eObject) {
+		ValidationResult<String,EStructuralFeature> pair = null;
 		if(eObject instanceof Annotation) {
 			if(((Annotation)eObject).getName().equals("primeviewer")){
 				pair = checkPVLabelAndPVFileExtensionIsUsed((Annotation)eObject);

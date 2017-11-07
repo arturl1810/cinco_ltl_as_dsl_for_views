@@ -48,10 +48,6 @@ abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEdit
 		?: (actionBarContributor = new CincoDiagramEditorActionBarContributor)
 	}
 	
-	override disposeActionBarContributor() {
-		actionBarContributor?.dispose
-	}
-	
 	override Resource getInnerState() {
 		diagramBehavior.innerState
 	}
