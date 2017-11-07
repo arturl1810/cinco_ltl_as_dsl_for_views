@@ -259,7 +259,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		
 		if (bo instanceof «InternalGraphModel.name») {
 			«InternalGraphModel.name» ime = («InternalGraphModel.name») bo;
-			if («gm.instanceofCheck("ime.getElement()")») {
+			if («gm.internalInstanceofCheck("ime")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", gm) SEPARATOR ","»
 					new «GraphitiCustomFeature.name»<«gm.fqBeanName»>(this,new «annotValue»())
@@ -271,7 +271,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«FOR me : gm.modelElements.filter[it instanceof GraphModel === false]»
 		if (bo instanceof «InternalModelElement.name») {
 			«InternalModelElement.name» ime = («InternalModelElement.name») bo;
-			if («me.instanceofCheck("ime.getElement()")») {
+			if («me.internalInstanceofCheck("ime")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
 					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
