@@ -34,6 +34,10 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	
 	override canPaste(IPasteContext context) {
 		var objects = fromClipboard
+		
+		if (objects.exists[it instanceof PictogramElement === false])
+			return false
+			
 		var pes = context.pictogramElements
 		
 		if (objects.nullOrEmpty || pes.nullOrEmpty)
