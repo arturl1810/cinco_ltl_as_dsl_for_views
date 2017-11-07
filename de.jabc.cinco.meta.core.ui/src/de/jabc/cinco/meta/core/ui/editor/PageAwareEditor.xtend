@@ -49,15 +49,6 @@ interface PageAwareEditor extends IEditorPart, InnerStateAwareness, PageAwarenes
 	def IEditorActionBarContributor getActionBarContributor()
 	
 	/**
-	 * Disposes the action bars contributor. Typically called in an multi-page editor
-	 * when this page is activated.
-     * <p>
-     * Any retarget actions should be removed as part listeners, if existent.
-     * </p>
-     */
-	def void disposeActionBarContributor()
-	
-	/**
 	 * Retrieves the resource contributor that contributes content to the resource that
 	 * represents the inner state of a multi-page editor.
 	 * 
