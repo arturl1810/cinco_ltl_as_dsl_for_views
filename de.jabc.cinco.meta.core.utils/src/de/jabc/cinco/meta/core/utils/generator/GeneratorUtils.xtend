@@ -404,13 +404,6 @@ class GeneratorUtils extends InheritanceUtil{
 		return map
 	}
 	
-	def isCreateDisabled(Edge edge){
-		false
-	}
-	
-	def isCreateDisabled() {
-		false
-	}
 	
 	/**
 	 * Adds a {@link ModelElement} to the list of the corresponding palette group.
