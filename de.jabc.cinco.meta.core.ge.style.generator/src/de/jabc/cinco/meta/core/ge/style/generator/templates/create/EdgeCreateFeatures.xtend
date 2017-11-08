@@ -38,6 +38,8 @@ class EdgeCreateFeatures extends APIUtils{
 		private «ECincoError.name» error = «ECincoError.name».OK;
 		private «ICreateConnectionContext.name» context;
 		
+		private boolean doneChanges = false;
+		
 		/**
 		 * Call of the Superclass
 		 * @param fp : Fp is the parameter of the Superclass-Call
@@ -114,6 +116,7 @@ class EdgeCreateFeatures extends APIUtils{
 				addContext.setNewObject(«e.flName».getInternalElement());
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
 			}
+			doneChanges = true;
 			return connection;
 		}	
 	
@@ -165,6 +168,11 @@ class EdgeCreateFeatures extends APIUtils{
 			this.error = error;
 		}
 		
+		@Override
+		public boolean hasDoneChanges() {
+			return doneChanges;
+		}
+		
 		«IF ! CincoUtil.isHighlightReconnectionDisabled(e.graphModel)»
 			private «String.name» highlightContextKey;
 			
@@ -181,6 +189,7 @@ class EdgeCreateFeatures extends APIUtils{
 					«Highlighter.name».INSTANCE.get().onConnectionCancel(highlightContextKey);
 					highlightContextKey = null;
 				}
+				doneChanges = false;
 			}
 		
 			@Override
@@ -190,6 +199,12 @@ class EdgeCreateFeatures extends APIUtils{
 					«Highlighter.name».INSTANCE.get().onConnectionEnd(highlightContextKey);
 					highlightContextKey = null;
 				}
+			}
+		«ELSE»
+			@Override
+			public void canceledAttaching(«ICreateConnectionContext.name» context) {
+				super.canceledAttaching(context);
+				doneChanges = false;
 			}
 		«ENDIF»
 	}
