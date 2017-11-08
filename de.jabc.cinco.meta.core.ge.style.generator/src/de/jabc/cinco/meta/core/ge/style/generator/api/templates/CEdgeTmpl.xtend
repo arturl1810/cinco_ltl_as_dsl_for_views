@@ -66,7 +66,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«FOR source : me.possibleSources»
 	@Override
 	public void reconnectSource(«source.fqBeanName» source) {
-		«Anchor.name» oldAnchor = ((«AnchorContainer.name») pe).getAnchors().get(0);
+		«Anchor.name» oldAnchor = ((«AnchorContainer.name») ((«CNode.name») getSourceElement()).getPictogramElement()).getAnchors().get(0);
 		«Anchor.name» newAnchor = ((«AnchorContainer.name») ((«source.fuCName») source).getPictogramElement()).getAnchors().get(0);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
 		
@@ -85,7 +85,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«FOR target : me.possibleTargets»
 	@Override
 	public void reconnectTarget(«target.fqBeanName» target) {
-		«Anchor.name» oldAnchor = ((«AnchorContainer.name») pe).getAnchors().get(0);
+		«Anchor.name» oldAnchor = ((«AnchorContainer.name») ((«CNode.name») getTargetElement()).getPictogramElement()).getAnchors().get(0);
 		«Anchor.name» newAnchor = ((«AnchorContainer.name») ((«target.fuCName») target).getPictogramElement()).getAnchors().get(0);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
 		
