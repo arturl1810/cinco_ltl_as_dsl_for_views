@@ -295,25 +295,25 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	public <T extends «graphmodel.Node.name»> T clone(«ModelElementContainer.name» targetContainer) {
 		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
 		«Shape.name» clonePE = copier.copy(this.getPictogramElement());
-		«InternalNode.name» bo = («InternalNode.name») clonePE.getLink().getBusinessObjects().get(0);
-		((«CNode.name») bo.getElement()).setPictogramElement(clonePE);
+		«graphmodel.Node.name» bo = («graphmodel.Node.name») clonePE.getLink().getBusinessObjects().get(0);
+		((«CNode.name») bo).setPictogramElement(clonePE);
 		«EcoreUtil.name».setID(bo, getInternalElement().getId());
-		«EcoreUtil.name».setID(bo.getElement(), getId());
+		«EcoreUtil.name».setID(bo.getInternalElement(), getId());
 		«ContainerShape.name» parentContainerShape = null;
 		if (targetContainer instanceof «CModelElement.name») {
 			parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
 			parentContainerShape.getChildren().add((«Shape.name») clonePE);
-			targetContainer.getInternalContainerElement().getModelElements().add(bo);
+			targetContainer.getInternalContainerElement().getModelElements().add(bo.getInternalElement());
 			((«CModelElement.name») targetContainer).addLinksToDiagram(clonePE);
 		}
-		if (bo instanceof «InternalModelElementContainer.name») {
+		if (bo instanceof «ModelElementContainer.name») {
 			«List.name»<«InternalModelElement.name»> remove = new «ArrayList.name»<>();
-			remove.addAll(((«InternalModelElementContainer.name») bo).getModelElements());
+			remove.addAll(((«ModelElementContainer.name») bo).getInternalContainerElement().getModelElements());
 			remove.stream().filter(me -> me instanceof «InternalEdge.name»).forEach(e -> ((«Edge.name»)e.getElement()).delete());
 			remove.stream().filter(me -> me instanceof «InternalNode.name»).forEach(e -> ((«graphmodel.Node.name»)e.getElement()).delete());
 		}
 		
-		return (T) bo.getElement();
+		return (T) bo;
 	}
 	
 	@Override
