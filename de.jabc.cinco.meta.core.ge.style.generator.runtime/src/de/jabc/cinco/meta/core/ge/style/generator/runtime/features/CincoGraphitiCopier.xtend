@@ -18,6 +18,8 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.emf.ecore.EObject
+import graphmodel.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
 
 class CincoGraphitiCopier {
 	
@@ -49,7 +51,8 @@ class CincoGraphitiCopier {
 		}
 		
 		EcoreUtil::setID(meCopy,EcoreUtil::generateUUID)
-		
+		if (!meCopy.eAdapters.exists[it instanceof CincoEContentAdapter])
+			meCopy.eAdapters.addAll(ime.eAdapters.filter[it instanceof CincoEContentAdapter])
 		meCopy
 	}
 	
@@ -75,7 +78,7 @@ class CincoGraphitiCopier {
 	def create PictogramsFactory.eINSTANCE.createPictogramLink copy(PictogramLink link) {
 		pictogramElement = link.pictogramElement.copyPE
 		businessObjects.clear
-		businessObjects.addAll(link.businessObjects.map[(it as InternalModelElement).copy])
+		businessObjects.addAll(link.businessObjects.map[(it as ModelElement).internalElement.copy].map[element])
 	}
 	
 	def create EcoreUtil.copy(a) copy(Anchor a) {

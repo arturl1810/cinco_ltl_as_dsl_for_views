@@ -278,6 +278,9 @@
           <genParameters ecoreParameter="GraphModel.ecore#//internal/InternalModelElementContainer/canContain.1/node"/>
         </genOperations>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalModelElementContainer/getContainmentConstraints"/>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalModelElementContainer/canContainNodes">
+          <genParameters ecoreParameter="GraphModel.ecore#//internal/InternalModelElementContainer/canContainNodes/nodes"/>
+        </genOperations>
       </genClasses>
       <genClasses ecoreClass="GraphModel.ecore#//internal/InternalModelElement">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalModelElement/container"/>
