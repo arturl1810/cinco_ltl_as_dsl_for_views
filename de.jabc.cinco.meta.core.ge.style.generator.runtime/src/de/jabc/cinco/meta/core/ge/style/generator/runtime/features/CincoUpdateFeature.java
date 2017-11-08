@@ -156,7 +156,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	 *            : PictogramElement
 	 * @return Returns true if an update is needed
 	 */
-	public static <EObject> boolean checkUpdateNeeded(EObject bo, PictogramElement pe) {
+	public <EObject> boolean checkUpdateNeeded(EObject bo, PictogramElement pe) {
 		boolean updateNeeded;
 		if (pe instanceof ContainerShape) {
 			for (Shape _s : ((ContainerShape) pe).getChildren()) {
@@ -171,7 +171,8 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					return true;
 			}
 		} else {
-			java.lang.Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+			java.lang.Object o = getBusinessObjectForLinkedPictogramElement(pe);
+//			System.err.println(String.format("Object bo:\n %s \nand linked object o:\n %s", bo, o));
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText && bo.equals(o)) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				String formatString = "";

@@ -1,9 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
 import graphmodel.internal.InternalGraphModel
-import java.util.ArrayList
 import java.util.HashSet
-import java.util.List
 import java.util.Set
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICopyContext
