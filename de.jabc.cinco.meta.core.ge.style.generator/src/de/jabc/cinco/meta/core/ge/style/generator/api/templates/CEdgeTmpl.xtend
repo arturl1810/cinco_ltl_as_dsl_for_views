@@ -169,8 +169,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	public <T extends «graphmodel.Edge.name»> T clone(«Node.name» source, «Node.name» target) {
 		«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
 		«Connection.name» clonePE = («Connection.name») copier.copyPE(getPictogramElement());
-		«InternalEdge.name» clone = («InternalEdge.name») clonePE.getLink().getBusinessObjects().get(0);
-		«graphmodel.Edge.name» _edge = («graphmodel.Edge.name») clone.getElement();
+		«graphmodel.Edge.name» clone = («graphmodel.Edge.name») clonePE.getLink().getBusinessObjects().get(0);
+		«graphmodel.Edge.name» _edge = («graphmodel.Edge.name») clone;
 		
 		clonePE.setStart(((«CNode.name») source).getAnchor());
 		clonePE.setEnd(((«CNode.name») target).getAnchor());
@@ -180,14 +180,14 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		
 		«GraphModelExtension.name» gmx = new «GraphModelExtension.name»();
 		«ModelElementContainer.name» commonContainer = gmx.getCommonContainer(source.getContainer().getInternalContainerElement(), («InternalNode.name») source.getInternalElement(), («InternalNode.name») target.getInternalElement()).getContainerElement();
-		commonContainer.getInternalContainerElement().getModelElements().add(clone);
+		commonContainer.getInternalContainerElement().getModelElements().add(clone.getInternalElement());
 		((«CModelElement.name») commonContainer).getDiagram().getConnections().add(clonePE);
 		((«CModelElement.name») commonContainer).addLinksToDiagram(clonePE);
 		
 		if (_edge instanceof «CModelElement.name»)
 			((«CModelElement.name») _edge).setPictogramElement(clonePE);
 		
-		return (T) clone.getElement();
+		return (T) clone;
 	}
 	
 	@Override
