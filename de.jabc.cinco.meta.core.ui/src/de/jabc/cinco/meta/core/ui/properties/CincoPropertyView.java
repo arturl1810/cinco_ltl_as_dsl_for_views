@@ -103,6 +103,8 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
+import de.jabc.cinco.meta.core.utils.MGLUtil;
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension;
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
@@ -447,6 +449,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			bo = ((ModelElement)bo).getInternalElement();
 		if (bo instanceof InternalModelElement) {
 			GraphModel gm = ((InternalModelElement) bo).getRootElement().getElement();
+			getAllModelElements(gm, result, searchFor);
+		}
+		if (bo instanceof InternalType) {
+			GraphModel gm = new GraphModelExtension().getRootElement(((InternalType) bo).getElement());
 			getAllModelElements(gm, result, searchFor);
 		}
 		return result;

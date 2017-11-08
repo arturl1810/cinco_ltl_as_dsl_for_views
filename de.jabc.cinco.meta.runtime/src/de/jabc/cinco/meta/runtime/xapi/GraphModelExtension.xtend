@@ -14,6 +14,9 @@ import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
+import graphmodel.Type
+import graphmodel.GraphModel
+import graphmodel.internal.InternalGraphModel
 
 /**
  * GraphModel-specific extension methods.
@@ -498,5 +501,20 @@ class GraphModelExtension {
 	 */
 	def <C extends Collection<T>,T> withAll(C collection, Iterable<T> toBeIncluded) {
 		collection => [ addAll(toBeIncluded) ]
+	}
+	
+	/**
+	 * Returns the Graphmodel of the given type
+	 * 
+	 * @param type - The type for which the graphmodel should be retrieved
+	 * @return The Graphmodel containing (transitive) the type 
+	 */
+	def getRootElement(Type type) {
+		var container = type.eContainer
+		while (!(container instanceof InternalGraphModel)) {
+			container = container.eContainer
+		}
+		
+		(container as InternalGraphModel).element
 	}
 }
