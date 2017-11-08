@@ -172,6 +172,9 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«graphmodel.Edge.name» clone = («graphmodel.Edge.name») clonePE.getLink().getBusinessObjects().get(0);
 		«graphmodel.Edge.name» _edge = («graphmodel.Edge.name») clone;
 		
+		«EcoreUtil.name».setID(_edge.getInternalElement(), getInternalElement().getId());
+		«EcoreUtil.name».setID(_edge, getId());
+		
 		clonePE.setStart(((«CNode.name») source).getAnchor());
 		clonePE.setEnd(((«CNode.name») target).getAnchor());
 		

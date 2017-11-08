@@ -297,8 +297,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«Shape.name» clonePE = copier.copy(this.getPictogramElement());
 		«graphmodel.Node.name» bo = («graphmodel.Node.name») clonePE.getLink().getBusinessObjects().get(0);
 		((«CNode.name») bo).setPictogramElement(clonePE);
-		«EcoreUtil.name».setID(bo, getInternalElement().getId());
-		«EcoreUtil.name».setID(bo.getInternalElement(), getId());
+		«EcoreUtil.name».setID(bo.getInternalElement(), getInternalElement().getId());
+		«EcoreUtil.name».setID(bo, getId());
 		«ContainerShape.name» parentContainerShape = null;
 		if (targetContainer instanceof «CModelElement.name») {
 			parentContainerShape = ((«CModelElement.name») targetContainer).getPictogramElement();
