@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib,
  de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
  org.eclipse.xtext,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ de.jabc.cinco.meta.runtime
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.xtend.typesystem.emf,
  org.eclipse.xtext.ui.editor.contentassist,
