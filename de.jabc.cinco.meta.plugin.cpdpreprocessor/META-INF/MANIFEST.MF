@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: CPDPreprocessor
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin.cpdpreprocessor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.8.0"
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.plugin.cpdpreprocessor

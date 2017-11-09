@@ -4,7 +4,7 @@
     <relativePath>../pom.xml</relativePath>
     <groupId>de.jabc.cinco</groupId>
     <artifactId>de.jabc.cinco.meta.parent</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>de.jabc.cinco.meta.core.jabcprojectgenerator</artifactId>
   <build>
