@@ -437,7 +437,7 @@ public class Highlight {
 			PictogramElement pe = affected.iterator().next();
 			DiagramBehavior db = getDiagramBehavior(pe);
 			if (db != null) workbenchX.async(() -> {
-				for (PictogramElement p : affected)
+				for (PictogramElement p : new ArrayList<>(affected))
 					db.refreshRenderingDecorators(p);
 			});
 			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);

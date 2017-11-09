@@ -140,12 +140,8 @@ public abstract class Highlighter {
 	}
 	
 	public String onConnectionStart(ICreateConnectionFeature feature, ICreateConnectionContext context) {
-		long time = System.currentTimeMillis();
 		Set<PictogramElement> list = getHighlightablesOnConnect(feature, context);
-
-		System.out.println("["+getClass().getSimpleName()+"]  onConnectionStart > turnOnHighlights.before");
 		String contextKey = turnOnHighlights(list);
-		System.out.println("["+getClass().getSimpleName()+"]  onConnectionStart > turnOnHighlights.after " + (System.currentTimeMillis()-time));
 		return contextKey;
 	}
 	
@@ -182,26 +178,10 @@ public abstract class Highlighter {
 		List<Highlight> highlights = new ArrayList<>();
 		
 		if (pes != null && !pes.isEmpty()) {
-			long time = System.currentTimeMillis();
-			System.out.println("["+getClass().getSimpleName()+"]  createHighlight.before");
 			Highlight highlight = getHighlight(pes);
 			highlights.add(highlight);
 			highlight.swell(0.2);
-			System.out.println("["+getClass().getSimpleName()+"]  createHighlight.after " + (System.currentTimeMillis()-time));
-//			for (PictogramElement pe : pes) {
-//				Highlight highlight = getHighlight(pe);
-//				if (highlight != null) {
-//					highlights.add(highlight);
-//					highlight.swell(0.2);
-//				}
-//			}
-			time = System.currentTimeMillis();
-			System.out.println("["+getClass().getSimpleName()+"]  refreshDiagram.before");
 			refreshDiagram();
-			System.out.println("["+getClass().getSimpleName()+"]  refreshDiagram.after " + (System.currentTimeMillis()-time));
-			
-		} else {
-			System.out.println("["+getClass().getSimpleName()+"]  No pictograms to be highlighted!");
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);
