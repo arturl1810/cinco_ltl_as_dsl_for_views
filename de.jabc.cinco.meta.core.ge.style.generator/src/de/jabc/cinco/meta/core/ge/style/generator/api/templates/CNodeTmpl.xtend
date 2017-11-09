@@ -86,16 +86,16 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target) {
-		if (!(target instanceof «target.fuCName»))
+		if (!(target instanceof «target.fuName»))
 			throw new «RuntimeException.name»(
 				«String.name».format("Parameter \"target\" of wrong type: Expected type: %s, given type %s", 
-				«target.fuCName».class, target.getClass()));
+				«target.fuName».class, target.getClass()));
 		«CreateConnectionContext.name» cc = new «CreateConnectionContext.name»();
 		cc.setSourcePictogramElement(getPictogramElement());
-		cc.setTargetPictogramElement(((«target.fuCName») target).getPictogramElement());
+		cc.setTargetPictogramElement(((«CModelElement.name») target).getPictogramElement());
 		
 		cc.setSourceAnchor(((«AnchorContainer.name»)this.getPictogramElement()).getAnchors().get(0));
-		cc.setTargetAnchor(((«AnchorContainer.name»)((«target.fuCName»)target).getPictogramElement()).getAnchors().get(0));
+		cc.setTargetAnchor(((«AnchorContainer.name»)((«CModelElement.name»)target).getPictogramElement()).getAnchors().get(0));
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
 		«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
