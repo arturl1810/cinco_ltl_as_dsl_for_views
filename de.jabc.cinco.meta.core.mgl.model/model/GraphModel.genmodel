@@ -198,6 +198,8 @@
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Type">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Type/internalElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Type/delete"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Type/preDelete"/>
     </genClasses>
     <nestedGenPackages prefix="Internal" basePackage="graphmodel" disposableProviderFactory="true"
         ecorePackage="GraphModel.ecore#//internal">

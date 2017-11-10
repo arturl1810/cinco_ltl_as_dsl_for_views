@@ -170,7 +170,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;EList&lt;graphmodel.internal.InternalEdge> allEdges = new org.eclipse.emf.common.util.BasicEList&lt;>();&#xA;EList&lt;graphmodel.internal.InternalEdge> incoming = ((graphmodel.internal.InternalNode) getInternalElement()).getIncoming();&#xA;EList&lt;graphmodel.internal.InternalEdge> outgoing = ((graphmodel.internal.InternalNode) getInternalElement()).getOutgoing();&#xA;allEdges.addAll(incoming);&#xA;allEdges.addAll(outgoing);&#xA;for (graphmodel.internal.InternalEdge ie : allEdges)&#xA;&#x9;((graphmodel.Edge) ie.getElement()).delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());"/>
+        <details key="body" value="preDelete();&#xA;EList&lt;graphmodel.internal.InternalEdge> allEdges = new org.eclipse.emf.common.util.BasicEList&lt;>();&#xA;EList&lt;graphmodel.internal.InternalEdge> incoming = ((graphmodel.internal.InternalNode) getInternalElement()).getIncoming();&#xA;EList&lt;graphmodel.internal.InternalEdge> outgoing = ((graphmodel.internal.InternalNode) getInternalElement()).getOutgoing();&#xA;allEdges.addAll(incoming);&#xA;allEdges.addAll(outgoing);&#xA;for (graphmodel.internal.InternalEdge ie : allEdges)&#xA;&#x9;((graphmodel.Edge) ie.getElement()).delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;setInternalElement(null);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -302,7 +302,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());"/>
+        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;setInternalElement(null);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -527,6 +527,16 @@
       abstract="true" interface="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" interface="true"
       eSuperTypes="#//IdentifiableElement">
+    <eOperations name="delete">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;setInternalElement(null);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="preDelete">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=""/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" lowerBound="1"
         eType="#//internal/InternalType" containment="true" eOpposite="#//internal/InternalType/element"/>
   </eClassifiers>
