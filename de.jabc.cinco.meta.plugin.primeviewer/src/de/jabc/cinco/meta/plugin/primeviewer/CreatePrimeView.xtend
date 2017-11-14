@@ -91,24 +91,21 @@ class CreatePrimeView {
 		var EPackage ePack = (map.get("ePackage") as EPackage)
 		if (proj !== null) {
 			try {
-				var primeNodes = gm.nodes.filter[isPrime]
+				val primeNodes = gm.nodes
+					.filter[primeReference?.annotations?.exists[name == "pvFileExtension"]]
 				
-				var primeViewElements = primeNodes.filter[
-					!(primeReference.annotations.filter[name.equals("pvFileExtension")].empty)
-				]
-				
-				primeViewElements.forEach[ 
+				primeNodes.forEach[ 
 					doGenerateLabelProviderContent(it, proj)
 					doGenerateContentProviderContent(it, proj)
 				]
 				
 				doGenerateActivatorContent(gm, proj)
-				doGeneratePluginXMLContent(primeViewElements, proj)
+				doGeneratePluginXMLContent(primeNodes, proj)
 				
 				proj.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor())
 				return "default"
 			} catch (CoreException e) {
-			
+				e.printStackTrace
 			}
 		} else {
 			return "error"
