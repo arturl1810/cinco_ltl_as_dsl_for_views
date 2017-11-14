@@ -24,7 +24,7 @@ build:
   image: maven:3.5
   only:
     - schedules
-    - triggers
+    - web
   stage: build
   script:
     - pushd de.jabc.cinco.meta.libraries
