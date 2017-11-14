@@ -84,15 +84,22 @@ class Transformer {
 					refValue.baseElement?.element
 					?: {
 						addReplacementRequest(refValue.id) [theID|
+							val deliver = ref.eDeliver
+							ref.eSetDeliver(false)
 							baseInternal.eSet(ref, getBaseElement(theID).element)
+							ref.eSetDeliver(deliver)
 						]
 						refValue
 					}
 				}
 				default: refValue.transformValue
 			}
-			if (baseValue != null)
+			if (baseValue != null) {
+				val deliver = ref.eDeliver
+				ref.eSetDeliver(false)
 				baseInternal.eSet(ref, baseValue)
+				ref.eSetDeliver(deliver)
+			}
 		]
 	}
 	

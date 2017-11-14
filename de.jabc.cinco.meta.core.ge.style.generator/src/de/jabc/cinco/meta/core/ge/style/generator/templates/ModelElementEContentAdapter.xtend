@@ -5,6 +5,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.ModelElement
 import org.eclipse.emf.common.notify.Notification
+import org.eclipse.emf.ecore.EStructuralFeature
 
 class ModelElementEContentAdapter extends GeneratorUtils{
 	
@@ -30,8 +31,9 @@ class ModelElementEContentAdapter extends GeneratorUtils{
 		@Override
 		public void notifyChanged(«Notification.name» notification) {
 			«Object.name» o = notification.getNotifier();
-«««			if (invalidFeature((«EStructuralFeature.name») notification.getFeature()))
-«««				return;
+			«Object.name» feature = notification.getFeature();
+			if (feature instanceof «EStructuralFeature.name»)
+				if (!((«EStructuralFeature.name») feature).eDeliver()) return;
 			if («me.internalInstanceofCheck("o")») {
 				«me.fqInternalBeanName» tmp = 
 					(«me.fqInternalBeanName») o;

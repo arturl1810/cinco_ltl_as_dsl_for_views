@@ -30,7 +30,7 @@ class AdapterGeneratorExtension {
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
-				! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		}
 	'''
