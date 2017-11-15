@@ -26,7 +26,12 @@ class WorkspaceExtension extends de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModels(IContainer container) {
-		container.files.map[getGraphModel(GraphModel)]
+		extension val FileExtension = new FileExtension
+		container.files.map[
+			try {
+				getGraphModel
+			} catch (Exception e) {}
+		].filterNull
 	}
 	
 	/**
