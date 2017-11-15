@@ -5,23 +5,27 @@ package de.jabc.cinco.meta.core.mgl.scoping
 
 import java.net.URL
 import java.util.ArrayList
+import mgl.ComplexAttribute
 import mgl.GraphModel
 import mgl.ModelElement
+import mgl.OutgoingEdgeElementConnection
 import mgl.ReferencedAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.ReferencedType
 import mgl.Type
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.runtime.Path
-import org.eclipse.core.resources.ResourcesPlugin
+import mgl.MglPackage
 
 /**
  * This class contains custom scoping description.
@@ -31,6 +35,14 @@ import org.eclipse.core.resources.ResourcesPlugin
  *
  */
 class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
+	
+//	def IScope getScope(EObject eobj, EReference ref){
+//		if(eobj instanceof Refere)
+//		
+//		
+//		null
+//	}
+	
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
 		var scope = null as IScope
@@ -98,11 +110,22 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	def IScope scope_ReferencedType_type(ReferencedType refType,EReference ref){
-		if(refType instanceof ReferencedModelElement){
+		if(refType instanceof ReferencedModelElement && ref==MglPackage.eINSTANCE.referencedModelElement_Type){
 			return scope_ReferencedModelElement_type(refType as ReferencedModelElement,ref)
-			}else{
+			}else if(refType instanceof ReferencedEClass && ref == MglPackage.eINSTANCE.referencedEClass_Type){
 			return scope_ReferencedEClass_type(refType as ReferencedEClass,ref)
 		}
+	}
+	
+	def IScope scope_ComplexAttribute_type(ComplexAttribute it, EReference ref){
+		
+		val gm = it.modelElement.graphModel
+		Scopes.scopeFor(gm.nodes+gm.types+gm.edges+#[gm])
+	}
+	
+	def IScope scope_OutgoingEdgeElementConnection_connectingEdges(OutgoingEdgeElementConnection oeec, EReference ref){
+		println("HHFHFHFHFFIJHFOU")
+		Scopes.scopeFor(oeec.connectedElement.graphModel.edges)
 	}
 	
 	def loadResource(String uri){
