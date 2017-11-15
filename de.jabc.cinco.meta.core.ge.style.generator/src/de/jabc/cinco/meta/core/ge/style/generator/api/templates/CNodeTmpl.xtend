@@ -268,7 +268,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			ac.setSize(width,height);
 			
 			«IF n.retrievePrimeReference.isReferencedModelElement»
-			ac.setNewObject(((«graphmodel.Node.name») «n.retrievePrimeReference.name»).getInternalElement());
+			ac.setNewObject(((«graphmodel.IdentifiableElement.name») «n.retrievePrimeReference.name»).getInternalElement());
 			«ELSE»
 			ac.setNewObject(«n.retrievePrimeReference.name»);
 			«ENDIF»
