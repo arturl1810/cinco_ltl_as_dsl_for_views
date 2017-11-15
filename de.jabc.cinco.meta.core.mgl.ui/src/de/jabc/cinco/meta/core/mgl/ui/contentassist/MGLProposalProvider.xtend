@@ -40,6 +40,9 @@ import mgl.ReferencedEClass
 import org.eclipse.emf.ecore.EClass
 import de.jabc.cinco.meta.core.utils.xtext.ChooseWizard
 import java.util.LinkedList
+import mgl.GraphicalModelElement
+import mgl.MglPackage
+import mgl.ComplexAttribute
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -189,6 +192,21 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 			for(container:parentModel.nodes.filter(NodeContainer)){
 				acceptor.accept(createCompletionProposal(container.name,context))
 			}
+		}
+	}
+	
+	override completeIncomingEdgeElementConnection_ConnectingEdges(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		if(model instanceof GraphModel){
+			model.edges.forEach[acceptor.accept(createCompletionProposal(name,context))]
+		}else if(model instanceof GraphicalModelElement){
+			 (model.eContainer as GraphModel).edges.forEach[acceptor.accept(createCompletionProposal(name,context))]
+		}
+	}
+	override completeOutgoingEdgeElementConnection_ConnectingEdges(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		if(model instanceof GraphModel){
+			model.edges.forEach[acceptor.accept(createCompletionProposal(name,context))]
+		}else if(model instanceof GraphicalModelElement){
+			 (model.eContainer as GraphModel).edges.forEach[acceptor.accept(createCompletionProposal(name,context))]
 		}
 	}
 	
@@ -367,6 +385,28 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
         if (uri.isPlatform)
         	root.getFile(new Path(uri.toPlatformString(true)))
         else resFile.getProject().getFile(path)
+	}
+	
+	
+	// Attributes
+	
+	override completeComplexAttribute_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+		
+		(model as ComplexAttribute).modelElement.graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
+		
+	}
+	
+	
+	
+	def attributeTypeNames(GraphModel it){
+		(edges+nodes+types).map[name]+MglPackage.eINSTANCE.EDataTypeType.ELiterals.map[name]+#[name]
+	}
+	
+	def GraphModel getGraphModel(ModelElement element){
+		switch(element){
+			GraphModel: return element
+			default: return element.eContainer as GraphModel
+		}
 	}
 	
 }
