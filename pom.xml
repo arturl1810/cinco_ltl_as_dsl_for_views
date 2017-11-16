@@ -5,11 +5,6 @@
 	<artifactId>de.jabc.cinco.meta.parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<parent>
-		<groupId>de.ls5</groupId>
-		<artifactId>ls5-public-parent</artifactId>
-		<version>1</version>
-	</parent>
 	<modules>
 		<module>de.jabc.cinco.meta.branding</module>
 		<!-- <module>de.jabc.cinco.meta.core.ge.generator</module> -->
@@ -192,13 +187,6 @@
 					</filesets>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
 		</plugins>
 		<extensions>
 			<extension>
@@ -305,4 +293,12 @@
 	</scm>
 	<name>jABC Cinco</name>
 	<description>This is jABC Cinco, the meta tool for developing graphical editors.</description>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>cinco-meta-snapshot</id>
+			<url>https://ls5download.cs.tu-dortmund.de:8888/repository/cinco-meta-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
