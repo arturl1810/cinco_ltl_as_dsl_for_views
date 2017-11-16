@@ -25,10 +25,10 @@ class HighlighterTemplate extends MainTemplate {
 	import org.eclipse.graphiti.util.ColorConstant;
 	import org.eclipse.graphiti.util.IColorConstant;
 	
-	import de.jabc.cinco.meta.core.ui.highlight.Highlight;
-	import graphicalgraphmodel.CEdge;
-	import graphicalgraphmodel.CModelElement;
-	import graphicalgraphmodel.CNode;
+	import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.Highlight;
+	import graphmodel.Edge;
+	import graphmodel.ModelElement;
+	import graphmodel.Node;
 	import «graphmodel.tracerPackage».match.model.Match;
 	
 	/**
@@ -40,14 +40,14 @@ class HighlighterTemplate extends MainTemplate {
 	public final class Highlighter {
 		private Highlight highlight;
 		
-		private List<CModelElement> elements;
+		private List<ModelElement> elements;
 		
 		private java.awt.Color borderColor;
 		private java.awt.Color backColor;
 		
 		public Highlighter()
 		{
-			this.elements = new LinkedList<CModelElement>();
+			this.elements = new LinkedList<ModelElement>();
 			
 			this.borderColor = randomBorderColor();
 			this.backColor = backgoundColor(borderColor);
@@ -72,14 +72,14 @@ class HighlighterTemplate extends MainTemplate {
 					.setBackgroundColor(background);
 		}
 		
-		public final void highlight(Set<CModelElement> elements)
+		public final void highlight(Set<ModelElement> elements)
 		{
 			highlight.off();
 			highlight.clear();
 			this.elements.clear();
 			this.elements.addAll(elements);
-			elements.stream().filter(n->n instanceof CEdge).forEach(n->highlight.add(((CEdge) n).getModelElement()));
-			elements.stream().filter(n->n instanceof CNode).forEach(n->highlight.add(((CNode) n).getModelElement()));
+			elements.stream().filter(n->n instanceof Edge).forEach(n->highlight.add(n));
+			elements.stream().filter(n->n instanceof Node).forEach(n->highlight.add(n));
 	
 			highlight.on(); // turn it on
 	
@@ -89,7 +89,7 @@ class HighlighterTemplate extends MainTemplate {
 			Highlight localH = new Highlight()
 					.setForegroundColor(IColorConstant.WHITE)
 					.setBackgroundColor(IColorConstant.WHITE);
-			element.getElements().forEach(n->localH.add(n.getModelElement()));
+			element.getElements().forEach(n->localH.add(n));
 			localH.flash();
 			localH.clear();
 		

@@ -19,10 +19,10 @@ class AbstractSemanticTemplate extends MainTemplate {
 	
 	import java.util.List;
 	
-	import graphicalgraphmodel.CModelElementContainer;
-	import «graphmodel.CApiPackage».CDefault;
-	import «graphmodel.CApiPackage».CInitializing;
-	import «graphmodel.CApiPackage».CTerminating;
+	import graphmodel.ModelElementContainer;
+	import «graphmodel.apiPackage».Default;
+	import «graphmodel.apiPackage».Initializing;
+	import «graphmodel.apiPackage».Terminating;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	import «graphmodel.tracerPackage».match.model.Match;
 	import «graphmodel.tracerPackage».match.model.StateMatch;
@@ -64,13 +64,13 @@ class AbstractSemanticTemplate extends MainTemplate {
 			// hooks
 			// is a state
 			if(element instanceof StateMatch){
-				if(element.getPattern() instanceof CInitializing){
+				if(element.getPattern() instanceof Initializing){
 					this.postExecuteStartStateHook((StateMatch) element, context);
 				}
-				if(element.getPattern() instanceof CDefault){
+				if(element.getPattern() instanceof Default){
 					this.postExecuteDefaultStateHook((StateMatch)element, context);
 				}
-				if(element.getPattern() instanceof CTerminating){
+				if(element.getPattern() instanceof Terminating){
 					this.postExecuteTerminatingStateHook((StateMatch)element, context);
 				}
 			}
@@ -93,7 +93,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 				return stepResult;
 			}
 			
-			if(element instanceof CTerminating){
+			if(element instanceof Terminating){
 				//if container has interlevel state
 				//get level up
 				stepResult.setStepType(StepType.Terminating);
@@ -153,13 +153,13 @@ class AbstractSemanticTemplate extends MainTemplate {
 					return null;
 				}
 				
-				if(state.getPattern() instanceof CInitializing){
+				if(state.getPattern() instanceof Initializing){
 					this.preExecuteStartStateHook(state, context);
 				}
-				if(state.getPattern() instanceof CDefault){
+				if(state.getPattern() instanceof Default){
 					this.preExecuteDefaultStateHook(state, context);
 				}
-				if(state.getPattern() instanceof CTerminating){
+				if(state.getPattern() instanceof Terminating){
 					this.preExecuteTerminatingStateHook(state, context);
 					stepResult.setStepType(StepType.Terminating);
 					return stepResult;
@@ -306,7 +306,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 		 * @param container
 		 * @return
 		 */
-		public abstract String displayLevel(CModelElementContainer container);
+		public abstract String displayLevel(ModelElementContainer container);
 		
 		/**
 		 * Returns the visual representation for an element

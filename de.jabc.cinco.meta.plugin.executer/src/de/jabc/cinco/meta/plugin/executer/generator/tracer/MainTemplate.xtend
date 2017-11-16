@@ -38,14 +38,6 @@ abstract class MainTemplate {
 		return graphmodel.graphModel.package+".esdsl";
 	}
 	
-	def String getCApiPackage(ExecutableGraphmodel graphmodel){
-		return graphmodel.graphModel.package+".esdsl.api.c"+graphmodel.graphModel.name.toLowerCase+"es";
-	}
-	
-	def String getSourceCApiPackage(ExecutableGraphmodel graphmodel){
-		return graphmodel.graphModel.package+".api.c"+graphmodel.graphModel.name.toLowerCase;
-	}
-	
 	def String getSourceApiPackage(ExecutableGraphmodel graphmodel){
 		return graphmodel.graphModel.package+"."+graphmodel.graphModel.name.toLowerCase;
 	}

@@ -22,16 +22,16 @@ class EdgeSimulatorTemplate extends MainTemplate {
 	import java.util.Set;
 	import java.util.stream.Collectors;
 	
-	import graphicalgraphmodel.CContainer;
-	import graphicalgraphmodel.CEdge;
-	import graphicalgraphmodel.CModelElement;
-	import graphicalgraphmodel.CNode;
-	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CExecutableEdge;
-	import «graphmodel.CApiPackage».CExecutableNode;
-	import «graphmodel.CApiPackage».CPattern;
-	import «graphmodel.CApiPackage».CSourceConnector;
-	import «graphmodel.CApiPackage».CTargetConnector;
+	import graphmodel.Container;
+	import graphmodel.Edge;
+	import graphmodel.ModelElement;
+	import graphmodel.Node;
+	import «graphmodel.apiPackage».ExecutableContainer;
+	import «graphmodel.apiPackage».ExecutableEdge;
+	import «graphmodel.apiPackage».ExecutableNode;
+	import «graphmodel.apiPackage».Pattern;
+	import «graphmodel.apiPackage».SourceConnector;
+	import «graphmodel.apiPackage».TargetConnector;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	import «graphmodel.tracerPackage».match.model.Match;
 	
@@ -41,7 +41,7 @@ class EdgeSimulatorTemplate extends MainTemplate {
 		private ContainerSimulator containerSimulator;
 			
 		
-		public Match simulatePatternFromEdge(CEdge edge, CExecutableEdge cExecutableEdge,Map<CModelElement, Set<CModelElement>> foundMatches,LTSMatch ltsMatch) {
+		public Match simulatePatternFromEdge(Edge edge, ExecutableEdge cExecutableEdge,Map<ModelElement, Set<ModelElement>> foundMatches,LTSMatch ltsMatch) {
 			
 			Match match = new Match();
 			match.setRoot(ltsMatch);
@@ -68,16 +68,16 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			return match;
 		}
 		
-		public Match simulateSurroundingEdges(CNode startGraphNode, CNode startPatternNode,Map<CModelElement, Set<CModelElement>> foundMatches,LTSMatch ltsMatch) {
+		public Match simulateSurroundingEdges(Node startGraphNode, Node startPatternNode,Map<ModelElement, Set<ModelElement>> foundMatches,LTSMatch ltsMatch) {
 			
 			Match match = new Match();
-			match.setPattern((CPattern) startPatternNode.getContainer());
+			match.setPattern((Pattern) startPatternNode.getContainer());
 			match.setRoot(ltsMatch);
 			
 			// simulate incoming edges
-			for(CExecutableEdge patternEdge:startPatternNode.getIncoming(CExecutableEdge.class)) {
+			for(ExecutableEdge patternEdge:startPatternNode.getIncoming(ExecutableEdge.class)) {
 				// for each incoming pattern edge
-				Set<CEdge> fittingEdges = startGraphNode.
+				Set<Edge> fittingEdges = startGraphNode.
 						getIncoming().
 						stream().
 						filter(n->TypeChecker.checkType(n, patternEdge)).
@@ -87,7 +87,7 @@ class EdgeSimulatorTemplate extends MainTemplate {
 				// check cardinality
 				if(CardinalityChecker.checkCardinality(patternEdge, fittingEdges.size()))
 				{
-					for(CEdge edge:startGraphNode.getIncoming()){
+					for(Edge edge:startGraphNode.getIncoming()){
 						Match sourceMatch = simulatePatternFromIncommingEdge(edge, patternEdge,foundMatches,ltsMatch);
 						if(sourceMatch == null){
 							// pattern did not match
@@ -102,9 +102,9 @@ class EdgeSimulatorTemplate extends MainTemplate {
 				
 			}
 			
-			for(CExecutableEdge patternEdge:startPatternNode.getOutgoing(CExecutableEdge.class)) {
+			for(ExecutableEdge patternEdge:startPatternNode.getOutgoing(ExecutableEdge.class)) {
 				
-				Set<CEdge> fittingEdges = startGraphNode.
+				Set<Edge> fittingEdges = startGraphNode.
 						getOutgoing().
 						stream().
 						filter(n->TypeChecker.checkType(n, patternEdge)).
@@ -113,7 +113,7 @@ class EdgeSimulatorTemplate extends MainTemplate {
 				// check cardinality
 				if(CardinalityChecker.checkCardinality(patternEdge, fittingEdges.size()))
 				{
-					for(CEdge edge:startGraphNode.getOutgoing()){
+					for(Edge edge:startGraphNode.getOutgoing()){
 						Match targetMatch = simulatePatternFromOutgoingEdge(edge, patternEdge,foundMatches,ltsMatch);
 						if(targetMatch == null){
 							// pattern did not match
@@ -131,13 +131,13 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			return match;
 		}
 	
-		public Match simulatePatternFromIncommingEdge(CEdge startGraphEdge,CExecutableEdge startPatternEdge, Map<CModelElement, Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
+		public Match simulatePatternFromIncommingEdge(Edge startGraphEdge,ExecutableEdge startPatternEdge, Map<ModelElement, Set<ModelElement>> foundMatches,LTSMatch ltsMatch)
 		{
 			
-			CNode targetPattern = startPatternEdge.getTargetElement();
-			CNode targetNode = startGraphEdge.getTargetElement();
+			Node targetPattern = startPatternEdge.getTargetElement();
+			Node targetNode = startGraphEdge.getTargetElement();
 			
-			return simulateNode(startGraphEdge, foundMatches, targetPattern, targetNode, CTargetConnector.class,ltsMatch);
+			return simulateNode(startGraphEdge, foundMatches, targetPattern, targetNode, TargetConnector.class,ltsMatch);
 		}
 		
 		/**
@@ -148,19 +148,19 @@ class EdgeSimulatorTemplate extends MainTemplate {
 		 * @param foundMatches
 		 * @return
 		 */
-		public Match simulatePatternFromOutgoingEdge(CEdge startGraphEdge,CExecutableEdge startPatternEdge, Map<CModelElement, Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
+		public Match simulatePatternFromOutgoingEdge(Edge startGraphEdge,ExecutableEdge startPatternEdge, Map<ModelElement, Set<ModelElement>> foundMatches,LTSMatch ltsMatch)
 		{
 			
-			CNode sourcePattern = startPatternEdge.getSourceElement();
-			CNode sourceNode = startGraphEdge.getSourceElement();
+			Node sourcePattern = startPatternEdge.getSourceElement();
+			Node sourceNode = startGraphEdge.getSourceElement();
 			
-			return simulateNode(startGraphEdge, foundMatches, sourcePattern, sourceNode, CSourceConnector.class,ltsMatch);
+			return simulateNode(startGraphEdge, foundMatches, sourcePattern, sourceNode, SourceConnector.class,ltsMatch);
 		}
 		
-		public Match simulateNode(CEdge startGraphEdge,Map<CModelElement, Set<CModelElement>> foundMatches, CNode pattern,CNode node, Class<? extends CNode> clazz,LTSMatch ltsMatch) {
+		public Match simulateNode(Edge startGraphEdge,Map<ModelElement, Set<ModelElement>> foundMatches, Node pattern,Node node, Class<? extends Node> clazz,LTSMatch ltsMatch) {
 			
 			Match match = new Match();
-			match.setPattern((CPattern) pattern.getContainer());
+			match.setPattern((Pattern) pattern.getContainer());
 			match.setRoot(ltsMatch);
 			
 			/**
@@ -179,16 +179,16 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			Match connectorMatch = null;
 			
 			«FOR node:graphmodel.containers.map[n|n.modelElement as NodeContainer]»
-				if(pattern instanceof «graphmodel.CApiPackage».C«node.name»InnerLevelState && node instanceof CContainer){
-					connectorMatch = containerSimulator.simulatePatternFromILContainer((CContainer)node, («graphmodel.CApiPackage».C«node.name»InnerLevelState)pattern,foundMatches,ltsMatch);
+				if(pattern instanceof «graphmodel.apiPackage».«node.name»InnerLevelState && node instanceof Container){
+					connectorMatch = containerSimulator.simulatePatternFromILContainer((Container)node, («graphmodel.apiPackage».«node.name»InnerLevelState)pattern,foundMatches,ltsMatch);
 					if(connectorMatch != null){
 						match.unionMatch(connectorMatch);
 						return match;
 					}
 				}
 				«IF node.isPrime»
-					if(pattern instanceof «graphmodel.CApiPackage».C«node.name»OuterLevelState && node instanceof CContainer){
-						connectorMatch = containerSimulator.simulatePatternFromOLContainer((CContainer)node, («graphmodel.CApiPackage».C«node.name»OuterLevelState)pattern,foundMatches,ltsMatch);
+					if(pattern instanceof «graphmodel.apiPackage».«node.name»OuterLevelState && node instanceof Container){
+						connectorMatch = containerSimulator.simulatePatternFromOLContainer((Container)node, («graphmodel.apiPackage».«node.name»OuterLevelState)pattern,foundMatches,ltsMatch);
 						if(connectorMatch != null){
 							match.unionMatch(connectorMatch);
 							return match;
@@ -197,8 +197,8 @@ class EdgeSimulatorTemplate extends MainTemplate {
 				«ENDIF»
 			«ENDFOR»
 			«FOR n:graphmodel.exclusivelyNodes.map[n|n.modelElement as mgl.Node].filter[isPrime]»
-				if(pattern instanceof «graphmodel.CApiPackage».C«n.name»OuterLevelState){
-					connectorMatch = nodeSimulator.simulatePatternFromOLNode(node, («graphmodel.CApiPackage».C«n.name»OuterLevelState)pattern,foundMatches,ltsMatch);
+				if(pattern instanceof «graphmodel.apiPackage».«n.name»OuterLevelState){
+					connectorMatch = nodeSimulator.simulatePatternFromOLNode(node, («graphmodel.apiPackage».«n.name»OuterLevelState)pattern,foundMatches,ltsMatch);
 					if(connectorMatch != null){
 						match.unionMatch(connectorMatch);
 						return match;
@@ -206,16 +206,16 @@ class EdgeSimulatorTemplate extends MainTemplate {
 				}
 			«ENDFOR»
 			
-			if(pattern instanceof CExecutableNode){
-				connectorMatch = nodeSimulator.simulatePatternFromNode(node, (CExecutableNode)pattern,foundMatches,ltsMatch);
+			if(pattern instanceof ExecutableNode){
+				connectorMatch = nodeSimulator.simulatePatternFromNode(node, (ExecutableNode)pattern,foundMatches,ltsMatch);
 				if(connectorMatch != null){
 					match.unionMatch(connectorMatch);
 					return match;
 				}
 				
 			}
-			if(pattern instanceof CExecutableContainer){
-				connectorMatch = containerSimulator.simulatePatternFromContainer((CContainer)node, (CExecutableContainer)pattern,foundMatches,ltsMatch);
+			if(pattern instanceof ExecutableContainer){
+				connectorMatch = containerSimulator.simulatePatternFromContainer((Container)node, (ExecutableContainer)pattern,foundMatches,ltsMatch);
 				if(connectorMatch != null){
 					match.unionMatch(connectorMatch);
 					return match;

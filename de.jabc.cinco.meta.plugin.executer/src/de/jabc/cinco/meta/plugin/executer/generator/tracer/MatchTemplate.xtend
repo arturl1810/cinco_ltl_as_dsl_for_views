@@ -24,32 +24,32 @@ class MatchTemplate extends MainTemplate {
 	import java.util.Set;
 	import java.util.stream.Collectors;
 	
-	import graphicalgraphmodel.CContainer;
-	import graphicalgraphmodel.CEdge;
-	import graphicalgraphmodel.CModelElement;
-	import graphicalgraphmodel.CNode;
-	import «graphmodel.CApiPackage».CPattern;
+	import graphmodel.Container;
+	import graphmodel.Edge;
+	import graphmodel.ModelElement;
+	import graphmodel.Node;
+	import «graphmodel.apiPackage».Pattern;
 	
 	public class Match {
 	
-		private CModelElement startPoint;
+		private ModelElement startPoint;
 		
-		private CModelElement endPoint;
+		private ModelElement endPoint;
 		
-		private Set<CModelElement> elements;
+		private Set<ModelElement> elements;
 		
 		private LTSMatch level;
 		
-		private CPattern pattern;
+		private Pattern pattern;
 		
 		private LTSMatch root;
 		
 		public Match()
 		{
-			this.elements = new HashSet<CModelElement>();
+			this.elements = new HashSet<ModelElement>();
 		}
 	
-		public Match(Set<CModelElement> matchingElements) {
+		public Match(Set<ModelElement> matchingElements) {
 			this.elements = matchingElements; 
 		}
 		
@@ -62,11 +62,11 @@ class MatchTemplate extends MainTemplate {
 			this.setRoot(match.getRoot());
 		}
 	
-		public Set<CModelElement> getElements() {
+		public Set<ModelElement> getElements() {
 			return elements;
 		}
 		
-		public  Set<? extends CModelElement> getElements(Class<? extends CModelElement> c)
+		public  Set<? extends ModelElement> getElements(Class<? extends ModelElement> c)
 		{
 			return elements.stream().filter(n->c.isInstance(n)).map(n->c.cast(n)).collect(Collectors.toSet());
 		}
@@ -75,33 +75,33 @@ class MatchTemplate extends MainTemplate {
 		«{
 			var n = node.modelElement
 			'''
-			public Set<«graphmodel.sourceCApiPackage».C«n.name»> get«n.name»s() {
-				return elements.stream().filter(n->n instanceof «graphmodel.sourceCApiPackage».C«n.name»).map(n->(«graphmodel.sourceCApiPackage».C«n.name»)n).collect(Collectors.toSet());
+			public Set<«graphmodel.sourceApiPackage».«n.name»> get«n.name»s() {
+				return elements.stream().filter(n->n instanceof «graphmodel.sourceApiPackage».«n.name»).map(n->(«graphmodel.sourceApiPackage».«n.name»)n).collect(Collectors.toSet());
 			}
 			
-			public «graphmodel.sourceCApiPackage».C«n.name» getFirst«n.name»() {
-				return («graphmodel.sourceCApiPackage».C«n.name»)elements.stream().filter(n->n instanceof «graphmodel.sourceCApiPackage».C«n.name»).findFirst().orElse(null);
+			public «graphmodel.sourceApiPackage».«n.name» getFirst«n.name»() {
+				return («graphmodel.sourceApiPackage».«n.name»)elements.stream().filter(n->n instanceof «graphmodel.sourceApiPackage».«n.name»).findFirst().orElse(null);
 			}
 					'''	
 		}»
 		«ENDFOR»
-		public void setElements(Set<CModelElement> elements) {
+		public void setElements(Set<ModelElement> elements) {
 			this.elements = elements;
 		}
 		
-		public List<CEdge> getEdges()
+		public List<Edge> getEdges()
 		{
-			return elements.stream().filter(n->n instanceof CEdge).map(n->(CEdge)n).collect(Collectors.toList());
+			return elements.stream().filter(n->n instanceof Edge).map(n->(Edge)n).collect(Collectors.toList());
 		}
 		
-		public List<CNode> getNodes()
+		public List<Node> getNodes()
 		{
-			return elements.stream().filter(n->n instanceof CNode).map(n->(CNode)n).collect(Collectors.toList());
+			return elements.stream().filter(n->n instanceof Node).map(n->(Node)n).collect(Collectors.toList());
 		}
 		
-		public List<CContainer> getContainers()
+		public List<Container> getContainers()
 		{
-			return elements.stream().filter(n->n instanceof CContainer).map(n->(CContainer)n).collect(Collectors.toList());
+			return elements.stream().filter(n->n instanceof Container).map(n->(Container)n).collect(Collectors.toList());
 		}
 	
 		public LTSMatch getLevel() {
@@ -135,27 +135,27 @@ class MatchTemplate extends MainTemplate {
 			}
 		}
 	
-		public CPattern getPattern() {
+		public Pattern getPattern() {
 			return pattern;
 		}
 	
-		public void setPattern(CPattern pattern) {
+		public void setPattern(Pattern pattern) {
 			this.pattern = pattern;
 		}
 	
-		public CModelElement getStartPoint() {
+		public ModelElement getStartPoint() {
 			return startPoint;
 		}
 	
-		public void setStartPoint(CModelElement startPoint) {
+		public void setStartPoint(ModelElement startPoint) {
 			this.startPoint = startPoint;
 		}
 	
-		public CModelElement getEndPoint() {
+		public ModelElement getEndPoint() {
 			return endPoint;
 		}
 	
-		public void setEndPoint(CModelElement endPoint) {
+		public void setEndPoint(ModelElement endPoint) {
 			this.endPoint = endPoint;
 		}
 	
