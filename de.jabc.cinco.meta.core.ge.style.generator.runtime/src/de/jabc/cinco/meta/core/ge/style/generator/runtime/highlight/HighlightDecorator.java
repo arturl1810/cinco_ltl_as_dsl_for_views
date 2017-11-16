@@ -2,7 +2,11 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight;
 
 import org.eclipse.graphiti.tb.AbstractDecorator;
 import org.eclipse.graphiti.tb.IColorDecorator;
+import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
+
+import static java.lang.Math.min;
+import static java.lang.Math.max;
 
 public class HighlightDecorator extends AbstractDecorator implements IColorDecorator {
 
@@ -57,8 +61,12 @@ public class HighlightDecorator extends AbstractDecorator implements IColorDecor
 	 * @see org.eclipse.graphiti.tb.ITextDecorator#setForegroundColor()
 	 */
 //	@Override
-	public void setForegroundColor(IColorConstant foregroundColor) {
-		this.foregroundColor = foregroundColor;
+	public void setForegroundColor(IColorConstant color) {
+		this.foregroundColor = new ColorConstant(
+			max(0, min(255, color.getRed())),
+			max(0, min(255, color.getGreen())),
+			max(0, min(255, color.getBlue()))
+		);
 	}
 
 	/*
@@ -76,8 +84,12 @@ public class HighlightDecorator extends AbstractDecorator implements IColorDecor
 	 * @see org.eclipse.graphiti.tb.ITextDecorator#setBackgroundColor()
 	 */
 //	@Override
-	public void setBackgroundColor(IColorConstant backgroundColor) {
-		this.backgroundColor = backgroundColor;
+	public void setBackgroundColor(IColorConstant color) {
+		this.backgroundColor = new ColorConstant(
+			max(0, min(255, color.getRed())),
+			max(0, min(255, color.getGreen())),
+			max(0, min(255, color.getBlue()))
+		);
 	}
 
 
