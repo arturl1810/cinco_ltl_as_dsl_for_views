@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
@@ -19,6 +20,7 @@ import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.eclipse.swt.SWTException;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.LazyDiagram;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.animation.HighlightAnimation;
@@ -35,7 +37,7 @@ public class Highlight {
 	public static InstanceRegistry<Highlight> INSTANCE = new InstanceRegistry<>(() -> new Highlight());
 
 	private Set<PictogramElement> pes = new HashSet<>();
-	private Set<PictogramElement> affected = new HashSet<>();
+	private Set<PictogramElement> affected = ConcurrentHashMap.newKeySet();
 	private Map<PictogramElement, ConnectionDecoratorLayouter> layouters = new HashMap<>();
 	private Map<PictogramElement, HighlightDecorator> decos = new HashMap<>();
 
@@ -426,7 +428,7 @@ public class Highlight {
 		if (isOn() && isRefresh()) {
 			DiagramBehavior db = getDiagramBehavior(pe);	
 			if (db != null) workbenchX.async(() -> {
-				db.refreshRenderingDecorators(pe);
+				refreshRenderingDecorators(db, pe);
 			});
 			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
 		}
@@ -437,13 +439,24 @@ public class Highlight {
 			PictogramElement pe = affected.iterator().next();
 			DiagramBehavior db = getDiagramBehavior(pe);
 			if (db != null) workbenchX.async(() -> {
-				for (PictogramElement p : new ArrayList<>(affected))
-					db.refreshRenderingDecorators(p);
+				for (PictogramElement p : affected)
+					refreshRenderingDecorators(db, p);
 			});
 			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
 		}
 	}
 	
+	private void refreshRenderingDecorators(DiagramBehavior db, PictogramElement p) {
+		try {
+			db.refreshRenderingDecorators(p);
+		} catch(SWTException | IllegalArgumentException e) {
+			// Sometimes problems occur inside Graphiti while
+			// handling SWT colors; eat that silently
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private DiagramBehavior getDiagramBehavior(PictogramElement pe) {
 		Object diagram = workbenchX.getDiagram(pe);
 		return (diagram instanceof LazyDiagram)
