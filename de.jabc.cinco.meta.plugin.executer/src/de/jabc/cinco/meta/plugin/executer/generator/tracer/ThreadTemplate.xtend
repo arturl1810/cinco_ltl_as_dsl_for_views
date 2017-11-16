@@ -24,7 +24,7 @@ class ThreadTemplate extends MainTemplate {
 	import java.util.stream.Collectors;
 	import java.util.stream.Stream;
 	
-	import graphicalgraphmodel.CModelElement;
+	import graphmodel.ModelElement;
 	import «graphmodel.tracerPackage».extension.AbstractContext;
 	import «graphmodel.tracerPackage».extension.AbstractSemantic;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
@@ -225,8 +225,8 @@ class ThreadTemplate extends MainTemplate {
 		
 		public final void highlightLevels()
 		{
-			Set<CModelElement> activeElements = Stream.concat(
-					this.levelQueue.stream().map(n->n.getCurrentContainer().getContainer()).filter(n->n!=null).filter(n->n instanceof CModelElement).map(n->(CModelElement)n),
+			Set<ModelElement> activeElements = Stream.concat(
+					this.levelQueue.stream().map(n->n.getCurrentContainer().getContainer()).filter(n->n!=null).filter(n->n instanceof ModelElement).map(n->(ModelElement)n),
 					this.levelQueue.stream().flatMap(n->n.getCurrenElement().getElements().stream())
 					).collect(Collectors.toSet());
 			this.highlighter.highlight(activeElements);

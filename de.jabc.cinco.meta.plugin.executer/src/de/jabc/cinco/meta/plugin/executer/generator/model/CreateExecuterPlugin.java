@@ -39,11 +39,15 @@ public class CreateExecuterPlugin {
 		List<IProject> referencedProjects = new LinkedList<IProject>();
 		Set<String> requiredBundles = new HashSet<String>();
 		requiredBundles.add(graphModel.getPackage());
-		requiredBundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		requiredBundles.add("org.eclipse.core.resources");
 		requiredBundles.add("org.eclipse.xtext");
+		requiredBundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		requiredBundles.add("de.jabc.cinco.meta.core.referenceregistry");
+		requiredBundles.add("de.jabc.cinco.meta.runtime");
 		
 		List<String> exportedPackages = new LinkedList<String>();
 		List<String> additionalNatures = new LinkedList<String>();
+		additionalNatures.add("org.eclipse.xtext.ui.shared.xtextNature");
 		List<String> cleanDirs = new LinkedList<String>();
 		cleanDirs.add("model");
 		cleanDirs.add("scr");

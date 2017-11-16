@@ -17,33 +17,33 @@ class BorderMatchTemplate extends MainTemplate {
 	'''
 	package «graphmodel.tracerPackage».match.simulation;
 	
-	import graphicalgraphmodel.CContainer;
-	import graphicalgraphmodel.CEdge;
-	import graphicalgraphmodel.CNode;
-	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CExecutableEdge;
-	import «graphmodel.CApiPackage».CExecutableNode;
+	import graphmodel.Container;
+	import graphmodel.Edge;
+	import graphmodel.Node;
+	import «graphmodel.apiPackage».ExecutableContainer;
+	import «graphmodel.apiPackage».ExecutableEdge;
+	import «graphmodel.apiPackage».ExecutableNode;
 	import «graphmodel.apiPackage».BorderElement;
 	import «graphmodel.tracerPackage».match.model.Match;
 	
 	public class BorderMatcher {
 	
-		public static void setBorder(Match match,CNode node,CNode cExecutabelNode){
-			if(node instanceof CContainer){
-				if(cExecutabelNode instanceof CExecutableContainer){
-					setBorder(match,(CContainer) node, (CExecutableContainer) cExecutabelNode);
+		public static void setBorder(Match match,Node node,Node cExecutabelNode){
+			if(node instanceof Container){
+				if(cExecutabelNode instanceof ExecutableContainer){
+					setBorder(match,(Container) node, (ExecutableContainer) cExecutabelNode);
 					return;
 				}
 	
 			}
-			if(cExecutabelNode instanceof CExecutableNode){
-				setBorder(match,node, (CExecutableNode) cExecutabelNode);
+			if(cExecutabelNode instanceof ExecutableNode){
+				setBorder(match,node, (ExecutableNode) cExecutabelNode);
 				return;
 			}
 	
 		}
 		
-		public static void setBorder(Match match,CEdge edge,CExecutableEdge cExecutableEdge)
+		public static void setBorder(Match match,Edge edge,ExecutableEdge cExecutableEdge)
 		{
 			if(cExecutableEdge.getBorder() == BorderElement.START || cExecutableEdge.getBorder() == BorderElement.START_AND_END){
 				match.setStartPoint(edge);
@@ -53,7 +53,7 @@ class BorderMatchTemplate extends MainTemplate {
 			}
 		}
 		
-		public static void setBorder(Match match,CContainer container,CExecutableContainer cExecutableContainer)
+		public static void setBorder(Match match,Container container,ExecutableContainer cExecutableContainer)
 		{
 			if(cExecutableContainer.getBorder() == BorderElement.START || cExecutableContainer.getBorder() == BorderElement.START_AND_END){
 				match.setStartPoint(container);
@@ -65,7 +65,7 @@ class BorderMatchTemplate extends MainTemplate {
 		
 		
 		
-		public static void setBorder(Match match,CNode node,CExecutableNode cExecutableNode)
+		public static void setBorder(Match match,Node node,ExecutableNode cExecutableNode)
 		{
 			if(cExecutableNode.getBorder() == BorderElement.START || cExecutableNode.getBorder() == BorderElement.START_AND_END){
 				match.setStartPoint(node);

@@ -23,13 +23,12 @@ class NodeSimulatorTemplate extends MainTemplate {
 	
 	import org.eclipse.graphiti.mm.pictograms.Diagram;
 	
-	import graphicalgraphmodel.CModelElement;
-	import graphicalgraphmodel.CNode;
-	import «graphmodel.CApiPackage».CMetaLevel;
-	import «graphmodel.CApiPackage».CPattern;
-	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
+	import graphmodel.ModelElement;
+	import graphmodel.Node;
 	import «graphmodel.apiPackage».MetaLevel;
-	import «graphmodel.sourceGraphitiPackage».«graphmodel.modelElement.name»Wrapper;
+	import «graphmodel.apiPackage».Pattern;
+	import «graphmodel.apiPackage».«graphmodel.graphModel.name»ES;
+	import «graphmodel.apiPackage».MetaLevel;
 	import «graphmodel.tracerPackage».match.model.Match;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	
@@ -38,9 +37,9 @@ class NodeSimulatorTemplate extends MainTemplate {
 		private EdgeSimulator edgeSimulator;
 		
 		private GraphSimulator graphSimulator;
-		private C«graphmodel.graphModel.name»ES patternGraph;
+		private «graphmodel.graphModel.name»ES patternGraph;
 		
-		public Match simulatePatternFromNode(CNode startGraphNode,CNode startPatternNode,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
+		public Match simulatePatternFromNode(Node startGraphNode,Node startPatternNode,Map<ModelElement,Set<ModelElement>> foundMatches,LTSMatch ltsMatch)
 		{
 			
 			
@@ -54,7 +53,7 @@ class NodeSimulatorTemplate extends MainTemplate {
 				}
 			}
 			else{
-				foundMatches.put(startPatternNode, new HashSet<CModelElement>());
+				foundMatches.put(startPatternNode, new HashSet<ModelElement>());
 			}
 			
 			/**
@@ -66,7 +65,7 @@ class NodeSimulatorTemplate extends MainTemplate {
 			}
 			
 			Match match = new Match();
-			match.setPattern((CPattern) startPatternNode.getContainer());
+			match.setPattern((Pattern) startPatternNode.getContainer());
 			match.setRoot(ltsMatch);
 			match.getElements().add(startGraphNode);
 			
@@ -87,9 +86,9 @@ class NodeSimulatorTemplate extends MainTemplate {
 			return match;
 		}
 		«FOR n:graphmodel.exclusivelyNodes.map[n|n.modelElement as mgl.Node].filter[isPrime]»
-		public Match simulatePatternFromOLNode(CNode startGraphNode,«graphmodel.CApiPackage».C«n.name»OuterLevelState startPatternNode,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
+		public Match simulatePatternFromOLNode(Node startGraphNode,«graphmodel.apiPackage».«n.name»OuterLevelState startPatternNode,Map<ModelElement,Set<ModelElement>> foundMatches,LTSMatch ltsMatch)
 		{
-			Match match = simulatePatternFromNode(startGraphNode,(CNode) startPatternNode, foundMatches,ltsMatch);
+			Match match = simulatePatternFromNode(startGraphNode,(Node) startPatternNode, foundMatches,ltsMatch);
 			
 			if(match==null) 
 			{
@@ -101,11 +100,11 @@ class NodeSimulatorTemplate extends MainTemplate {
 			CMetaLevel cMetaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getModelElement().getId().equals(level.getId())).findFirst().get();
 			
 			«graphmodel.sourceApiPackage».«n.name» startNode = («graphmodel.sourceApiPackage».«n.name») startGraphNode.getModelElement();
-			«graphmodel.sourceCApiPackage».C«graphmodel.modelElement.name» graphModel = «graphmodel.modelElement.name»Wrapper.wrapGraphModel(startNode.getProcedure().getRootElement(), (Diagram) startNode.get«n.primeAttrName.toFirstUpper»().getRootElement().eResource().getContents().get(0));
+			«graphmodel.sourceApiPackage».«graphmodel.modelElement.name» graphModel = startNode.getProcedure().getRootElement();
 					
-			«graphmodel.sourceCApiPackage».C«n.primeAttrType» reference = («graphmodel.sourceCApiPackage».C«n.primeAttrType») graphModel.getAllCNodes().stream().filter(n->n.getModelElement().getId().equals(startNode.get«n.primeAttrName.toFirstUpper»().getId())).findFirst().get();
+			«graphmodel.sourceApiPackage».«n.primeAttrType» reference = («graphmodel.sourceApiPackage».«n.primeAttrType») graphModel.getAllNodes().stream().filter(n->n.getModelElement().getId().equals(startNode.get«n.primeAttrName.toFirstUpper»().getId())).findFirst().get();
 			
-			LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphNode.getCRootElement(),reference);
+			LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphNode.getRootElement(),reference);
 			
 			match.setLevel(lts);
 			
@@ -122,7 +121,7 @@ class NodeSimulatorTemplate extends MainTemplate {
 			this.graphSimulator = graphSimulator;
 		}
 	
-		public void setPatternGraph(C«graphmodel.graphModel.name»ES patternGraph) {
+		public void setPatternGraph(«graphmodel.graphModel.name»ES patternGraph) {
 			this.patternGraph = patternGraph;
 		}
 		

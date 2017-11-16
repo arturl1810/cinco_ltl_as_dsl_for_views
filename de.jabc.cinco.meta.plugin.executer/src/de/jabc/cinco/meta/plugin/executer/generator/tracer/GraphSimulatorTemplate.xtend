@@ -26,18 +26,18 @@ class GraphSimulatorTemplate extends MainTemplate {
 	import java.util.stream.Collectors;
 	import java.util.stream.Stream;
 	
-	import graphicalgraphmodel.CEdge;
-	import graphicalgraphmodel.CGraphModel;
-	import graphicalgraphmodel.CModelElement;
-	import graphicalgraphmodel.CModelElementContainer;
-	import graphicalgraphmodel.CNode;
-	import «graphmodel.sourceCApiPackage».C«graphmodel.graphModel.name»;
-	import «graphmodel.CApiPackage».CExecutableEdge;
-	import «graphmodel.CApiPackage».CExecutableNode;
-	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CMetaLevel;
-	import «graphmodel.CApiPackage».CPattern;
-	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
+	import graphmodel.Edge;
+	import graphmodel.GraphModel;
+	import graphmodel.ModelElement;
+	import graphmodel.ModelElementContainer;
+	import graphmodel.Node;
+	import «graphmodel.sourceApiPackage».«graphmodel.graphModel.name»;
+	import «graphmodel.apiPackage».ExecutableEdge;
+	import «graphmodel.apiPackage».ExecutableNode;
+	import «graphmodel.apiPackage».ExecutableContainer;
+	import «graphmodel.apiPackage».MetaLevel;
+	import «graphmodel.apiPackage».Pattern;
+	import «graphmodel.apiPackage».«graphmodel.graphModel.name»ES;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	import «graphmodel.tracerPackage».match.model.Match;
 	import «graphmodel.tracerPackage».match.model.StateMatch;
@@ -45,20 +45,20 @@ class GraphSimulatorTemplate extends MainTemplate {
 	
 	public class GraphSimulator {
 		
-		private C«graphmodel.graphModel.name» graph;
+		private «graphmodel.graphModel.name» graph;
 		
-		private List<CMetaLevel> metaLevels;
+		private List<MetaLevel> metaLevels;
 		
-		private Map<CModelElementContainer,LTSMatch> lts;
+		private Map<ModelElementContainer,LTSMatch> lts;
 		
 		private NodeSimulator nodeSimulator;
 		private EdgeSimulator edgeSimulator;
 		private ContainerSimulator containerSimulator;
 		
-		public GraphSimulator(C«graphmodel.graphModel.name» graph,C«graphmodel.graphModel.name»ES patternGraph)
+		public GraphSimulator(«graphmodel.graphModel.name» graph,«graphmodel.graphModel.name»ES patternGraph)
 		{
 			this.graph = graph;
-			this.metaLevels = patternGraph.getCMetaLevels();
+			this.metaLevels = patternGraph.getMetaLevels();
 			
 			this.containerSimulator = new ContainerSimulator();
 			this.edgeSimulator = new EdgeSimulator();
@@ -75,14 +75,14 @@ class GraphSimulatorTemplate extends MainTemplate {
 			edgeSimulator.setContainerSimulator(containerSimulator);
 			edgeSimulator.setNodeSimulator(nodeSimulator);
 			
-			lts = new HashMap<CModelElementContainer, LTSMatch>();
+			lts = new HashMap<ModelElementContainer, LTSMatch>();
 		}
 		
 		
 		public final LTSMatch simulate()
 		{
 						
-			for(CMetaLevel levelDefinition : metaLevels)
+			for(MetaLevel levelDefinition : metaLevels)
 			{
 				// for each level definition try to build up a LTS match
 				
@@ -96,7 +96,7 @@ class GraphSimulatorTemplate extends MainTemplate {
 			return null;
 		}
 		
-		public final LTSMatch simulateLTS(CMetaLevel levelDefinition,CGraphModel graphModel,CModelElementContainer container)
+		public final LTSMatch simulateLTS(MetaLevel levelDefinition,GraphModel graphModel,ModelElementContainer container)
 		{
 			if(lts.containsKey(container)){
 				return lts.get(container);
@@ -107,7 +107,7 @@ class GraphSimulatorTemplate extends MainTemplate {
 			/**
 			 * 1. phase: find matches for the patterns
 			 */
-			List<Match> initializingStateMatches = getMatches(levelDefinition.getCInitializings(),ltsMatch);
+			List<Match> initializingStateMatches = getMatches(levelDefinition.getInitializings(),ltsMatch);
 			
 «««			if(initializingStateMatches.isEmpty()){
 «««				return null;
@@ -115,11 +115,11 @@ class GraphSimulatorTemplate extends MainTemplate {
 			
 			ltsMatch.setAbstractStartStates(initializingStateMatches);
 			
-			ltsMatch.setAbstractStates(getMatches(levelDefinition.getCDefaults(),ltsMatch));	
+			ltsMatch.setAbstractStates(getMatches(levelDefinition.getDefaults(),ltsMatch));	
 			
-			ltsMatch.setAbstractEndStates(getMatches(levelDefinition.getCTerminatings(),ltsMatch));
+			ltsMatch.setAbstractEndStates(getMatches(levelDefinition.getTerminatings(),ltsMatch));
 						
-			ltsMatch.setAbstractTransitions(getMatches(levelDefinition.getCMetaTransitions(),ltsMatch));
+			ltsMatch.setAbstractTransitions(getMatches(levelDefinition.getMetaTransitions(),ltsMatch));
 						
 			/**
 			 * 2. phase, connect states to states by transitions
@@ -127,12 +127,12 @@ class GraphSimulatorTemplate extends MainTemplate {
 					
 			for(StateMatch match:ltsMatch.getAllStateMatches())
 			{
-				if(match.getStartPoint() instanceof CEdge){
-					CNode connectingSource = ((CEdge)match.getStartPoint()).getSourceElement();
+				if(match.getStartPoint() instanceof Edge){
+					Node connectingSource = ((Edge)match.getStartPoint()).getSourceElement();
 					// find source as 
 					for(TransitionMatch transition:ltsMatch.getTransitions())
 					{
-						if(transition.getEndPoint() instanceof CNode){
+						if(transition.getEndPoint() instanceof Node){
 							if(connectingSource.equals(transition.getEndPoint())){
 								match.getIncoming().add(transition);
 								transition.setTarget(match);
@@ -141,12 +141,12 @@ class GraphSimulatorTemplate extends MainTemplate {
 					}
 				}
 	
-				if(match.getEndPoint() instanceof CEdge){
-					CNode connectingSource = ((CEdge)match.getEndPoint()).getTargetElement();
+				if(match.getEndPoint() instanceof Edge){
+					Node connectingSource = ((Edge)match.getEndPoint()).getTargetElement();
 					// find source as 
 					for(TransitionMatch transition:ltsMatch.getTransitions())
 					{
-						if(transition.getStartPoint() instanceof CNode){
+						if(transition.getStartPoint() instanceof Node){
 							if(connectingSource.equals(transition.getStartPoint())){
 								match.getOutgoing().add(transition);
 								transition.setSource(match);
@@ -158,12 +158,12 @@ class GraphSimulatorTemplate extends MainTemplate {
 			
 			for(TransitionMatch match:ltsMatch.getTransitions())
 			{
-				if(match.getStartPoint() instanceof CEdge){
-					CNode connectingSource = ((CEdge)match.getStartPoint()).getSourceElement();
+				if(match.getStartPoint() instanceof Edge){
+					Node connectingSource = ((Edge)match.getStartPoint()).getSourceElement();
 					// find source as 
 					for(StateMatch state:ltsMatch.getAllStateMatches())
 					{
-						if(state.getEndPoint() instanceof CNode){
+						if(state.getEndPoint() instanceof Node){
 							if(connectingSource.equals(state.getEndPoint())){
 								match.setSource(state);
 								state.getOutgoing().add(match);
@@ -172,12 +172,12 @@ class GraphSimulatorTemplate extends MainTemplate {
 					}
 				}
 	
-				if(match.getEndPoint() instanceof CEdge){
-					CNode connectingSource = ((CEdge)match.getEndPoint()).getTargetElement();
+				if(match.getEndPoint() instanceof Edge){
+					Node connectingSource = ((Edge)match.getEndPoint()).getTargetElement();
 					// find source as 
 					for(StateMatch state:ltsMatch.getAllStateMatches())
 					{
-						if(state.getStartPoint() instanceof CNode){
+						if(state.getStartPoint() instanceof Node){
 							if(connectingSource.equals(state.getStartPoint())){
 								match.setTarget(state);
 								state.getIncoming().add(match);
@@ -193,17 +193,17 @@ class GraphSimulatorTemplate extends MainTemplate {
 		
 		
 		
-		private List<Match> getMatches(List<? extends CPattern> elements,LTSMatch ltsMatch)
+		private List<Match> getMatches(List<? extends Pattern> elements,LTSMatch ltsMatch)
 		{
 			return elements.stream().flatMap(pattern->matchPattern(pattern,ltsMatch).stream()).collect(Collectors.toList());
 		}
 		
-		private List<Match> matchPattern(CPattern pattern,LTSMatch ltsMatch)
+		private List<Match> matchPattern(Pattern pattern,LTSMatch ltsMatch)
 		{
 			List<Match> abstractMatches = new LinkedList<Match>();
 			
 			// cache: pattern element -> list of matching graph model elements
-			Map<CModelElement,Set<CModelElement>> foundMatches = new HashMap<CModelElement, Set<CModelElement>>();
+			Map<ModelElement,Set<ModelElement>> foundMatches = new HashMap<ModelElement, Set<ModelElement>>();
 			
 			
 			/**
@@ -212,37 +212,37 @@ class GraphSimulatorTemplate extends MainTemplate {
 			
 			
 			// try to find simulation starting by any node of the graph
-			List<CExecutableNode> cenOL = pattern.getCExecutableNodes().stream().filter(n->TypeChecker.isNodeOuterLevelState(n)).collect(Collectors.toList());
+			List<ExecutableNode> cenOL = pattern.getExecutableNodes().stream().filter(n->TypeChecker.isNodeOuterLevelState(n)).collect(Collectors.toList());
 			if(!cenOL.isEmpty())
 			{
 				«FOR n:graphmodel.exclusivelyNodes.map[n|n.modelElement as mgl.Node].filter[isPrime]»
-					if(cenOL.get(0) instanceof «graphmodel.CApiPackage».C«n.name»OuterLevelState)
+					if(cenOL.get(0) instanceof «graphmodel.apiPackage».«n.name»OuterLevelState)
 					{
-						ltsMatch.getContainer().getAllCNodes().forEach(node->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromOLNode(node, («graphmodel.CApiPackage».C«n.name»OuterLevelState)cenOL.get(0),foundMatches,ltsMatch)));
+						ltsMatch.getContainer().getAllNodes().forEach(node->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromOLNode(node, («graphmodel.apiPackage».«n.name»OuterLevelState)cenOL.get(0),foundMatches,ltsMatch)));
 					}
 				«ENDFOR»
 				return abstractMatches;
 			}
 			// try to find simulation starting by any container of the graph
-			List<CExecutableContainer> cecOL = pattern.getCExecutableContainers().stream().filter(n->TypeChecker.isContainerOuterLevelState(n)).collect(Collectors.toList());
+			List<ExecutableContainer> cecOL = pattern.getExecutableContainers().stream().filter(n->TypeChecker.isContainerOuterLevelState(n)).collect(Collectors.toList());
 			if(!cecOL.isEmpty())
 			{
 				«FOR node:graphmodel.containers.map[n|n.modelElement as NodeContainer].filter[isPrime]»
-				if(cecOL.get(0) instanceof «graphmodel.CApiPackage».C«node.name»OuterLevelState)
+				if(cecOL.get(0) instanceof «graphmodel.apiPackage».«node.name»OuterLevelState)
 				{
-					ltsMatch.getContainer().getAllCContainers().forEach(container->addMatches(pattern, abstractMatches, containerSimulator.simulatePatternFromOLContainer(container,(«graphmodel.CApiPackage».C«node.name»OuterLevelState) cecOL.get(0),foundMatches,ltsMatch)));					
+					ltsMatch.getContainer().getAllContainers().forEach(container->addMatches(pattern, abstractMatches, containerSimulator.simulatePatternFromOLContainer(container,(«graphmodel.apiPackage».«node.name»OuterLevelState) cecOL.get(0),foundMatches,ltsMatch)));					
 				}
 				«ENDFOR»
 				return abstractMatches;
 			}
 			// try to find simulation starting by any container of the graph
-			List<CExecutableContainer> cecIL = pattern.getCExecutableContainers().stream().filter(n->TypeChecker.isContainerInnerLevelState(n)).collect(Collectors.toList());
+			List<ExecutableContainer> cecIL = pattern.getExecutableContainers().stream().filter(n->TypeChecker.isContainerInnerLevelState(n)).collect(Collectors.toList());
 			if(!cecIL.isEmpty())
 			{
 				«FOR node:graphmodel.containers.map[n|n.modelElement as NodeContainer]»
-				if(cecIL.get(0) instanceof «graphmodel.CApiPackage».C«node.name»InnerLevelState)
+				if(cecIL.get(0) instanceof «graphmodel.apiPackage».«node.name»InnerLevelState)
 				{
-					ltsMatch.getContainer().getAllCContainers().forEach(container->addMatches(pattern, abstractMatches, containerSimulator.simulatePatternFromILContainer(container,(«graphmodel.CApiPackage».C«node.name»InnerLevelState) cecIL.get(0),foundMatches,ltsMatch)));
+					ltsMatch.getContainer().getAllContainers().forEach(container->addMatches(pattern, abstractMatches, containerSimulator.simulatePatternFromILContainer(container,(«graphmodel.apiPackage».«node.name»InnerLevelState) cecIL.get(0),foundMatches,ltsMatch)));
 				}
 				«ENDFOR»
 				return abstractMatches;
@@ -253,15 +253,15 @@ class GraphSimulatorTemplate extends MainTemplate {
 			 */
 			
 			// try to find simulation starting by any node of the graph
-			if(!pattern.getCExecutableNodes().isEmpty())
+			if(!pattern.getExecutableNodes().isEmpty())
 			{
-				ltsMatch.getContainer().getAllCNodes().forEach(node->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromNode(node, pattern.getCExecutableNodes().get(0),foundMatches,ltsMatch)));
+				ltsMatch.getContainer().getAllNodes().forEach(node->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromNode(node, pattern.getExecutableNodes().get(0),foundMatches,ltsMatch)));
 				return abstractMatches;
 			}
 			// try to find simulation starting by any container of the graph
-			if(!pattern.getCExecutableContainers().isEmpty())
+			if(!pattern.getExecutableContainers().isEmpty())
 			{
-				ltsMatch.getContainer().getAllCContainers().forEach(container->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromNode(container, pattern.getCExecutableContainers().get(0),foundMatches,ltsMatch)));
+				ltsMatch.getContainer().getAllContainers().forEach(container->addMatches(pattern, abstractMatches, nodeSimulator.simulatePatternFromNode(container, pattern.getExecutableContainers().get(0),foundMatches,ltsMatch)));
 				return abstractMatches;
 			}
 			
@@ -270,13 +270,13 @@ class GraphSimulatorTemplate extends MainTemplate {
 			 */
 			
 			// try to find simulation starting by any container of the graph
-			Set<CExecutableEdge> edges = Stream.concat(
-					pattern.getAllCNodes().stream().flatMap(node->node.getIncoming().stream().filter(edge->(edge instanceof CExecutableEdge)).map(edge->(CExecutableEdge)edge)),
-					pattern.getAllCNodes().stream().flatMap(node->node.getOutgoing().stream().filter(edge->(edge instanceof CExecutableEdge)).map(edge->(CExecutableEdge)edge))
+			Set<ExecutableEdge> edges = Stream.concat(
+					pattern.getAllNodes().stream().flatMap(node->node.getIncoming().stream().filter(edge->(edge instanceof ExecutableEdge)).map(edge->(ExecutableEdge)edge)),
+					pattern.getAllNodes().stream().flatMap(node->node.getOutgoing().stream().filter(edge->(edge instanceof ExecutableEdge)).map(edge->(ExecutableEdge)edge))
 					).collect(Collectors.toSet());
 			if(!edges.isEmpty())
 			{
-				ltsMatch.getContainer().getAllCEdges().forEach(edge->addMatches(pattern, abstractMatches, edgeSimulator.simulatePatternFromEdge(edge, edges.stream().findFirst().get(),foundMatches,ltsMatch)));	
+				ltsMatch.getContainer().getAllEdges().forEach(edge->addMatches(pattern, abstractMatches, edgeSimulator.simulatePatternFromEdge(edge, edges.stream().findFirst().get(),foundMatches,ltsMatch)));	
 				return abstractMatches;
 			}
 			
@@ -284,7 +284,7 @@ class GraphSimulatorTemplate extends MainTemplate {
 		}
 	
 	
-		private void addMatches(CPattern pattern,List<Match> abstractMatches, Match match) {
+		private void addMatches(Pattern pattern,List<Match> abstractMatches, Match match) {
 			if(match != null) {
 				match.setPattern(pattern);
 				abstractMatches.add(match);

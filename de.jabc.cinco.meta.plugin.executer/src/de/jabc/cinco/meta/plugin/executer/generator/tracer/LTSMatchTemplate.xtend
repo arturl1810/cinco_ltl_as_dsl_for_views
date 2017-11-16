@@ -21,18 +21,18 @@ class LTSMatchTemplate extends MainTemplate {
 	import java.util.stream.Collectors;
 	import java.util.stream.Stream;
 	
-	import graphicalgraphmodel.CGraphModel;
-	import graphicalgraphmodel.CModelElementContainer;
+	import graphmodel.GraphModel;
+	import graphmodel.ModelElementContainer;
 	
 	public class LTSMatch {
 		private List<StateMatch> startStates;
 		private List<StateMatch> states;
 		private List<StateMatch> endStates;
 		private List<TransitionMatch> transitions;
-		private CModelElementContainer container;
-		private CGraphModel graph;
+		private ModelElementContainer container;
+		private GraphModel graph;
 		
-		public LTSMatch(CGraphModel graph,CModelElementContainer container)
+		public LTSMatch(GraphModel graph,ModelElementContainer container)
 		{
 			this.startStates = new LinkedList<StateMatch>();
 			this.endStates = new LinkedList<StateMatch>();
@@ -99,19 +99,19 @@ class LTSMatchTemplate extends MainTemplate {
 			return Stream.concat(startStates.stream(), Stream.concat(states.stream(),endStates.stream())).collect(Collectors.toList());
 		}
 	
-		public CModelElementContainer getContainer() {
+		public ModelElementContainer getContainer() {
 			return container;
 		}
 	
-		public void setContainer(CModelElementContainer container) {
+		public void setContainer(ModelElementContainer container) {
 			this.container = container;
 		}
 	
-		public CGraphModel getGraphModel() {
+		public GraphModel getGraphModel() {
 			return graph;
 		}
 	
-		public void setGraphModel(CGraphModel graph) {
+		public void setGraphModel(GraphModel graph) {
 			this.graph = graph;
 		}
 		

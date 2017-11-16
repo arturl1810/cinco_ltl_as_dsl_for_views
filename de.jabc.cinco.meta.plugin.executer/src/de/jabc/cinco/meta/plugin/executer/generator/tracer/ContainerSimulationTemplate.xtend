@@ -20,12 +20,12 @@ class ContainerSimulationTemplate extends MainTemplate {
 	import java.util.Map;
 	import java.util.Set;
 	
-	import graphicalgraphmodel.CContainer;
-	import graphicalgraphmodel.CModelElement;
-	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CMetaLevel;
-	import «graphmodel.CApiPackage».CReferencedMetaLevel;
-	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
+	import graphmodel.Container;
+	import graphmodel.ModelElement;
+	import «graphmodel.apiPackage».ExecutableContainer;
+	import «graphmodel.apiPackage».MetaLevel;
+	import «graphmodel.apiPackage».ReferencedMetaLevel;
+	import «graphmodel.apiPackage».«graphmodel.graphModel.name»ES;
 	import «graphmodel.apiPackage».MetaLevel;
 	import «graphmodel.apiPackage».ReferencedMetaLevel;
 	import «graphmodel.tracerPackage».match.model.Match;
@@ -36,46 +36,45 @@ class ContainerSimulationTemplate extends MainTemplate {
 		private NodeSimulator nodeSimulator;
 		
 		private GraphSimulator graphSimulator;
-		private C«graphmodel.graphModel.name»ES patternGraph;
+		private «graphmodel.graphModel.name»ES patternGraph;
 		
-		public Match simulatePatternFromContainer(CContainer startGraphContainer, CExecutableContainer startPatternContainer,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch) {
+		public Match simulatePatternFromContainer(Container startGraphContainer, ExecutableContainer startPatternContainer,Map<ModelElement,Set<ModelElement>> foundMatches,LTSMatch ltsMatch) {
 			Match match = nodeSimulator.simulatePatternFromNode(startGraphContainer, startPatternContainer, foundMatches,ltsMatch);
 			
 			if(match != null)
 			{
 				// add all elements in the container the match
 				// if the container itself is a match
-				match.getElements().addAll(startGraphContainer.getCModelElements(CModelElement.class));
+				match.getElements().addAll(startGraphContainer.getModelElements(ModelElement.class));
 			}
 			
 			return match;
 		}
 		
 		«FOR node:graphmodel.containers.map[n|n.modelElement as NodeContainer]»
-			public Match simulatePatternFromILContainer(CContainer startGraphContainer, «graphmodel.CApiPackage».C«node.name»InnerLevelState startPatternContainer,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch) {
+			public Match simulatePatternFromILContainer(Container startGraphContainer, «graphmodel.apiPackage».«node.name»InnerLevelState startPatternContainer,Map<ModelElement,Set<ModelElement>> foundMatches,LTSMatch ltsMatch) {
 				Match match = nodeSimulator.simulatePatternFromNode(startGraphContainer, startPatternContainer, foundMatches,ltsMatch);
 				
-				CReferencedMetaLevel cReferencedMetaLevel = startPatternContainer.getCReferencedMetaLevels().get(0);
-				MetaLevel level = ((ReferencedMetaLevel)cReferencedMetaLevel.getModelElement()).getLevel();
+				ReferencedMetaLevel referencedMetaLevel = startPatternContainer.getReferencedMetaLevels().get(0);
+				MetaLevel level = referencedMetaLevel.getLevel();
 				
-				CMetaLevel cMetaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getModelElement().getId().equals(level.getId())).findFirst().get();
-				LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphContainer.getCRootElement(),startGraphContainer);
+				MetaLevel metaLevel = (MetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getId().equals(level.getId())).findFirst().get();
+				LTSMatch lts = graphSimulator.simulateLTS(metaLevel,startGraphContainer.getRootElement(),startGraphContainer);
 				
 				match.setLevel(lts);
 				return match;
 			}
 			«IF node.isPrime»
-				public Match simulatePatternFromOLContainer(CContainer startGraphContainer, «graphmodel.CApiPackage».C«node.name»OuterLevelState startPatternContainer,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch) {
+				public Match simulatePatternFromOLContainer(Container startGraphContainer, «graphmodel.sourceApiPackage».«node.name»OuterLevelState startPatternContainer,Map<ModelElement,Set<ModelElement>> foundMatches,LTSMatch ltsMatch) {
 					Match match = nodeSimulator.simulatePatternFromNode(startGraphContainer, startPatternContainer, foundMatches,ltsMatch);
 							
 					MetaLevel level = ((«graphmodel.apiPackage».«node.name»OuterLevelState)startPatternContainer.getModelElement()).getLevel();
 					
-					CMetaLevel cMetaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getModelElement().getId().equals(level.getId())).findFirst().get();
+					MetaLevel metaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getId().equals(level.getId())).findFirst().get();
 					
-					«graphmodel.sourceApiPackage».«node.name» startContainer = («graphmodel.sourceApiPackage».«node.name») startGraphContainer.getModelElement();
-					«graphmodel.sourceCApiPackage».C«node.primeAttrType» reference = («graphmodel.sourceCApiPackage».C«node.primeAttrType») startGraphContainer.getCRootElement().getAllCNodes().stream().filter(n->n.getModelElement().getId().equals(startContainer.get«node.primeAttrName.toFirstUpper»().getId())).findFirst().get();
+					«graphmodel.sourceApiPackage».«node.primeAttrType» reference = («graphmodel.sourceApiPackage».«node.primeAttrType») startGraphContainer.getRootElement().getAllNodes().stream().filter(n->n.getId().equals(startContainer.get«node.primeAttrName.toFirstUpper»().getId())).findFirst().get();
 					
-					LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphContainer.getCRootElement(),startGraphContainer);
+					LTSMatch lts = graphSimulator.simulateLTS(metaLevel,startGraphContainer.getRootElement(),startGraphContainer);
 					
 					match.setLevel(lts);
 					
@@ -93,7 +92,7 @@ class ContainerSimulationTemplate extends MainTemplate {
 			this.graphSimulator = graphSimulator;
 		}
 	
-		public void setPatternGraph(C«graphmodel.graphModel.name»ES patternGraph) {
+		public void setPatternGraph(«graphmodel.graphModel.name»ES patternGraph) {
 			this.patternGraph = patternGraph;
 		}
 		

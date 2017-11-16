@@ -17,11 +17,11 @@ class CardinalityCheckerTemplate extends MainTemplate {
 	'''
 	package «graphmodel.tracerPackage».match.simulation;
 	
-	import «graphmodel.CApiPackage».CExecutableEdge;
+	import «graphmodel.apiPackage».ExecutableEdge;
 	
 	public class CardinalityChecker {
 		
-		public static boolean checkCardinality(CExecutableEdge transition,int size)
+		public static boolean checkCardinality(ExecutableEdge transition,int size)
 		{
 			if(transition.getCardinality() < 0)return true;
 			

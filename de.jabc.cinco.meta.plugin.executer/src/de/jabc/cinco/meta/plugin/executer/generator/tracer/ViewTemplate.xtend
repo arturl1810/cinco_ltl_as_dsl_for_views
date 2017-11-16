@@ -66,11 +66,8 @@ class ViewTemplate extends MainTemplate {
 	import de.jabc.cinco.meta.runtime.xapi.FileExtension;
 	import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 	import graphmodel.GraphModel;
-	import «graphmodel.sourceCApiPackage».C«graphmodel.graphModel.name»;
-	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
-	import «graphmodel.package».graphiti.«graphmodel.graphModel.name»ESWrapper;
+	import «graphmodel.sourceApiPackage».«graphmodel.graphModel.name»;
 	import «graphmodel.apiPackage».«graphmodel.graphModel.name»ES;
-	import «graphmodel.graphModel.package».graphiti.«graphmodel.graphModel.name»Wrapper;
 	import «graphmodel.tracerPackage».extension.AbstractRunner;
 	import «graphmodel.tracerPackage».handler.EvaluateContributionsHandler;
 	import «graphmodel.tracerPackage».handler.ExecutionTupel;
@@ -83,7 +80,6 @@ class ViewTemplate extends MainTemplate {
 	import «graphmodel.tracerPackage».stepper.utils.ContentView;
 	import «graphmodel.tracerPackage».stepper.utils.JointTracerException;
 	import «graphmodel.tracerPackage».stepper.utils.TracerException;
-	import «graphmodel.graphModel.package».«graphmodel.graphModel.name.toLowerCase».«graphmodel.graphModel.name»;
 	
 	
 	/**
@@ -125,11 +121,9 @@ class ViewTemplate extends MainTemplate {
 		
 		// The model
 		private «graphmodel.graphModel.name» «graphmodel.graphModel.name.toFirstLower»;
-		private C«graphmodel.graphModel.name» c«graphmodel.graphModel.name»;
 		
 		// the pattern
 		private «graphmodel.graphModel.name»ES «graphmodel.graphModel.name.toFirstLower»ES;
-		private C«graphmodel.graphModel.name»ES c«graphmodel.graphModel.name»ES;
 		
 		// The Stepper
 		private Stepper stepper;
@@ -512,7 +506,6 @@ class ViewTemplate extends MainTemplate {
 		 		GraphModel g = new de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension().getGraphModel(new de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension().getActiveEditor());
 		 		if(g instanceof «graphmodel.graphModel.name»){
 		 			this.«graphmodel.graphModel.name.toFirstLower» = («graphmodel.graphModel.name») g;
-		 			c«graphmodel.graphModel.name» = «graphmodel.graphModel.name»Wrapper.wrapGraphModel( «graphmodel.graphModel.name.toFirstLower»,new WorkbenchExtension().getActiveDiagram());
 		 		}
 		 	}
 		
@@ -523,7 +516,7 @@ class ViewTemplate extends MainTemplate {
 			for(Control c:this.threadContainer.getChildren()){
 				c.dispose();
 			}
-			GraphSimulator gs = new GraphSimulator(c«graphmodel.graphModel.name», c«graphmodel.graphModel.name»ES);
+			GraphSimulator gs = new GraphSimulator(«graphmodel.graphModel.name.toFirstLower», «graphmodel.graphModel.name.toFirstLower»ES);
 			LTSMatch lstMatch = gs.simulate();
 			try {
 				stepper = new Stepper(lstMatch,shell,currentSemantic.getContext(),currentSemantic.getSemantic());
@@ -606,7 +599,6 @@ class ViewTemplate extends MainTemplate {
 			    		}
 			    		FileExtension wex = new FileExtension();
 			    		«graphmodel.graphModel.name.toFirstLower»ES = wex.getGraphModel((IFile) et,«graphmodel.graphModel.name»ES.class);
-			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    		hasToBeReseted = true;
 			    }
 			    else
@@ -625,7 +617,7 @@ class ViewTemplate extends MainTemplate {
 		
 		private void doRun(Shell shell)
 		{
-			GraphSimulator gs = new GraphSimulator(c«graphmodel.graphModel.name», c«graphmodel.graphModel.name»ES);
+			GraphSimulator gs = new GraphSimulator(«graphmodel.graphModel.name.toFirstLower», «graphmodel.graphModel.name.toFirstLower»ES);
 			LTSMatch lstMatch = gs.simulate();
 			currentRunner.startRunner(shell, lstMatch, new RunCallback() {
 				@Override
@@ -701,7 +693,6 @@ class ViewTemplate extends MainTemplate {
 			    		}
 			    		FileExtension wex = new FileExtension();
 			    		«graphmodel.graphModel.name.toFirstLower»ES = wex.getGraphModel((IFile) et,«graphmodel.graphModel.name»ES.class);
-			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    }
 			    else
 			    {
