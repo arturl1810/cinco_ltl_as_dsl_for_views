@@ -1,1 +1,2 @@
-Host *\n\tStrictHostKeyChecking no
+Host *
+StrictHostKeyChecking no
