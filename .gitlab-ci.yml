@@ -15,9 +15,9 @@ build:
   stage: build
   script:
     - pushd de.jabc.cinco.meta.libraries
-    - mvn -e clean package
+    - mvn -e clean deploy
     - popd;
-    - mvn -e clean package
+    - mvn -e clean deploy
     - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/nightly/$(date +%F)-${CI_COMMIT_SHA:0:8}/
   variables:
     DELIVERY_HOST: ls5vs001.cs.tu-dortmund.de
