@@ -392,14 +392,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		if(element.isIsAbstract)
 			eClass.abstract = true
 			
-		eClass.overrideInteralElementGetter(element)
 
 		eClass
 	}
 	
-	def void overrideInteralElementGetter(EClass it, ModelElement elem){
-			createEOperation("getInternalElement",elem.internalType,0,1,internalGetterContent)
-	}
 	
 	def EClass internalType(ModelElement element){
 		val ip = graphmodel.internal.InternalPackage.eINSTANCE
@@ -412,15 +408,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	}
 	
-	def internalGetterContent() '''
-		if(super.getInternalElement() != null){
-			return super.getInternalElement();
-		}
-		throw new RuntimeException("ModelElement is deleted or inconsistent.");
-	'''
-	
-
-	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
+		private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
