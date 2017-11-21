@@ -356,20 +356,20 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	}
 	
 	override completeReferencedEClass_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
-		val refType = model as ReferencedEClass
-		val rSet = refType.eResource.resourceSet
+		
+		if(model instanceof ReferencedEClass){
+			val refType = model as ReferencedEClass
+			val rSet = model.eResource.resourceSet
 			val file = getFile(refType.imprt.importURI, refType.eResource)
 			val res = rSet.getResource(getURI(file), true)
-			if(res!=null){
-				for(m: res.allContents.toList.filter[d| d instanceof EClass]){
-					acceptor.accept(createCompletionProposal((m as EClass).name,context))
-				}
-			}
+			res?.allContents.filter(EClass).forEach[acceptor.accept(createCompletionProposal((it as EClass).name,context))]
+				
+		}
 		
 	}
 	
 	def URI getURI(IFile file) {
-        if (file.exists) 
+        if (file!=null && file.exists) 
         	URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true)
         else null
 	}
@@ -392,10 +392,15 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	
 	override completeComplexAttribute_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
 		
-		(model as ComplexAttribute).modelElement.graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
+		//(model as ComplexAttribute).modelElement
+		(model as ModelElement).graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
 		
 	}
 	
+	
+	override completeReferencedEClass_Imprt(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+		super.completeReferencedEClass_Imprt(model,assignment,context,acceptor)
+	}
 	
 	
 	def attributeTypeNames(GraphModel it){
