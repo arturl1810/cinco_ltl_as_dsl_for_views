@@ -96,68 +96,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 						moveTo((«pc.fqBeanName») target.getContainerElement(), context.getX(), context.getY());'''
 				].join("\n")»
 			}
-«««			if (source instanceof «InternalContainer.name») {
-«««				«InternalContainer.name» nc = 
-«««					(«InternalContainer.name») source;
-«««				nc.getModelElements().remove((«n.fqInternalBeanName») o);
-«««			}
-«««			if (source instanceof «n.graphModel.fqInternalBeanName») {
-«««				«n.graphModel.fqInternalBeanName» tmp = 
-«««					(«n.graphModel.fqInternalBeanName») source;
-«««				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
-«««			}
-«««			if (target instanceof «n.graphModel.fqInternalBeanName») {
-«««				«n.graphModel.fqInternalBeanName» tmp = 
-«««					(«n.graphModel.fqInternalBeanName») target;
-«««				tmp.getModelElements().add((«n.fqInternalBeanName») o);
-«««			}
-«««			if (target instanceof «InternalContainer.name») {
-«««				«InternalContainer.name» tmp = 
-«««					(«InternalContainer.name») target;
-«««				tmp.getModelElements().add((«n.fqInternalBeanName») o);
-«««			}
-«««			
-«««			«HashSet.name»<«InternalEdge.name»> all = new «HashSet.name»<>();
-«««			«n.fqInternalBeanName» tmp = («n.fqInternalBeanName») o;
-«««			all.addAll(tmp.getIncoming());
-«««			all.addAll(tmp.getOutgoing());
-«««			for («InternalEdge.name» e : all) {
-«««				«InternalModelElementContainer.name» ce = e.getContainer();
-«««				«InternalModelElementContainer.name» common = 
-«««					new «GraphModelExtension.name»().getCommonContainer(ce, e);
-«««				ce.getModelElements().remove(e);
-«««				common.getModelElements().add(e);
-«««			}
-«««
-«««			((«InternalNode.name») o).setX(context.getX());
-«««			((«InternalNode.name») o).setY(context.getY());
 		}
 		
-«««		Do not generate postMove method. It should be executed in the new API
-«««		/**
-«««		 * Tries to get the root of the pictogram element, the coordinates of the context and the source and target
-«««		 * @param context : Contains the information, needed to let a feature move a shape
-«««		*/
-«««		@Override
-«««		protected void postMoveShape(«IMoveShapeContext.name» context) {
-«««			try {
-«««				«n.fqBeanName» _s = 
-«««					(«n.fqBeanName») ((«n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement())).getElement();
-«««			
-«««				int x = context.getX();
-«««				int y = context.getY();
-«««				int deltaX = context.getDeltaX();
-«««				int deltaY = context.getDeltaY();
-«««			
-«««				«InternalModelElementContainer.name» source = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
-«««				«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
-«««			
-«««			} catch (Exception e) {
-«««			
-«««			}
-«««			super.postMoveShape(context);
-«««		}
-«««
 		/**
 		 * Get-method for an error
 		 * @return Returns an 'error' in which 'error' is  'ECincoError.OK'
