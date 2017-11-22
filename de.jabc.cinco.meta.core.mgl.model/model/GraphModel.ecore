@@ -529,7 +529,7 @@
       eSuperTypes="#//IdentifiableElement">
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;//this.eContainer = null;"/>
+        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
