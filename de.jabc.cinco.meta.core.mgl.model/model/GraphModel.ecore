@@ -103,12 +103,12 @@
     </eOperations>
     <eOperations name="getOutgoingConstraints" upperBound="-1" eType="#//ConnectionConstraint">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint>();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode)getInternalElement()).getOutgoingConstraints();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getIncomingConstraints" upperBound="-1" eType="#//ConnectionConstraint">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint>();"/>
+        <details key="body" value="return ((graphmodel.internal.InternalNode)getInternalElement()).getIncomingConstraints();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="canStart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
