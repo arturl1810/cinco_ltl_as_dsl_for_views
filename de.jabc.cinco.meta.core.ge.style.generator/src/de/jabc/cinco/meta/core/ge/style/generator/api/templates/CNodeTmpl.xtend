@@ -116,10 +116,6 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	public void s_moveTo(«cont.fqBeanName» target, int x, int y) {
 		if (!canMoveTo(target)) return;
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») getPictogramElement());
-«««		if (!(target instanceof «cont.fuCName»))
-«««			throw new «RuntimeException.name»(
-«««				«String.name».format("Parameter \"target\" of wrong type: Expected type: %s, given type %s", 
-«««				«cont.fuCName».class, target.getClass()));
 		mc.setTargetContainer((«ContainerShape.name») ((«CModelElement.name») target).getPictogramElement());
 		mc.setSourceContainer((«ContainerShape.name») ((«CModelElement.name») this.getContainer()).getPictogramElement());
 		
@@ -130,7 +126,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp); 
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
-			super.s_moveTo(target,x,y);
+«««			super.s_moveTo(target,x,y);
 		}
 	}
 	
