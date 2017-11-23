@@ -425,25 +425,27 @@ public class Highlight {
 	}
 	
 	private void refresh(PictogramElement pe) {
-		if (isOn() && isRefresh()) {
-			DiagramBehavior db = getDiagramBehavior(pe);	
-			if (db != null) workbenchX.async(() -> {
-				refreshRenderingDecorators(db, pe);
-			});
-			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
-		}
+		workbenchX.async(() -> {
+			if (isOn() && isRefresh()) {
+				DiagramBehavior db = getDiagramBehavior(pe);
+				if (db != null)
+					refreshRenderingDecorators(db, pe);
+				else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
+			}
+		});
 	}
 	
 	public void refreshAll() {
-		if (isOn() && isRefresh() && !affected.isEmpty()) {
-			PictogramElement pe = affected.iterator().next();
-			DiagramBehavior db = getDiagramBehavior(pe);
-			if (db != null) workbenchX.async(() -> {
-				for (PictogramElement p : affected)
-					refreshRenderingDecorators(db, p);
-			});
-			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
-		}
+		workbenchX.async(() -> {
+			if (isOn() && isRefresh() && !affected.isEmpty()) {
+				PictogramElement pe = affected.iterator().next();
+				DiagramBehavior db = getDiagramBehavior(pe);
+				if (db != null)
+					for (PictogramElement p : affected)
+						refreshRenderingDecorators(db, p);
+				else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
+			}
+		});
 	}
 	
 	private void refreshRenderingDecorators(DiagramBehavior db, PictogramElement p) {
@@ -458,10 +460,13 @@ public class Highlight {
 	}
 
 	private DiagramBehavior getDiagramBehavior(PictogramElement pe) {
-		Object diagram = workbenchX.getDiagram(pe);
-		return (diagram instanceof LazyDiagram)
-			? ((LazyDiagram) diagram).getDiagramBehavior()
-			: workbenchX.getDiagramBehavior(pe);
+		Diagram diagram = workbenchX.getDiagram(pe);
+		if (diagram instanceof LazyDiagram) {
+			DiagramBehavior db = ((LazyDiagram) diagram).getDiagramBehavior();
+			if (db != null)
+				return db;
+		}
+		return workbenchX.getDiagramBehavior(pe);
 	}
 	
 	public boolean isRefresh() {
