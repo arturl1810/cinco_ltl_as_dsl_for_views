@@ -18,6 +18,7 @@ import java.net.URL
 import static extension org.eclipse.emf.common.util.URI.createURI
 import static extension org.eclipse.emf.common.util.URI.createPlatformResourceURI
 import org.eclipse.ui.part.FileEditorInput
+import org.eclipse.swt.widgets.Display
 
 /**
  * Workbench-specific extension methods.
@@ -42,6 +43,8 @@ class WorkbenchExtension {
 	 *   whatever reason.
 	 */
 	def  getActiveWorkbenchWindow() {
+		if (Display.current == null)
+			System.err.println("Trying to retrieve active workbench window without using Display thread")
 		workbench?.activeWorkbenchWindow
 	}
 
@@ -210,5 +213,32 @@ class WorkbenchExtension {
 	def transact(EObject object, String label, Runnable runnable) {
 		extension val ResourceExtension = new ResourceExtension
 		object.eResource.transact(label, runnable)
+	}
+	
+	/**
+	 * Retrieve the current instance of Display, the default instance otherwise.
+	 * Display is responsible for managing the connection between SWT and the
+	 * underlying operating system.
+	 */
+	def getDisplay() {
+		Display.current ?: Display.^default
+	}
+	
+	/**
+	 * Causes the run() method of the runnable to be invoked by the UI thread
+	 * at the next reasonable opportunity. The caller of this method continues
+	 * to run in parallel.
+	 */
+	def async(Runnable runnable) {
+		display.asyncExec(runnable)
+	}
+	
+	/**
+	 * Causes the run() method of the runnable to be invoked by the UI thread
+	 * at the next reasonable opportunity. The thread which calls this method
+	 * is suspended until the runnable completes.
+	 */
+	def sync(Runnable runnable) {
+		display.syncExec(runnable)
 	}
 }
