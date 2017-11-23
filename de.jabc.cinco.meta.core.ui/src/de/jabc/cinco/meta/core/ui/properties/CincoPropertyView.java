@@ -1,16 +1,5 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
-import graphmodel.Container;
-import graphmodel.GraphModel;
-import graphmodel.IdentifiableElement;
-import graphmodel.ModelElement;
-import graphmodel.ModelElementContainer;
-import graphmodel.Type;
-import graphmodel.internal.InternalGraphModel;
-import graphmodel.internal.InternalIdentifiableElement;
-import graphmodel.internal.InternalModelElement;
-import graphmodel.internal.InternalType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,7 +48,6 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -68,9 +56,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -103,10 +89,17 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
-import de.jabc.cinco.meta.core.utils.MGLUtil;
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension;
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
+import graphmodel.Container;
+import graphmodel.GraphModel;
+import graphmodel.ModelElement;
+import graphmodel.ModelElementContainer;
+import graphmodel.Type;
+import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalModelElement;
+import graphmodel.internal.InternalType;
 
 /**
  * @author kopetzki
@@ -681,10 +674,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
 					Object value = eContainer.eGet(ref, true);
 					if (isMultiValued(value) && !((List<?>) value).isEmpty())
-						value = ((List<?>) value).get(0);
-					if (eObject.equals(value)) {
-						return ref.getName();
-					}
+						if (((List<?>) value).contains(eObject)){
+							return ref.getName();
+						}
 					
 				}
 
