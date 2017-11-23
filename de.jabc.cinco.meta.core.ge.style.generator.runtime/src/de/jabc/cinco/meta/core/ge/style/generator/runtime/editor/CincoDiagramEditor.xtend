@@ -62,6 +62,9 @@ abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEdit
 	
 	override handleInnerStateChanged() {
 		diagramBehavior.handleInnerStateChanged();
+		switch it:diagramTypeProvider.diagram {
+			LazyDiagram: setDiagramBehavior(diagramBehavior)
+		}
 	}
 
 	override handleNewInnerState() {
