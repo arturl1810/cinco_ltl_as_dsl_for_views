@@ -12,7 +12,6 @@ import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.editor.DiagramBehavior
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 import org.eclipse.jface.dialogs.MessageDialog
-import org.eclipse.swt.widgets.Display
 import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.part.MultiPageEditorPart
 
@@ -97,8 +96,8 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	def DiagramEditor getDiagramEditor(IEditorPart editor) {
 		switch editor {
 			MultiPageEditorPart: 
-				switch editor.selectedPage {
-					DiagramEditor: editor.selectedPage as DiagramEditor
+				switch it:editor.selectedPage {
+					DiagramEditor: it
 				}
 			DiagramEditor: editor
 		}
@@ -145,7 +144,11 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 *   retrieved for whatever reason.
 	 */
 	def getDiagram(PictogramElement pictogramElement) {
-		EcoreUtil.getRootContainer(pictogramElement) as Diagram
+		try {
+			EcoreUtil.getRootContainer(pictogramElement) as Diagram
+		} catch(Exception e) {
+			null
+		}
 	}
 	
 	/**
@@ -388,18 +391,6 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 		if (db != null) 
 			async[| for (pe : pes) db.refreshRenderingDecorators(pe) ] 
 		else System.err.println("No DiagramBehavior found for any pictogram")
-	}
-	
-	def getDisplay() {
-		Display.current ?: Display.^default
-	}
-	
-	def async(Runnable runnable) {
-		display.asyncExec(runnable)
-	}
-	
-	def sync(Runnable runnable) {
-		display.syncExec(runnable)
 	}
 	
 	def int showCustomQuestionDialog(String title, String message, String[] buttonLabels) {
