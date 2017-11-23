@@ -14,13 +14,13 @@ import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 
 public class CincoTreeFactory implements IObservableFactory {
 
-	Map<Class<? extends EObject>, IEMFListProperty> emfListPropertesMap;
+	Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap;
 	EObject bo;
 
 	public CincoTreeFactory(EObject bo,
 			Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap) {
 		this.bo = bo;
-		this.emfListPropertesMap = emfListPropertiesMap;
+		this.emfListPropertiesMap = emfListPropertiesMap;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class CincoTreeFactory implements IObservableFactory {
 		}
 
 		if (target instanceof EObject) {
-			IEMFListProperty iEmfListProperty = CincoPropertyUtils.getAllListProperties(((EObject)target).getClass(), emfListPropertesMap);
+			IEMFListProperty iEmfListProperty = CincoPropertyUtils.getAllListProperties(((EObject)target).getClass(), emfListPropertiesMap);
 //			IEMFListProperty iEmfListProperty = EMFProperties.multiList(emfListPropertesMap.get(target.getClass()));
 			return iEmfListProperty.listFactory().createObservable(target);
 		}
