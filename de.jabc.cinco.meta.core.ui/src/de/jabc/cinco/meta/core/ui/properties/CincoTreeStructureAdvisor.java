@@ -8,6 +8,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 
+import graphmodel.IdentifiableElement;
+
 public class CincoTreeStructureAdvisor extends TreeStructureAdvisor {
 
 	private Map<Class<? extends EObject>, List<EStructuralFeature>> map;
@@ -29,8 +31,10 @@ public class CincoTreeStructureAdvisor extends TreeStructureAdvisor {
 	public Boolean hasChildren(Object element) {
 		if (!(element instanceof EObject))
 			return super.hasChildren(element);
-
+		
 		EObject obj = (EObject) element;
+		if (obj instanceof IdentifiableElement)
+			obj = ((IdentifiableElement) obj).getInternalElement();
 		List<EStructuralFeature> refsList = map.get(element.getClass());
 		if (refsList != null) { 
 			for (EStructuralFeature f : refsList) {

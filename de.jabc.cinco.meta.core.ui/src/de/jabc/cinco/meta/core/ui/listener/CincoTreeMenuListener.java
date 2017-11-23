@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.ui.listener;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
+import graphmodel.Type;
 import graphmodel.internal.InternalGraphModel;
 import graphmodel.internal.InternalModelElement;
 
@@ -48,6 +49,9 @@ public class CincoTreeMenuListener implements IMenuListener2{
 		Object object = ((IStructuredSelection) selection).getFirstElement();
 		if (!(object instanceof EObject))
 			return;
+		
+		if (object instanceof Type)
+			object = ((Type) object).getInternalElement();
 		
 		List<EStructuralFeature> references = CincoPropertyUtils.getAllEStructuralFeatures(object.getClass(), map);//map.get(object.getClass());
 		
