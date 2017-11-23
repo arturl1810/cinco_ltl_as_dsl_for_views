@@ -297,12 +297,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		«IF node.booleanWriteMethodCallPostMove»
 		postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
 		«ENDIF»
+		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
+		setX(x);
+		setY(y);
+		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
 	'''
 
+	/**
+	 * This method is only generated to allow the implementation of the api. Thus, to add additional behavior for move
+	 * the method "s_moveTo(...)" should be overridden.
+	 * 
+	 * ATTENTION: Overriding the "moveTo(...)" overrides the post move hook call! 
+	 */
 	def _moveToMethodContent(Node node, ContainingElement ce) '''
-		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
-		this.move(x, y);
-		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+«««		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
+«««		this.move(x, y);
+«««		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
 	'''
 
 	def postMoveContent(Node n) '''
