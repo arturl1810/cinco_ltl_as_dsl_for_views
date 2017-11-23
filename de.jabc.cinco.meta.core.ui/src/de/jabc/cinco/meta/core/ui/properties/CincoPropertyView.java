@@ -198,8 +198,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		registeredListeners.add(listener);
 	}
 	
-	public static void init_EStructuralFeatures(Class<? extends EObject> clazz,
-			EStructuralFeature... features) {
+	public static void init_EStructuralFeatures(Class<? extends EObject> clazz,	EStructuralFeature... features) {
 		List<EStructuralFeature> featureList = Arrays.asList(features);
 		List<EStructuralFeature> attributeList = featureList.stream()
 				.filter(f -> (f instanceof EAttribute) || (f instanceof EReference && !((EReference) f).isContainment()) )
@@ -208,8 +207,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				.filter(f -> f instanceof EReference && ((EReference) f).isContainment())
 				.collect(Collectors.toList());
 
-		init_ListPorperties(clazz,
-				referenceList.toArray(new EStructuralFeature[] {}));
+		init_ListPorperties(clazz, referenceList.toArray(new EStructuralFeature[] {}));
 
 		if (referencesMap.get(clazz) == null)
 			referencesMap.put(clazz, referenceList);
