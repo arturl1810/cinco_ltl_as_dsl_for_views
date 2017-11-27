@@ -42,6 +42,8 @@ Import-Package: de.jabc.cinco.meta.runtime.action,
  org.eclipse.pde.core.project,
  org.eclipse.ui.ide,
  org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.xtext.xtext.generator,
+ org.eclipse.xtext.xtext.generator.ecore,
  productDefinition,
  style
 Export-Package: de.jabc.cinco.meta.core.utils,
