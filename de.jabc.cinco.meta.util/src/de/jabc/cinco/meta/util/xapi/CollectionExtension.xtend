@@ -9,7 +9,7 @@ import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
 import static extension org.jooq.lambda.Seq.*
-import java.util.Collection
+import java.util.Map
 
 /**
  * Some collection extensions for cinco meta, cinco, and cinco products.
@@ -308,22 +308,12 @@ class CollectionExtension {
 	def <T> exists(Iterable<? super T> it, Class<? extends T> clazz) {
 		exists[clazz.isInstance(it)]
 	}
-
+	
 	/**
-	 * Returns {@code true} if the iterable contains the specified object.
-	 * If the iterable is a {@code java.util.Collection}, this method calls {@code contains(obj)} on
-	 * it. Otherwise, this method is a convenient way for calling {@code iterable.exists[it == obj]}.
-	 * 
-	 * @param it
-	 *            the iterable. May not be {@code null}.
-	 * @param obj
-	 *            the object to be found.
+	 * Adds the specified key-value pair to the map by means of mapping the key on the value.
+	 * This is a convenient method for calling {@code map.put(pair.key, pair.value)}
 	 */
-	def <T> contains(Iterable<T> it, T obj) {
-		switch it {
-			Collection<T>: contains(obj)
-			default: exists[it == obj]
-		}
+	def <K,V> add(Map<K,V> map, Pair<K,V> pair) {
+		map.put(pair.key, pair.value)
 	}
-
 }

@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Plugin Parent
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin
+Bundle-Version: 0.8.0.qualifier
+Bundle-Activator: de.jabc.cinco.meta.plugin.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
+ de.jabc.cinco.meta.core.utils;visibility:=reexport,
+ de.jabc.cinco.meta.util;visibility:=reexport,
+ org.eclipse.jdt.core;visibility:=reexport,
+ de.jabc.cinco.meta.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: de.jabc.cinco.meta.plugin,
+ de.jabc.cinco.meta.plugin.dsl,
+ de.jabc.cinco.meta.plugin.template
+Import-Package: org.eclipse.core.resources
+
