@@ -294,13 +294,13 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
 		int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
 		s_moveTo(«ce.name.toFirstLower.paramEscape», x, y);
-		«IF node.booleanWriteMethodCallPostMove»
-		postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
-		«ENDIF»
 		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
 		setX(x);
 		setY(y);
 		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+		«IF node.booleanWriteMethodCallPostMove»
+			postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
+		«ENDIF»
 	'''
 
 	/**
