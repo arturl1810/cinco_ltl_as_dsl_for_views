@@ -1,4 +1,4 @@
-package file
+package de.jabc.cinco.meta.plugin.gratext.tmpl.file
 
 class GenmodelTmpl extends EcoreTmpl {
 	

@@ -1,11 +1,9 @@
 package de.jabc.cinco.meta.plugin.dsl
 
 import de.jabc.cinco.meta.plugin.template.FileTemplate
+import java.util.function.Consumer
 import org.eclipse.core.resources.IFile
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.function.Function
-import java.util.function.Consumer
-import mgl.GraphModel
 
 class FileDescription extends ProjectResourceDescription<IFile> {
 	

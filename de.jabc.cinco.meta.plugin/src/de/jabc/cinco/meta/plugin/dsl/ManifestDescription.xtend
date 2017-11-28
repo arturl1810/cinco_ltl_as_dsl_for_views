@@ -5,6 +5,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class ManifestDescription extends FileDescription {
 	
+	@Accessors String activator
 	@Accessors boolean lazyActivation = false
 	@Accessors val Set<String> exportedPackages = newHashSet
 	@Accessors val Set<String> importedPackages = newHashSet
@@ -29,6 +30,9 @@ class ManifestDescription extends FileDescription {
 		Bundle-SymbolicName: «project.symbolicName»; singleton:=true
 		Bundle-Version: 1.0.0
 		Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+		«IF activator != null»
+			Bundle-Activator: «activator»
+		«ENDIF»
 		«IF isLazyActivation»
 			Bundle-ActivationPolicy: lazy
 		«ENDIF»

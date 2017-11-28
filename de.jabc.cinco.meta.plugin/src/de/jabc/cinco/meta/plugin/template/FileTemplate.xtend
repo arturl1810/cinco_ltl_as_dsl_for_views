@@ -28,7 +28,6 @@ abstract class FileTemplate extends CincoMetaContext {
 		tmplClass.newInstance.withContext(this).targetFileName
 	}
 	
-	
 	def CharSequence template()
 	
 	def FileDescription getFileDescription() {

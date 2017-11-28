@@ -21,7 +21,6 @@ public class GratextGenerationHandler extends AbstractHandler {
 			return null;
 		GraphModel model = fileHelper.getContent(mglFile, GraphModel.class, 0);
 		
-		System.out.println("Create GratextPlugin: " + model);
 		GratextPlugin plugin = new GratextPlugin();
 		plugin.setModel(model);
 		plugin.run();

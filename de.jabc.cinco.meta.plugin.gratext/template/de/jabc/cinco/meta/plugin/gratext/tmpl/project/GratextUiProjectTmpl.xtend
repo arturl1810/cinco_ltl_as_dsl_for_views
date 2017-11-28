@@ -1,10 +1,9 @@
-package project
+package de.jabc.cinco.meta.plugin.gratext.tmpl.project
 
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.EditorTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.PluginXmlTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.ProposalProviderTmpl
 import de.jabc.cinco.meta.plugin.template.ProjectTemplate
-import file.EditorTmpl
-import file.PluginXmlTmpl
-import file.ProposalProviderTmpl
-import de.jabc.cinco.meta.plugin.dsl.ProjectType
 
 class GratextUiProjectTmpl extends ProjectTemplate {
 	

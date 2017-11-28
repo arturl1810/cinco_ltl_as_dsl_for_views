@@ -21,16 +21,20 @@ class ProjectDescriptionLanguage {
 		container => [ add(new FileDescription(template)) ]
 	}
 	
-	def <T extends FileContainerDescription<?>> file(T container, Pair<Class<? extends FileTemplate>, String> template) {
-		container => [ add(new FileDescription(template.value, template.key)) ]
+	def <T extends FileContainerDescription<?>> file(T container, Pair<Class<? extends FileTemplate>, CharSequence> template) {
+		container => [ add(new FileDescription(template.value?.toString, template.key)) ]
 	}
 	
 	def <T extends FileContainerDescription<?>> setFiles(T container, Class<? extends FileTemplate>[] templates) {
 		container => [ templates.map[new FileDescription(it)].forEach[container.add(it)] ]
 	}
 	
-	def <T extends FileContainerDescription<?>> setFiles(T container, Pair<Class<? extends FileTemplate>, String>[] templates) {
-		container => [ templates.map[new FileDescription(value, key)].forEach[container.add(it)] ]
+	def <T extends FileContainerDescription<?>> setFiles(T container, Iterable<FileTemplate> templates) {
+		container => [ templates.map[new FileDescription(it)].forEach[container.add(it)] ]
+	}
+	
+	def <T extends FileContainerDescription<?>> setFiles(T container, Pair<Class<? extends FileTemplate>, CharSequence>[] templates) {
+		container => [ templates.map[new FileDescription(value?.toString, key)].forEach[container.add(it)] ]
 	}
 	
 	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription... struct) {
@@ -46,6 +50,12 @@ class ProjectDescriptionLanguage {
 			packages.add(new PackageDescription(name) => [
 				struct.forEach[f | f.apply(it)]
 			])
+		]
+	}
+	
+	def <T extends ProjectResourceDescription<?>,X> forEachOf(T res, Iterable<X> iterable, (X)=>T struct) {
+		res => [ 
+			iterable.forEach[x | struct.apply(x)]
 		]
 	}
 	
@@ -85,6 +95,10 @@ class ProjectDescriptionLanguage {
 
 	def setRequiredBundles(ProjectDescription projDesc, String[] names) {
 		projDesc => [ manifest.requiredBundles => [clear addAll(names)] ]
+	}
+	
+	def setActivator(ProjectDescription projDesc, CharSequence activatorFqn) {
+		projDesc => [ manifest.activator = activatorFqn?.toString ]
 	}
 	
 	def setLazyActivation(ProjectDescription projDesc, boolean flag) {

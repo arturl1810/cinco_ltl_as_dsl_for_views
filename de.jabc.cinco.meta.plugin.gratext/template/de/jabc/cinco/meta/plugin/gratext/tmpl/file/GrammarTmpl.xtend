@@ -1,4 +1,4 @@
-package file
+package de.jabc.cinco.meta.plugin.gratext.tmpl.file
 
 import de.jabc.cinco.meta.plugin.template.FileTemplate
 import java.util.Map

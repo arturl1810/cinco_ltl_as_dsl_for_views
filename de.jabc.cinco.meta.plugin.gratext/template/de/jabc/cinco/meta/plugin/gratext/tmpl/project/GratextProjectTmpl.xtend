@@ -1,19 +1,19 @@
-package project
+package de.jabc.cinco.meta.plugin.gratext.tmpl.project
 
 import de.jabc.cinco.meta.plugin.dsl.FolderDescription
 import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.EcoreTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.FormatterTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.GenmodelTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.GrammarTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.InternalPackageTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.MweWorkflowTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.QualifiedNameProviderTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.ResourceTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.RuntimeModuleTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.ScopeProviderTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.TransformerTmpl
 import de.jabc.cinco.meta.plugin.template.ProjectTemplate
-import file.EcoreTmpl
-import file.FormatterTmpl
-import file.GenmodelTmpl
-import file.GrammarTmpl
-import file.InternalPackageTmpl
-import file.MweWorkflowTmpl
-import file.QualifiedNameProviderTmpl
-import file.ResourceTmpl
-import file.RuntimeModuleTmpl
-import file.ScopeProviderTmpl
-import file.TransformerTmpl
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.Path
 

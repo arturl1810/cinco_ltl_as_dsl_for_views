@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Plugin Parent
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin
-Bundle-Version: 0.8.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.plugin.Activator
 Require-Bundle: org.eclipse.core.runtime,
  com.google.guava,
@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.utils;visibility:=reexport,
  de.jabc.cinco.meta.util;visibility:=reexport,
  org.eclipse.jdt.core;visibility:=reexport,
- de.jabc.cinco.meta.core
+ de.jabc.cinco.meta.core,
+ de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.plugin,

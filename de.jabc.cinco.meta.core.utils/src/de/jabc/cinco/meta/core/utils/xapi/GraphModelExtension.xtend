@@ -7,6 +7,7 @@ import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import java.util.IdentityHashMap
 import java.util.Set
+import mgl.Annotatable
 import mgl.Attribute
 import mgl.ComplexAttribute
 import mgl.ContainingElement
@@ -25,6 +26,7 @@ import mgl.Type
 import mgl.UserDefinedType
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.runtime.CoreException
+import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.pde.core.project.IBundleProjectService
 
@@ -33,8 +35,6 @@ import static org.eclipse.emf.common.util.URI.*
 
 import static extension org.eclipse.emf.common.util.URI.createURI
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getRootContainer
-import org.eclipse.emf.common.util.URI
-import org.eclipse.core.runtime.Path
 
 class GraphModelExtension {
 	
@@ -210,6 +210,10 @@ class GraphModelExtension {
 	val _allAttributes = new NonEmptyRegistry<ModelElement,Iterable<Attribute>> [
 		attributes + (superType?.allAttributes ?: #[])
 	]
+	
+	def hasAnnotation(Annotatable it, String annotationName) {
+		annotations?.exists[name == annotationName]
+	}
 	
 	//================================================================================
     // Node Extensions

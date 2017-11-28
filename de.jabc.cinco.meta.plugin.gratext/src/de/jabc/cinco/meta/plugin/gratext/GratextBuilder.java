@@ -8,18 +8,16 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
 
 import de.jabc.cinco.meta.plugin.dsl.PackageDescription;
 import de.jabc.cinco.meta.plugin.gratext.build.GratextLanguageBuild;
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.GrammarTmpl;
+import de.jabc.cinco.meta.plugin.gratext.tmpl.project.GratextProjectTmpl;
 import de.jabc.cinco.meta.plugin.template.FileTemplate;
 import de.jabc.cinco.meta.runtime.xapi.FileExtension;
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension;
 import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension;
-import file.GrammarTmpl;
 import mgl.GraphModel;
-import project.GratextProjectTmpl;
 
 public class GratextBuilder extends AbstractHandler {
 
@@ -37,8 +35,6 @@ public class GratextBuilder extends AbstractHandler {
 			return null;
 		
 		IProject gratextProject = gratextProjTmpl.getProjectDescription().getIResource();
-		System.err.println("Polled Gratext project: " + gratextProject);
-		
 		GraphModel mglModel = gratextProjTmpl.getMglModel();
 		
 //		// workaround for phantom errors in Graphiti project
@@ -53,14 +49,10 @@ public class GratextBuilder extends AbstractHandler {
 //			build(graphitiProject);
 //		}
 		
-		System.err.println("Building project: " + gratextProject);
-		long time = System.currentTimeMillis();
 		workspace.buildIncremental(gratextProject);
-		System.err.println("Building project " + gratextProject + " took " + (System.currentTimeMillis()-time));
 		
 		// workaround to put the .xtext file on the classpath without building the project
 		try {
-			System.err.println("Create dummy .xtext for model " + mglModel);
 			FileTemplate tmpl = new GrammarTmpl();
 			tmpl.setModel(mglModel);
 			tmpl.setParent(new PackageDescription(mglModel.getPackage()+".gratext"));
@@ -70,14 +62,12 @@ public class GratextBuilder extends AbstractHandler {
 				mglModel.getName() + "Gratext.xtext",
 				tmpl.getContent());
 			file.setDerived(true, null);
-			System.err.println("Dummy .xtext created: " + file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		gratextProjTmpl.proceed(); // create additional files
 
-		System.err.println("Trigger language build: " + gratextProject);
 		new GratextLanguageBuild(gratextProject).runAndWait();
 		
 		return null;
