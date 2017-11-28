@@ -173,7 +173,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			if (bo != null) {
 				init_PropertyView(bo);
 			}
-//			else if (part instanceof MultiPageGratextEditor) {
 			else {
 				clearPage();
 			}
