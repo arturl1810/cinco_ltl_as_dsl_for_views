@@ -1,10 +1,12 @@
 package de.jabc.cinco.meta.core.ui.listener;
 
 import graphmodel.GraphModel;
+import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 import graphmodel.Type;
 import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalIdentifiableElement;
 import graphmodel.internal.InternalModelElement;
 
 import java.util.List;
@@ -135,7 +137,10 @@ public class CincoTreeMenuListener implements IMenuListener2{
 					
 					@Override
 					protected void doExecute() {
-						EcoreUtil.remove(eObject);
+						if (eObject instanceof InternalIdentifiableElement) 
+							EcoreUtil.delete(((InternalIdentifiableElement) eObject).getElement());
+						
+						EcoreUtil.delete(eObject);
 					}
 				});
 				viewer.refresh();
