@@ -1,36 +1,38 @@
-package de.jabc.cinco.meta.plugin.primeviewer.templates
+package de.jabc.cinco.meta.plugin.primeviewer.tmpl.file
 
-import mgl.Node
-import org.eclipse.core.resources.IProject
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import de.jabc.cinco.meta.core.utils.projects.ContentWriter
+import de.jabc.cinco.meta.plugin.template.FileTemplate
+import mgl.Node
 
-class PluginXMLTemplate {
+class PluginXmlTmpl extends FileTemplate {
 	
 	static extension GeneratorUtils = new GeneratorUtils
 	
-	def static doGeneratePluginXMLContent(Iterable<Node> primeNodes, IProject p) {
-		ContentWriter::writePluginXML(p, primeNodes.content, "")
-	}
+	override getTargetFileName() '''plugin.xml'''
 	
-	def static getContent(Iterable<Node> primeNodes)'''
-		«FOR n : primeNodes SEPARATOR '\n'»
-		«n.navigatorContent»
-		«ENDFOR»
-		<extension
-			point="org.eclipse.ui.navigator.viewer">
-			  <viewerContentBinding
-				viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-				<includes>
-				 «FOR n : primeNodes SEPARATOR '\n'»
-					 «n.extensionContent»
-				 «ENDFOR»
-				</includes>
-			</viewerContentBinding>
-		</extension>
+	override template() '''
+		<?xml version="1.0" encoding="UTF-8"?>
+		<?eclipse version="3.0"?>
+			
+		<plugin>
+			«FOR n : primeNodes SEPARATOR '\n'»
+				«n.navigatorContent»
+			«ENDFOR»
+			<extension
+				point="org.eclipse.ui.navigator.viewer">
+				  <viewerContentBinding
+					viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+					<includes>
+					 «FOR n : primeNodes»
+						 «n.extensionContent»
+					 «ENDFOR»
+					</includes>
+				</viewerContentBinding>
+			</extension>
+		</plugin>
 	''' 
-		
-	def static getNavigatorContent(Node n) '''
+	
+	def getNavigatorContent(Node n) '''
 		<extension
 			point="org.eclipse.ui.navigator.navigatorContent">
 			<navigatorContent
@@ -49,10 +51,13 @@ class PluginXMLTemplate {
 		</extension>
 	'''
 	
-	def static getExtensionContent(Node n) '''
+	def getExtensionContent(Node n) '''
 		<contentExtension
 			pattern="«n.graphModel.package».primeviewer.«n.primeTypePackagePrefix».«n.primeTypeName»ContentProvider">
 		</contentExtension>
 	'''
 	
+	def getPrimeNodes() {
+		model.nodes.filter[primeReference?.hasAnnotation("pvFileExtension")]
+	}
 }
