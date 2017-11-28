@@ -11,6 +11,7 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.ecore.EObject;
 
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
+import graphmodel.IdentifiableElement;
 
 public class CincoTreeFactory implements IObservableFactory {
 
@@ -35,6 +36,9 @@ public class CincoTreeFactory implements IObservableFactory {
 		}
 
 		if (target instanceof EObject) {
+			if (target instanceof IdentifiableElement)
+				target = ((IdentifiableElement) target).getInternalElement();
+			
 			IEMFListProperty iEmfListProperty = CincoPropertyUtils.getAllListProperties(((EObject)target).getClass(), emfListPropertiesMap);
 //			IEMFListProperty iEmfListProperty = EMFProperties.multiList(emfListPropertesMap.get(target.getClass()));
 			return iEmfListProperty.listFactory().createObservable(target);
