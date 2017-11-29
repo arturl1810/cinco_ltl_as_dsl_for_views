@@ -18,6 +18,7 @@
 		<module>de.jabc.cinco.meta.core.mgl</module>
 		<module>de.jabc.cinco.meta.core.mgl.generator</module>
 		<module>de.jabc.cinco.meta.core.mgl.model</module>
+		<module>de.jabc.cinco.meta.plugin</module>
 		<module>de.jabc.cinco.meta.plugin.spreadsheet</module>
 		<module>de.jabc.cinco.meta.plugin.pyro</module>
 		<module>de.jabc.cinco.meta.plugin.executer</module>
