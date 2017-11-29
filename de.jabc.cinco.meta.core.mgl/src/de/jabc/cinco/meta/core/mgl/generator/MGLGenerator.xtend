@@ -120,6 +120,11 @@ class MGLGenerator implements IGenerator {
 			adapterContent = altGen.createAdapter(n)
 			ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)
 		}
+		for (t : model.types) {
+			fileName = t.name + "EContentAdapter.xtend"
+			adapterContent = altGen.createAdapter(t)
+			ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)
+		}
 	}
 
 	protected def void generateGraphModelCreator(MGLAlternateGenerator altGen, GraphModel model, IFileSystemAccess access) {

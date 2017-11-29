@@ -79,6 +79,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	def createAdapter(ModelElement me) {
 		me.generateAdapter
 	}
+	
+	def createAdapter(Type t) {
+		t.generateAdapter
+	}
 
 	def Iterable<EPackage> generateEcoreModel(GraphModel graphModel, Iterable<EPackage> mglEPackages) {
 		initializeMaps
