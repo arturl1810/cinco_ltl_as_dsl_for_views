@@ -435,6 +435,6 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	def IEditorPart openEditor(EObject obj) {
 		extension val we = new WorkspaceExtension
 		extension val fe = new FileExtension
-		obj.getFile?.openInEditor
+		obj.getFile?.openInEditor as IEditorPart
 	}
 }

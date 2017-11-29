@@ -383,10 +383,12 @@ class StyleUtil extends APIUtils {
 	'''
 
 	def setSizeFromContext(AbstractShape a, CharSequence gaName) '''
-		if (context.getWidth() > 0 && context.getHeight() > 0)
-			gaService.setSize(«gaName», context.getWidth(), context.getHeight());
-		else 
-			gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
+«««		if (context.getWidth() > 0 && context.getHeight() > 0)
+«««			gaService.setSize(«gaName», context.getWidth(), context.getHeight());
+«««		else 
+		//Setting the size independent of the one given in the context. 
+		//Thus, it is possible to resize inner shapes correctly
+		gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
 		«setSizeProperties(a, gaName)»
 	'''
 	
