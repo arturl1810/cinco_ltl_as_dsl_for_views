@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import graphmodel.Type
 import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
+import org.eclipse.emf.ecore.EClass
 
 /**
  * GraphModel-specific extension methods.
@@ -517,4 +518,31 @@ class GraphModelExtension {
 		
 		(container as InternalGraphModel).element
 	}
+	
+	/**
+	 * Returns the {@link ModelElement} that contains the given {@link Type}.
+	 *
+	 * <b>Attention</b>: Temporarily added this method because it is currently
+	 * not possible to add a corresponding reference between a {@link Type} and
+	 * its containing {@link ModelElement}.
+	 */
+	def getModelElement(Type t) {
+		if (t.eResource == null) return null
+		var gm = new ResourceExtension().getGraphModel(t.eResource)
+		gm.modelElements.map[internalElement].filter[
+			containsType(t)
+		]
+		
+	}
+	
+	private def boolean containsType(EObject me, Type t) {
+		me.eAllContents.exists[
+			(it == t) || 
+				if (it instanceof Type) 
+					internalElement.containsType(t) 
+				else false
+		]
+	}
+	
+	
 }

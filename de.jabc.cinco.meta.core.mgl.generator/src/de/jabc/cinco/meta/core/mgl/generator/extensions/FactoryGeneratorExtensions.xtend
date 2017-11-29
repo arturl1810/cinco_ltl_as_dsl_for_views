@@ -150,9 +150,9 @@ class FactoryGeneratorExtensions {
 					«IF !(it instanceof Type)»
 						container = parent
 					«ENDIF»
-					«IF !(it instanceof UserDefinedType)»
+«««					«IF !(it instanceof UserDefinedType)»
 						eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-					«ENDIF»
+«««					«ENDIF»
 				]
 				«postCreateHook»
 			]
