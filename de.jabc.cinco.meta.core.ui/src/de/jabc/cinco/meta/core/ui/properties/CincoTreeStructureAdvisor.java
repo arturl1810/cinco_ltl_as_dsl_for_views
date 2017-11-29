@@ -35,7 +35,12 @@ public class CincoTreeStructureAdvisor extends TreeStructureAdvisor {
 		EObject obj = (EObject) element;
 		if (obj instanceof IdentifiableElement)
 			obj = ((IdentifiableElement) obj).getInternalElement();
-		List<EStructuralFeature> refsList = map.get(element.getClass());
+		
+		//Check for null reference, if a type is deleted. The non-internal element exists
+		//but it's internal element is null.
+		if (obj == null) return false;
+		
+		List<EStructuralFeature> refsList = map.get(obj.getClass());
 		if (refsList != null) { 
 			for (EStructuralFeature f : refsList) {
 				Object featureValue = obj.eGet(f, true);

@@ -94,6 +94,7 @@ import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 import graphmodel.Container;
 import graphmodel.GraphModel;
+import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 import graphmodel.Type;
@@ -172,7 +173,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			if (bo != null) {
 				init_PropertyView(bo);
 			}
-//			else if (part instanceof MultiPageGratextEditor) {
 			else {
 				clearPage();
 			}
@@ -675,7 +675,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 						if (((List<?>) value).contains(eObject)){
 							return ref.getName();
 						}
-					} else if (eObject.equals(value)) return ref.getName();
+					} else if (eObject.equals(value)) 
+						return ref.getName();
 				}
 
 				return null;
