@@ -356,16 +356,21 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	}
 	
 	override completeReferencedEClass_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
-		
+		var res = null as Resource
+		val rSet = model.eResource.resourceSet
+		var file = null as IFile 
+		if(model instanceof Node){
+			if(context.lastCompleteNode.hasPreviousSibling){
+				val uri = model.graphModel.imports.filter[context.lastCompleteNode.previousSibling.text==name].head.importURI
+				file = getFile(uri,model.eResource)
+			}
+			
+		}else
 		if(model instanceof ReferencedEClass){
-			val refType = model as ReferencedEClass
-			val rSet = model.eResource.resourceSet
-			val file = getFile(refType.imprt.importURI, refType.eResource)
-			val res = rSet.getResource(getURI(file), true)
-			res?.allContents.filter(EClass).forEach[acceptor.accept(createCompletionProposal((it as EClass).name,context))]
-				
+			file = getFile(model.imprt.importURI, model.eResource)
 		}
-		
+		res = rSet.getResource(getURI(file), true)
+		res?.allContents.filter(EClass).forEach[acceptor.accept(createCompletionProposal((it as EClass).name,context))]
 	}
 	
 	def URI getURI(IFile file) {
@@ -390,10 +395,12 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	
 	// Attributes
 	
-	override completeComplexAttribute_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+	override completeComplexAttribute_Type(EObject it, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
 		
-		//(model as ComplexAttribute).modelElement
-		(model as ModelElement).graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
+		if(it instanceof ComplexAttribute)
+		modelElement.graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
+		else if(it instanceof ModelElement)
+		graphModel.attributeTypeNames.forEach[acceptor.accept(createCompletionProposal(it,context))]
 		
 	}
 	
@@ -404,7 +411,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	
 	
 	def attributeTypeNames(GraphModel it){
-		(edges+nodes+types).map[name]+MglPackage.eINSTANCE.EDataTypeType.ELiterals.map[name]+#[name]
+		(edges+nodes+types).map[name]
 	}
 	
 	def GraphModel getGraphModel(ModelElement element){
