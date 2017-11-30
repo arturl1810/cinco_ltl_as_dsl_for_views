@@ -31,6 +31,7 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.StringInputStream
 
 import static de.jabc.cinco.meta.core.utils.MGLUtil.*
+import mgl.UserDefinedType
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -120,7 +121,7 @@ class MGLGenerator implements IGenerator {
 			adapterContent = altGen.createAdapter(n)
 			ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)
 		}
-		for (t : model.types) {
+		for (t : model.types.filter(UserDefinedType)) {
 			fileName = t.name + "EContentAdapter.xtend"
 			adapterContent = altGen.createAdapter(t)
 			ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)

@@ -80,7 +80,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		me.generateAdapter
 	}
 	
-	def createAdapter(Type t) {
+	def createAdapter(UserDefinedType t) {
 		t.generateAdapter
 	}
 
