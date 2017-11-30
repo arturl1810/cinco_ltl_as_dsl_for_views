@@ -52,10 +52,9 @@ class GratextProjectTmpl extends ProjectTemplate {
 				srcFolder = it
 			]
 			
-			// some empty source folders required
-			folder ("src-gen")
-			folder ("xtend-gen")
-			folder ("model-gen")
+			folder ("src-gen")   [/* empty source folder */]
+			folder ("xtend-gen") [/* empty source folder */]
+			folder ("model-gen") [/* empty source folder */]
 			
 			natures = #[
 				"org.eclipse.xtext.ui.shared.xtextNature"

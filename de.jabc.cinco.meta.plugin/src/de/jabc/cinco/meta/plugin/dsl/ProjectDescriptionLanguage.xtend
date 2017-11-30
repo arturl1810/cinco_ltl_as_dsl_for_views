@@ -37,24 +37,24 @@ class ProjectDescriptionLanguage {
 		container => [ templates.map[new FileDescription(value?.toString, key)].forEach[container.add(it)] ]
 	}
 	
-	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription... struct) {
+	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription struct) {
 		container => [
 			add(new FolderDescription(name) => [ 
-				struct.forEach[f | f.apply(it)]
+				struct.apply(it)
 			])
 		]
 	}
 	
-	def pkg(FolderDescription folder, String name, (PackageDescription)=>PackageDescription... struct) {
+	def pkg(FolderDescription folder, String name, (PackageDescription)=>PackageDescription struct) {
 		folder => [ 
 			packages.add(new PackageDescription(name) => [
-				struct.forEach[f | f.apply(it)]
+				struct.apply(it)
 			])
 		]
 	}
 	
-	def <T extends ProjectResourceDescription<?>,X> forEachOf(T res, Iterable<X> iterable, (X)=>T struct) {
-		res => [ 
+	def <T extends ProjectResourceDescription<?>,X> forEachOf(T container, Iterable<X> iterable, (X)=>T struct) {
+		container => [ 
 			iterable.forEach[x | struct.apply(x)]
 		]
 	}
