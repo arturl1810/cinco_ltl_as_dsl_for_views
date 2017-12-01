@@ -10,6 +10,7 @@ import static extension de.jabc.cinco.meta.core.utils.MGLUtil.postAttributeValue
 import mgl.Type
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalModelElement
+import mgl.UserDefinedType
 
 class AdapterGeneratorExtension {
 	
@@ -38,7 +39,7 @@ class AdapterGeneratorExtension {
 		}
 	'''
 	
-	def generateAdapter(Type it) '''
+	def generateAdapter(UserDefinedType it) '''
 		package «graphModel.package».adapter
 		
 		class «name»EContentAdapter extends «EContentAdapter.name» {
