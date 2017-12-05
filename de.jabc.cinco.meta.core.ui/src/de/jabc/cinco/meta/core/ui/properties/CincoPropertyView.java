@@ -94,7 +94,6 @@ import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 import graphmodel.Container;
 import graphmodel.GraphModel;
-import graphmodel.IdentifiableElement;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 import graphmodel.Type;
@@ -242,7 +241,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	}
 	
 	public void init_PropertyView(EObject bo) {
-		if (bo == null || bo.equals(lastSelectedObject) || referencesMap.get(bo.getClass()) == null)
+		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
 			return;
 		
 		if (treeViewer != null && !treeViewer.getTree().isDisposed())
@@ -293,7 +292,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		viewer.setContentProvider(cp);
 		viewer.setLabelProvider(getLabelProvider());
 
-		List<EStructuralFeature> inputList = referencesMap.get(bo.getClass());
+//		List<EStructuralFeature> inputList = referencesMap.get(bo.getClass());
+		List<EStructuralFeature> inputList = CincoPropertyUtils.getAllEStructuralFeatures(bo.getClass(), referencesMap);
 		TransactionalEditingDomain dom = getOrCreateEditingDomain(bo);
 		IEMFEditListProperty input = EMFEditProperties.multiList(dom,
 				inputList.toArray(new EStructuralFeature[] {}));

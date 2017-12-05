@@ -2,8 +2,6 @@ package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
 import de.jabc.cinco.meta.core.ui.editor.ResourceContributor
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareEditorRegistry
-import de.jabc.cinco.meta.plugin.gratext.runtime.resource.Serializer
-import de.jabc.cinco.meta.plugin.gratext.runtime.resource.Transformer
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
@@ -26,18 +24,19 @@ abstract class GratextResource extends LazyLinkingResource {
 	extension val ResourceExtension = new ResourceExtension
 	
 	private GraphModel model
-	private final HashMap<InternalGraphModel,Transformer> transformers = newHashMap
 	private Iterable<ResourceContributor> contributors
 	private final HashMap<EObject,ResourceContributor> contributions = newHashMap
 	private Runnable internalStateChangedHandler
 	private Runnable newParseResultHandler
 	private boolean skipInternalStateUpdate
 	
-	def Transformer createTransformer()
+	def Transformer getTransformer(InternalGraphModel model)
+	
+	def void removeTransformer(InternalGraphModel model)
 	
 	def String serialize() {
 		val internalModel = model?.internalElement ?: getContent(InternalGraphModel)
-		new Serializer(this, internalModel, transformers.get(internalModel)).run
+		new Serializer(this, internalModel, getTransformer(internalModel)).run
 	}
 	
 	override doSave(OutputStream outputStream, Map<?, ?> options) {
@@ -162,13 +161,13 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	def transformModel() {
 		val gratextModel = getContent(InternalGraphModel)
-		val transformer = createTransformer
+		val transformer = getTransformer(gratextModel)
 		model = transformer.transform(gratextModel).element
-		transformers.put(model.internalElement, transformer)
 		val internal = (model as EObjectImpl).eInternalContainer
 		remove(gratextModel)
 		add(model.internalElement)
 		model.internalElement = internal as InternalGraphModel
+		removeTransformer(gratextModel)
 	}
 	
 	def addContributions() {
