@@ -83,8 +83,8 @@ class Transformer {
 			gtxInternal.toBaseInternal => [
 				transformAttributes(gtxInternal)
 				cache(it, gtxInternal)
-//				if (resolveReferences)
-//					transformReferences(gtxInternal)
+				if (resolveReferences)
+					transformReferences(gtxInternal)
 			]
 		}
 	}
@@ -97,34 +97,32 @@ class Transformer {
 		]
 	}
 	
-//	private def transformReferences(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
-//		baseInternal.references.filter[name == "outgoingEdges"].forEach[ref|
-//			val refValue = gtxInternal.eGet(ref)
-//			val baseValue = switch refValue {
-//				IdentifiableElement: {
-//					refValue.baseElement?.element
-//					?: {
-//						addReplacementRequest(refValue.id) [theID|
-//							val deliver = ref.eDeliver
-//							ref.eSetDeliver(false)
-//							baseInternal.eSet(ref, getBaseElement(theID).element)
-//							ref.eSetDeliver(deliver)
-//						]
-//						refValue
-//					}
-//				}
-//				default: refValue.transformValue
-//			}
-//			if (baseValue != null) {
-//				val deliver = ref.eDeliver
-//				ref.eSetDeliver(false)
-//				println("[Transformer] set edges of " + baseInternal)
-//				println("[Transformer] > " + baseValue)
-//				baseInternal.eSet(ref, baseValue)
-//				ref.eSetDeliver(deliver)
-//			}
-//		]
-//	}
+	private def transformReferences(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
+		baseInternal.references.filter[name != "element"].forEach[ref|
+			val refValue = gtxInternal.eGet(ref)
+			val baseValue = switch refValue {
+				IdentifiableElement: {
+					refValue.baseElement?.element
+					?: {
+						addReplacementRequest(refValue.id) [theID|
+							val deliver = ref.eDeliver
+							ref.eSetDeliver(false)
+							baseInternal.eSet(ref, getBaseElement(theID).element)
+							ref.eSetDeliver(deliver)
+						]
+						refValue
+					}
+				}
+				default: refValue.transformValue
+			}
+			if (baseValue != null) {
+				val deliver = ref.eDeliver
+				ref.eSetDeliver(false)
+				baseInternal.eSet(ref, baseValue)
+				ref.eSetDeliver(deliver)
+			}
+		]
+	}
 	
 	private def Object transformValue(Object value) {
 		switch value {
@@ -136,18 +134,6 @@ class Transformer {
 			default: { warn("unmatched value type: " + value); value }
 		}
 	}
-	
-//	def collectEdges(InternalIdentifiableElement internal) {
-//		if (internal instanceof InternalNode)
-//			internal.references.filter[name == "outgoingEdges"].forEach[
-//				switch it:transformValue(internal.eGet(it)) {
-//					List<InternalEdge>: {
-//						println("[Transformer] edges of " + internal.id + ": " + it)
-//						edges.addAll(it)
-//					}
-//				}
-//			]
-//	}
 	
 	// additional dispatch method is generated
 	dispatch def int getIndex(Object it) {
