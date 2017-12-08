@@ -20,7 +20,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> implements ModelAdapter<T> {
+import de.jabc.cinco.meta.runtime.CincoRuntimeBaseClass;
+
+public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> extends CincoRuntimeBaseClass implements ModelAdapter<T> {
 
 	protected M model = null;
 	protected Diagram diagram = null;
@@ -172,7 +174,10 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> im
 		return path;
 	}
 	
-	protected abstract void readModelFromResource();
+	@SuppressWarnings("unchecked")
+	protected void readModelFromResource() {
+		model = (M) _resourceExtension.getGraphModel(getResource());
+	}
 	
 	protected abstract T createId(IdentifiableElement obj);
 
