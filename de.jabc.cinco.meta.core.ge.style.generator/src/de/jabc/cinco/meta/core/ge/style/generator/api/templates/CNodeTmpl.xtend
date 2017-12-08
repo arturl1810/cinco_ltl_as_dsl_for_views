@@ -173,7 +173,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		return ((«me.graphModel.fqCName») getRootElement()).getFeatureProvider();
+		«me.graphModel.fqCName» model = («me.graphModel.fqCName») getRootElement();
+		return (model != null) ? model.getFeatureProvider() : null;
 	}
 	
 	@Override
@@ -188,7 +189,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 «««			return ((«Connection.name») curr).getParent();
 «««		}
 «««		return («Diagram.name») curr;
-		«Diagram.name» d = new «WorkbenchExtension.name»().getActiveDiagram();
+		«Diagram.name» d = new «WorkbenchExtension.name»().getDiagram(this);
 		if (d == null) {
 			d = «GraphitiUi.name».getPeService().getDiagramForPictogramElement(this.pe);
 		}

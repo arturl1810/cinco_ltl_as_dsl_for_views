@@ -21,7 +21,8 @@ class CModelElementTmpl extends APIUtils {
 def getUpdateContent(ModelElement me) '''
 public void update() {
 	«IFeatureProvider.name» fp = getFeatureProvider();
-	if (fp != null) try {
+	«Diagram.name» diagram = getDiagram();
+	if (fp != null && diagram != null) try {
 		«PictogramElement.name» pe = getPictogramElement();
 		if (pe != null) {
 			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());

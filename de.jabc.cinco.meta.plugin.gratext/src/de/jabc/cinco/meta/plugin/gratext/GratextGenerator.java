@@ -17,14 +17,15 @@ import org.eclipse.emf.common.util.URI;
 
 import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.plugin.gratext.template.AstFactoryTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.FormatterTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.InternalPackageTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.LinkingServiceTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.TransformerTemplate;
@@ -135,11 +136,6 @@ public class GratextGenerator extends ProjectGenerator {
 			.inPackage(basePkg)
 			.createFile(targetName + ".mwe2")
 			.withContent(GratextMWETemplate.class);
-		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".scoping")
-			.createFile(targetName + "QualifiedNameProvider.java")
-			.withContent(GratextQualifiedNameProviderTemplate.class);
 
 		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
@@ -155,6 +151,17 @@ public class GratextGenerator extends ProjectGenerator {
 			.inPackage(basePkg)
 			.createFile(targetName + "RuntimeModule.java")
 			.withContent(RuntimeModuleTemplate.class);
+		
+		inSrcFolder("src")
+			.inPackage(basePkg)
+			.createFile(targetName + "AstFactory.java")
+			.withContent(AstFactoryTemplate.class);
+		
+		inSrcFolder("src")
+			.inPackage(basePkg)
+			.createFile(targetName + "LinkingService.java")
+			.withContent(LinkingServiceTemplate.class);
+		
 	}
 
 	@Override
