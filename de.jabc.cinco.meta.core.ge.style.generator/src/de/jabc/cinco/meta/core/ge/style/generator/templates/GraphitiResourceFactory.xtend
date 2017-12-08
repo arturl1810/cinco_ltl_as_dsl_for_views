@@ -50,14 +50,16 @@ class GraphitiResourceFactory {
 		
 		def createAndUpdateGraphitiApiElement(«IdentifiableElement.name» it) {
 			val pe = getLinkedPictogramElement
-			switch (it) {
+			val ie = internalElement
+			switch (ie) {
 				«FOR me : gm.modelElements.filter[!isIsAbstract]»
 				«me.fqInternalName» : {
-					var cElement =	if (it.element instanceof «me.fqCName»)
-										it.element as «me.fqCName»
+					var cElement =	if (it instanceof «me.fqCName»)
+										it as «me.fqCName»
 									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
-					it.element = cElement
+					ie.element = cElement
+					ie.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 				}
 				«ENDFOR»
 			}
