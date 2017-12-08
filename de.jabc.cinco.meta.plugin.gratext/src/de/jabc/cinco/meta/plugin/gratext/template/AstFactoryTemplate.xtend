@@ -95,7 +95,7 @@ class AstFactoryTemplate extends AbstractGratextTemplate {
 			private EObject createNonInternal(EObject internal) {
 				InternalIdentifiableElement ime = (InternalIdentifiableElement) internal;
 				Transformer transformer = getTransformer();
-				return transformer.transform(ime, true).getElement();
+				return transformer.transform(ime, false).getElement();
 			}
 			
 			private boolean isInternal(EClass type) {

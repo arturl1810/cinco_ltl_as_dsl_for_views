@@ -16,6 +16,7 @@ import java.util.ArrayList
 import java.util.IdentityHashMap
 import java.util.List
 import java.util.Map
+import java.util.Set
 import org.eclipse.emf.common.notify.Adapter
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
@@ -33,6 +34,7 @@ class Transformer {
 	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
 	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
 	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
+	private Set<InternalIdentifiableElement> resolved = newHashSet
 	private List<InternalEdge> edges = newArrayList
 	private EFactory modelFactory
 	private EPackage modelPackage
@@ -78,15 +80,19 @@ class Transformer {
 	}
 	
 	def transform(InternalIdentifiableElement gtxInternal, boolean resolveReferences) {
-		gtxInternal.counterpart
-		?:{ 
+		val cp = gtxInternal.counterpart
+		?: {
 			gtxInternal.toBaseInternal => [
 				transformAttributes(gtxInternal)
 				cache(it, gtxInternal)
-				if (resolveReferences)
-					transformReferences(gtxInternal)
 			]
 		}
+		cp => [
+			if (resolveReferences && !resolved.contains(gtxInternal)) {
+				resolved.add(gtxInternal)
+				transformReferences(gtxInternal)
+			}
+		]
 	}
 	
 	private def transformAttributes(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
