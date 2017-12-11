@@ -48,17 +48,32 @@ class AdapterGeneratorExtension {
 		
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
-				val o = notification.notifier
-				val feature = notification.feature
-				if (o instanceof «fqInternalBeanName») {
-					var element = o.element.modelElement?.map[it as «InternalModelElement.name»]
-					if (element?.size == 1)
-						element.head.element.update
+				
+«««				val o = notification.notifier
+«««				val feature = notification.feature
+«««				if (o instanceof «fqInternalBeanName») {
+«««					var element = o.element.modelElement?.map[it as «InternalModelElement.name»]
+«««					if (element?.size == 1)
+«««						element.head.element.update
+«««				}
+
+				val t = notification.notifier
+				if (t instanceof «fqInternalBeanName») {
+					t.element.containingModelElement?.element?.update
 				}
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
 				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+			}
+		
+			def getContainingModelElement(«graphmodel.Type.name» it) {
+				var cont = eContainer
+				while (cont != null) switch cont {
+					«InternalModelElement.name»: return cont
+					case cont == cont.eContainer: return null
+					default: cont = cont.eContainer
+				}
 			}
 		}
 	'''
