@@ -16,7 +16,7 @@ class GratextResourceTemplate extends AbstractGratextTemplate {
 		
 		class «model.name»GratextResource extends GratextResource {
 			
-			public static val transformers = new NonEmptyIdentityRegistry<«model.name»,«transformer.classSimpleName»> [
+			public static val transformers = new NonEmptyIdentityRegistry<InternalGraphModel,«transformer.classSimpleName»> [
 				new «transformer.classSimpleName»
 			]
 		
