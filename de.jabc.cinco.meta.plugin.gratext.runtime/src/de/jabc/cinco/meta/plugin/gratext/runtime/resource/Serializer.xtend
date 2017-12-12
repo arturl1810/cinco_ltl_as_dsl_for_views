@@ -105,7 +105,11 @@ class Serializer {
 	def Iterable<EStructuralFeature> attributes(EClass it) {
 		if (InternalPackage.eINSTANCE.getEClassifiers.contains(it))
 			#[]
-		else getEAttributes + getEReferences + getESuperTypes.map[attributes].flatten
+		else (
+			getEAttributes
+			+ getEReferences
+			+ getESuperTypes.map[attributes].flatten
+		).filter[!name?.startsWith("gratext_")]
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
