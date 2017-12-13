@@ -19,13 +19,21 @@ class GratextResourceTemplate extends AbstractGratextTemplate {
 			public static val transformers = new NonEmptyIdentityRegistry<InternalGraphModel,«transformer.classSimpleName»> [
 				new «transformer.classSimpleName»
 			]
+			
+			val lastTransformers = new NonEmptyIdentityRegistry<InternalGraphModel,«transformer.classSimpleName»> [
+				new «transformer.classSimpleName»
+			]
 		
 			override getTransformer(InternalGraphModel model) {
 				transformers.get(model)
 			}
 		
+			override getLastTransformer(InternalGraphModel model) {
+				lastTransformers.get(model)
+			}
+		
 			override removeTransformer(InternalGraphModel model) {
-				transformers.remove(model)
+				lastTransformers.put(model, transformers.remove(model))
 			}
 		}
 	'''

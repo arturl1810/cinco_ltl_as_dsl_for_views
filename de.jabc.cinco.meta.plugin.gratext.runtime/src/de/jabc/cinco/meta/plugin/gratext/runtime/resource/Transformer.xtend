@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.EPackage
 import static org.eclipse.emf.ecore.util.EcoreUtil.*
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.setID
+import graphmodel.internal.InternalModelElementContainer
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyIdentityRegistry
 
 class Transformer {
 	
@@ -36,6 +38,9 @@ class Transformer {
 	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
 	private Set<InternalIdentifiableElement> resolved = newHashSet
 	private List<InternalEdge> edges = newArrayList
+	
+	val nodesInitialOrder = new NonEmptyIdentityRegistry<InternalModelElementContainer,List<InternalModelElement>>[newArrayList]
+	
 	private EFactory modelFactory
 	private EPackage modelPackage
 	private EClass modelClass
@@ -56,6 +61,10 @@ class Transformer {
 			modelElements.transferEdges
 			modelElements.addAll(edges)
 		]
+	}
+	
+	def getNodesInitialOrder(InternalModelElementContainer container) {
+		nodesInitialOrder.get(container)
 	}
 	
 	def void transferEdges(List<InternalModelElement> list) {
@@ -144,6 +153,12 @@ class Transformer {
 	// additional dispatch method is generated
 	dispatch def int getIndex(Object it) {
 		-1
+	}
+	
+	def getInitialIndex(InternalModelElement elm) {
+		if (elm.container != null) {
+			nodesInitialOrder.get(elm.container).indexOf(elm)
+		} else -1
 	}
 	
 	def toBaseInternal(InternalIdentifiableElement internal) {

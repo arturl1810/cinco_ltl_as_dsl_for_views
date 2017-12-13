@@ -31,12 +31,6 @@ class Serializer {
 	val nodesSerializationOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[orderIndex]]
 		
 	val nodesLayerOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[layer]]
-		
-	val nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer container |
-		switch it : transformer?.getCounterpart(container) {
-			InternalModelElementContainer: modelElements.map[transformer?.getCounterpart(it)].filterNull.toList
-		} ?: #[]
-	]
 
 	InternalGraphModel model
 	GratextResource resource
@@ -123,7 +117,7 @@ class Serializer {
 	}
 	
 	def getInitialIndex(InternalNode node) {
-		nodesInitialOrder.get(node.container).indexOf(node)
+		transformer.getInitialIndex(node)
 	}
 	
 	def getSerializationIndex(InternalNode node) {

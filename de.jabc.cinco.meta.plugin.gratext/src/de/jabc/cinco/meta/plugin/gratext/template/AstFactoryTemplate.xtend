@@ -20,6 +20,7 @@ class AstFactoryTemplate extends AbstractGratextTemplate {
 		import graphmodel.Node;
 		import graphmodel.internal.InternalEdge;
 		import graphmodel.internal.InternalIdentifiableElement;
+		import graphmodel.internal.InternalModelElementContainer;
 		import graphmodel.internal.InternalNode;
 		import graphmodel.internal.InternalPackage;
 		
@@ -44,6 +45,11 @@ class AstFactoryTemplate extends AbstractGratextTemplate {
 			
 			@Override
 			public void add(EObject object, String feature, Object value, String ruleName, INode node) throws ValueConverterException {
+				if (object instanceof InternalModelElementContainer
+						&& feature == "modelElements"
+						&& value instanceof InternalNode) {
+					getTransformer().getNodesInitialOrder((InternalModelElementContainer) object).add((InternalNode) value);
+				}
 				if (feature.startsWith("gratext_")) {
 					feature = feature.substring(8);
 					value = mapGratextFeatureValue(object, feature, value, ruleName, node);

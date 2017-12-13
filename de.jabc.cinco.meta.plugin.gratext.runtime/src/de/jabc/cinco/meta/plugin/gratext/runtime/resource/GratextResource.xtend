@@ -32,11 +32,13 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	def Transformer getTransformer(InternalGraphModel model)
 	
+	def Transformer getLastTransformer(InternalGraphModel model)
+	
 	def void removeTransformer(InternalGraphModel model)
 	
 	def String serialize() {
 		val internalModel = model?.internalElement ?: getContent(InternalGraphModel)
-		new Serializer(this, internalModel, getTransformer(internalModel)).run
+		new Serializer(this, internalModel, getLastTransformer(internalModel)).run
 	}
 	
 	override doSave(OutputStream outputStream, Map<?, ?> options) {
