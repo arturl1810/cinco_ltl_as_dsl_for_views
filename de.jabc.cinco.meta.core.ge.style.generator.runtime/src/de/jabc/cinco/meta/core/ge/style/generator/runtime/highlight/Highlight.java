@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -21,6 +22,8 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.swt.SWTException;
+
+import com.google.common.collect.Sets;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.LazyDiagram;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.animation.HighlightAnimation;
@@ -247,16 +250,29 @@ public class Highlight {
 	}
 
 	public Highlight setPictogramElements(PictogramElement... pes) {
-		this.pes = new HashSet<PictogramElement>(Arrays.asList(pes));
-		refresh();
-		return this;
+		return setPictogramElements((Iterable<PictogramElement>) Arrays.asList(pes));
 	}
 
 	public Highlight setPictogramElements(Iterable<PictogramElement> pes) {
-		HashSet<PictogramElement> set = new HashSet<>();
-		pes.forEach(set::add);
-		this.pes = set;
-		refresh();
+		Set<PictogramElement> current = new HashSet<>(this.pes);
+		Set<PictogramElement> newone = Sets.newHashSet(pes);
+		Set<PictogramElement> result = new HashSet<>();
+		for (PictogramElement pe : current) {
+			if (newone.contains(pe)) {
+				result.add(pe);
+				newone.remove(pe);
+			} else if (isOn()) {
+				off(pe, false);
+			}
+		}
+		for (PictogramElement pe : newone) {
+			result.add(pe);
+			if (isOn()) {
+				on(pe, false);
+			}
+		}
+		this.pes = result;
+		refreshAll();
 		return this;
 	}
 	
@@ -359,10 +375,10 @@ public class Highlight {
 		} else {
 			DecoratorRegistry.INSTANCE.get().get(pe).remove(getDeco(pe));
 		}
-		affected.remove(pe);
 		unregisterConnectionDecoratorLayouter(pe);
-		if (triggerDiagramRefresh)
-			refresh(pe);
+		if (triggerDiagramRefresh) {
+			refresh(pe, () -> affected.remove(pe));
+		}
 		return this;
 	}
 
@@ -370,8 +386,10 @@ public class Highlight {
 		for (PictogramElement pe : new HashSet<>(affected)) {
 			off(pe, false);
 		}
-		on = false;
-		refreshAll();
+		refreshAll(() -> {
+			affected.clear();
+			on = false;
+		});
 	}
 
 	protected Highlight diagramOn(Diagram diagram) {
@@ -415,29 +433,30 @@ public class Highlight {
 		}
 		return deco;
 	}
-
-	public Highlight refresh() {
-		if (isOn()) {
-			removeDecos();
-			on();
-		}
-		return this;
-	}
 	
 	private void refresh(PictogramElement pe) {
+		refresh(pe, null);
+	}
+	
+	private void refresh(final PictogramElement pe, final Runnable onDone) {
 		workbenchX.async(() -> {
-			if (isOn() && isRefresh()) {
-				DiagramBehavior db = getDiagramBehavior(pe);
-				if (db != null)
-					refreshRenderingDecorators(db, pe);
-				else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
-			}
+			DiagramBehavior db = getDiagramBehavior(pe);
+			if (db != null)
+				refreshRenderingDecorators(db, pe);
+			else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
+			if (onDone != null)
+				onDone.run();
 		});
 	}
 	
 	public void refreshAll() {
+		refreshAll(null);
+	}
+	
+	public void refreshAll(final Runnable onDone) {
+		final List<PictogramElement> affected = new ArrayList<>(this.affected);
 		workbenchX.async(() -> {
-			if (isOn() && isRefresh() && !affected.isEmpty()) {
+			if (!affected.isEmpty()) {
 				PictogramElement pe = affected.iterator().next();
 				DiagramBehavior db = getDiagramBehavior(pe);
 				if (db != null)
@@ -445,6 +464,8 @@ public class Highlight {
 						refreshRenderingDecorators(db, p);
 				else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
 			}
+			if (onDone != null)
+				onDone.run();
 		});
 	}
 	

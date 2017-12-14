@@ -41,7 +41,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 		 * @return Returns true if the shape can be resized and false if not
 		*/
 		public boolean canResizeShape(«IResizeShapeContext.name» context, boolean apiCall) {
-			if (apiCall) {
+			if (apiCall || super.isApiCall()) {
 				«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
 				return (bo instanceof «n.fqInternalBeanName»);
 			}

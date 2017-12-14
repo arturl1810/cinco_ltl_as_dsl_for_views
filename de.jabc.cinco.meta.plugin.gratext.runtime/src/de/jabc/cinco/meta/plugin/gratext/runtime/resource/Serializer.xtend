@@ -31,12 +31,6 @@ class Serializer {
 	val nodesSerializationOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[orderIndex]]
 		
 	val nodesLayerOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[layer]]
-		
-	val nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer container |
-		switch it : transformer?.getCounterpart(container) {
-			InternalModelElementContainer: modelElements.map[transformer?.getCounterpart(it)].filterNull.toList
-		} ?: #[]
-	]
 
 	InternalGraphModel model
 	GratextResource resource
@@ -105,7 +99,11 @@ class Serializer {
 	def Iterable<EStructuralFeature> attributes(EClass it) {
 		if (InternalPackage.eINSTANCE.getEClassifiers.contains(it))
 			#[]
-		else getEAttributes + getEReferences + getESuperTypes.map[attributes].flatten
+		else (
+			getEAttributes
+			+ getEReferences
+			+ getESuperTypes.map[attributes].flatten
+		).filter[!name?.startsWith("gratext_")]
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
@@ -119,7 +117,7 @@ class Serializer {
 	}
 	
 	def getInitialIndex(InternalNode node) {
-		nodesInitialOrder.get(node.container).indexOf(node)
+		transformer.getInitialIndex(node)
 	}
 	
 	def getSerializationIndex(InternalNode node) {

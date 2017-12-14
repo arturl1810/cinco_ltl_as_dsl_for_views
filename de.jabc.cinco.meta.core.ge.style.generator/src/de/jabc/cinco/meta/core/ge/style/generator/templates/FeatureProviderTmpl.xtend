@@ -262,7 +262,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («gm.internalInstanceofCheck("ime")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", gm) SEPARATOR ","»
-					new «GraphitiCustomFeature.name»<«gm.fqBeanName»>(this,new «annotValue»())
+					new «GraphitiCustomFeature.name»<>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}
@@ -274,7 +274,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («me.internalInstanceofCheck("ime")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
+					new «GraphitiCustomFeature.name»<>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}

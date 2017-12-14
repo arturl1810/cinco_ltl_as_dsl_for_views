@@ -110,10 +110,19 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		});
 		
 		«CincoPropertyView.name».init_FileAttributes(new «EStructuralFeature.name»[] {
+        «FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
+        «gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+        «ENDFOR»                        
+         });
+        
+        «IF gm.allModelAttributes.exists[isAttributeFile]»
+		«CincoPropertyView.name».init_FileAttributesExtensionFilters(
 		«FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
-		«ENDFOR»			
-		});
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+			new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"}
+		«ENDFOR»
+		);
+		«ENDIF»
 	}
 	
 

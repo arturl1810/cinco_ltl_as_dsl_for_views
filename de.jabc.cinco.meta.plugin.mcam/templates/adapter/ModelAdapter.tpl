@@ -36,15 +36,6 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 	}
 
 	@Override
-	protected void readModelFromResource() {
-		for (EObject obj : getResource().getContents()) {
-			if ("Internal${GraphModelName}".equals(obj.eClass().getName()))
-				model = (${GraphModelName}) ((InternalGraphModel) obj).getElement();
-		}
-	}
-
-
-	@Override
 	public String getLabel(ModelElement element) {
 		<#list ModelLabels as modelLabel>
 		if (element instanceof ${modelLabel.type})

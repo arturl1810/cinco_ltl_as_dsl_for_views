@@ -22,7 +22,6 @@ import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 import mgl.GraphModel;
@@ -148,10 +147,10 @@ public class GratextLanguageGenerator extends ProjectGenerator {
 //			.createFile(modelName + "ModelGenerator.xtend")
 //			.withContent(ModelGeneratorTemplate.class);
 		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".scoping")
-			.createFile(targetName + "QualifiedNameProvider.java")
-			.withContent(GratextQualifiedNameProviderTemplate.class);
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".scoping")
+//			.createFile(targetName + "QualifiedNameProvider.java")
+//			.withContent(GratextQualifiedNameProviderTemplate.class);
 
 		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")

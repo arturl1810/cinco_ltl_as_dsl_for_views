@@ -1,14 +1,23 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
+import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
+import graphmodel.ModelElement
+import graphmodel.Type
+import graphmodel.internal.InternalContainer
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalIdentifiableElement
 import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalNode
+import graphmodel.internal.InternalType
+import java.util.ArrayList
 import java.util.IdentityHashMap
 import java.util.List
 import java.util.Map
+import java.util.Set
+import org.eclipse.emf.common.notify.Adapter
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
@@ -17,15 +26,21 @@ import org.eclipse.emf.ecore.EPackage
 import static org.eclipse.emf.ecore.util.EcoreUtil.*
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.setID
+import graphmodel.internal.InternalModelElementContainer
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyIdentityRegistry
 
 class Transformer {
 	
-	private static val baseClassRegistry = <EClass, Class<?>> newHashMap
+//	private static val baseClassRegistry = <EClass, Class<?>> newHashMap
 	
 	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
 	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
 	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
+	private Set<InternalIdentifiableElement> resolved = newHashSet
 	private List<InternalEdge> edges = newArrayList
+	
+	val nodesInitialOrder = new NonEmptyIdentityRegistry<InternalModelElementContainer,List<InternalModelElement>>[newArrayList]
+	
 	private EFactory modelFactory
 	private EPackage modelPackage
 	private EClass modelClass
@@ -40,10 +55,33 @@ class Transformer {
 		val baseModel = (gtxInternal as InternalIdentifiableElement).transform
 		baseModel as InternalGraphModel => [
 			gtxInternal.modelElements.sortBy[index].forEach[elm|
-				modelElements.add(elm.transform as InternalModelElement)
+				val baseElm = elm.transform as InternalModelElement
+				modelElements.add(baseElm)
 			]
+			modelElements.transferEdges
 			modelElements.addAll(edges)
 		]
+	}
+	
+	def getNodesInitialOrder(InternalModelElementContainer container) {
+		nodesInitialOrder.get(container)
+	}
+	
+	def void transferEdges(List<InternalModelElement> list) {
+		list.forEach[switch it {
+			InternalNode: transferEdges
+		}]
+	}
+	
+	def void transferEdges(InternalNode node) {
+		node.references.filter[name == "outgoingEdges"].forEach[ref|
+			val edges = node.eGet(ref).transformValue
+			if (edges != null) {
+				this.edges.addAll(edges as List<InternalEdge>)
+			}
+		]
+		if (node instanceof InternalContainer)
+			node.modelElements.transferEdges
 	}
 	
 	def transform(InternalIdentifiableElement gtxInternal) {
@@ -51,25 +89,23 @@ class Transformer {
 	}
 	
 	def transform(InternalIdentifiableElement gtxInternal, boolean resolveReferences) {
-		gtxInternal.counterpart
-		?:{ 
+		val cp = gtxInternal.counterpart
+		?: {
 			gtxInternal.toBaseInternal => [
 				transformAttributes(gtxInternal)
 				cache(it, gtxInternal)
-				if (resolveReferences)
-					transformReferences(gtxInternal)
 			]
 		}
+		cp => [
+			if (resolveReferences && !resolved.contains(gtxInternal)) {
+				resolved.add(gtxInternal)
+				transformReferences(gtxInternal)
+			}
+		]
 	}
 	
 	private def transformAttributes(InternalIdentifiableElement baseInternal, InternalIdentifiableElement gtxInternal) {
 		baseInternal => [
-			attributes.forEach[attr | baseInternal => [
-				val deliver = eDeliver
-				eSetDeliver(false)
-				eSet(attr, gtxInternal.eGet(attr))
-				eSetDeliver(deliver)
-			]]
 			val baseId = if (id.nullOrEmpty) generateUUID else id
 			element.setID(baseId)
 			setID(baseId + "_INTERNAL")
@@ -119,20 +155,40 @@ class Transformer {
 		-1
 	}
 	
-	def toBaseInternal(InternalIdentifiableElement it) {
-		(#[eClass] + eClass.ESuperTypes)
+	def getInitialIndex(InternalModelElement elm) {
+		if (elm.container != null) {
+			nodesInitialOrder.get(elm.container).indexOf(elm)
+		} else -1
+	}
+	
+	def toBaseInternal(InternalIdentifiableElement internal) {
+		val baseNonInternal = (#[internal.eClass] + internal.eClass.ESuperTypes)
 			.filter[modelPackage.knows(it)]
 			.map[modelFactory.create(it)]
 			.filter(IdentifiableElement)
-			.head.internalElement
+			.head
+		
+		val adapters = new ArrayList<Adapter>(baseNonInternal.internalElement.eAdapters)
+		baseNonInternal.internalElement.eAdapters.clear
+		
+		switch it:baseNonInternal {
+			GraphModel: internalElement = internal as InternalGraphModel
+			ModelElement: internalElement = internal as InternalModelElement
+			Type: internalElement = internal as InternalType
+		}
+		
+		for (adapter : adapters)
+			internal.eAdapters.add(adapter)
+		
+		return internal
 	}
 	
-	def Class<?> getBaseClass(InternalIdentifiableElement elm) {
-		baseClassRegistry.get(elm.eClass)
-		?: elm.toBaseInternal.element.class => [
-			baseClassRegistry.put(elm.eClass, it)
-		]
-	}
+//	def Class<?> getBaseClass(InternalIdentifiableElement elm) {
+//		baseClassRegistry.get(elm.eClass)
+//		?: elm.toBaseInternal.element.class => [
+//			baseClassRegistry.put(elm.eClass, it)
+//		]
+//	}
 	
 	private def knows(EPackage it, EClass elmClazz) {
 		eContents.filter(EClass).exists[name == elmClazz.name]
