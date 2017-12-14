@@ -19,6 +19,8 @@ import org.eclipse.core.runtime.Path
 
 import static de.jabc.cinco.meta.core.utils.EclipseFileUtils.copyFromBundleToFile
 import static de.jabc.cinco.meta.plugin.gratext.GratextBuilder.PROJECT_REGISTRY
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.AstFactoryTmpl
+import de.jabc.cinco.meta.plugin.gratext.tmpl.file.LinkingServiceTmpl
 
 class GratextProjectTmpl extends ProjectTemplate {
 	
@@ -107,7 +109,9 @@ class GratextProjectTmpl extends ProjectTemplate {
 			pkg (basePackage) [
 				files = #[
 					GrammarTmpl,
-					RuntimeModuleTmpl
+					RuntimeModuleTmpl,
+					AstFactoryTmpl,
+					LinkingServiceTmpl
 				]
 				file (new MweWorkflowTmpl(projectName, basePackage))
 			]
