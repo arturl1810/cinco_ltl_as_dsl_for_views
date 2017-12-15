@@ -109,6 +109,11 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postResize/height"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getLayer"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/s_moveTo">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/targetContainer"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/y"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
