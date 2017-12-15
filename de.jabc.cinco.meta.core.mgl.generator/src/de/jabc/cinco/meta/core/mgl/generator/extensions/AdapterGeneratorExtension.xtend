@@ -34,7 +34,7 @@ class AdapterGeneratorExtension {
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		}
 	'''
@@ -64,7 +64,7 @@ class AdapterGeneratorExtension {
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		
 			def getContainingModelElement(«graphmodel.Type.name» it) {
