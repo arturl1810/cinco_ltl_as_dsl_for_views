@@ -279,6 +279,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 				)
 		]
 		
+		nodeEClass.createEOperation("s_moveTo",null,1,1,"", 
+			GraphmodelPackage.Literals.MODEL_ELEMENT_CONTAINER.createEParameter("container",1,1), createEInt("x",1,1), createEInt("y",1,1)
+		)
+		
 		nodeEClass.createEOperation("postMove", null,1,1,node.postMoveContent,
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("source",1,1),
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("target",1,1),
@@ -304,15 +308,13 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	/**
-	 * This method is only generated to allow the implementation of the api. Thus, to add additional behavior for move
+	 * This method is only generated to allow for the implementation of the api. Thus, to add additional behavior for move
 	 * the method "s_moveTo(...)" should be overridden.
 	 * 
 	 * ATTENTION: Overriding the "moveTo(...)" overrides the post move hook call! 
 	 */
 	def _moveToMethodContent(Node node, ContainingElement ce) '''
-«««		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
-«««		this.move(x, y);
-«««		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+
 	'''
 
 	def postMoveContent(Node n) '''

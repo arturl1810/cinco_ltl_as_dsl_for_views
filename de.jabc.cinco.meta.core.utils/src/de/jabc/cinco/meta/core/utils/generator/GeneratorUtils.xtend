@@ -699,6 +699,9 @@ class GeneratorUtils extends InheritanceUtil{
 	def fqInternalFactoryName(ModelElement me) 
 		'''«me.beanPackage».internal.InternalFactory''' 
 
+	def fqInternalPackageName(ModelElement me) 
+		'''«me.beanPackage».internal.InternalPackage'''
+
 	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>
 		var current = element.extend

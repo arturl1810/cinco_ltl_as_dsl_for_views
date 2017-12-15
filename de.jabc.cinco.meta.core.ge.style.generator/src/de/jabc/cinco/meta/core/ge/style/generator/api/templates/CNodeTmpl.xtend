@@ -129,15 +129,25 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 «««			super.s_moveTo(target,x,y);
 		}
 	}
-	
-«««	@Override
-«««	public «me.fqBeanName» copy(«cont.fqBeanName» target) {
-«««		«me.fqBeanName» copy = this.clone();
-«««		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
-«««		return copy;
-«««	}
-	
 	«ENDFOR»
+	
+	@Override
+	public void s_moveTo(«ModelElementContainer.name» target, int x, int y) {
+		if (!canMoveTo(target)) return;
+		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») getPictogramElement());
+		mc.setTargetContainer((«ContainerShape.name») ((«CModelElement.name») target).getPictogramElement());
+		mc.setSourceContainer((«ContainerShape.name») ((«CModelElement.name») this.getContainer()).getPictogramElement());
+		
+		mc.setX(x);
+		mc.setY(y);
+		
+		«IFeatureProvider.name» fp = getFeatureProvider();
+		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp); 
+		if (fp instanceof «CincoFeatureProvider.name») {
+			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
+		}
+	}
+	
 	
 	@Override
 	public void resize(int width, int height) {
