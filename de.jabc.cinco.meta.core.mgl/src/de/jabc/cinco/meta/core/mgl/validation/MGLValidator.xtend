@@ -10,7 +10,10 @@ import java.net.URISyntaxException
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import mgl.Annotation
 import mgl.Attribute
+import mgl.BoundedConstraint
+import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
@@ -25,21 +28,18 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
+import mgl.PrimitiveAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
+import org.eclipse.core.resources.IFile
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import org.eclipse.emf.ecore.plugin.EcorePlugin
-import mgl.BoundedConstraint
-import java.nio.file.attribute.UserDefinedFileAttributeView
-import mgl.PrimitiveAttribute
-import mgl.ComplexAttribute
+import java.io.File
 
 /**
  * Custom validation rules. 
@@ -48,6 +48,9 @@ import mgl.ComplexAttribute
  */
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
+	
+	File file
+	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
 		try{
@@ -718,5 +721,82 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	@Check
+	def checkColorAnnotation(Annotation a) {
+		if (a.name.equals("color")) {
+		
+		if(!(a.value.empty)){ //no parameter allowed
+			error("No parameter for @color allowed", MglPackage.Literals.ANNOTATION__VALUE)
+		}
+		
+		if (a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
+			val attr = a.parent as PrimitiveAttribute
+			if(!attr.type.getName.equals("EString")){
+				error("Type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
+			}
+			if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
+				val defaultValue = attr.defaultValue
+						var result = defaultValue.split(",")
+						if(result.size !=3){
+							error("default value doesn't have a RGB-schema", MglPackage.Literals.ANNOTATION__NAME)
+						}
+						else{
+							var r_string = result.get(0)
+							var g_string = result.get(1)
+							var b_string = result.get(2)
+							try{
+								var r = Integer.parseInt(r_string)	
+								var g = Integer.parseInt(g_string)
+								var b = Integer.parseInt(b_string)
+								
+								if(r < 0 || r > 255){
+									error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+								}
+								if(g < 0 || g > 255){
+									error("g-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
+								}
+								if(b < 0 || b > 255){
+									error("b-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
+								}
+							
+							}catch(Exception e){
+								error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+							}
+				
+						}
+		
+			}
+		} 
+		else {
+			error("Attribute has to be PrimitivieAttribute ", MglPackage.Literals.ANNOTATION__NAME)
+		}
+		
+		}
+	}
+	
+	
+	
+	@Check
+	def checkFileAnnotations(Annotation a){
+		if (a.name.equals("file") && a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
+			val attr = a.parent as PrimitiveAttribute
+			if(!attr.type.getName.equals("EString")){
+				error("Type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
+			}
+			if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //only correct default values
+				val defaultValue = attr.defaultValue
+				try{
+					 file = new File(defaultValue);
+					 if(!file.exists){
+					 	error("Wrong Path: File doesn't exists", MglPackage.Literals.ANNOTATION__NAME)
+					 }
+				}
+				catch (Exception e){
+					error("Wrong Path: File doesn't exists", MglPackage.Literals.ANNOTATION__NAME)
+				}
+			}
+		}
+		
+	}
 	
 }
