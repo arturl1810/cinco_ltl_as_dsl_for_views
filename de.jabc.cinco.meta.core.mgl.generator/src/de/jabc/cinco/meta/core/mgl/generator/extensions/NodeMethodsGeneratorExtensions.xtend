@@ -595,6 +595,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPostSave(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"postSave",
+			null,
+			1,1,
+			me.postSaveContent
+		)
+	}
+
 	def createPreDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(me.name).mainEClass.createEOperation(
 			"preDelete",
@@ -602,6 +611,14 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			1,1,
 			me.preDeleteContent
 		)
+	}
+
+	def postSaveContent(ModelElement me) {
+		val annot = me.getAnnotation("postSave")
+		if (annot != null) '''
+		new «annot.value.get(0)»().postSave(this.getRootElement());
+		'''
+		else ""
 	}
 
 	def preDeleteContent(ModelElement me) {

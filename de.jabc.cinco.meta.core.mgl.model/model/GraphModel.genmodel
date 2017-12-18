@@ -198,6 +198,7 @@
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/hashCode"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/save"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/getInternalElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/postSave"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
