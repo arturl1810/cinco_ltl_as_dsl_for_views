@@ -768,7 +768,7 @@ class MGLValidator extends AbstractMGLValidator {
 			}
 		} 
 		else {
-			error("Attribute has to be PrimitivieAttribute ", MglPackage.Literals.ANNOTATION__NAME)
+			error("Attribute has to be a PrimitiveAttribute ", MglPackage.Literals.ANNOTATION__NAME)
 		}
 		
 		}
