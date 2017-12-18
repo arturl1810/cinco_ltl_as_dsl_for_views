@@ -148,6 +148,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			createRootElementGetter(eClassesMap)
 		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
+		graphModel.modelElements.forEach[
+			it.createPostSave(eClassesMap)
+		]
 		return newEPackages
 	}
 	

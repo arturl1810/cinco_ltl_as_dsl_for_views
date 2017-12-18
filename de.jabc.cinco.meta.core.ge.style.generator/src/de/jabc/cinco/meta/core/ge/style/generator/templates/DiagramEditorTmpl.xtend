@@ -11,6 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.highlight.Highlighter
 import de.jabc.cinco.meta.core.utils.CincoUtil
+import org.eclipse.ui.IEditorInput
+import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.PageAwareDiagramEditorInput
 
 class DiagramEditorTmpl extends GeneratorUtils{
 
@@ -55,6 +58,28 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	public void doSave(«IProgressMonitor.name» monitor) {
 		super.doSave(monitor);
 		«ReferenceRegistry.name».getInstance().save();
+		«IF gm.annotations.exists[name == "postSave"]»
+			«EObject.name» obj = getDiagramTypeProvider().getDiagram().eResource().getContents().get(1);
+			if (obj instanceof «gm.fqInternalBeanName») {
+				«gm.fqBeanName» graph = («gm.fqBeanName») ((«gm.fqInternalBeanName») obj).getElement();
+				new «gm.annotations.filter[name == "postSave"]?.head?.value?.head»().postSave(graph);
+			}
+		«ENDIF»
+	}
+
+	@Override
+	public void handleSaved() {
+		super.handleSaved();
+		«IF gm.annotations.exists[name == "postSave"]»
+			«IEditorInput.name» input = getEditorInput();
+			«EObject.name» obj = null;
+			if (input instanceof «PageAwareDiagramEditorInput.name»)
+				obj = ((«PageAwareDiagramEditorInput.name») input).getInnerStateSupplier().get().getContents().get(1);
+			if (obj instanceof «gm.fqInternalBeanName») {
+				«gm.fqBeanName» graph = («gm.fqBeanName») ((«gm.fqInternalBeanName») obj).getElement();
+				new «gm.annotations.filter[name == "postSave"]?.head?.value?.head»().postSave(graph);
+			}
+		«ENDIF»
 	}
 
 	protected «ResizeShapeContext.name» createContext(«Shape.name» child) {
