@@ -58,6 +58,13 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	public void doSave(«IProgressMonitor.name» monitor) {
 		super.doSave(monitor);
 		«ReferenceRegistry.name».getInstance().save();
+		«IF gm.annotations.exists[name == "postSave"]»
+			«EObject.name» obj = getDiagramTypeProvider().getDiagram().eResource().getContents().get(1);
+			if (obj instanceof «gm.fqInternalBeanName») {
+				«gm.fqBeanName» graph = («gm.fqBeanName») ((«gm.fqInternalBeanName») obj).getElement();
+				new «gm.annotations.filter[name == "postSave"]?.head?.value?.head»().postSave(graph);
+			}
+		«ENDIF»
 	}
 
 	@Override
