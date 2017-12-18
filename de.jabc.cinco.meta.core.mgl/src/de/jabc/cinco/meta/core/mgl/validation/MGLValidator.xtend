@@ -732,7 +732,7 @@ class MGLValidator extends AbstractMGLValidator {
 		if (a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
 			val attr = a.parent as PrimitiveAttribute
 			if(!attr.type.getName.equals("EString")){
-				error("Type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
+				error("Attribute type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
 			}
 			if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
 				val defaultValue = attr.defaultValue
@@ -798,5 +798,5 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 		
 	}
-	
 }
+	
