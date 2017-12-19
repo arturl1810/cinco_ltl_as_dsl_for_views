@@ -35,6 +35,8 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import org.eclipse.core.runtime.Path
 import java.io.IOException
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalEdge
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -238,6 +240,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
+			«InternalModelElementContainer.name» commonContainer = new «GraphModelExtension.name»().getCommonContainer(target.getContainer().getInternalContainerElement(), («InternalEdge.name») edge.getInternalElement());
+			commonContainer.getModelElements().add(edge.getInternalElement());			
 			return edge;
 		}
 		else return null;
