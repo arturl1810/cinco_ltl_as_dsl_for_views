@@ -1,16 +1,18 @@
 package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import mgl.ModelElement
-import graphmodel.internal.InternalPackage
-import org.eclipse.emf.common.notify.Notification
-import org.eclipse.emf.ecore.util.EContentAdapter
-import org.eclipse.emf.ecore.EStructuralFeature
-import static extension de.jabc.cinco.meta.core.utils.MGLUtil.postAttributeValueChange
-import mgl.Type
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.Type
 import graphmodel.internal.InternalModelElement
+import mgl.ModelElement
 import mgl.UserDefinedType
+import org.eclipse.emf.common.notify.Notification
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.util.EContentAdapter
+
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.postAttributeValueChange
+import mgl.GraphModel
 
 class AdapterGeneratorExtension {
 	
@@ -19,7 +21,7 @@ class AdapterGeneratorExtension {
 	def generateAdapter(ModelElement it) '''
 		package «graphModel.package».adapter
 		
-		class «name»EContentAdapter extends «EContentAdapter.name» {
+		class «name»EContentAdapter extends «EContentAdapter.name» implements «CincoEContentAdapter.name»{
 		
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
@@ -29,6 +31,9 @@ class AdapterGeneratorExtension {
 					switch feature {
 						«EStructuralFeature.name» case feature.isRelevant: {
 							«postAttributeValueChange("o")»
+							«IF !(it instanceof GraphModel)»
+								o.element.update
+							«ENDIF»
 					}}
 				}
 			}
@@ -59,7 +64,7 @@ class AdapterGeneratorExtension {
 				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		
-			def getContainingModelElement(«graphmodel.Type.name» it) {
+			def getContainingModelElement(«Type.name» it) {
 				var cont = eContainer
 				while (cont != null) switch cont {
 					«InternalModelElement.name»: return cont

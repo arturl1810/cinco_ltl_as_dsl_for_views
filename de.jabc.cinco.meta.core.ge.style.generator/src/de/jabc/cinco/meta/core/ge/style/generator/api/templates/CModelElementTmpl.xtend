@@ -20,6 +20,8 @@ class CModelElementTmpl extends APIUtils {
 	
 def getUpdateContent(ModelElement me) '''
 public void update() {
+	if (getInternalElement() == null || getInternalElement().getRootElement() == null)
+		return;
 	«IFeatureProvider.name» fp = getFeatureProvider();
 	«Diagram.name» diagram = getDiagram();
 	if (fp != null && diagram != null) try {
@@ -46,7 +48,7 @@ public void delete(){
 	
 	«IFeatureProvider.name» fp = getFeatureProvider();
 	«CincoRemoveFeature.name» rf = new «CincoRemoveFeature.name»(fp);
-	getInternalElement().eAdapters().remove(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+«««	getInternalElement().eAdapters().remove(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 	if (rf.canRemove(rc)) {
 		rf.remove(rc);
 	}

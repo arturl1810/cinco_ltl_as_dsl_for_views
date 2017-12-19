@@ -46,19 +46,9 @@ class EmfFactoryTmpl {
 			«me.fqCName» me = new «me.fqCName»();
 			«EcoreUtil.name».setID(ime, me.getId()+"_INTERNAL");
 			ime.setElement(me);
-			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+«««			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 			return me;
 		}
-		
-«««		«IF !(me instanceof GraphModel)»
-«««		public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» parent) {
-«««			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»(parent).getInternalElement();
-«««			«me.fqCName» me = new «me.fqCName»();
-«««			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
-«««			ime.setElement(me);
-«««			return me;
-«««		}
-«««		«ENDIF»
 		«ENDFOR»
 		
 		public «gm.fqBeanName» create«gm.fuName»(«String.name» path, «String.name» fileName) {

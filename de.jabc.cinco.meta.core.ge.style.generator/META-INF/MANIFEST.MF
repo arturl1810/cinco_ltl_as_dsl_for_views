@@ -33,7 +33,8 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.productdefinition.model,
  de.jabc.cinco.meta.core.ui,
  de.jabc.cinco.meta.core.ge.style.model,
- de.jabc.cinco.meta.core.ge.style.generator.runtime
+ de.jabc.cinco.meta.core.ge.style.generator.runtime,
+ de.jabc.cinco.meta.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.utils.generator,
