@@ -14,6 +14,7 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import graphmodel.internal.InternalModelElement
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -42,15 +43,15 @@ def getDeleteContent(ModelElement me) '''
 «IF !me.isIsAbstract»
 @Override
 public void delete(){
-	«RemoveContext.name» rc = new «RemoveContext.name»(this.getPictogramElement());
-	
 	«IFeatureProvider.name» fp = getFeatureProvider();
+	«InternalModelElement.name» internal = getInternalElement();
+	super.delete();
+	«RemoveContext.name» rc = new «RemoveContext.name»(this.getPictogramElement());
 	«CincoRemoveFeature.name» rf = new «CincoRemoveFeature.name»(fp);
-	getInternalElement().eAdapters().remove(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+	internal.eAdapters().remove(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 	if (rf.canRemove(rc)) {
 		rf.remove(rc);
 	}
-	super.delete();
 }
 «ENDIF»
 '''
