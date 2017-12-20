@@ -153,6 +153,7 @@
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container">
       <genOperations ecoreOperation="GraphModel.ecore#//Container/getInternalContainerElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Container/delete"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/internalElement"/>

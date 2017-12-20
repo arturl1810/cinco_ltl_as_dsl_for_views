@@ -170,7 +170,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;java.util.Set&lt;graphmodel.internal.InternalEdge> allEdges = new java.util.HashSet&lt;>();&#xA;EList&lt;graphmodel.internal.InternalEdge> incoming = ((graphmodel.internal.InternalNode) getInternalElement()).getIncoming();&#xA;EList&lt;graphmodel.internal.InternalEdge> outgoing = ((graphmodel.internal.InternalNode) getInternalElement()).getOutgoing();&#xA;allEdges.addAll(incoming);&#xA;allEdges.addAll(outgoing);&#xA;for (graphmodel.internal.InternalEdge ie : allEdges)&#xA;&#x9;((graphmodel.Edge) ie.getElement()).delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
+        <details key="body" value="preDelete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -372,6 +372,11 @@
     <eOperations name="getInternalContainerElement" eType="#//internal/InternalModelElementContainer">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return (InternalModelElementContainer)getInternalElement();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="delete">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="preDelete();&#xA;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;child.delete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
   </eClassifiers>
