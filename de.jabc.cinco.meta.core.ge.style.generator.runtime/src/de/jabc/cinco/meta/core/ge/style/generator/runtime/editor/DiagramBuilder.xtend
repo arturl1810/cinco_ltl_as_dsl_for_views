@@ -201,6 +201,8 @@ class DiagramBuilder {
 		val feature = featureProvider.getUpdateFeature(ctx)
 		if (feature.canUpdate(ctx)) 
 			feature.update(ctx)
+		
+		model.updateModelElements
 	}
 	
 	def warn(String msg) {

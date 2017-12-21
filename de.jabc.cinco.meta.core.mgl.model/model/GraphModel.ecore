@@ -503,6 +503,11 @@
         </eGenericType>
       </eParameters>
     </eOperations>
+    <eOperations name="updateModelElements">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="for (ModelElement me : getModelElements()) {&#xA;&#x9;me.update();&#xA;&#x9;if (me instanceof ModelElementContainer)&#xA;&#x9;&#x9;((ModelElementContainer) me).updateModelElements();&#xA;}"/>
+      </eAnnotations>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"

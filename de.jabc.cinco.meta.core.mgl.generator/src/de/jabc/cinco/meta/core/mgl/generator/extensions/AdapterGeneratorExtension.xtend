@@ -28,11 +28,13 @@ class AdapterGeneratorExtension {
 				val o = notification.notifier
 				val feature = notification.feature
 				if (o instanceof «fqInternalBeanName») {
+					if (o.eContainer == null) return;
 					switch feature {
 						«EStructuralFeature.name» case feature.isRelevant: {
 							«postAttributeValueChange("o")»
 							«IF !(it instanceof GraphModel)»
-								o.element.update
+								//o.element.update
+								o.element?.rootElement?.updateModelElements
 							«ENDIF»
 					}}
 				}
