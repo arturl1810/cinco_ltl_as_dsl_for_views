@@ -738,7 +738,7 @@ class MGLValidator extends AbstractMGLValidator {
 				val defaultValue = attr.defaultValue
 						var result = defaultValue.split(",")
 						if(result.size !=3){
-							error("default value doesn't have a RGB-schema", MglPackage.Literals.ANNOTATION__NAME)
+							error("default value doesn't have a RGB-scheme", MglPackage.Literals.ANNOTATION__NAME)
 						}
 						else{
 							var r_string = result.get(0)

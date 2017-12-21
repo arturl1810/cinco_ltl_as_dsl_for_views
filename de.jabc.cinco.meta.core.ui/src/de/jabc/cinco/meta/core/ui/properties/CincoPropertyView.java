@@ -1,5 +1,11 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +22,10 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -94,6 +103,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
@@ -128,7 +138,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
-	//private static Map<EStructuralFeature, List<String>> colorExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
 	
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
@@ -479,7 +488,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		}
 	}
 
-	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
+	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr)  {
 
 		Label label = new Label(comp, SWT.NONE);
 		label.setText(attr.getName() + ": ");
@@ -559,11 +568,17 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			Button colorpicker = new Button(colorComposite, SWT.PUSH | SWT.BORDER);
 			Display display = Display.getCurrent();
 	
-			Image image = new Image(display, "/de.jabc.cinco.meta.core.ui/colorpicker.png");
-//			Image image = new Image(display, "/de.jabc.cinco.meta.core.ui/icons/color.png");
-//			Image image = new Image(display, "/icons/color.png");
-			Image colorpicker_Image = resize(image, 16, 16);
+			Bundle bundle = Platform.getBundle("de.jabc.cinco.meta.core.ui");
+			URL find = FileLocator.find(bundle, new Path("colorpicker.png"), null);
+			File f = null;
+			try {
+				f = new File(FileLocator.toFileURL(find).getFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Image image = new Image(display, f.getAbsolutePath());		
 			
+			Image colorpicker_Image = resize(image, 16, 16);			
 			colorpicker.setImage(colorpicker_Image);
 			
 			colorpicker.addSelectionListener(new SelectionAdapter() {
