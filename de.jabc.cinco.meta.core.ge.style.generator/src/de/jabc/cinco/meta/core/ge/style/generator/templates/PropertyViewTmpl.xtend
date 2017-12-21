@@ -130,15 +130,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		 «gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
 		 «ENDFOR»                        
 		   });
-		        
-«««		 «IF gm.allModelAttributes.exists[isAttributeColor]»
-«««		«FOR attr : gm.allModelAttributes.filter[isAttributeColor]»
-«««				«CincoPropertyView.name».init_ColorAttributesExtensionFilters(
-«««					«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
-«««					new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"});
-«««				
-«««		«ENDFOR»		
-«««		«ENDIF»
+		
 	}
 	
 

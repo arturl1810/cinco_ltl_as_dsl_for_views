@@ -548,7 +548,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			text.setEnabled(false);
 			browse.setEnabled(true);
 		} 
-		else if(colorAttributes.contains(attr)){  //TODO
+		else if(colorAttributes.contains(attr)){ 
 			Composite colorComposite = new Composite(comp, SWT.NONE);
 			colorComposite.setLayout(new GridLayout(2, false));
 			colorComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -559,7 +559,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			Button colorpicker = new Button(colorComposite, SWT.PUSH | SWT.BORDER);
 			Display display = Display.getCurrent();
 	
-			Image image = new Image(display, "/home/annie/Git/cinco-meta/de.jabc.cinco.meta.core.ui/colorpicker.png");
+			Image image = new Image(display, "/de.jabc.cinco.meta.core.ui/colorpicker.png");
+//			Image image = new Image(display, "/de.jabc.cinco.meta.core.ui/icons/color.png");
+//			Image image = new Image(display, "/icons/color.png");
 			Image colorpicker_Image = resize(image, 16, 16);
 			
 			colorpicker.setImage(colorpicker_Image);
