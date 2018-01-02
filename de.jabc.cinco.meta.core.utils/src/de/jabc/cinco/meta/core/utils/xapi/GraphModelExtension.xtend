@@ -80,6 +80,10 @@ class GraphModelExtension {
 			.map[importedGraphModel]
 	}
 	
+	def canContain(ContainingElement elm, ModelElement element) {
+		elm.containables.exists[it == element]
+	}
+	
 	def getContainables(ContainingElement elm) {
 		_containables.get(elm)
 	}
