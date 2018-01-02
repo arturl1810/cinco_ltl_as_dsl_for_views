@@ -34,7 +34,7 @@ class AdapterGeneratorExtension {
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		}
 	'''
@@ -49,14 +49,6 @@ class AdapterGeneratorExtension {
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
 				
-«««				val o = notification.notifier
-«««				val feature = notification.feature
-«««				if (o instanceof «fqInternalBeanName») {
-«««					var element = o.element.modelElement?.map[it as «InternalModelElement.name»]
-«««					if (element?.size == 1)
-«««						element.head.element.update
-«««				}
-
 				val t = notification.notifier
 				if (t instanceof «fqInternalBeanName») {
 					t.element.containingModelElement?.element?.update
@@ -64,7 +56,7 @@ class AdapterGeneratorExtension {
 			}
 			
 			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && ! «InternalPackage.name».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		
 			def getContainingModelElement(«graphmodel.Type.name» it) {

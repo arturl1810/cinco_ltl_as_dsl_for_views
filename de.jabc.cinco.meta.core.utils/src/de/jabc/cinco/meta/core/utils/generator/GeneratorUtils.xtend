@@ -42,6 +42,7 @@ import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 
 class GeneratorUtils extends InheritanceUtil{
 	
@@ -50,6 +51,7 @@ class GeneratorUtils extends InheritanceUtil{
     protected extension WorkbenchExtension = new WorkbenchExtension
     protected extension ResourceExtension = new ResourceExtension
     protected extension FileExtension = new FileExtension
+    protected extension GraphModelExtension= new GraphModelExtension 
 	
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
@@ -698,6 +700,9 @@ class GeneratorUtils extends InheritanceUtil{
 	
 	def fqInternalFactoryName(ModelElement me) 
 		'''«me.beanPackage».internal.InternalFactory''' 
+
+	def fqInternalPackageName(ModelElement me) 
+		'''«me.beanPackage».internal.InternalPackage'''
 
 	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>
