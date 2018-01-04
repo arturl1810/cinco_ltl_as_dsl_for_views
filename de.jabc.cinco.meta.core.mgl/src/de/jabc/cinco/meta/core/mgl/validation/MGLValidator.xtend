@@ -10,7 +10,10 @@ import java.net.URISyntaxException
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import mgl.Annotation
 import mgl.Attribute
+import mgl.BoundedConstraint
+import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
@@ -25,21 +28,20 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
+import mgl.PrimitiveAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
+import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import org.eclipse.emf.ecore.plugin.EcorePlugin
-import mgl.BoundedConstraint
-import java.nio.file.attribute.UserDefinedFileAttributeView
-import mgl.PrimitiveAttribute
-import mgl.ComplexAttribute
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.IFile
 
 /**
  * Custom validation rules. 
@@ -48,6 +50,9 @@ import mgl.ComplexAttribute
  */
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
+	
+	IFile correctFile
+	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
 		try{
@@ -718,5 +723,83 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	@Check
+	def checkCustomActionAnnotation(Annotation annot){
+		if(isCustomAction(annot.name)){ //recognize customAction
+			if(!annot.value.empty){ //check if parameter is not null
+				if(annot.value.size == 1){ //only one parameter 
+					val parameter = annot.value.get(0)
+					if(!parameter.equals("")){
+						val projects = ResourcesPlugin.workspace.root.projects
+						val correctFile = findClass(projects, parameter)  //find the corresponding class file
+						if(correctFile.exists){ //checks if class exists and if it is a java class
+							
+							//TODO: check if corresponding package is exported -> if not Quick fix				
+						}else{
+							error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
+						}
+					}
+					else{
+						error("Java Class cannot be an empty String", MglPackage.Literals.ANNOTATION__VALUE)
+					}
+					
+				}
+				else{
+					error("CustomAction needs only one parameter", MglPackage.Literals.ANNOTATION__VALUE)
+				}
+				
+			}else{
+				error("CustomAction needs a Java Class as a parameter", MglPackage.Literals.ANNOTATION__VALUE)
+			}
+		}
+	}
+	
+	def isCustomAction(String name) {
+		switch (name) {
+			case "contextMenuAction": {
+				return true
+			}
+			case "doubleClickAction": {
+				return true
+			}
+			case "postCreate": {
+				return true
+			}
+			case "postMove": {
+				return true
+			}
+			case "postResize": {
+				return true
+			}
+			case "preDelete": {
+				return true
+			}
+			default: {
+				return false
+			}
+		}
+	}
+	
+	
+	def findClass(IProject[] projects, String parameter){
+		val fileName = parameter.substring(parameter.lastIndexOf(".")+1, parameter.length)
+		val folder_path = parameter.substring(0, parameter.lastIndexOf("."))
+		val project_path = folder_path.substring(0, folder_path.lastIndexOf("."))
+		for (var i = 0; i < projects.size; i++){
+		if(projects.get(i).name.equals(project_path.toString)){
+			val correctProject = projects.get(i)
+			if(correctProject.exists){
+				val path_folder = folder_path.toString.replace(".", "/")
+				val correctFolder = correctProject.getFolder("/src/"+ path_folder)
+				if(correctFolder.exists){
+					correctFile = correctFolder.getFile(fileName.toString + ".java")
+					return correctFile
+				}
+					
+			}
+		}
+	}
+	
+}
 	
 }
