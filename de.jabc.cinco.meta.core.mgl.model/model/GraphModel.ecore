@@ -147,14 +147,14 @@
     </eOperations>
     <eOperations name="move">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);"/>
+        <details key="body" value="transact(&quot;Move&quot;, () -> {&#xA;&#x9;int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;&#x9;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;&#x9;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);&#xA;});"/>
       </eAnnotations>
       <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="resize">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);&#xA;this.postResize(this, 0, width, height);"/>
+        <details key="body" value="transact(&quot;Set width&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);&#xA;&#x9;this.postResize(this, 0, width, height);&#xA;});"/>
         <details key="documentation" value="ATTENTION: The direction flag is currently neigher taken into accout during resize execution nor&#xA; passed to the subsequent postResize call!"/>
       </eAnnotations>
       <eParameters name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -170,7 +170,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
+        <details key="body" value="preDelete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -186,7 +186,7 @@
     </eOperations>
     <eOperations name="moveTo">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;s_moveTo(targetContainer, x, y);&#xA;targetContainer.getInternalContainerElement().getModelElements().add(this.getInternalElement());&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);"/>
+        <details key="body" value="transact(&quot;Set width&quot;, () -> {&#xA;&#x9;int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;&#x9;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;&#x9;s_moveTo(targetContainer, x, y);&#xA;&#x9;targetContainer.getInternalContainerElement().getModelElements().add(this.getInternalElement());&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;&#x9;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);&#xA;});"/>
       </eAnnotations>
       <eParameters name="targetContainer" lowerBound="1" eType="#//ModelElementContainer"/>
       <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -240,25 +240,25 @@
     </eOperations>
     <eOperations name="setX">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setX(x);"/>
+        <details key="body" value="transact(&quot;Set x&quot;, () -> {&#xA;((graphmodel.internal.InternalNode) getInternalElement()).setX(x);&#xA;});"/>
       </eAnnotations>
       <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="setY">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setY(y);"/>
+        <details key="body" value="transact(&quot;Set Y&quot;, () -> {&#xA;((graphmodel.internal.InternalNode) getInternalElement()).setY(y);&#xA;});"/>
       </eAnnotations>
       <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="setWidth">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setWidth(width);"/>
+        <details key="body" value="transact(&quot;Set width&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalNode) getInternalElement()).setWidth(width);&#xA;});"/>
       </eAnnotations>
       <eParameters name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="setHeight">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode) getInternalElement()).setHeight(height);"/>
+        <details key="body" value="transact(&quot;Set height&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalNode) getInternalElement()).setHeight(height);&#xA;});"/>
       </eAnnotations>
       <eParameters name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
@@ -298,19 +298,19 @@
     </eOperations>
     <eOperations name="setSourceElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);"/>
+        <details key="body" value="transact(&quot;Set Source&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);&#xA;});"/>
       </eAnnotations>
       <eParameters name="sourceElement" eType="#//Node"/>
     </eOperations>
     <eOperations name="setTargetElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);"/>
+        <details key="body" value="transact(&quot;Set Target&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);&#xA;});"/>
       </eAnnotations>
       <eParameters name="targetElement" eType="#//Node"/>
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;&#xA;"/>
+        <details key="body" value="transact(&quot;Delete&quot;, () -> {&#xA;&#x9;preDelete();&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;&#xA;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -338,13 +338,13 @@
     </eOperations>
     <eOperations name="reconnectSource">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);"/>
+        <details key="body" value="transact(&quot;Reconnect source&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setSourceElement(sourceElement);&#xA;});"/>
       </eAnnotations>
       <eParameters name="sourceElement" eType="#//Node"/>
     </eOperations>
     <eOperations name="reconnectTarget">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);"/>
+        <details key="body" value="transact(&quot;Reconnect target&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);&#xA;});"/>
       </eAnnotations>
       <eParameters name="targetElement" eType="#//Node"/>
     </eOperations>
@@ -361,7 +361,7 @@
     </eOperations>
     <eOperations name="addBendpoint">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalEdge) this.getInternalElement()).addBendpoint(x,y);"/>
+        <details key="body" value="transact(&quot;Add Bendpoint&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge) this.getInternalElement()).addBendpoint(x,y);&#xA;});"/>
       </eAnnotations>
       <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -376,7 +376,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;child.delete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
+        <details key="body" value="preDelete();&#xA;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;child.delete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
   </eClassifiers>
@@ -537,6 +537,13 @@
         <details key="body" value=""/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="transact">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="org.eclipse.emf.transaction.TransactionalEditingDomain dom;&#xA;org.eclipse.emf.transaction.TransactionalEditingDomain.Factory factory = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE;&#xA;org.eclipse.emf.ecore.resource.Resource res = getInternalElement().eResource();&#xA;if (res == null)&#xA;&#x9;dom = factory.createEditingDomain();&#xA;else dom = org.eclipse.emf.transaction.util.TransactionUtil.getEditingDomain(res);&#xA;if (dom == null)&#x9;&#xA;&#x9;if (res.getResourceSet() != null)&#xA;&#x9;&#x9;dom = factory.createEditingDomain(res.getResourceSet());&#xA;&#x9;else&#xA;&#x9;&#x9;dom = factory.createEditingDomain();&#xA;if (dom != null) {&#xA;&#x9;dom.getCommandStack().execute(new org.eclipse.emf.transaction.RecordingCommand(dom, label) {&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;@Override&#xA;&#x9;&#x9;protected void doExecute() {&#xA;&#x9;&#x9;&#x9;try {&#xA;&#x9;&#x9;&#x9;&#x9;runnable.run();&#xA;&#x9;&#x9;&#x9;} catch (Exception e) {&#xA;&#x9;&#x9;&#x9;&#x9;e.printStackTrace();&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}&#xA;&#x9;});&#xA;}"/>
+      </eAnnotations>
+      <eParameters name="label" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="runnable" eType="#//Runnable"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="" derived="true" iD="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -563,6 +570,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" lowerBound="1"
         eType="#//internal/InternalType" containment="true" eOpposite="#//internal/InternalType/element"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Runnable" instanceClassName="java.lang.Runnable"
+      abstract="true"/>
   <eSubpackages name="internal" nsURI="http://www.jabc.de/cinco/gdl/graphmodel/internal"
       nsPrefix="graphmodel-internal">
     <eClassifiers xsi:type="ecore:EClass" name="InternalNode" eSuperTypes="#//internal/InternalModelElement">

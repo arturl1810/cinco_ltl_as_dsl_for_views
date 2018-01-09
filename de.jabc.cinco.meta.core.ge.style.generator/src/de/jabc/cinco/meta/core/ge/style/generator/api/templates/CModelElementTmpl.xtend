@@ -52,7 +52,9 @@ public void delete(){
 	«CincoRemoveFeature.name» rf = new «CincoRemoveFeature.name»(fp);
 «««	internal.eAdapters().remove(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 	if (rf.canRemove(rc)) {
-		rf.remove(rc);
+		if (fp instanceof «CincoFeatureProvider.name»)
+			((«CincoFeatureProvider.name») fp).executeFeature(rf,rc);
+«««		rf.remove(rc);
 	}
 }
 «ENDIF»

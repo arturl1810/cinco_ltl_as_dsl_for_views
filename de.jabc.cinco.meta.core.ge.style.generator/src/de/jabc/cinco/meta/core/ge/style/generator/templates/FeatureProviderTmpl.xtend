@@ -319,55 +319,59 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		return new «CincoPasteFeature.name»(this);
 	}
 	
+	@SuppressWarnings("restriction")
 	@Override
 	public «Object.name»[] executeFeature(final «IFeature.name» f, final «IContext.name» c) {
-		if (f instanceof «CincoCreateFeature.name») {
-			final «Object.name»[] created = new Object[2];
-			
-			«CincoCreateFeature.name» cf = («CincoCreateFeature.name») f;
-			if (cf.canCreate((«ICreateContext.name») c, true)) {
-				«Object.name»[] result = cf.create((«ICreateContext.name») c);
-				if (result.length == 2) {
-					created[0] = result[0];
-					created[1] = result[1];
+		final «Object.name»[] created = new Object[2];
+		
+		new de.jabc.cinco.meta.runtime.xapi.ResourceExtension().transact(f.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource(), new Runnable() {
+			@Override
+			public void run() {
+				if (f instanceof «CincoCreateFeature.name») {
+					
+					«CincoCreateFeature.name» cf = («CincoCreateFeature.name») f;
+					if (cf.canCreate((«ICreateContext.name») c, true)) {
+						«Object.name»[] result = cf.create((«ICreateContext.name») c);
+						if (result.length == 2) {
+							created[0] = result[0];
+							created[1] = result[1];
+						}
+					}
+					
+«««					return created;
+					
+				} else if (f instanceof «CincoCreateEdgeFeature.name») {
+							«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
+							if (cf.canCreate((«ICreateConnectionContext.name») c, true)) {
+								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
+								if (conn != null) {
+									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
+									«"bo".toInternalElement»
+									created[0] = ((«InternalModelElement.name») bo).getElement();
+									created[1] = conn;
+								}
+							}
+«««							return created;
+				} else if (f instanceof «IAddFeature.name») {
+							«IAddFeature.name» af = («IAddFeature.name») f;
+							if (af.canAdd((«IAddContext.name») c)) {
+								«PictogramElement.name» pe = af.add((«IAddContext.name») c);
+								if (pe != null) {
+									«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
+									«"bo".toInternalElement»
+									created[0] = ((«InternalModelElement.name») bo).getElement();
+									created[1] = pe;
+								}
+							}
+«««							return created;
+				} else {
+		«««			if (f.canExecute(c))
+					f.execute(c);
+		«««			return null;
 				}
 			}
-			
-			return created;
-			
-		} else if (f instanceof «CincoCreateEdgeFeature.name») {
-					final «Object.name»[] created = new «Object.name»[2];
-					
-					«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
-					if (cf.canCreate((«ICreateConnectionContext.name») c, true)) {
-						«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
-						if (conn != null) {
-							«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
-							«"bo".toInternalElement»
-							created[0] = ((«InternalModelElement.name») bo).getElement();
-							created[1] = conn;
-						}
-					}
-					return created;
-		} else if (f instanceof «IAddFeature.name») {
-					final «Object.name»[] created = new «Object.name»[2];
-					
-					«IAddFeature.name» af = («IAddFeature.name») f;
-					if (af.canAdd((«IAddContext.name») c)) {
-						«PictogramElement.name» pe = af.add((«IAddContext.name») c);
-						if (pe != null) {
-							«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
-							«"bo".toInternalElement»
-							created[0] = ((«InternalModelElement.name») bo).getElement();
-							created[1] = pe;
-						}
-					}
-					return created;
-		} else {
-«««			if (f.canExecute(c))
-			f.execute(c);
-			return null;
-		}
+		});
+		return created;
 	}
 	
 	@Override

@@ -158,8 +158,11 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		rc.setLocation(getX(), getY());
 		rf.activateApiCall(true);		
 		
+		«IFeatureProvider.name» fp = getFeatureProvider();
 		if (rf.canResizeShape(rc))
-			rf.resizeShape(rc);
+			if (fp instanceof «CincoFeatureProvider.name»)
+				((«CincoFeatureProvider.name») fp).executeFeature(rf,rc);
+«««			rf.resizeShape(rc);
 		
 		super.resize(width, height);
 	}
@@ -333,25 +336,25 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	@Override
 	public void setX(final int x) {
 		super.setX(x);
-		getPictogramElement().getGraphicsAlgorithm().setX(x);
+		transact("Set X", () -> getPictogramElement().getGraphicsAlgorithm().setX(x));
 	}
 	
 	@Override
 	public void setY(int y) {
 		super.setY(y);
-		getPictogramElement().getGraphicsAlgorithm().setY(y);
+		transact("Set Y", () -> getPictogramElement().getGraphicsAlgorithm().setY(y));
 	}
 	
 	@Override
 	public void setWidth(final int width) {
 		super.setWidth(width);
-		getPictogramElement().getGraphicsAlgorithm().setWidth(width);
+		transact("Set Width", () -> getPictogramElement().getGraphicsAlgorithm().setWidth(width));
 	}
 	
 	@Override
 	public void setHeight(int height) {
 		super.setHeight(height);
-		getPictogramElement().getGraphicsAlgorithm().setHeight(height);
+		transact("Set Height", () -> getPictogramElement().getGraphicsAlgorithm().setHeight(height));
 	}
 	
 	@Override

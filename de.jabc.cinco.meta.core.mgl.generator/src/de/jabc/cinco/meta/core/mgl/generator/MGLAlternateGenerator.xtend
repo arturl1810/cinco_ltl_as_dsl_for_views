@@ -616,7 +616,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 «««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
 «««		@Override
 «««		protected void doExecute() {
+		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
 			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
+		});
 «««		}
 «««	});
 	'''
@@ -634,7 +636,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 «««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
 «««		@Override
 «««		protected void doExecute() {
+		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
 			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
+		});
+			
 «««		}
 «««	});
 	'''

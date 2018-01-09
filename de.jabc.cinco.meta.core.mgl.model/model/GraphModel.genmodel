@@ -201,6 +201,10 @@
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/save"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/getInternalElement"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/postSave"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/transact">
+        <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/transact/label"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/transact/runnable"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
@@ -209,6 +213,7 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Type/delete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Type/preDelete"/>
     </genClasses>
+    <genClasses ecoreClass="GraphModel.ecore#//Runnable"/>
     <nestedGenPackages prefix="Internal" basePackage="graphmodel" disposableProviderFactory="true"
         ecorePackage="GraphModel.ecore#//internal">
       <genClasses ecoreClass="GraphModel.ecore#//internal/InternalNode">
