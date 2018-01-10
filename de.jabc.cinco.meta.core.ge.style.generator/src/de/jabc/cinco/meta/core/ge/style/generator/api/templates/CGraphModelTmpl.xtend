@@ -216,10 +216,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		try {
 			diagram = getDiagram();
 		} catch(NullPointerException ignore) {}
-		if (diagram != null)
+		if (diagram != null) {
 			this.fp = «GraphitiUi.name».getExtensionManager().createFeatureProvider(diagram);
-		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
-		this.fp = dtp.getFeatureProvider();
+		} else {
+			«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«me.dtpId»");
+			this.fp = dtp.getFeatureProvider();
+		}
 		return fp;
 	}
 	
