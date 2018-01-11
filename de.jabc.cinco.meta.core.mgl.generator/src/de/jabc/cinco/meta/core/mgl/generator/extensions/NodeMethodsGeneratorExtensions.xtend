@@ -731,7 +731,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	 * ContainingElements
 	 * */
 	def getAllContainmentConstraints(ContainingElement ce){
-		ce.containableElements+ce.allSuperTypes.map[containableElements].flatten
+		ce.containableElements+ce.allSuperTypes.filter(ContainingElement).map[containableElements].flatten
 	}
 
 	/**
@@ -744,7 +744,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	 * @return ArrayList containing super types of ce
 	 */
 	def allSuperTypes(ContainingElement ce){
-		val superTypes = new ArrayList<ContainingElement>
+		val superTypes = new ArrayList<ModelElement>
 		var sType = ce.extend
 
 		while(sType!=null){
@@ -762,10 +762,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	 * @param ce: ContainingElement
 	 * @returns ContainingElement
 	 */
-	def ContainingElement extend(ContainingElement ce){
+	def extend(ContainingElement ce){
 		switch(ce){
-			case ce instanceof GraphModel: return ((ce as GraphModel).extends) as ContainingElement
-			case ce instanceof NodeContainer: return ((ce as NodeContainer).extends) as ContainingElement
+			case ce instanceof GraphModel: return ((ce as GraphModel).extends)
+			case ce instanceof NodeContainer: return ((ce as NodeContainer).extends)
 			default : throw new IllegalArgumentException(String.format("Can not match Type: %s", ce))
 		}
 
