@@ -615,12 +615,12 @@ class MGLValidator extends AbstractMGLValidator {
 				}
 			}
 	}
-	@Check
-	def checkContainerInheritsFromContainer(NodeContainer nc){
-		if(nc.extends!=null&&!(nc.extends instanceof NodeContainer)){
-			error("Inheriting from Nodes is not possible for Containers.", MglPackage.Literals.NODE__EXTENDS)
-		}
-	}
+//	@Check
+//	def checkContainerInheritsFromContainer(NodeContainer nc){
+//		if(nc.extends!=null&&!(nc.extends instanceof NodeContainer)){
+//			error("Inheriting from Nodes is not possible for Containers.", MglPackage.Literals.NODE__EXTENDS)
+//		}
+//	}
 	
 	@Check
 	def checkNodeInheritsFromNode(Node node){
@@ -706,7 +706,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check 
 	def checkContainableElementIsIndependent(GraphicalElementContainment e){
 		var superType = getContainingSuperType(e.containingElement)
-		while(superType!=null){
+		while(superType!=null && (superType instanceof ContainingElement)){
 			
 			if(superType.containableElements.exists[y | y.types.exists[x|e.types.contains(x)]]){
 				error("Containment must be independent from inherited containments",MglPackage.Literals.GRAPHICAL_ELEMENT_CONTAINMENT__TYPES)
@@ -719,11 +719,15 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	
 	
-	def <T extends ContainingElement> T getContainingSuperType(T modelElement){
+	def dispatch ContainingElement getContainingSuperType(ContainingElement modelElement){
 		switch(modelElement){
-			GraphModel: (modelElement.extends) as T
-			NodeContainer: (modelElement.extends) as T 
+			GraphModel: (modelElement.extends) as GraphModel
+			NodeContainer: (modelElement.extends) as NodeContainer
 		} 
+	}
+	
+	def dispatch ContainingElement getContainingSuperType(Node modelElement){
+		null
 	}
 	
 	@Check
