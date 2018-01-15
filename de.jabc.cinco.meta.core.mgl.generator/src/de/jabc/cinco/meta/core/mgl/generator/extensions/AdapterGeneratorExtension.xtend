@@ -57,8 +57,11 @@ class AdapterGeneratorExtension {
 				super.notifyChanged(notification)
 				
 				val t = notification.notifier
+				val feature = notification.feature
 				if (t instanceof «fqInternalBeanName») {
-					t.element.containingModelElement?.element?.updateGraphModel
+					if (isRelevant(feature as org.eclipse.emf.ecore.EStructuralFeature)) {
+						t.element?.rootElement?.updateModelElements
+					}
 				}
 			}
 			
@@ -66,14 +69,6 @@ class AdapterGeneratorExtension {
 				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
 			}
 		
-			def getContainingModelElement(«Type.name» it) {
-				var cont = eContainer
-				while (cont != null) switch cont {
-					«InternalModelElement.name»: return cont
-					case cont == cont.eContainer: return null
-					default: cont = cont.eContainer
-				}
-			}
 		}
 	'''
 	
