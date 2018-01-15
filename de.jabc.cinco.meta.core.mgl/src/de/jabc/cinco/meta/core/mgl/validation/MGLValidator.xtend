@@ -34,12 +34,13 @@ import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.IType
+import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
 
@@ -50,7 +51,7 @@ import org.eclipse.xtext.validation.Check
  */
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
-	
+	public static val INVALID_NAME = 'invalidName'
 	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
@@ -729,13 +730,20 @@ class MGLValidator extends AbstractMGLValidator {
 				if(annot.value.size == 1){ //only one parameter 
 					val parameter = annot.value.get(0)
 					if(!parameter.equals("")){
-						val projects = ResourcesPlugin.workspace.root.projects
-						val correctFile = findClass(projects, parameter)  //find the corresponding class file
-						if(correctFile.exists){ //checks if class exists and if it is a java class
-							
-							//TODO: check if corresponding package is exported -> if not Quick fix				
-						}else{
-							error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
+						val correctFile = findClass(parameter)  //find the corresponding java class file
+						if(correctFile !== null){
+							if(correctFile.exists ){ //checks if class exists 
+								//package that should be exported, if not -> quickfix
+								val packageExport = correctFile.packageFragment.elementName
+								 if(true){
+								 	
+								 }
+							}else{
+								error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
+							}
+						}
+						else{
+							error("Java Class does not exists",MglPackage.Literals.ANNOTATION__VALUE)
 						}
 					}
 					else{
@@ -780,24 +788,26 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	
-	def findClass(IProject[] projects, String parameter){
+	def findClass(String parameter){
+		var IType javaClass = null
 		val fileName = parameter.substring(parameter.lastIndexOf(".")+1, parameter.length)
-		val folder_path = parameter.substring(0, parameter.lastIndexOf("."))
-		val project_path = folder_path.substring(0, folder_path.lastIndexOf("."))
-		for (var i = 0; i < projects.size; i++){
-		if(projects.get(i).name.equals(project_path.toString)){
-			val correctProject = projects.get(i)
-			if(correctProject.exists){
-				val path_folder = folder_path.toString.replace(".", "/")
-				val correctFolder = correctProject.getFolder("/src/"+ path_folder)
-				if(correctFolder.exists){
-					var correctFile = correctFolder.getFile(fileName.toString + ".java")
-					return correctFile
-				}
-					
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return javaClass 
+						}
+					} catch (Exception e) {}
 			}
-		}
+		
+		
 	}
+	return javaClass
+
 	
 }
 	def checkColorAnnotation(Annotation a) {
