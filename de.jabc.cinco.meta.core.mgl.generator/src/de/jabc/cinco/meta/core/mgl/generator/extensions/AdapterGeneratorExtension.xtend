@@ -58,7 +58,7 @@ class AdapterGeneratorExtension {
 				
 				val t = notification.notifier
 				if (t instanceof «fqInternalBeanName») {
-					t.element.containingModelElement?.element?.update
+					t.element.containingModelElement?.element?.updateGraphModel
 				}
 			}
 			
