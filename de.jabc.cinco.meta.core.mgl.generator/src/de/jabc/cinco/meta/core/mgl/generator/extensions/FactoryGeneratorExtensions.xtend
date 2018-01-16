@@ -79,7 +79,8 @@ class FactoryGeneratorExtensions {
 			
 			private def <T extends IdentifiableElement> setInternal(T elm, InternalIdentifiableElement internal) {
 				elm => [
-					ID = generateUUID
+					if (id.isNullOrEmpty)
+						ID = generateUUID
 					switch elm {
 						GraphModel: elm.internalElement = internal as InternalGraphModel
 						ModelElement: elm.internalElement = internal as InternalModelElement
