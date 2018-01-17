@@ -58,7 +58,7 @@ class AdapterGeneratorExtension {
 				
 				val o = notification.notifier
 				val feature = notification.feature
-				if (t instanceof «fqInternalBeanName») {
+				if (o instanceof «fqInternalBeanName») {
 					if (o.eContainer == null) return;
 						switch feature {
 							«EStructuralFeature.name» case feature.isRelevant: {
