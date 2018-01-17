@@ -56,12 +56,17 @@ class AdapterGeneratorExtension {
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
 				
-				val t = notification.notifier
+				val o = notification.notifier
 				val feature = notification.feature
 				if (t instanceof «fqInternalBeanName») {
-					if (isRelevant(feature as org.eclipse.emf.ecore.EStructuralFeature)) {
-						t.element?.rootElement?.updateModelElements
-					}
+					if (o.eContainer == null) return;
+						switch feature {
+							«EStructuralFeature.name» case feature.isRelevant: {
+								«postAttributeValueChange("o")»
+								«IF !(it instanceof GraphModel)»
+									o.element?.rootElement?.updateModelElements
+								«ENDIF»
+						}}
 				}
 			}
 			
