@@ -49,27 +49,21 @@ class AdapterGeneratorExtension {
 		
 		class «name»EContentAdapter extends «EContentAdapter.name» {
 		
-			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
 
+«««			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
+		
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
 				
-				val o = notification.notifier
-				val feature = notification.feature
-				if (o instanceof «fqInternalBeanName») {
-					if (o.eContainer == null) return;
-						switch feature {
-							«EStructuralFeature.name» case feature.isRelevant: {
-								«postAttributeValueChange("o")»
-								o.element?.rootElement?.updateModelElements
-							}
-						}
+				val t = notification.notifier
+				if (t instanceof «fqInternalBeanName») {
+					t.element?.containingModelElement?.element?.update
 				}
 			}
 			
-			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
-			}
+«««			private def isRelevant(«EStructuralFeature.name» ftr) {
+«««				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+«««			}
 		
 		}
 	'''
