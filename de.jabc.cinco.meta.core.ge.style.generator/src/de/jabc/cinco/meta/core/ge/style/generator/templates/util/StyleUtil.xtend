@@ -116,9 +116,10 @@ class StyleUtil extends APIUtils {
 			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
 			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
-			«IF MGLUtil::hasPostCreateHook(n)»
-			if (hook) «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
-			«ENDIF»
+«««			If everything is implemented correctly, postcreate hooks should be executed after object creation in the factory
+«««			«IF MGLUtil::hasPostCreateHook(n)»
+«««			if (hook) «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
+«««			«ENDIF»
 			
 			return «currentPeName»;
 		'''

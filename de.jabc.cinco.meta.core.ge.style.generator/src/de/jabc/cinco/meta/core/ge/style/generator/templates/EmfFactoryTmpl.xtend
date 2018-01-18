@@ -18,6 +18,10 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.ui.services.GraphitiUi
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.hasPostCreateHook
+import graphmodel.ModelElementContainer
+import mgl.Node
+import graphmodel.internal.InternalNode
+import mgl.Edge
 
 class EmfFactoryTmpl {
 
@@ -46,9 +50,28 @@ class EmfFactoryTmpl {
 			«me.fqCName» me = new «me.fqCName»();
 			«EcoreUtil.name».setID(ime, me.getId()+"_INTERNAL");
 			ime.setElement(me);
-«««			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 			return me;
 		}
+		
+		«IF me instanceof Node»
+		@Override
+		public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» container) {
+			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») super.create«me.fuName»(container).getInternalElement();
+			«me.fqCName» me = new «me.fqCName»();
+			«EcoreUtil.name».setID(ime, me.getId()+"_INTERNAL");
+			ime.setElement(me);
+			return me;
+		}
+		«ELSEIF me instanceof Edge»
+		@Override
+		public «me.fqBeanName» create«me.fuName»(«InternalNode.name» source, «InternalNode.name» target) {
+			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») super.create«me.fuName»(source, target).getInternalElement();
+			«me.fqCName» me = new «me.fqCName»();
+			«EcoreUtil.name».setID(ime, me.getId()+"_INTERNAL");
+			ime.setElement(me);
+			return me;
+		}
+		«ENDIF»
 		«ENDFOR»
 		
 		public «gm.fqBeanName» create«gm.fuName»(«String.name» path, «String.name» fileName) {

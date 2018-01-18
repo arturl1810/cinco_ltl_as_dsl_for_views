@@ -76,9 +76,13 @@ class NodeCreateFeatures extends APIUtils{
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
 			«PictogramElement.name» target = context.getTargetContainer();
+			«InternalModelElementContainer.name» container;
 			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
+			if (targetBO instanceof «ModelElementContainer.name»)
+				container = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
+			else container = («InternalModelElementContainer.name») targetBO;
 			«n.fqBeanName» «n.flName» = 
-				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»();
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container);
 			setModelElement(«n.flName»);
 	
 			if (targetBO instanceof «ModelElementContainer.name») 
