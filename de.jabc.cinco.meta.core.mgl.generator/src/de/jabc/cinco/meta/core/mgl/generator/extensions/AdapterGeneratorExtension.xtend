@@ -2,12 +2,10 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.ModelElement
-import graphmodel.internal.InternalPackage
 import org.eclipse.emf.common.notify.Notification
 import org.eclipse.emf.ecore.util.EContentAdapter
 import org.eclipse.emf.ecore.EStructuralFeature
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.postAttributeValueChange
-import mgl.Type
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalModelElement
 import mgl.UserDefinedType
@@ -44,20 +42,20 @@ class AdapterGeneratorExtension {
 		
 		class «name»EContentAdapter extends «EContentAdapter.name» {
 		
-			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
+«««			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
 		
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
 				
 				val t = notification.notifier
 				if (t instanceof «fqInternalBeanName») {
-					t.element.containingModelElement?.element?.update
+					t.element?.containingModelElement?.element?.update
 				}
 			}
 			
-			private def isRelevant(«EStructuralFeature.name» ftr) {
-				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
-			}
+«««			private def isRelevant(«EStructuralFeature.name» ftr) {
+«««				ftr.eDeliver && «fqInternalPackageName».eINSTANCE.EClassifiers.contains(ftr?.eContainer)
+«««			}
 		
 			def getContainingModelElement(«graphmodel.Type.name» it) {
 				var cont = eContainer
