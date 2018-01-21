@@ -14,6 +14,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
 import graphmodel.ModelElement
+import org.eclipse.graphiti.features.context.impl.CreateContext
 
 class NodeCreateFeatures extends APIUtils{
 	
@@ -84,13 +85,10 @@ class NodeCreateFeatures extends APIUtils{
 			«n.fqBeanName» «n.flName» = 
 				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container);
 			setModelElement(«n.flName»);
-	
-			if (targetBO instanceof «ModelElementContainer.name») 
-				targetBO = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
 			
-			if (targetBO instanceof «InternalModelElementContainer.name»)
-				((«InternalModelElementContainer.name») targetBO).getModelElements().add(«n.flName».getInternalElement());
-	
+			container = «n.flName».getInternalElement().getContainer();
+			container.getModelElements().add(«n.flName».getInternalElement());
+			updateContext(«n.flName».getInternal«n.fuName»(), («CreateContext.name») context);
 			«PictogramElement.name» pe = null;
 			«IF !n.isPrime»
 			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
