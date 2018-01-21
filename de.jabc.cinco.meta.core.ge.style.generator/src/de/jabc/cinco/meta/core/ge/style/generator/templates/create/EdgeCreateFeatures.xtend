@@ -96,7 +96,8 @@ class EdgeCreateFeatures extends APIUtils{
 			if (source != null && target != null) {
 				
 				«e.fqBeanName» «e.flName» = 
-					(«e.fqCName») «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»();
+					(«e.fqCName») 
+					«e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»(source, target);
 				
 				«Resource.name» eResource = ((«EObject.name») source).eResource();
 				«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
