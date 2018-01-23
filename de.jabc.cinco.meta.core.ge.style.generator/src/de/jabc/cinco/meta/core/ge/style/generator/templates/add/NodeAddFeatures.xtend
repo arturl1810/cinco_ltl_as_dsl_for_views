@@ -159,22 +159,25 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		if (element instanceof «InternalIdentifiableElement.name») {
 			element = ((«InternalIdentifiableElement.name»)element).getElement();
 		}
-			
+		
+		cc.putProperty("libraryComponentUID", org.eclipse.emf.ecore.util.EcoreUtil.getID(element));
+		«ReferenceRegistry.name».getInstance().addElement(element);
 		cc.setTargetContainer(context.getTargetContainer());
+		cc.setLocation(context.getX(), context.getY());
+		cc.setSize(context.getWidth(), context.getHeight());
 		«Object.name»[] newObject = cf.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
-		«Object.name» object = newObject[0];
-		if (object instanceof «n.fqBeanName») {
-			«n.fqInternalBeanName» ime = («n.fqInternalBeanName») ((«n.fqBeanName») object).getInternalElement();
-			ime.setLibraryComponentUID(«EcoreUtil.name».getID(element));
-			«ReferenceRegistry.name».getInstance().addElement(element);
-			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
-			«AddContext.name» ac = new «AddContext.name»(context, ime);
-			if (af.canAdd(ac)) {
-				«PictogramElement.name» pe = af.add(ac);
-				return pe;
-			}
-		}
+«««		«Object.name» object = newObject[0];
+«««		if (object instanceof «n.fqBeanName») {
+«««			«n.fqInternalBeanName» ime = («n.fqInternalBeanName») ((«n.fqBeanName») object).getInternalElement();
+«««			ime.setLibraryComponentUID(«EcoreUtil.name».getID(element));
+«««			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
+«««			«AddContext.name» ac = new «AddContext.name»(context, ime);
+«««			if (af.canAdd(ac)) {
+«««				«PictogramElement.name» pe = af.add(ac);
+«««				return pe;
+«««			}
+«««		}
 		return null;
 	}
 	

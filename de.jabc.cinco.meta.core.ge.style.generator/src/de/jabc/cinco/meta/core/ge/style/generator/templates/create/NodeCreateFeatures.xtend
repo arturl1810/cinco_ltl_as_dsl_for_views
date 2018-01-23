@@ -82,18 +82,15 @@ class NodeCreateFeatures extends APIUtils{
 			if (targetBO instanceof «ModelElementContainer.name»)
 				container = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
 			else container = («InternalModelElementContainer.name») targetBO;
+			«IF n.isPrime»
+			String _libraryComponentUID = («String.name») context.getProperty("libraryComponentUID");
+			«n.fqBeanName» «n.flName» = 
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(_libraryComponentUID, container, context.getX(), context.getY(), context.getWidth(), context.getHeight());
+			«ELSE»
 			«n.fqBeanName» «n.flName» = 
 				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container, context.getX(), context.getY(), context.getWidth(), context.getHeight());
+			«ENDIF»
 			setModelElement(«n.flName»);
-«««			
-«««			container = «n.flName».getInternalElement().getContainer();
-«««			container.getModelElements().add(«n.flName».getInternalElement());
-«««			updateContext(«n.flName».getInternal«n.fuName»(), («CreateContext.name») context);
-«««			«PictogramElement.name» pe = null;
-«««			«IF !n.isPrime»
-«««			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
-«««			«ENDIF» 
-«««			return new «Object.name»[] {«n.flName», pe};
 			return new «Object.name»[] {«n.flName», ((«n.fqCName») «n.flName»).getPictogramElement()};
 		}
 		

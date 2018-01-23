@@ -34,6 +34,8 @@ import org.eclipse.graphiti.mm.pictograms.AnchorContainer
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElement
 
 class EmfFactoryTmpl {
 
@@ -66,14 +68,20 @@ class EmfFactoryTmpl {
 		}
 		
 		«IF me instanceof Node»
-«««		@Override
-		public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» container, int x, int y, int width, int height) {
+			«IF me.prime»
+				public «me.fqBeanName» create«me.fuName»(«String.name» libraryComponentUID, «InternalModelElementContainer.name» container, int x, int y, int width, int height) {
+			«ELSE»
+				public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» container, int x, int y, int width, int height) {
+			«ENDIF»
 			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») create«me.fuName»().getInternalElement();
 			container.getModelElements().add(ime);
 			ime.setX(x);
 			ime.setY(y);
 			ime.setWidth(width);
 			ime.setHeight(height);
+			«IF me.prime»
+			ime.setLibraryComponentUID(libraryComponentUID);
+			«ENDIF»
 			addNode(container, ime);
 			«IF MGLUtil::hasPostCreateHook(me)»
 				«me.packageName».«me.graphModel.fuName»Factory.eINSTANCE.postCreates((«me.fqBeanName») ime.getElement());
@@ -134,7 +142,10 @@ class EmfFactoryTmpl {
 			ac.setSize(node.getWidth(), node.getHeight());
 			ac.setTargetContainer(((«CModelElement.name») parent.getElement()).getPictogramElement());
 			
-			«IFeatureProvider.name» fp = ((«CGraphModel.name») parent.getElement()).getFeatureProvider();
+			«IFeatureProvider.name» fp =
+							(parent instanceof «InternalGraphModel.name») 
+							? ((«CGraphModel.name») parent.getElement()).getFeatureProvider()
+							: ((«CGraphModel.name») ((«InternalModelElement.name») parent).getRootElement().getElement()).getFeatureProvider();
 			«IAddFeature.name» af = fp.getAddFeature(ac);
 			if (fp instanceof «CincoFeatureProvider.name») {
 				if (af.canAdd(ac)) {
