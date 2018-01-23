@@ -6,7 +6,7 @@ build:
     - ssh-add <(echo "$DELIVERY_CINCO_SSH_PRIVATE_KEY")
   cache:
     paths:
-      - ~/.m2/repository
+      - /builds/scce/cinco/m2/repository
     key: maven
   image: registry.gitlab.com/scce/cinco:latest
   only:
