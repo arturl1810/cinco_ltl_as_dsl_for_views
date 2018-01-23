@@ -167,18 +167,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		cc.setSize(context.getWidth(), context.getHeight());
 		«Object.name»[] newObject = cf.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
-«««		«Object.name» object = newObject[0];
-«««		if (object instanceof «n.fqBeanName») {
-«««			«n.fqInternalBeanName» ime = («n.fqInternalBeanName») ((«n.fqBeanName») object).getInternalElement();
-«««			ime.setLibraryComponentUID(«EcoreUtil.name».getID(element));
-«««			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
-«««			«AddContext.name» ac = new «AddContext.name»(context, ime);
-«««			if (af.canAdd(ac)) {
-«««				«PictogramElement.name» pe = af.add(ac);
-«««				return pe;
-«««			}
-«««		}
-		return null;
+		return («PictogramElement.name») newObject[1];
 	}
 	
 }
