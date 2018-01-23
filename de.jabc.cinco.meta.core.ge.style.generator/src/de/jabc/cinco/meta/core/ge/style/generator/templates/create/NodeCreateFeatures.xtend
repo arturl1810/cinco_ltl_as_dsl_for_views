@@ -83,17 +83,18 @@ class NodeCreateFeatures extends APIUtils{
 				container = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
 			else container = («InternalModelElementContainer.name») targetBO;
 			«n.fqBeanName» «n.flName» = 
-				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container);
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container, context.getX(), context.getY(), context.getWidth(), context.getHeight());
 			setModelElement(«n.flName»);
-			
-			container = «n.flName».getInternalElement().getContainer();
-			container.getModelElements().add(«n.flName».getInternalElement());
-			updateContext(«n.flName».getInternal«n.fuName»(), («CreateContext.name») context);
-			«PictogramElement.name» pe = null;
-			«IF !n.isPrime»
-			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
-			«ENDIF» 
-			return new «Object.name»[] {«n.flName», pe};
+«««			
+«««			container = «n.flName».getInternalElement().getContainer();
+«««			container.getModelElements().add(«n.flName».getInternalElement());
+«««			updateContext(«n.flName».getInternal«n.fuName»(), («CreateContext.name») context);
+«««			«PictogramElement.name» pe = null;
+«««			«IF !n.isPrime»
+«««			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
+«««			«ENDIF» 
+«««			return new «Object.name»[] {«n.flName», pe};
+			return new «Object.name»[] {«n.flName», ((«n.fqCName») «n.flName»).getPictogramElement()};
 		}
 		
 		/**

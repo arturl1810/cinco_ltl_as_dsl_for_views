@@ -34,6 +34,7 @@ import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
 import org.eclipse.emf.transaction.util.TransactionUtil
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.isReferencedModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CGraphModel
 
 class CGraphModelTmpl extends APIUtils {
 	
@@ -74,7 +75,7 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(GraphModel me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName»  implements «CModelElement.name»
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName»  implements «CGraphModel.name»
 	«IF !me.allSuperTypes.empty» ,«FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;

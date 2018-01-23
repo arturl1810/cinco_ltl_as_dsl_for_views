@@ -99,23 +99,7 @@ class EdgeCreateFeatures extends APIUtils{
 					(«e.fqCName») 
 					«e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»(source, target);
 				
-				«Resource.name» eResource = ((«EObject.name») source).eResource();
-				«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
-				«InternalModelElementContainer.name» container = 
-					new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, source, target);
-						container.getModelElements().add(«e.flName».getInternal«e.fuName»());
-					
-				if (source instanceof «InternalModelElement.name») {
-					«e.flName».setSourceElement((«Node.name») source.getElement());
-				}
-				if (target instanceof «InternalModelElement.name») {
-					«e.flName».setTargetElement((«Node.name») target.getElement());
-				}
-
-				«AddConnectionContext.name» addContext = 
-					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
-				addContext.setNewObject(«e.flName».getInternalElement());
-				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
+				connection = ((«e.fqCName») «e.flName»).getPictogramElement();
 			}
 			doneChanges = true;
 			return connection;
