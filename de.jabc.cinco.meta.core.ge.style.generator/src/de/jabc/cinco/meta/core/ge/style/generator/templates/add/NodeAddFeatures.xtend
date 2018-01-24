@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.CincoUtil
@@ -22,6 +21,8 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddFeaturePrime
 
 class NodeAddFeatures extends StyleUtil {
 	
@@ -39,7 +40,7 @@ class NodeAddFeatures extends StyleUtil {
 		s = CincoUtil.getStyleForNode(n,styles)
 '''package «n.packageNameAdd»;
 
-public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
+public class AddFeature«n.fuName» extends «CincoAddFeature.name» {
 	
 	/**
 	 * Call of the Superclass
@@ -98,7 +99,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	}
 	
 	/**
-	 * Generates the 'Add-Feature' for a given node with the extra that nodes can be marked as 'prime'
+	 * Generates the 'Add-Feature' for a given prime
 	 * @param n : The node
 	 * @param styles : The style
 	 * 
@@ -108,7 +109,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 		s=CincoUtil.getStyleForNode(n, styles)
 '''package «n.packageNameAdd»;
 
-public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name» {
+public class AddFeaturePrime«n.fuName» extends «CincoAddFeaturePrime.name» {
 	
 	/**
 	 * Call of the superclass
@@ -124,7 +125,12 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 	 * @return Returns true if the context can be added and false if not.
 	*/
 	public boolean canAdd(«IAddContext.name» context) {
+		createFeature = 
+			new «n.packageNameCreate».CreateFeature«n.fuName»(getFeatureProvider());
+		«CreateContext.name» cc = 
+			new «CreateContext.name»();
 		«ContainerShape.name» container = context.getTargetContainer();
+		cc.setTargetContainer(container);
 		«EObject.name» target = 
 			«Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(container);
 		«"target".toInternalElement»
@@ -149,7 +155,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 	 * @param context : Contains the information, needed to let a feature add a pictogram element 
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
-		«n.packageNameCreate».CreateFeature«n.fuName» cf = 
+		createFeature = 
 			new «n.packageNameCreate».CreateFeature«n.fuName»(getFeatureProvider());
 		
 		«CreateContext.name» cc = 
@@ -165,7 +171,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		cc.setTargetContainer(context.getTargetContainer());
 		cc.setLocation(context.getX(), context.getY());
 		cc.setSize(context.getWidth(), context.getHeight());
-		«Object.name»[] newObject = cf.create(cc);
+		«Object.name»[] newObject = createFeature.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
 		return («PictogramElement.name») newObject[1];
 	}

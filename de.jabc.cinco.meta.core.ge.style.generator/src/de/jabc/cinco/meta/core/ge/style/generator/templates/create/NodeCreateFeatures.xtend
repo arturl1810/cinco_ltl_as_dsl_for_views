@@ -29,7 +29,7 @@ class NodeCreateFeatures extends APIUtils{
 	
 	public class CreateFeature«n.fuName» extends  «CincoCreateFeature.name»<«ModelElement.name»>{
 		
-		private «ECincoError.name» error = «ECincoError.name».OK;
+«««		private «ECincoError.name» error = «ECincoError.name».OK;
 		
 		/**
 		 * Call of the Superclass

@@ -1,18 +1,27 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
-import graphmodel.GraphModel
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
+import graphmodel.Edge
 import graphmodel.IdentifiableElement
 import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalNode
+import java.util.ArrayList
+import java.util.List
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IMoveShapeFeature
 import org.eclipse.graphiti.features.context.impl.AddContext
@@ -22,26 +31,15 @@ import org.eclipse.graphiti.features.context.impl.MoveShapeContext
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
-import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
-import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
-import graphmodel.internal.InternalNode
-import org.eclipse.emf.ecore.util.EcoreUtil
-import graphmodel.internal.InternalModelElementContainer
-import java.util.ArrayList
-import graphmodel.internal.InternalModelElement
-import java.util.List
-import graphmodel.Edge
-import graphmodel.internal.InternalEdge
-import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException
 
 class CNodeTmpl extends APIUtils {
 
@@ -101,8 +99,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
+			if (retVal[0] == null) return null;
 			«e.fuCName» tmp = («e.fuCName») retVal[0];
-«««			tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
 			return tmp;
 		}
 		return null;
@@ -229,11 +227,6 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«IF me instanceof NodeContainer»
 	«FOR containableNode : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
-«««	@Override
-«««	public «containableNode.fqBeanName» new«containableNode.fuName»(int x, int y) {
-«««		return new«containableNode.fuName»(x,y,-1,-1);
-«««	}
-	
 	@Override
 	public «containableNode.fqBeanName» new«containableNode.fuName»(«String.name» id, int x, int y, int width, int height) {
 		«containableNode.fqBeanName» obj = new«containableNode.fuName»(x, y, width, height);
@@ -254,6 +247,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		«containableNode.fqCreateFeatureName» cf = new «containableNode.fqCreateFeatureName»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
+			if (retVal[0] == null) return null;
 			«containableNode.fuCName» tmp = («containableNode.fuCName») retVal[0];
 			tmp.setPictogramElement((«containableNode.pictogramElementReturnType») retVal[1]);
 			return tmp;
@@ -278,7 +272,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			ac.setSize(width,height);
 			
 			«IF n.retrievePrimeReference.isReferencedModelElement»
-			ac.setNewObject(((«graphmodel.IdentifiableElement.name») «n.retrievePrimeReference.name»).getInternalElement());
+			ac.setNewObject(((«IdentifiableElement.name») «n.retrievePrimeReference.name»).getInternalElement());
 			«ELSE»
 			ac.setNewObject(«n.retrievePrimeReference.name»);
 			«ENDIF»
@@ -287,6 +281,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«n.fqPrimeAddFeatureName» af = new «n.fqPrimeAddFeatureName»(fp);
 			if (fp instanceof «CincoFeatureProvider.name») {
 				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(af, ac);
+				if (retVal[0] == null) return null;
 				«n.fuCName» tmp = («n.fuCName») retVal[0];
 				tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
 				return tmp;

@@ -9,6 +9,9 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError;
 import graphmodel.ModelElement;
 import graphmodel.internal.InternalNode;
 
@@ -16,6 +19,7 @@ public abstract class CincoCreateFeature<T extends ModelElement> extends Abstrac
 
 	T newModelElement;
 	boolean apiCall;
+	protected ECincoError error = ECincoError.OK;
 	
 	public CincoCreateFeature(IFeatureProvider fp, String name, String description) {
 		super(fp, name, description);
@@ -33,11 +37,29 @@ public abstract class CincoCreateFeature<T extends ModelElement> extends Abstrac
 	
 	public abstract boolean canCreate(ICreateContext context, boolean apiCall);
 	
-	
-	protected void updateContext(InternalNode _node_, CreateContext cc) {
-		cc.setLocation(_node_.getX() >= 0 ? _node_.getX() : cc.getX(), _node_.getY() >= 0 ? _node_.getY() : cc.getY());
-		cc.setSize(_node_.getWidth() >= 0 ? _node_.getWidth() : cc.getWidth(), _node_.getHeight() >= 0 ? _node_.getHeight() : cc.getHeight());
-		PictogramElement parentContainerShape = ((CModelElement) _node_.getElement().getContainer()).getPictogramElement();
-		cc.setTargetContainer((ContainerShape) parentContainerShape);
+	public void throwException(ICreateContext context) {
+		Object target = context.getTargetContainer().getLink().getBusinessObjects().get(0);
+		switch (error) {
+		case INVALID_CONTAINER:
+			throw new CincoInvalidContainerException(
+					String.format(
+							"Invalid Container: Cannot create %s in container %s", getName(), target));
+		case MAX_CARDINALITY:
+			throw new CincoContainerCardinalityException(
+					String.format(
+							"Cardinality exceeded: Cannot create %s in container %s. It can't contain more elements of type %s ", 
+							getName(), target,getName()));
+		case INVALID_SOURCE:
+
+		case INVALID_TARGET:
+
+		case MAX_IN:
+
+		case MAX_OUT:
+
+		default:
+			break;
+		}
 	}
+	
 }

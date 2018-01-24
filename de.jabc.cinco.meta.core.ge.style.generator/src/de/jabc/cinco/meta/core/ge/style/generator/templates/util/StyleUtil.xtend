@@ -92,7 +92,7 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY());
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
 				if (rf != null && rf.canResizeShape(rc))
 				rf.resizeShape(rc);
@@ -104,7 +104,7 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY() + minY);
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
 				if (rf != null && rf.canResizeShape(rc))
 				rf.resizeShape(rc);

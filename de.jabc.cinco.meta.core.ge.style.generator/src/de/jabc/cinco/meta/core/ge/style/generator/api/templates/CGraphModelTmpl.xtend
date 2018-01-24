@@ -1,21 +1,19 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CGraphModel
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import graphmodel.ModelElement
-import java.io.IOException
 import java.util.List
 import mgl.GraphModel
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.CoreException
-import org.eclipse.core.runtime.IPath
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.emf.transaction.util.TransactionUtil
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
@@ -27,52 +25,22 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
-import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
-import org.eclipse.emf.transaction.util.TransactionUtil
-
-import static extension de.jabc.cinco.meta.core.utils.MGLUtil.isReferencedModelElement
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CGraphModel
+import org.eclipse.graphiti.ui.services.GraphitiUi
 
 class CGraphModelTmpl extends APIUtils {
-	
-def doGenerateView(GraphModel me)'''
+
+	def doGenerateView(GraphModel me) '''
 package «me.packageNameAPI»;
 
 public class «me.fuCViewName» extends «me.fqBeanViewName» {
-	
-«««	«IF me instanceof NodeContainer»
-«««	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y);
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
-«««	«ENDFOR»
-«««	«ENDIF»
-«««	
-«««	«IF me instanceof Node»
-«««	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
-«««	«FOR target : MGLUtils::getPossibleTargets(e)»
-«««	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
-«««	«ENDFOR»
-«««	«ENDFOR»
-«««	
-«««	public void move(int x, int y);
-«««	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
-«««	public void move(«cont.fuCName» target, int x, int y);
-«««	«ENDFOR»
-«««	
-«««	«IF me.isPrime»
-«««	public «EObject.name» get«me.primeName.toFirstUpper»();
-«««	«ENDIF»
-«««	
-«««	«ENDIF»
-	
+
 }
 
 '''
 
-def doGenerateImpl(GraphModel me)'''
+	def doGenerateImpl(
+		GraphModel me) '''
 package «me.packageNameAPI»;
 
 public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName»  implements «CGraphModel.name»
@@ -122,6 +90,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«n.fqCreateFeatureName» cf = new «n.fqCreateFeatureName»(fp);
 			if (fp instanceof «CincoFeatureProvider.name») {
 				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
+				if (retVal[0] == null) return null;
 				«n.fuCName» tmp = («n.fuCName») retVal[0];
 				tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
 				return tmp;
@@ -149,6 +118,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			«n.fqPrimeAddFeatureName» af = new «n.fqPrimeAddFeatureName»(fp);
 			if (fp instanceof «CincoFeatureProvider.name») {
 				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(af, ac);
+				if (retVal[0] == null) return null;
 				«n.fuCName» tmp = («n.fuCName») retVal[0];
 				tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
 				return tmp;
@@ -251,5 +221,5 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 }
 '''
-	
-} 
+
+}

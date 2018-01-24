@@ -35,7 +35,7 @@ class EdgeCreateFeatures extends APIUtils{
 	
 	public class CreateFeature«e.fuName» extends «CincoCreateEdgeFeature.name»<«ModelElement.name»> {
 		
-		private «ECincoError.name» error = «ECincoError.name».OK;
+«««		private «ECincoError.name» error = «ECincoError.name».OK;
 		private «ICreateConnectionContext.name» context;
 		
 		private boolean doneChanges = false;
