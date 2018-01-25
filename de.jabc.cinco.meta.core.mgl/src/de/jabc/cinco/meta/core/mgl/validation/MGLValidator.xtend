@@ -43,6 +43,11 @@ import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
+import java.io.InputStreamReader
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.FileInputStream
+import org.eclipse.core.resources.IFile
 
 /**
  * Custom validation rules. 
@@ -725,6 +730,7 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	@Check
 	def checkCustomActionAnnotation(Annotation annot){
 		if(isCustomAction(annot.name)){ //recognize customAction
 			if(!annot.value.empty){ //check if parameter is not null
@@ -734,9 +740,7 @@ class MGLValidator extends AbstractMGLValidator {
 						val correctFile = findClass(parameter)  //find the corresponding java class file
 						if(correctFile !== null){
 							if(correctFile.exists ){ //checks if class exists 
-								//package that should be exported, if not -> quickfix
 								val packageExport = correctFile.packageFragment.elementName
-								//plugin xml enthält als exported package das package
 								 val root = ResourcesPlugin.workspace.root
 									val projects = root.projects
 									for(project : projects){
@@ -745,14 +749,17 @@ class MGLValidator extends AbstractMGLValidator {
 											var folder = project.getFolder("META-INF")
 											var manifest = folder.getFile("MANIFEST.MF")
 											if(manifest.exists){
-												//exportpackages erhalten
-												
-												//ist packExport darin enthalten? nein -> quickfix
+												val exportedPackage = findExportedPackage(manifest, packageExport)
+										        if(!exportedPackage){ //if the package is not exporterd -> quickfix
+										        	warning("Corresponding package is not exported", MglPackage.Literals.ANNOTATION__VALUE)
+										        	
+										        	val quickfix = true;
+										        }
 											}
 										}
 									}
 									
-							}else{ //problem id with error message for quickfix
+							}else{ 
 								error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
 							}
 						}
@@ -773,6 +780,21 @@ class MGLValidator extends AbstractMGLValidator {
 				error("CustomAction needs a Java Class as a parameter", MglPackage.Literals.ANNOTATION__VALUE)
 			}
 		}
+	}
+	
+	def findExportedPackage(IFile manifest, String packageExport) {
+		val content = manifest.contents
+		val BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+        val StringBuilder out = new StringBuilder();
+        var line = "";
+		while ((line = reader.readLine()) !== null) {
+			 out.append(line);
+		}
+		val input =  out.substring(out.indexOf("Export-Package"), out.indexOf("Bundle-Name")) //find all exported packages
+		val exportedPackage = input.contains(packageExport)
+		reader.close();
+		
+		return exportedPackage
 	}
 	
 	def isCustomAction(String name) {
@@ -804,7 +826,6 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	def findClass(String parameter){
 		var IType javaClass = null
-		val fileName = parameter.substring(parameter.lastIndexOf(".")+1, parameter.length)
 		val root = ResourcesPlugin.workspace.root
 		val projects = root.projects
 		for(project : projects){
@@ -823,6 +844,7 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	}
 
+	@Check
 	def checkColorAnnotation(Annotation a) {
 		if (a.name.equals("color")) {
 		
