@@ -83,6 +83,7 @@ class EmfFactoryTmpl {
 			ime.setLibraryComponentUID(libraryComponentUID);
 			«ENDIF»
 			addNode(container, ime);
+			ime.getElement().update();
 			«IF MGLUtil::hasPostCreateHook(me)»
 				«me.packageName».«me.graphModel.fuName»Factory.eINSTANCE.postCreates((«me.fqBeanName») ime.getElement());
 			«ENDIF»
@@ -97,6 +98,7 @@ class EmfFactoryTmpl {
 			«InternalModelElementContainer.name» container = new «GraphModelExtension.name»().getCommonContainer(source.getRootElement(), source, target);
 			container.getModelElements().add(ime);
 			addEdge(source, target, ime);
+			ime.getElement().update();
 			«IF MGLUtil::hasPostCreateHook(me)»
 				«me.packageName».«me.graphModel.fuName»Factory.eINSTANCE.postCreates((«me.fqBeanName») ime.getElement());
 			«ENDIF»
