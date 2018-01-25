@@ -53,6 +53,8 @@ class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
 	public static val INVALID_NAME = 'invalidName'
 	
+
+	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
 		try{
@@ -723,7 +725,6 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
-	@Check
 	def checkCustomActionAnnotation(Annotation annot){
 		if(isCustomAction(annot.name)){ //recognize customAction
 			if(!annot.value.empty){ //check if parameter is not null
@@ -735,10 +736,23 @@ class MGLValidator extends AbstractMGLValidator {
 							if(correctFile.exists ){ //checks if class exists 
 								//package that should be exported, if not -> quickfix
 								val packageExport = correctFile.packageFragment.elementName
-								 if(true){
-								 	
-								 }
-							}else{
+								//plugin xml enthält als exported package das package
+								 val root = ResourcesPlugin.workspace.root
+									val projects = root.projects
+									for(project : projects){
+										val package = packageExport.substring(0, packageExport.lastIndexOf("."))
+										if(project.name.equals(package)){
+											var folder = project.getFolder("META-INF")
+											var manifest = folder.getFile("MANIFEST.MF")
+											if(manifest.exists){
+												//exportpackages erhalten
+												
+												//ist packExport darin enthalten? nein -> quickfix
+											}
+										}
+									}
+									
+							}else{ //problem id with error message for quickfix
 								error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
 							}
 						}
@@ -802,14 +816,13 @@ class MGLValidator extends AbstractMGLValidator {
 							return javaClass 
 						}
 					} catch (Exception e) {}
-			}
+		}
 		
-		
-	}
-	return javaClass
-
+		}
+		return javaClass
 	
-}
+	}
+
 	def checkColorAnnotation(Annotation a) {
 		if (a.name.equals("color")) {
 		
