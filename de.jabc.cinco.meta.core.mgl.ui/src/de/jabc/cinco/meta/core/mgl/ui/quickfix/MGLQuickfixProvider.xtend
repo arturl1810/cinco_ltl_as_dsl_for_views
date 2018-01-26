@@ -3,24 +3,41 @@
 */
 package de.jabc.cinco.meta.core.mgl.ui.quickfix
 
-//import org.eclipse.xtext.ui.editor.quickfix.Fix
-//import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
-//import org.eclipse.xtext.validation.Issue
+import de.jabc.cinco.meta.core.mgl.validation.MGLValidator
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.xtext.ui.editor.model.edit.IModification
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
+import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.validation.Issue
 
 /**
  * Custom quickfixes.
  *
  * see http://www.eclipse.org/Xtext/documentation.html#quickfixes
  */
-class MGLQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider {
+class MGLQuickfixProvider extends DefaultQuickfixProvider {
 
-//	@Fix(MyDslValidator::INVALID_NAME)
-//	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//			context |
-//			val xtextDocument = context.xtextDocument
-//			val firstLetter = xtextDocument.get(issue.offset, 1)
-//			xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//		]
-//	}
+	@Fix(MGLValidator:: NOT_EXPORTED)
+	def exportPackage(Issue issue, IssueResolutionAcceptor acceptor) {
+		acceptor.accept(issue, 'Export the corresponding package', 'Export the corresponding package', null, new IModification{
+			
+			override apply(IModificationContext context) throws Exception {
+			val packageExport = MGLValidator.packageExport; //package to export
+			val root = ResourcesPlugin.getWorkspace().getRoot();
+			val projects = root.getProjects();
+			for(IProject project : projects){
+				val package1 = packageExport.substring(0, packageExport.lastIndexOf("."));
+				if(project.getName().equals(package1)){
+					val project1 = project;
+					ProjectCreator.exportPackage(project1, packageExport);
+				}
+			}
+			}
+		
+		})
+	}
 }
