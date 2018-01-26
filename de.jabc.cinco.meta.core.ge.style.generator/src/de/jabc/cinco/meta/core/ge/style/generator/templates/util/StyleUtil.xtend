@@ -206,7 +206,7 @@ class StyleUtil extends APIUtils {
 		width = maxX - minX;
 		height = maxY - minY;	
 		
-		parentIsDiagram = false;
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 			
 		«org.eclipse.graphiti.mm.algorithms.Polygon.name» «currentGaName» = gaService.createPolygon(«currentPeName», points);
 		
@@ -272,7 +272,7 @@ class StyleUtil extends APIUtils {
 		
 		«org.eclipse.graphiti.mm.algorithms.Polyline.name» «currentGaName» = gaService.createPlainPolyline(«currentPeName»);
 		
-			parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 		
 		if (parentIsDiagram || minX < 0 || minY < 0)
 			«node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().transform(points, -minX, -minY);
