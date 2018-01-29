@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.editor
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.runtime.xapi.CodingExtension
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import graphmodel.Edge
@@ -32,6 +31,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddFeature
 
 class DiagramBuilder {
 	
@@ -124,7 +124,7 @@ class DiagramBuilder {
 	}
 	
 	def addIfPossible(AddContext ctx) {
-		val ftr = featureProvider.getAddFeature(ctx) as CincoAbstractAddFeature
+		val ftr = featureProvider.getAddFeature(ctx) as CincoAddFeature
 		if (ftr != null) {
 			ftr.setHook(false)
 			if (ftr?.canAdd(ctx))

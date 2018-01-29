@@ -92,7 +92,7 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY());
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
 				if (rf != null && rf.canResizeShape(rc))
 				rf.resizeShape(rc);
@@ -104,7 +104,7 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY() + minY);
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
 				if (rf != null && rf.canResizeShape(rc))
 				rf.resizeShape(rc);
@@ -116,11 +116,6 @@ class StyleUtil extends APIUtils {
 			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
 			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
-«««			If everything is implemented correctly, postcreate hooks should be executed after object creation in the factory
-«««			«IF MGLUtil::hasPostCreateHook(n)»
-«««			if (hook) «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
-«««			«ENDIF»
-			
 			return «currentPeName»;
 		'''
 	}
@@ -211,7 +206,7 @@ class StyleUtil extends APIUtils {
 		width = maxX - minX;
 		height = maxY - minY;	
 		
-		parentIsDiagram = false;
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 			
 		«org.eclipse.graphiti.mm.algorithms.Polygon.name» «currentGaName» = gaService.createPolygon(«currentPeName», points);
 		
@@ -277,7 +272,7 @@ class StyleUtil extends APIUtils {
 		
 		«org.eclipse.graphiti.mm.algorithms.Polyline.name» «currentGaName» = gaService.createPlainPolyline(«currentPeName»);
 		
-			parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 		
 		if (parentIsDiagram || minX < 0 || minY < 0)
 			«node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().transform(points, -minX, -minY);
