@@ -376,6 +376,8 @@ class StyleUtil extends APIUtils {
 
 	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createImage(«currentPeName», "«p.path»");
+		«currentGaName».setStretchH(true);
+		«currentGaName».setStretchV(true);
 	'''
 
 	def setSizeFromContext(AbstractShape a, CharSequence gaName) '''
