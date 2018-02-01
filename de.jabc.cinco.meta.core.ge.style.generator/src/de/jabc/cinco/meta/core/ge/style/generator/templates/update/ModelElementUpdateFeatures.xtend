@@ -51,9 +51,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 			if («me.instanceofCheck("object")») {
 				object = ((«me.fqBeanName») object).getInternalElement();
-				if (s instanceof «ContainerShape.name» && ((«me.fqInternalBeanName») object).getElement().equals(s.getLink().getBusinessObjects().get(0))) {
+				if (s instanceof «ContainerShape.name») {
 					for («Shape.name» g : ((«ContainerShape.name») s).getChildren()) {
-						updateStyle((«me.fqInternalBeanName») object, g);
+						if (((«me.fqInternalBeanName») object).getElement().equals(g.getLink().getBusinessObjects().get(0)))
+							updateStyle((«me.fqInternalBeanName») object, g);
 					}
 				}
 			}
