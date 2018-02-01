@@ -3,8 +3,8 @@ FROM maven:3.5
 ARG USER_HOME_DIR="/root"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-                                                        openssh-client \
-                                                        rsync
+                       openssh-client \
+                       rsync
 
 RUN mkdir -p "$USER_HOME_DIR/.m2/repository"
 COPY settings.xml "$USER_HOME_DIR/.m2/settings.xml"

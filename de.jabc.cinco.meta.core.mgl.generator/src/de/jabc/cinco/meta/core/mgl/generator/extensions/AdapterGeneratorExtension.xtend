@@ -2,9 +2,7 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
-import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
-import graphmodel.Type
-import graphmodel.internal.InternalModelElement
+import mgl.GraphModel
 import mgl.ModelElement
 import mgl.UserDefinedType
 import org.eclipse.emf.common.notify.Notification
@@ -12,7 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.util.EContentAdapter
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.postAttributeValueChange
-import mgl.GraphModel
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 
 class AdapterGeneratorExtension {
 	
@@ -52,7 +50,7 @@ class AdapterGeneratorExtension {
 		class «name»EContentAdapter extends «EContentAdapter.name» {
 		
 			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
-		
+
 			override notifyChanged(«Notification.name» notification) {
 				super.notifyChanged(notification)
 				
@@ -63,10 +61,9 @@ class AdapterGeneratorExtension {
 						switch feature {
 							«EStructuralFeature.name» case feature.isRelevant: {
 								«postAttributeValueChange("o")»
-								«IF !(it instanceof GraphModel)»
-									o.element?.rootElement?.updateModelElements
-								«ENDIF»
-						}}
+								o.element?.rootElement?.updateModelElements
+							}
+						}
 				}
 			}
 			
