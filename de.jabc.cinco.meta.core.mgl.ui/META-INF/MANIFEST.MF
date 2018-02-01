@@ -17,8 +17,7 @@ Require-Bundle: de.jabc.cinco.meta.core.mgl,
  org.antlr.runtime,
  de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.ui.ide,
- org.eclipse.xtext.xbase.lib,
- de.eclipse.example.quickfixes;bundle-version="1.0.0"
+ org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.core.mgl.ui.contentassist,
  de.jabc.cinco.meta.core.mgl.ui.contentassist.antlr,
