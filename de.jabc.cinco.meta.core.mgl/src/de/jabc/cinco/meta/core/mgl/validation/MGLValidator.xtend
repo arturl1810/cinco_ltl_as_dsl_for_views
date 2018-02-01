@@ -48,6 +48,9 @@ import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
+import org.eclipse.core.resources.IProject
+import java.util.jar.Manifest
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 /**
  * Custom validation rules. 
@@ -57,9 +60,12 @@ import org.eclipse.xtext.validation.Check
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
 	public static var String packageExport = "";
+	public static var String parameter = "";
 	IProgressMonitor monitor = new NullProgressMonitor;
 	
 	public static val String NOT_EXPORTED = "package is not exported"
+	
+	
 
 	
 	@Check
@@ -742,19 +748,24 @@ class MGLValidator extends AbstractMGLValidator {
 						val correctFile = findClass(parameter)  //find the corresponding java class file
 						if(correctFile !== null){
 							if(correctFile.exists ){ //checks if class exists 
-								packageExport = correctFile.packageFragment.elementName
+								val packageExport = correctFile.packageFragment.elementName
 								val root = ResourcesPlugin.workspace.root
 								val projects = root.projects
 								for(project : projects){
-									val package = packageExport.substring(0, packageExport.lastIndexOf("."))
-									if(project.name.equals(package)){
-										var folder = project.getFolder("META-INF")
-										var manifest = folder.getFile("MANIFEST.MF")
-										if(manifest.exists){
-											val exportedPackage = findExportedPackage(manifest, packageExport)
-										    if(!exportedPackage){ //if the package is not exporterd -> quickfix
-										    	warning("Corresponding package is not exported", MglPackage.Literals.ANNOTATION__VALUE, NOT_EXPORTED)
-										        }
+									val package = findPackage(parameter);
+									if(package === null){
+										error("Package not found", MglPackage.Literals.ANNOTATION__VALUE)
+									}else{
+										if(project.name.equals(package.elementName)){
+											var folder = project.getFolder("META-INF")
+											var manifest = folder.getFile("MANIFEST.MF")
+											if(manifest.exists){
+												val project1 = project;
+												val isExported = findExportedPackage(project1, packageExport);
+													if(!isExported){
+												    	warning("Corresponding package is not exported", MglPackage.Literals.ANNOTATION__VALUE, NOT_EXPORTED)
+													}
+												}
 											}
 										}
 									}
@@ -782,24 +793,48 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	
-	
-	
-	
-	
-	def findExportedPackage(IFile manifest, String packageExport) {
-		val content = manifest.contents
-		val BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-        val StringBuilder out = new StringBuilder();
-        var line = "";
-		while ((line = reader.readLine()) !== null) {
-			 out.append(line);
+	def findPackage(String parameter) { 
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return jproject
+						}
+					} catch (Exception e) {}
 		}
-		val input =  out.substring(out.indexOf("Export-Package"), out.indexOf("Bundle-Name")) //find all exported packages
-		val exportedPackage = input.contains(packageExport)
-		reader.close();
 		
-		return exportedPackage
+		}
+		return null;
 	}
+	
+
+	
+	
+	def findExportedPackage(IProject project, String packageName){
+		val iManiFile= project.getFolder("META-INF").getFile("MANIFEST.MF");
+		
+			CincoUtil.refreshFiles(null, iManiFile);
+			val manifest = new Manifest(iManiFile.getContents());
+			
+			var value = manifest.getMainAttributes().getValue("Export-Package");
+			if (value === null){
+				value = new String("");
+			} 
+			
+			
+			if (!value.contains(packageName)){
+				return false;
+			}else{
+				return true;
+			}
+		
+	}
+	
 	
 	def isCustomAction(String name) {
 		switch (name) {
