@@ -74,11 +74,11 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 			return lf.layout(lContext);
 		return false;
 	}
-	
+
 	public EObject getBusinessObjectForLinkedPictogramElement(PictogramElement pe) {
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		if (bo instanceof IdentifiableElement) {
-			bo = ((IdentifiableElement)bo).getInternalElement();
+			bo = ((IdentifiableElement) bo).getInternalElement();
 		}
 		return bo;
 	}
@@ -116,21 +116,25 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					elContext = new ExpressionLanguageContext(bo);
-					
+
 					java.lang.Object _values[] = new java.lang.Object[value.split(";").length];
-					for (int i=0; i < _values.length; i++)
+					for (int i = 0; i < _values.length; i++)
 						_values[i] = "";
-						
-					for (int i=0; i < value.split(";").length;i++) {
-						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
+
+					for (int i = 0; i < value.split(";").length; i++) {
+						_values[i] = factory
+								.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class)
+								.getValue(elContext);
 					}
-					
-//					TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(t);
-//					if (dom == null)
-//						TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
-//					dom.getCommandStack().execute(new SetCommand(dom, t, t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
-					t.setValue(String.format(formatString,_values));
-					
+
+					// TransactionalEditingDomain dom =
+					// TransactionUtil.getEditingDomain(t);
+					// if (dom == null)
+					// TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(this.getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource().getResourceSet());
+					// dom.getCommandStack().execute(new SetCommand(dom, t,
+					// t.eClass().getEStructuralFeature("value"),String.format(formatString,_values)));
+					t.setValue(String.format(formatString, _values));
+
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
 				} catch (PropertyNotFoundException pne) {
@@ -157,10 +161,11 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 	 * @return Returns true if an update is needed
 	 */
 	public <EObject> boolean checkUpdateNeeded(EObject bo, PictogramElement pe) {
-		boolean updateNeeded;
+		boolean updateNeeded = false;
 		if (pe instanceof ContainerShape) {
 			for (Shape _s : ((ContainerShape) pe).getChildren()) {
-				return checkUpdateNeeded(bo, _s);
+				// return checkUpdateNeeded(bo, _s);
+				updateNeeded = updateNeeded || checkUpdateNeeded(bo, _s);
 			}
 		}
 		if (pe instanceof Connection) {
@@ -172,7 +177,6 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 			}
 		} else {
 			java.lang.Object o = getBusinessObjectForLinkedPictogramElement(pe);
-//			System.err.println(String.format("Object bo:\n %s \nand linked object o:\n %s", bo, o));
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText && bo.equals(o)) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				String formatString = "";
@@ -183,18 +187,20 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					elContext = new ExpressionLanguageContext(bo);
-					
+
 					java.lang.Object _values[] = new java.lang.Object[value.split(";").length];
-					for (int i=0; i < _values.length; i++)
+					for (int i = 0; i < _values.length; i++)
 						_values[i] = "";
 					String elex = value.split(";")[0];
 					factory.createValueExpression(elContext, elex, java.lang.Object.class).getValue(elContext);
-					for (int i=0; i < value.split(";").length;i++) {
-						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
+					for (int i = 0; i < value.split(";").length; i++) {
+						_values[i] = factory
+								.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class)
+								.getValue(elContext);
 					}
-					
+
 					String oldVal = "";
-					oldVal = String.format(formatString,_values);
+					oldVal = String.format(formatString, _values);
 					String newVal = t.getValue();
 					return (!newVal.equals(oldVal));
 				} catch (java.util.IllegalFormatException ife) {
@@ -213,7 +219,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 				}
 			}
 		}
-		return false;
+		return updateNeeded;
 	}
 
 	abstract protected void updateStyle(EObject me, Connection s);

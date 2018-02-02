@@ -11,11 +11,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import graphmodel.internal.InternalEdge;
 import graphmodel.internal._Point;
 
-public class CincoAbstractAddFeature extends AbstractAddFeature {
+public class CincoAddFeature extends AbstractAddFeature {
 
 	protected boolean hook = true;
 	
-	public CincoAbstractAddFeature(IFeatureProvider fp) {
+	public CincoAddFeature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}

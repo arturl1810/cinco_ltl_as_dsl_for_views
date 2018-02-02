@@ -92,10 +92,10 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY());
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
-				if (rf != null && rf.canResizeShape(rc))
-				rf.resizeShape(rc);
+				if (rf != null)
+					rf.resizeShape(rc);
 			} else if (parentIsDiagram)  {
 				«ResizeShapeContext.name» rc = new «ResizeShapeContext.name»(«currentPeName»);
 				rc.setWidth(width);
@@ -104,10 +104,10 @@ class StyleUtil extends APIUtils {
 				rc.setY(context.getY() + minY);
 				«CincoAbstractResizeFeature.name» rf = 
 					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
-				rf.activateApiCall(!hook);
+«««				rf.activateApiCall(!hook);
 			
-				if (rf != null && rf.canResizeShape(rc))
-				rf.resizeShape(rc);
+				if (rf != null)
+					rf.resizeShape(rc);
 			}
 			
 			peService.createChopboxAnchor(«currentPeName»);
@@ -116,10 +116,6 @@ class StyleUtil extends APIUtils {
 			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
 			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
-			«IF MGLUtil::hasPostCreateHook(n)»
-			if (hook) «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.postCreates((«n.fqBeanName») bo.getElement());
-			«ENDIF»
-			
 			return «currentPeName»;
 		'''
 	}
@@ -210,7 +206,7 @@ class StyleUtil extends APIUtils {
 		width = maxX - minX;
 		height = maxY - minY;	
 		
-		parentIsDiagram = false;
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 			
 		«org.eclipse.graphiti.mm.algorithms.Polygon.name» «currentGaName» = gaService.createPolygon(«currentPeName», points);
 		
@@ -276,7 +272,7 @@ class StyleUtil extends APIUtils {
 		
 		«org.eclipse.graphiti.mm.algorithms.Polyline.name» «currentGaName» = gaService.createPlainPolyline(«currentPeName»);
 		
-			parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
+		parentIsDiagram = («currentPeName».getContainer() instanceof «Diagram.name»);
 		
 		if (parentIsDiagram || minX < 0 || minY < 0)
 			«node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().transform(points, -minX, -minY);
@@ -380,6 +376,8 @@ class StyleUtil extends APIUtils {
 
 	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createImage(«currentPeName», "«p.path»");
+		«currentGaName».setStretchH(true);
+		«currentGaName».setStretchV(true);
 	'''
 
 	def setSizeFromContext(AbstractShape a, CharSequence gaName) '''

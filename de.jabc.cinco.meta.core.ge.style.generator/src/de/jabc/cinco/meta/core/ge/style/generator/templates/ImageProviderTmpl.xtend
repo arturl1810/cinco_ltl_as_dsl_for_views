@@ -23,6 +23,11 @@ import org.eclipse.emf.common.util.BasicEList
 import mgl.ModelElement
 import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
+import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension
+import org.eclipse.core.resources.IWorkspaceRoot
+import java.util.List
+import org.eclipse.core.resources.IFile
+import java.net.MalformedURLException
 
 class ImageProviderTmpl extends GeneratorUtils {
 	
@@ -70,8 +75,25 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 			if (e.getValue().equals(path))
 				return e.getKey();
 		}
-		
-		return "";
+		try {
+			«WorkspaceExtension.name» workspaceExtension = new «WorkspaceExtension.name»();
+			«IWorkspaceRoot.name» root = workspaceExtension.getWorkspaceRoot();
+			«List.name»<«IFile.name»> files = workspaceExtension.getFiles(root, f -> f.getFullPath().toString().contains(path));
+			if (files.size() == 1) {
+				«IFile.name» f = files.get(0);
+				«URL.name» url = f.getLocationURI().toURL();
+				addImage(path, url.toString());
+				addImageFilePath(path, url.toString());
+			}  else {
+				java.io.File f = new «File.name»(path);
+				if (f.exists()) {
+					addImage(path, f.toURI().toURL().toString());
+				}
+			}
+		} catch («MalformedURLException.name» e) {
+			e.printStackTrace();
+		}
+		return path;
 	}
 	
     /**

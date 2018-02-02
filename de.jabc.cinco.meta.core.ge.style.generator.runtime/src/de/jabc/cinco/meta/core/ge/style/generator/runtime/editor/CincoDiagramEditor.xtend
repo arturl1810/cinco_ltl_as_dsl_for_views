@@ -13,6 +13,7 @@ import org.eclipse.graphiti.ui.editor.IDiagramEditorInput
 import org.eclipse.ui.IEditorInput
 import org.eclipse.ui.IEditorPart
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 
 abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEditor, ResourceContributor {
 	
@@ -87,8 +88,12 @@ abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEdit
 	
 	override contributeToResource(Resource resource) {
 		val model = resource.getContent(InternalGraphModel)?.element
-		if (model != null) #[
-			new DiagramBuilder(createDiagram, model).build(resource)
-		] else #[]
+		if (model != null) {
+			val diagram = new DiagramBuilder(createDiagram, model).build(resource)
+			if (model instanceof CModelElement)
+				model.pictogramElement = diagram
+		#[diagram] 
+		}
+		else #[]
 	}
 }
