@@ -94,8 +94,8 @@ class StyleUtil extends APIUtils {
 					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
 «««				rf.activateApiCall(!hook);
 			
-				if (rf != null && rf.canResizeShape(rc))
-				rf.resizeShape(rc);
+				if (rf != null)
+					rf.resizeShape(rc);
 			} else if (parentIsDiagram)  {
 				«ResizeShapeContext.name» rc = new «ResizeShapeContext.name»(«currentPeName»);
 				rc.setWidth(width);
@@ -106,8 +106,8 @@ class StyleUtil extends APIUtils {
 					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
 «««				rf.activateApiCall(!hook);
 			
-				if (rf != null && rf.canResizeShape(rc))
-				rf.resizeShape(rc);
+				if (rf != null)
+					rf.resizeShape(rc);
 			}
 			
 			peService.createChopboxAnchor(«currentPeName»);
