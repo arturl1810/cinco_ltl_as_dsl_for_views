@@ -722,9 +722,8 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkColorAnnotation(Annotation a) {
+	def checkColorAnnotation(Annotation a) { //TODO
 		if (a.name.equals("color")) {
-		
 		if((a.value.size == 1)){ //one parameter allowed
 			if (a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
 				val attr = a.parent as PrimitiveAttribute
@@ -766,7 +765,47 @@ class MGLValidator extends AbstractMGLValidator {
 					}					
 				}
 				else if (a.value.get(0).equals("hex")){ //check default values
+				//#RRGGBB 6 digist von 0 bis 9 und A bis F
 					
+				}
+				else if(a.value.get(0).equals("rgba")){ //checkdefault values
+					if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
+						val defaultValue = attr.defaultValue
+								var result = defaultValue.split(",")
+								if(result.size !=4){
+									error("default value doesn't have a RGBA-scheme", MglPackage.Literals.ANNOTATION__NAME)
+								}
+								else{
+									var r_string = result.get(0)
+									var g_string = result.get(1)
+									var b_string = result.get(2)
+									var a_string = result.get(3)
+									try{
+										var r = Integer.parseInt(r_string)	
+										var g = Integer.parseInt(g_string)
+										var b = Integer.parseInt(b_string)
+										var alpha = Integer.parseInt(a_string)
+										
+										if(r < 0 || r > 255){
+											error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+										}
+										if(g < 0 || g > 255){
+											error("g-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
+										}
+										if(b < 0 || b > 255){
+											error("b-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
+										}
+										if(alpha < 0 || alpha > 255){
+											error("alpha-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
+										}
+									
+									}catch(Exception e){
+										error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+									}
+						
+								}
+				
+					}	
 				}
 			}
 			else {
@@ -775,7 +814,7 @@ class MGLValidator extends AbstractMGLValidator {
 			
 		}
 		else{
-			error("color Annotation needs exactly one parameter like rgb, hex,...", MglPackage.Literals.ANNOTATION__VALUE)
+			error("color Annotation needs exactly one parameter like rgb, hex or rgba", MglPackage.Literals.ANNOTATION__VALUE)
 		}
 	}
 }

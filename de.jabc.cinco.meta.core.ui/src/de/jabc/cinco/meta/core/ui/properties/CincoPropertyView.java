@@ -558,6 +558,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			browse.setEnabled(true);
 		} 
 		else if(colorAttributes.contains(attr)){ 
+			String name =attr.getName();
 			Composite colorComposite = new Composite(comp, SWT.NONE);
 			colorComposite.setLayout(new GridLayout(2, false));
 			colorComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
