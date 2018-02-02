@@ -18,17 +18,19 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.common.types,
  org.eclipse.core.resources,
  org.eclipse.xtext.xbase.lib,
- org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
+ org.eclipse.jdt.core;bundle-version="3.11.2",
+ org.eclipse.core.runtime;bundle-version="3.11.1"
 Import-Package: de.jabc.cinco.meta.core.utils,
  org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.core.ge.style,
- de.jabc.cinco.meta.core.ge.style.services,
- de.jabc.cinco.meta.core.ge.style.serializer,
+ de.jabc.cinco.meta.core.ge.style.formatting,
+ de.jabc.cinco.meta.core.ge.style.generator,
  de.jabc.cinco.meta.core.ge.style.parser.antlr,
  de.jabc.cinco.meta.core.ge.style.parser.antlr.internal,
- de.jabc.cinco.meta.core.ge.style.validation,
  de.jabc.cinco.meta.core.ge.style.scoping,
- de.jabc.cinco.meta.core.ge.style.generator,
- de.jabc.cinco.meta.core.ge.style.formatting
+ de.jabc.cinco.meta.core.ge.style.serializer,
+ de.jabc.cinco.meta.core.ge.style.services,
+ de.jabc.cinco.meta.core.ge.style.validation

@@ -3,16 +3,16 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.PathValidator
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import java.util.jar.Manifest
 import mgl.Annotation
 import mgl.Attribute
 import mgl.BoundedConstraint
@@ -36,10 +36,8 @@ import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
-import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
@@ -48,9 +46,7 @@ import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import org.eclipse.core.resources.IProject
-import java.util.jar.Manifest
-import de.jabc.cinco.meta.core.utils.CincoUtil
+
 
 /**
  * Custom validation rules. 
@@ -59,9 +55,6 @@ import de.jabc.cinco.meta.core.utils.CincoUtil
  */
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
-	public static var String packageExport = "";
-	public static var String parameter = "";
-	IProgressMonitor monitor = new NullProgressMonitor;
 	
 	public static val String NOT_EXPORTED = "package is not exported"
 	
