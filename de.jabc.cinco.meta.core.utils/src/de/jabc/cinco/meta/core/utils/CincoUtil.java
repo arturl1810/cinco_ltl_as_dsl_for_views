@@ -174,14 +174,6 @@ public class CincoUtil {
 		return false;
 	}
 	
-	public static boolean isAttributeColor(Attribute attr) {
-		for (Annotation annot : attr.getAnnotations()) {
-			if (annot.getName().equals("color"))
-				return true;
-		}
-		return false;
-	}
-	
 	public static boolean isAttributeHidden(Attribute attr) {
 		for (Annotation annot : attr.getAnnotations()) {
 			if (annot.getName().equals(ID_ATTRIBUTE_HIDDEN))
