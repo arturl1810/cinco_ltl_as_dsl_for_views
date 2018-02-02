@@ -722,90 +722,73 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkColorAnnotation(Annotation a) { //TODO
-		if (a.name.equals("color")) {
+	def checkColorAnnotation(Annotation a) { 
+	if (a.name.equals("color")) {
 		if((a.value.size == 1)){ //one parameter allowed
 			if (a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
 				val attr = a.parent as PrimitiveAttribute
 				if(!attr.type.getName.equals("EString")){
 					error("Attribute type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
 				}
-				if(a.value.get(0).equals("rgb")){
-					if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
-						val defaultValue = attr.defaultValue
-								var result = defaultValue.split(",")
-								if(result.size !=3){
-									error("default value doesn't have a RGB-scheme", MglPackage.Literals.ANNOTATION__NAME)
-								}
-								else{
-									var r_string = result.get(0)
-									var g_string = result.get(1)
-									var b_string = result.get(2)
-									try{
-										var r = Integer.parseInt(r_string)	
-										var g = Integer.parseInt(g_string)
-										var b = Integer.parseInt(b_string)
-										
-										if(r < 0 || r > 255){
-											error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
-										}
-										if(g < 0 || g > 255){
-											error("g-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
-										}
-										if(b < 0 || b > 255){
-											error("b-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
-										}
-									
-									}catch(Exception e){
-										error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+				if(a.value.get(0) != ""){
+					if(a.value.get(0).equals("rgb")){
+						if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
+							val defaultValue = attr.defaultValue
+									var result = defaultValue.split(",")
+									if(result.size !=3){
+										error("default value doesn't have a RGB-scheme", MglPackage.Literals.ANNOTATION__NAME)
+									}else{
+										checkRGBDefaultValues(result)
 									}
-						
 								}
-				
 					}					
-				}
-				else if (a.value.get(0).equals("hex")){ //check default values
-				//#RRGGBB 6 digist von 0 bis 9 und A bis F
-					
-				}
-				else if(a.value.get(0).equals("rgba")){ //checkdefault values
-					if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
+					else if (a.value.get(0).equals("hex")){ //check default values
+					if(!attr.defaultValue.empty || attr.defaultValue != ""){
 						val defaultValue = attr.defaultValue
-								var result = defaultValue.split(",")
-								if(result.size !=4){
-									error("default value doesn't have a RGBA-scheme", MglPackage.Literals.ANNOTATION__NAME)
-								}
-								else{
-									var r_string = result.get(0)
-									var g_string = result.get(1)
-									var b_string = result.get(2)
-									var a_string = result.get(3)
-									try{
-										var r = Integer.parseInt(r_string)	
-										var g = Integer.parseInt(g_string)
-										var b = Integer.parseInt(b_string)
-										var alpha = Integer.parseInt(a_string)
-										
-										if(r < 0 || r > 255){
-											error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+						if(defaultValue.length == 7){
+							if(defaultValue.startsWith("#")){
+								for (var i = 1; i < defaultValue.length ; i++){
+									val value = defaultValue.charAt(i)
+									if(value < '0' || value > '9' ){
+										if(!checkLetter(value)){
+											error("hex values are between 0 and 9 or A and F",  MglPackage.Literals.ANNOTATION__NAME)
 										}
-										if(g < 0 || g > 255){
-											error("g-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
-										}
-										if(b < 0 || b > 255){
-											error("b-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
-										}
-										if(alpha < 0 || alpha > 255){
-											error("alpha-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ATTRIBUTE__DEFAULT_VALUE )
-										}
-									
-									}catch(Exception e){
-										error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
 									}
-						
 								}
-				
-					}	
+							}
+							else{
+								error("default value of hex must start with '#'",  MglPackage.Literals.ANNOTATION__NAME)
+							}
+						}else{
+							error("default value does not have a hex-scheme",  MglPackage.Literals.ANNOTATION__NAME)
+						}
+					}
+					
+					}
+					else if(a.value.get(0).equals("rgba")){ //check default values
+						if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ 
+							val defaultValue = attr.defaultValue
+							var result = defaultValue.split(",")
+							if(result.size !=4){
+								error("default value doesn't have a RGBA-scheme", MglPackage.Literals.ANNOTATION__NAME)
+							}else{
+								checkRGBDefaultValues(result)
+								var a_string = result.get(3)
+								try{
+									var alpha = Integer.parseInt(a_string)
+									if(alpha < 0 || alpha > 255){
+										error("alpha-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+									}
+									
+								}catch(Exception e){
+									error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+								}
+							}
+						}	
+					}
+					else{
+						error("color Annotation needs one parameter like rgb, rgba or hex", MglPackage.Literals.ANNOTATION__VALUE)
+					}
 				}
 			}
 			else {
@@ -818,6 +801,57 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 }
+
+	def checkRGBDefaultValues(String[] result){
+		var r_string = result.get(0)
+		var g_string = result.get(1)
+		var b_string = result.get(2)
+		try{
+			var r = Integer.parseInt(r_string)	
+			var g = Integer.parseInt(g_string)
+			var b = Integer.parseInt(b_string)
+							
+			if(r < 0 || r > 255){
+				error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+			}
+			if(g < 0 || g > 255){
+				error("g-value has to be bigger or equal than 0 and lower or equal than 255 ",  MglPackage.Literals.ANNOTATION__NAME )
+			}
+			if(b < 0 || b > 255){
+				error("b-value has to be bigger or equal than 0 and lower or equal than 255 ",  MglPackage.Literals.ANNOTATION__NAME)
+			}
+									
+		}catch(Exception e){
+			error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+		}
+	}
+	
+	def checkLetter(char c) {
+		switch (c.toString) {
+			case 'A': {
+				return true;
+			}
+			case 'B': {
+				return true;
+			}
+			case 'C': {
+				return true;
+			}
+			
+			case 'D': {
+				return true;
+			}
+			case 'E': {
+				return true;
+			}
+			case 'F': {
+				return true;
+			}
+			default: {
+				return false;
+			}
+		}
+	}
 	
 	
 	

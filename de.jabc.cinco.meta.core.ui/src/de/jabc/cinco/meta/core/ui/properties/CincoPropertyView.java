@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -33,6 +34,7 @@ import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
@@ -77,6 +79,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.RGBA;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -138,6 +141,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
+	private static Map<EStructuralFeature, String> colorParameters = new HashMap<EStructuralFeature, String>();
 	
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
@@ -268,9 +272,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			colorAttributes.add(f);
 	}
 	
-//	public static void init_ColorAttributesExtensionFilters(EStructuralFeature feature, String[] extensions){
-//		colorExtensionFilters.put(feature, Arrays.asList(extensions));
-//	}
+	public static void init_ColorAttributesParameter(EStructuralFeature feature, String parameter){
+		colorParameters.put(feature, parameter);
+	}
 	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
@@ -558,7 +562,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			browse.setEnabled(true);
 		} 
 		else if(colorAttributes.contains(attr)){ 
-			String name =attr.getName();
 			Composite colorComposite = new Composite(comp, SWT.NONE);
 			colorComposite.setLayout(new GridLayout(2, false));
 			colorComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -588,12 +591,27 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			          ColorDialog dlg = new ColorDialog(colorComposite.getShell());
 			          dlg.setRGB(colorpicker.getBackground().getRGB());
 			          dlg.setText("Choose a Color");
+			         
 			          RGB rgb = dlg.open();
 			          if (rgb != null) {
 			            color.dispose();
 			            color = new Color(colorComposite.getShell().getDisplay(), rgb);
-			            String rgb_value = color.getRed()+ "," + color.getGreen() + "," + color.getBlue();
-			            text.setText(rgb_value);
+			           
+			            String parameter = 	colorParameters.get(attr);
+			            
+			            if(parameter.equals("rgba")){
+			            	String rgba_value = color.getRed()+ "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha();
+			            	text.setText(rgba_value);
+			            }
+			            else if (parameter.equals("rgb")){
+			            	String rgb_value = color.getRed()+ "," + color.getGreen() + "," + color.getBlue();
+			            	text.setText(rgb_value);
+			            }
+			            else if (parameter.equals("hex")){
+			            	String hex = String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()); 
+			            	text.setText(hex);
+			            }
+			         
 			            colorpicker.setBackground(color);
 			            
 			          }
