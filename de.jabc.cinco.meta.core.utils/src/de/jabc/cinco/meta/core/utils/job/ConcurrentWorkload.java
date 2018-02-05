@@ -16,7 +16,8 @@ public class ConcurrentWorkload extends Workload {
 	private int quotaLeft;
 	private Map<Task,Future<?>> results = new HashMap<>();
 	private boolean done;
-	private SubMonitor monitor; 
+	private SubMonitor monitor;
+	private int maxThreads = 0;
 	
 	public ConcurrentWorkload(CompoundJob job, int percent) {
 		super(job, percent);
@@ -107,4 +108,19 @@ public class ConcurrentWorkload extends Workload {
 		pool.shutdownNow();
 		super.requestCancel();
 	}
+	
+	public ConcurrentWorkload setMaxThreads(int max) {
+		if (max < 0) {
+			System.err.println("WARN: Value for max number of threads ignored: " + max);
+			return this;
+		}
+		maxThreads = max;
+		int nThreads = Runtime.getRuntime().availableProcessors();
+		if (max > 0) {
+			nThreads = Math.min(max, nThreads);
+		}
+		pool = Executors.newFixedThreadPool(nThreads);
+		return this;
+	}
+	
 }

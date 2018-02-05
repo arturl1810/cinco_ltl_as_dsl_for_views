@@ -150,7 +150,7 @@ public class Workload implements ComplexStep {
 	 * @param label  Display name of the current task group.
 	 * @return Workload object
 	 */
-	public Workload consumeConcurrent(int quota, String label) {
+	public ConcurrentWorkload consumeConcurrent(int quota, String label) {
 		return label(label).consumeConcurrent(quota);
 	}
 
