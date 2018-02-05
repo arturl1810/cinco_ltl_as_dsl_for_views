@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
 import graphmodel.internal.InternalContainer
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel

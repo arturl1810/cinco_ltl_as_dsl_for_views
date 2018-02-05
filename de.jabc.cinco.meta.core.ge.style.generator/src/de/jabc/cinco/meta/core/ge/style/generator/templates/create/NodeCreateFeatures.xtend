@@ -14,6 +14,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
 import graphmodel.ModelElement
+import org.eclipse.graphiti.features.context.impl.CreateContext
 
 class NodeCreateFeatures extends APIUtils{
 	
@@ -28,7 +29,7 @@ class NodeCreateFeatures extends APIUtils{
 	
 	public class CreateFeature«n.fuName» extends  «CincoCreateFeature.name»<«ModelElement.name»>{
 		
-		private «ECincoError.name» error = «ECincoError.name».OK;
+«««		private «ECincoError.name» error = «ECincoError.name».OK;
 		
 		/**
 		 * Call of the Superclass
@@ -76,22 +77,21 @@ class NodeCreateFeatures extends APIUtils{
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
 			«PictogramElement.name» target = context.getTargetContainer();
+			«InternalModelElementContainer.name» container;
 			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
+			if (targetBO instanceof «ModelElementContainer.name»)
+				container = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
+			else container = («InternalModelElementContainer.name») targetBO;
+			«IF n.isPrime»
+			String _libraryComponentUID = («String.name») context.getProperty("libraryComponentUID");
 			«n.fqBeanName» «n.flName» = 
-				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»();
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(_libraryComponentUID, container, context.getX(), context.getY(), context.getWidth(), context.getHeight());
+			«ELSE»
+			«n.fqBeanName» «n.flName» = 
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»(container, context.getX(), context.getY(), context.getWidth(), context.getHeight());
+			«ENDIF»
 			setModelElement(«n.flName»);
-	
-			if (targetBO instanceof «ModelElementContainer.name») 
-				targetBO = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
-			
-			if (targetBO instanceof «InternalModelElementContainer.name»)
-				((«InternalModelElementContainer.name») targetBO).getModelElements().add(«n.flName».getInternalElement());
-	
-			«PictogramElement.name» pe = null;
-			«IF !n.isPrime»
-			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
-			«ENDIF» 
-			return new «Object.name»[] {«n.flName», pe};
+			return new «Object.name»[] {«n.flName», ((«n.fqCName») «n.flName»).getPictogramElement()};
 		}
 		
 		/**

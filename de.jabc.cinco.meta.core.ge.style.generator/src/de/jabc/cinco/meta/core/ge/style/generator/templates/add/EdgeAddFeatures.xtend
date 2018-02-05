@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import com.sun.el.ExpressionFactoryImpl
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
@@ -32,6 +31,7 @@ import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
 import style.EdgeStyle
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtil
 import graphmodel.internal.InternalIdentifiableElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddFeature
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -46,7 +46,7 @@ class EdgeAddFeatures extends APIUtils {
 	'''
 	package «e.packageNameAdd»;
 	
-	public class AddFeature«e.fuName» extends «CincoAbstractAddFeature.name» {
+	public class AddFeature«e.fuName» extends «CincoAddFeature.name» {
 		
 		private static «ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
 		private static  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
@@ -119,14 +119,14 @@ class EdgeAddFeatures extends APIUtils {
 			
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
 	
-			«IF MGLUtil::hasPostCreateHook(e)»
-			if (hook) «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());
-			«ENDIF»
+«««			«IF MGLUtil::hasPostCreateHook(e)»
+«««			if (hook) «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());
+«««			«ENDIF»
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);
 			if (uf.canUpdate(uc))
-				uf.update(uc);
+				«e.flName».getElement().updateGraphModel();
 			return connection;
 		}
 	

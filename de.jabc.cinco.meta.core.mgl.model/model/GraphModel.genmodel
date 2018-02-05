@@ -161,6 +161,7 @@
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getRootElement"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/highlight"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/update"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/updateGraphModel"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElementContainer">
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getModelElements">
@@ -187,6 +188,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//ModelElementContainer/getNodes/clazz"/>
         <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getNodes/T"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/updateModelElements"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>
@@ -200,6 +202,10 @@
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/save"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/getInternalElement"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/postSave"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/transact">
+        <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/transact/label"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/transact/runnable"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
@@ -208,6 +214,7 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Type/delete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Type/preDelete"/>
     </genClasses>
+    <genClasses ecoreClass="GraphModel.ecore#//Runnable"/>
     <nestedGenPackages prefix="Internal" basePackage="graphmodel" disposableProviderFactory="true"
         ecorePackage="GraphModel.ecore#//internal">
       <genClasses ecoreClass="GraphModel.ecore#//internal/InternalNode">
