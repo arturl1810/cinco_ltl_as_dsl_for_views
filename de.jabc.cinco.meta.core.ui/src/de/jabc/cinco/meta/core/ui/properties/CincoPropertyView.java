@@ -2,10 +2,7 @@ package de.jabc.cinco.meta.core.ui.properties;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +23,6 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -34,7 +30,6 @@ import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
@@ -44,7 +39,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
@@ -70,8 +64,6 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -79,11 +71,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.RGBA;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -167,8 +157,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private TransactionalEditingDomain domain;
 	private EMFDataBindingContext context;
 	private Object lastSelectedObject;
-	
-	
 
 	
 	public CincoPropertyView() {
@@ -267,6 +255,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	public static void init_FileAttributesExtensionFilters(EStructuralFeature feature, String[] extensions) {
 		fileExtensionFilters.put(feature, Arrays.asList(extensions));
 	}
+
 	public static void init_ColorAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			colorAttributes.add(f);
@@ -275,6 +264,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	public static void init_ColorAttributesParameter(EStructuralFeature feature, String parameter){
 		colorParameters.put(feature, parameter);
 	}
+
 	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
@@ -492,7 +482,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		}
 	}
 
-	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr)  {
+	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
 
 		Label label = new Label(comp, SWT.NONE);
 		label.setText(attr.getName() + ": ");
@@ -685,20 +675,20 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		}
 		
 	}
-
 	private Image resize(Image image, int width, int height) {
-			Image scaled = new Image(Display.getDefault(), width, height);
-			GC gc = new GC(scaled);
-			gc.setAntialias(SWT.ON);
-			gc.setInterpolation(SWT.HIGH);
-			gc.drawImage(image, 0, 0,
-			image.getBounds().width, image.getBounds().height,
-			0, 0, width, height);
-			gc.dispose();
-			image.dispose(); // don't forget about me!
-			return scaled;
-		}
-	
+		Image scaled = new Image(Display.getDefault(), width, height);
+		GC gc = new GC(scaled);
+		gc.setAntialias(SWT.ON);
+		gc.setInterpolation(SWT.HIGH);
+		gc.drawImage(image, 0, 0,
+		image.getBounds().width, image.getBounds().height,
+		0, 0, width, height);
+		gc.dispose();
+		image.dispose(); // don't forget about me!
+		return scaled;
+	}
+
+
 	private void createMultiAttributeProperty(EObject bo, Composite comp,
 			EAttribute attr) {
 
@@ -961,7 +951,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				IProject project = workbench.getProject(workbench.getActiveEditor());
 				if (project != null) {
 					IPath location = project.getLocation();
-					System.out.println("Setting browse location via project: " + location.toString());
+					System.out.println("Setting browsee location via project: " + location.toString());
 					dialog.setFilterPath(location.toString());
 				}
 				else {
@@ -994,8 +984,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		};
 		return sl;
 	}
-	
-	
 
 	@Override
 	public void partActivated(IWorkbenchPartReference partRef) {

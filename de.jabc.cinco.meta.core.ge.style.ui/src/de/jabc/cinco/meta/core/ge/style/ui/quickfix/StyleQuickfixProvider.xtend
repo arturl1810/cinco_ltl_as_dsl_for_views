@@ -3,6 +3,21 @@
 */
 package de.jabc.cinco.meta.core.ge.style.ui.quickfix
 
+import de.jabc.cinco.meta.core.ge.style.validation.StyleValidator
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.IType
+import org.eclipse.jdt.core.JavaCore
+import org.eclipse.xtext.ui.editor.model.edit.IModification
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
+import org.eclipse.xtext.ui.editor.model.edit.IssueModificationContext
+import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.validation.Issue
+
 //import org.eclipse.xtext.ui.editor.quickfix.Fix
 //import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
 //import org.eclipse.xtext.validation.Issue
@@ -12,15 +27,77 @@ package de.jabc.cinco.meta.core.ge.style.ui.quickfix
  *
  * see http://www.eclipse.org/Xtext/documentation.html#quickfixes
  */
-class StyleQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider {
+class StyleQuickfixProvider extends DefaultQuickfixProvider {
 
-//	@Fix(MyDslValidator::INVALID_NAME)
-//	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//			context |
-//			val xtextDocument = context.xtextDocument
-//			val firstLetter = xtextDocument.get(issue.offset, 1)
-//			xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//		]
-//	}
+	@Fix(StyleValidator::NOT_EXPORTED)
+	def exportPackage(Issue issue, IssueResolutionAcceptor acceptor) {
+		acceptor.accept(issue, 'Export the corresponding package', 'Export the corresponding package', null, new IModification{
+			
+			override apply(IModificationContext context) throws Exception {
+				var IssueModificationContext iContext 
+				if (context instanceof IssueModificationContext)
+					iContext = context
+				val length = iContext.issue.length
+				val offset = iContext.issue.offset
+				val package = context.xtextDocument.get(offset, length).replace("\"", "")
+				val correctFile = findClass(package)  
+				if(correctFile !== null){
+					if(correctFile.exists ){ 
+						val packageExport = correctFile.packageFragment.elementName  
+						val root = ResourcesPlugin.getWorkspace().getRoot();
+						val projects = root.getProjects();
+						for(IProject project : projects){
+							val correctPackage = findPackage(package)
+							if(correctPackage !== null){
+								if(project.getName().equals(correctPackage.elementName)){
+									val project1 = project;
+									ProjectCreator.exportPackage(project1, packageExport); 
+								}
+							}
+						}
+					}
+					
+				}
+			}
+		
+		})
+	}
+	def findPackage(String parameter) { 
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return jproject
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return null;
+	}
+	
+	def findClass(String parameter){
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return javaClass 
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return javaClass
+	
+	}
 }

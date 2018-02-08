@@ -35,6 +35,8 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import org.eclipse.core.runtime.Path
 import java.io.IOException
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalEdge
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -238,6 +240,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
+			«InternalModelElementContainer.name» commonContainer = new «GraphModelExtension.name»().getCommonContainer(target.getContainer().getInternalContainerElement(), («InternalEdge.name») edge.getInternalElement());
+			commonContainer.getModelElements().add(edge.getInternalElement());			
 			return edge;
 		}
 		else return null;
@@ -279,6 +283,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 				)
 		]
 		
+		nodeEClass.createEOperation("s_moveTo",null,1,1,"", 
+			GraphmodelPackage.Literals.MODEL_ELEMENT_CONTAINER.createEParameter("container",1,1), createEInt("x",1,1), createEInt("y",1,1)
+		)
+		
 		nodeEClass.createEOperation("postMove", null,1,1,node.postMoveContent,
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("source",1,1),
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("target",1,1),
@@ -304,15 +312,13 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	'''
 
 	/**
-	 * This method is only generated to allow the implementation of the api. Thus, to add additional behavior for move
+	 * This method is only generated to allow for the implementation of the api. Thus, to add additional behavior for move
 	 * the method "s_moveTo(...)" should be overridden.
 	 * 
 	 * ATTENTION: Overriding the "moveTo(...)" overrides the post move hook call! 
 	 */
 	def _moveToMethodContent(Node node, ContainingElement ce) '''
-«««		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
-«««		this.move(x, y);
-«««		new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+
 	'''
 
 	def postMoveContent(Node n) '''
@@ -593,6 +599,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPostSave(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"postSave",
+			null,
+			1,1,
+			me.postSaveContent
+		)
+	}
+
 	def createPreDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(me.name).mainEClass.createEOperation(
 			"preDelete",
@@ -600,6 +615,14 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			1,1,
 			me.preDeleteContent
 		)
+	}
+
+	def postSaveContent(ModelElement me) {
+		val annot = me.getAnnotation("postSave")
+		if (annot != null) '''
+		new «annot.value.get(0)»().postSave(this.getRootElement());
+		'''
+		else ""
 	}
 
 	def preDeleteContent(ModelElement me) {

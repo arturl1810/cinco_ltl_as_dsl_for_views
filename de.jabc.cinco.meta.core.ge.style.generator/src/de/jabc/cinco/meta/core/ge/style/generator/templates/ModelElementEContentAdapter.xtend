@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
 import mgl.ModelElement
 import org.eclipse.emf.common.notify.Notification
 import org.eclipse.emf.ecore.EStructuralFeature

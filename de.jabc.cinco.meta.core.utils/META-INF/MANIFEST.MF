@@ -21,6 +21,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.runtime.action,
  de.jabc.cinco.meta.runtime.hook,
  de.jabc.cinco.meta.runtime.provider,
+ de.jabc.cinco.meta.runtime.xapi,
  de.jabc.cinco.meta.util.xapi,
  graphmodel,
  graphmodel.internal,

@@ -140,9 +140,9 @@
       <graphmodel-annotation
             recognized-annotation="disableHighlight">
       </graphmodel-annotation>
-      <attribute-annotation
-            recognized-annotation="color">
-      </attribute-annotation>
+      <graphmodel-annotation
+            recognized-annotation="postSave">
+      </graphmodel-annotation>
    </extension>
 
 </fragment>

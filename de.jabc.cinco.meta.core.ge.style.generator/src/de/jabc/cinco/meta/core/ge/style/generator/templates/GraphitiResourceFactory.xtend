@@ -59,7 +59,7 @@ class GraphitiResourceFactory {
 									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					ie.element = cElement
-					ie.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+«««					ie.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 				}
 				«ENDFOR»
 			}

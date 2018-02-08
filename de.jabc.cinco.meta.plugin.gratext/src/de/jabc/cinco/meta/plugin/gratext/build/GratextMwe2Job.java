@@ -31,6 +31,7 @@ import org.eclipse.debug.core.model.IProcess;
 
 import com.google.common.collect.Lists;
 
+import de.jabc.cinco.meta.core.utils.CincoProperties;
 import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
 
 /**
@@ -146,6 +147,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		cfg.setAttribute("org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD", true);
 		cfg.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", "org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher");
 		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toPortableString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
+		cfg.setAttribute("org.eclipse.jdt.launching.VM_ARGUMENTS", CincoProperties.getVmArgs());
 		cfg.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", project.getName() /* "info.scce.dime.dad.gratext" */);
 		cfg.setAttribute("org.eclipse.ptp.launch.ATTR_AUTO_RUN_COMMAND", true);
 		ILaunchConfiguration launchCfg = cfg.doSave();

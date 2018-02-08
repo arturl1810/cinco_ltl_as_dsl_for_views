@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
+import graphmodel.ModelElement
 import graphmodel.internal.InternalContainer
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalModelElement
@@ -7,6 +9,7 @@ import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
 import java.util.Collection
 import java.util.HashSet
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
@@ -17,9 +20,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.emf.ecore.EObject
-import graphmodel.ModelElement
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
 
 class CincoGraphitiCopier {
 	

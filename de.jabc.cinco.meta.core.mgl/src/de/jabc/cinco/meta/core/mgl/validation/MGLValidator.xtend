@@ -3,13 +3,16 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.PathValidator
+import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import java.util.jar.Manifest
 import mgl.Annotation
 import mgl.Attribute
 import mgl.BoundedConstraint
@@ -33,13 +36,17 @@ import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
-import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.IType
+import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import java.io.File
+
 
 /**
  * Custom validation rules. 
@@ -49,7 +56,10 @@ import java.io.File
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
 	
-	File file
+	public static val String NOT_EXPORTED = "package is not exported"
+	
+	
+
 	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
@@ -722,6 +732,151 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
+	def checkCustomActionAnnotation(Annotation annot){
+		if(isCustomAction(annot.name)){ //recognize customAction
+			if(!annot.value.empty){ //check if parameter is not null
+				if(annot.value.size == 1){ //only one parameter 
+					val parameter = annot.value.get(0)
+					if(!parameter.equals("")){
+						val correctFile = findClass(parameter)  //find the corresponding java class file
+						if(correctFile !== null){
+							if(correctFile.exists ){ //checks if class exists 
+								val packageExport = correctFile.packageFragment.elementName
+								val root = ResourcesPlugin.workspace.root
+								val projects = root.projects
+								for(project : projects){
+									val package = findPackage(parameter);
+									if(package === null){
+										error("Package not found", MglPackage.Literals.ANNOTATION__VALUE)
+									}else{
+										if(project.name.equals(package.elementName)){
+											var folder = project.getFolder("META-INF")
+											var manifest = folder.getFile("MANIFEST.MF")
+											if(manifest.exists){
+												val project1 = project;
+												val isExported = findExportedPackage(project1, packageExport);
+													if(!isExported){
+												    	warning("Corresponding package is not exported", MglPackage.Literals.ANNOTATION__VALUE, NOT_EXPORTED)
+													}
+												}
+											}
+										}
+									}
+									
+							}else{ 
+								error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
+							}
+						}
+						else{
+							error("Java Class does not exists",MglPackage.Literals.ANNOTATION__VALUE)
+						}
+					}
+					else{
+						error("Java Class cannot be an empty String", MglPackage.Literals.ANNOTATION__VALUE)
+					}
+					
+				}
+				else{
+					error("CustomAction needs only one parameter", MglPackage.Literals.ANNOTATION__VALUE)
+				}
+				
+			}else{
+				error("CustomAction needs a Java Class as a parameter", MglPackage.Literals.ANNOTATION__VALUE)
+			}
+		}
+	}
+	
+	def findPackage(String parameter) { 
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return jproject
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return null;
+	}
+	
+
+	
+	
+	def findExportedPackage(IProject project, String packageName){
+		val iManiFile= project.getFolder("META-INF").getFile("MANIFEST.MF");
+		
+			CincoUtil.refreshFiles(null, iManiFile);
+			val manifest = new Manifest(iManiFile.getContents());
+			
+			var value = manifest.getMainAttributes().getValue("Export-Package");
+			if (value === null){
+				value = new String("");
+			} 
+			
+			
+			if (!value.contains(packageName)){
+				return false;
+			}else{
+				return true;
+			}
+		
+	}
+	
+	
+	def isCustomAction(String name) {
+		switch (name) {
+			case "contextMenuAction": {
+				return true
+			}
+			case "doubleClickAction": {
+				return true
+			}
+			case "postCreate": {
+				return true
+			}
+			case "postMove": {
+				return true
+			}
+			case "postResize": {
+				return true
+			}
+			case "preDelete": {
+				return true
+			}
+			default: {
+				return false
+			}
+		}
+	}
+	
+	
+	def findClass(String parameter){
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return javaClass 
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return javaClass
+	
+	}
+
+	@Check
 	def checkColorAnnotation(Annotation a) { 
 	if (a.name.equals("color")) {
 		if((a.value.size == 1)){ //one parameter allowed
@@ -854,7 +1009,6 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	
-	
 	@Check
 	def checkFileAnnotations(Annotation a){
 		if (a.name.equals("file") && a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
@@ -865,7 +1019,7 @@ class MGLValidator extends AbstractMGLValidator {
 			if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //only correct default values
 				val defaultValue = attr.defaultValue
 				try{
-					 file = new File(defaultValue);
+					 val file = new File(defaultValue);
 					 if(!file.exists){
 					 	error("Wrong Path: File doesn't exists", MglPackage.Literals.ANNOTATION__NAME)
 					 }

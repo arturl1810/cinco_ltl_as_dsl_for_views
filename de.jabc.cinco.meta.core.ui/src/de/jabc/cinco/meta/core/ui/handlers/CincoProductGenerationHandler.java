@@ -50,6 +50,7 @@ import de.jabc.cinco.meta.core.pluginregistry.CPDAnnotation;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
+import de.jabc.cinco.meta.core.utils.CincoProperties;
 import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
@@ -108,11 +109,12 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	synchronized public Object execute(ExecutionEvent executionEvent) throws ExecutionException {
 		long startTime = System.nanoTime();
 		this.event = executionEvent;
-
+		
 		/*
 		 * INITIALIZATION
 		 */
 		this.readCPDFile();
+		this.readCincoProperties();
 		this.readGenerationTimestamp();
 		this.calculateMGL_Sets();
 		if (generateMGLs.size() == 0) {
@@ -193,7 +195,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				job.consume(40, "Building Cinco project...")
 					.task(this::buildProject);
 				job.consumeConcurrent(60 * generateMGLs.size(), "Building Gratext...")
-						.taskForEach(() -> generateMGLs.stream(), this::buildGratext, t -> t.getFullPath().lastSegment());
+					.setMaxThreads(CincoProperties.getMaxThreads())
+					.taskForEach(() -> generateMGLs.stream(), this::buildGratext, t -> t.getFullPath().lastSegment());
 			}
 		}
 
@@ -659,6 +662,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void readCincoProperties() {
+		CincoProperties.getInstance().load(cpdFile.getProject());
 	}
 
 	private void readGenerationTimestamp() {

@@ -102,49 +102,49 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 
 	
 	private void createDiagram(«String.name» dir, «String.name» fName) {
-		«String.name» extension = "«gm.fileExtension»";
-		«String.name» fNameWithExt = (fName.contains(".")) ? fName : fName.concat("." + extension);
-		«String.name» dName = fNameWithExt.split("\\.")[0];
-		
+«««		«String.name» extension = "«gm.fileExtension»";
+«««		«String.name» fNameWithExt = (fName.contains(".")) ? fName : fName.concat("." + extension);
+«««		«String.name» dName = fNameWithExt.split("\\.")[0];
+«««		
 		«IWorkspaceRoot.name» root = «ResourcesPlugin.name».getWorkspace().getRoot();
 		«IResource.name» containerResource = root.getContainerForLocation(new «Path.name»(dir));
 		if (containerResource instanceof «IContainer.name») {
-			try {
-				«IPath.name» filePath = new «Path.name»(containerResource.getFullPath().append(fNameWithExt).toOSString());
-				«IFile.name» file = root.getFile(filePath);
-				«URI.name» resUri = «URI.name».createPlatformResourceURI(filePath.toOSString() ,true);
-				«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
-				res.unload();
-				«Diagram.name» diagram = 
-					«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-				res.getContents().add(diagram);
-				«gm.packageName».«gm.fuName»Factory eFactory = 
-					(«gm.packageName».«gm.fuName»Factory) «EPackage.name».Registry.INSTANCE.getEFactory("«gm.nsURI»");
-				«gm.fqCName» «gm.flName» = («gm.fqCName») eFactory.create«gm.fuName»();
+«««			try {
+«««				«IPath.name» filePath = new «Path.name»(containerResource.getFullPath().append(fNameWithExt).toOSString());
+«««				«IFile.name» file = root.getFile(filePath);
+«««				«URI.name» resUri = «URI.name».createPlatformResourceURI(filePath.toOSString() ,true);
+«««				«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
+«««				res.unload();
+«««				«Diagram.name» diagram = 
+«««					«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
+«««				res.getContents().add(diagram);
+			«gm.packageName».«gm.fuName»Factory eFactory = 
+				(«gm.packageName».«gm.fuName»Factory) «EPackage.name».Registry.INSTANCE.getEFactory("«gm.nsURI»");
+			«gm.fqCName» «gm.flName» = («gm.fqCName») eFactory.create«gm.fuName»(containerResource.getFullPath().toString(), fName);
 «««					(«gm.fqCName») «gm.packageName».«gm.fuName»Factory.eINSTANCE.create«gm.fuName»();
-				res.getContents().add(«gm.flName».getInternalElement());
-				«gm.flName».setPictogramElement(diagram);
-				
-				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
-				«gm.flName».setFeatureProvider(dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
-				
+«««				res.getContents().add(«gm.flName».getInternalElement());
+«««				«gm.flName».setPictogramElement(diagram);
+«««				
+«««				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
+«««				«gm.flName».setFeatureProvider(dtp.getFeatureProvider());
+«««				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
+«««				
 «««				TODO: This is quick and dirty... 
 «««				«IF gm.booleanWriteMethodCallPostCreate»
 «««				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
 «««				«gm.writeMethodCallPostCreate»
 «««				«ENDIF»
-				
-				«IF MGLUtil::hasPostCreateHook(gm)»
-				«gm.packageName».«gm.graphModel.fuName»Factory.eINSTANCE.postCreates((«gm.fqBeanName») «gm.flName»);
-				«ENDIF»
-				
-				res.save(null);
-
+«««				
+«««				«IF MGLUtil::hasPostCreateHook(gm)»
+«««				«gm.packageName».«gm.graphModel.fuName»Factory.eINSTANCE.postCreates((«gm.fqBeanName») «gm.flName»);
+«««				«ENDIF»
+«««				
+«««				res.save(null);
+«««
 				new «WorkbenchExtension.name»().openEditor(«gm.flName»);
-			} catch («IOException.name» e) {
-				e.printStackTrace();
-			}
+«««			} catch («IOException.name» e) {
+«««				e.printStackTrace();
+«««			}
 		}
 		
 	}
