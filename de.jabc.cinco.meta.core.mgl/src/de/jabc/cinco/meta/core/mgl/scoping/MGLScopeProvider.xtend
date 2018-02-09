@@ -82,11 +82,9 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedEClass_type(ReferencedEClass refType,EReference ref){
 		var scope = null as IScope
-		val rSet = refType.eResource.resourceSet
 			var res = null as Resource
 				try{
-					val file = getFile(refType.imprt.importURI, refType.eResource)
-					res = rSet.getResource(getURI(file), true)
+					res = getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -109,11 +107,9 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				
 				scope = Scopes.scopeFor(types)
 			}else{
-				val rSet = refType.eResource.resourceSet
 				var res = null as Resource
 				try{
-					val file = getFile(refType.imprt.importURI, refType.eResource)
-					res = rSet.getResource(getURI(file), true)
+					res = getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -179,17 +175,27 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
         else null
 	}
 	
-	def IFile getFile(String path, Resource res) {
+	/**
+	 * Loads the resource for the specified {@link path}
+	 * 
+	 * @param path The path describing the resource location
+	 * @param res A helper variable: If the path is given as project relative path, this parameter is used to compute the current {@link IProject}
+	 */
+	def Resource getResource(String path, Resource res) {
         if (path == null || path.isEmpty)
         	return null
         val root = ResourcesPlugin.workspace.root
-        val resFile = if (res.URI.isPlatform)
-        	root.getFile(new Path(res.getURI().toPlatformString(true)))
-        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
         val uri = URI.createURI(path)
-        if (uri.isPlatform)
-        	root.getFile(new Path(uri.toPlatformString(true)))
-        else resFile.getProject().getFile(path)
+        if (uri.isPlatform) {
+        	res.resourceSet.getResource(uri,true);
+        } else {
+	        val resFile = if (res.URI.isPlatform)
+	        	root.getFile(new Path(res.getURI().toPlatformString(true)))
+	        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
+	        
+	        val file = resFile.getProject().getFile(path)
+        	res.resourceSet.getResource(getURI(file),true)
+        }
 	}
 	
 }
