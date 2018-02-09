@@ -227,7 +227,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdEdgeMethodContent(Node node, Edge edge) '''
 		if (target.canEnd(«edge.fuName».class)) {
-			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»(id);
+			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»(id, («InternalNode.name») this.getInternalElement(), («InternalNode.name») target.getInternalElement());
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
 			return edge;
@@ -237,7 +237,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	
 	def newEdgeMethodContent(Node node, Edge edge) '''
 		if (target.canEnd(«edge.fuName».class)) {
-			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
+			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»((«InternalNode.name») this.getInternalElement(), («InternalNode.name») target.getInternalElement());
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
 			«InternalModelElementContainer.name» commonContainer = new «GraphModelExtension.name»().getCommonContainer(target.getContainer().getInternalContainerElement(), («InternalEdge.name») edge.getInternalElement());
