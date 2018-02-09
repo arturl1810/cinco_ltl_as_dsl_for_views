@@ -43,6 +43,7 @@ import java.util.LinkedList
 import mgl.GraphicalModelElement
 import mgl.MglPackage
 import mgl.ComplexAttribute
+import org.eclipse.core.resources.IProject
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -343,9 +344,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 				acceptor.accept(createCompletionProposal(obj.name,context))
 			}	
 		}else{
-			val rSet = refType.eResource.resourceSet
-			val file = getFile(refType.imprt.importURI, refType.eResource)
-			val res = rSet.getResource(getURI(file), true)
+			val res = getResource(refType.imprt.importURI, refType.eResource)
 			if(res!=null){
 				for(m: res.allContents.toList.filter[d| d instanceof ModelElement]){
 					acceptor.accept(createCompletionProposal((m as ModelElement).name,context))
@@ -357,19 +356,16 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	
 	override completeReferencedEClass_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
 		var res = null as Resource
-		val rSet = model.eResource.resourceSet
-		var file = null as IFile 
 		if(model instanceof Node){
 			if(context.lastCompleteNode.hasPreviousSibling){
 				val uri = model.graphModel.imports.filter[context.lastCompleteNode.previousSibling.text==name].head.importURI
-				file = getFile(uri,model.eResource)
+				res = getResource(uri,model.eResource)
 			}
 			
 		}else
 		if(model instanceof ReferencedEClass){
-			file = getFile(model.imprt.importURI, model.eResource)
+			res = getResource(model.imprt.importURI, model.eResource)
 		}
-		res = rSet.getResource(getURI(file), true)
 		res?.allContents.filter(EClass).forEach[acceptor.accept(createCompletionProposal((it as EClass).name,context))]
 	}
 	
@@ -379,17 +375,27 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
         else null
 	}
 	
-	def IFile getFile(String path, Resource res) {
+	/**
+	 * Loads the resource for the specified {@link path}
+	 * 
+	 * @param path The path describing the resource location
+	 * @param res A helper variable: If the path is given as project relative path, this parameter is used to compute the current {@link IProject}
+	 */
+	def Resource getResource(String path, Resource res) {
         if (path == null || path.isEmpty)
         	return null
         val root = ResourcesPlugin.workspace.root
-        val resFile = if (res.URI.isPlatform)
-        	root.getFile(new Path(res.getURI().toPlatformString(true)))
-        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
         val uri = URI.createURI(path)
-        if (uri.isPlatform)
-        	root.getFile(new Path(uri.toPlatformString(true)))
-        else resFile.getProject().getFile(path)
+        if (uri.isPlatform) {
+        	res.resourceSet.getResource(uri,true);
+        } else {
+	        val resFile = if (res.URI.isPlatform)
+	        	root.getFile(new Path(res.getURI().toPlatformString(true)))
+	        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
+	        
+	        val file = resFile.getProject().getFile(path)
+        	res.resourceSet.getResource(getURI(file),true)
+        }
 	}
 	
 	

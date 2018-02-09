@@ -69,8 +69,8 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
 		var scope = null as IScope
-		
-		
+
+
 		
 		if(attr.referencedType instanceof ReferencedEClass)
 			scope = Scopes.scopeFor((attr.referencedType as ReferencedEClass)?.type.EAllStructuralFeatures)
