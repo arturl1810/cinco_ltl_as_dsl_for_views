@@ -476,10 +476,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdPrimeNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (InternalModelElementContainer) this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id);
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			((«n.fqInternalBeanName») node.getInternalElement())
+				.setLibraryComponentUID(org.eclipse.emf.ecore.util.EcoreUtil.getID(«n.primeName»));
 			node.move(x, y);
 			node.resize(width, height);
+			«IF n.hasPostCreateHook»
+				«n.fqFactoryName».eINSTANCE.postCreates(node);
+			«ENDIF»
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
@@ -493,8 +498,13 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		if (this.canContain(«n.fuName».class)) {
 			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			((«n.fqInternalBeanName») node.getInternalElement())
+				.setLibraryComponentUID(org.eclipse.emf.ecore.util.EcoreUtil.getID(«n.primeName»));
 			node.move(x, y);
 			node.resize(width, height);
+			«IF n.hasPostCreateHook»
+				«n.fqFactoryName».eINSTANCE.postCreates(node);
+			«ENDIF»
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
