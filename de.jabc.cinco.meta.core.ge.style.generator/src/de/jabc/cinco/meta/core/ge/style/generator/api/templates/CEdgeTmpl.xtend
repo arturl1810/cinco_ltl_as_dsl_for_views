@@ -62,12 +62,25 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	public void setPictogramElement(«PictogramElement.name» pe) {
 		this.pe = pe;
 	}
-	
+
 	«FOR source : me.possibleSources»
 	@Override
 	public void reconnectSource(«source.fqBeanName» source) {
-		«Anchor.name» oldAnchor = ((«AnchorContainer.name») ((«CNode.name») getSourceElement()).getPictogramElement()).getAnchors().get(0);
-		«Anchor.name» newAnchor = ((«AnchorContainer.name») ((«source.fuCName») source).getPictogramElement()).getAnchors().get(0);
+		reconnectSource((«Node.name») source);
+	}
+	«ENDFOR»
+
+	«FOR target : me.possibleTargets»
+	@Override
+	public void reconnectTarget(«target.fqBeanName» target) {
+		reconnectTarget((«Node.name») target);
+	}
+	«ENDFOR»
+
+	@Override
+	public void reconnectSource(«Node.name» source) {
+		«Anchor.name» oldAnchor = getAnchor(getSourceElement());
+		«Anchor.name» newAnchor = getAnchor(source);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
 		
 		«ReconnectionContext.name» rc = new «ReconnectionContext.name»((«Connection.name») getPictogramElement(), oldAnchor, newAnchor, loc);
@@ -80,13 +93,10 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	}
 	
-	«ENDFOR»
-	
-	«FOR target : me.possibleTargets»
 	@Override
-	public void reconnectTarget(«target.fqBeanName» target) {
-		«Anchor.name» oldAnchor = ((«AnchorContainer.name») ((«CNode.name») getTargetElement()).getPictogramElement()).getAnchors().get(0);
-		«Anchor.name» newAnchor = ((«AnchorContainer.name») ((«target.fuCName») target).getPictogramElement()).getAnchors().get(0);
+	public void reconnectTarget(«Node.name» target) {
+		«Anchor.name» oldAnchor = getAnchor(getTargetElement());
+		«Anchor.name» newAnchor = getAnchor(target);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
 		
 		«ReconnectionContext.name» rc = new «ReconnectionContext.name»((«Connection.name») getPictogramElement(), oldAnchor, newAnchor, loc);
@@ -98,22 +108,9 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 			((«CincoFeatureProvider.name») fp).executeFeature(rf, rc);
 		}
 	}
-	«ENDFOR»
 	
-	@Override
-	public void reconnectSource(«Node.name» sourceElement) {
-		«FOR source : me.possibleSources»
-		if («source.instanceofCheck("sourceElement")»)
-			this.reconnectSource((«source.fqBeanName») sourceElement);
-		«ENDFOR»
-	}
-	
-	@Override
-	public void reconnectTarget(«Node.name» targetElement) {
-		«FOR target : me.possibleTargets»
-		if («target.instanceofCheck("targetElement")»)
-			this.reconnectTarget((«target.fqBeanName») targetElement);
-		«ENDFOR»
+	private «Anchor.name» getAnchor(«Node.name» node) {
+		return ((«AnchorContainer.name») ((«CModelElement.name») node).getPictogramElement()).getAnchors().get(0);
 	}
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
