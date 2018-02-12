@@ -1,6 +1,9 @@
 package de.jabc.cinco.meta.core.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
@@ -9,8 +12,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -42,7 +47,7 @@ public class PathValidator {
 		}
 		
 		else if (uri.isPlatformPlugin()) {
-			return checkPlatformResourceURI(uri);
+			return checkPlatformPluginURI(uri);
 		}
 		
 		else {
@@ -56,8 +61,14 @@ public class PathValidator {
 		URI uri = URI.createURI(path, true);
 		String retval = null;
 		
-		if (uri.isPlatformResource() || uri.isPlatformPlugin()) {
+		if (uri.isPlatformResource()) {
 			retval = checkPlatformResourceURI(uri);
+			if (retval == null || retval.isEmpty())
+				return uri;
+		}
+		
+		if (uri.isPlatformPlugin()) {
+			retval = checkPlatformPluginURI(uri);
 			if (retval == null || retval.isEmpty())
 				return uri;
 		}
@@ -86,7 +97,7 @@ public class PathValidator {
 			}
 			
 			else if (uri.isPlatformPlugin()) {
-				retval = checkPlatformResourceURI(uri);
+				retval = checkPlatformPluginURI(uri);
 				if (retval == null || retval.isEmpty()) {
 					IResource res = root.findMember(uri.toPlatformString(true));
 					return res.getLocationURI().toURL();
@@ -126,6 +137,22 @@ public class PathValidator {
 		IResource res = root.findMember(uri.toPlatformString(true));
 		if (res == null || !(res instanceof IFile) ) {
 			return "The specified file does not exists.";
+		}
+		return "";
+	}
+	
+	private static String checkPlatformPluginURI(URI uri) {
+		try {
+			URL find = FileLocator.find(new URL(uri.toString()));
+			URL fileUrl = FileLocator.toFileURL(find);
+			File file = new File(fileUrl.getFile());
+			if (!file.exists())
+				return "The specified plugin files does not exist";
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return "";
 	}
