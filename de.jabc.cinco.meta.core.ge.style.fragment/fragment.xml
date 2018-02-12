@@ -137,6 +137,9 @@
       <attribute-annotation
             recognized-annotation="file">
       </attribute-annotation>
+       <attribute-annotation
+            recognized-annotation="color">
+      </attribute-annotation>
       <graphmodel-annotation
             recognized-annotation="disableHighlight">
       </graphmodel-annotation>

@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +19,10 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -58,15 +64,22 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -83,6 +96,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
@@ -117,10 +131,12 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
+	private static Map<EStructuralFeature, String> colorParameters = new HashMap<EStructuralFeature, String>();
 	
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> fileAttributes = new HashSet<EStructuralFeature>();
+	private static Set<EStructuralFeature> colorAttributes = new HashSet<EStructuralFeature>();
 	private static Set<ISelectionListener> registeredListeners = new HashSet<ISelectionListener>();
 	
 	private Composite parent;
@@ -239,6 +255,16 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	public static void init_FileAttributesExtensionFilters(EStructuralFeature feature, String[] extensions) {
 		fileExtensionFilters.put(feature, Arrays.asList(extensions));
 	}
+
+	public static void init_ColorAttributes(EStructuralFeature... features) {
+		for (EStructuralFeature f : features)
+			colorAttributes.add(f);
+	}
+	
+	public static void init_ColorAttributesParameter(EStructuralFeature feature, String parameter){
+		colorParameters.put(feature, parameter);
+	}
+
 	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
@@ -524,7 +550,72 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			context.bindValue(uiProp.observe(text),  modelObs);
 			text.setEnabled(false);
 			browse.setEnabled(true);
-		} else if (possibleValuesMap.containsKey(attr)) {
+		} 
+		else if(colorAttributes.contains(attr)){ 
+			Composite colorComposite = new Composite(comp, SWT.NONE);
+			colorComposite.setLayout(new GridLayout(2, false));
+			colorComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			
+			Text text = new Text(colorComposite, SWT.BORDER);
+			text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			
+			Button colorpicker = new Button(colorComposite, SWT.PUSH | SWT.BORDER);
+			Display display = Display.getCurrent();
+	
+			Bundle bundle = Platform.getBundle("de.jabc.cinco.meta.core.ui");
+			URL find = FileLocator.find(bundle, new Path("colorpicker.png"), null);
+			File f = null;
+			try {
+				f = new File(FileLocator.toFileURL(find).getFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Image image = new Image(display, f.getAbsolutePath());		
+			
+			Image colorpicker_Image = resize(image, 16, 16);			
+			colorpicker.setImage(colorpicker_Image);
+			
+			colorpicker.addSelectionListener(new SelectionAdapter() {
+			      public void widgetSelected(SelectionEvent event) {
+			    	  Color color = new Color(colorComposite.getShell().getDisplay(), new RGB(0, 255, 0));
+			          ColorDialog dlg = new ColorDialog(colorComposite.getShell());
+			          dlg.setRGB(colorpicker.getBackground().getRGB());
+			          dlg.setText("Choose a Color");
+			         
+			          RGB rgb = dlg.open();
+			          if (rgb != null) {
+			            color.dispose();
+			            color = new Color(colorComposite.getShell().getDisplay(), rgb);
+			           
+			            String parameter = 	colorParameters.get(attr);
+			            
+			            if(parameter.equals("rgba")){
+			            	String rgba_value = color.getRed()+ "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha();
+			            	text.setText(rgba_value);
+			            }
+			            else if (parameter.equals("rgb")){
+			            	String rgb_value = color.getRed()+ "," + color.getGreen() + "," + color.getBlue();
+			            	text.setText(rgb_value);
+			            }
+			            else if (parameter.equals("hex")){
+			            	String hex = String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()); 
+			            	text.setText(hex);
+			            }
+			         
+			            colorpicker.setBackground(color);
+			            
+			          }
+			        }
+			});
+			
+			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] { SWT.DefaultSelection, SWT.FocusOut, SWT.Modify });			
+			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
+
+			context.bindValue(uiProp.observe(text),  modelObs);
+			text.setEnabled(false);
+			colorpicker.setEnabled(true);
+		}
+		else if (possibleValuesMap.containsKey(attr)) {
 //			Label label = new Label(comp, SWT.NONE);
 //			label.setText(ref.getName());
 //			label.setLayoutData(labelLayoutData);
@@ -584,6 +675,19 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		}
 		
 	}
+	private Image resize(Image image, int width, int height) {
+		Image scaled = new Image(Display.getDefault(), width, height);
+		GC gc = new GC(scaled);
+		gc.setAntialias(SWT.ON);
+		gc.setInterpolation(SWT.HIGH);
+		gc.drawImage(image, 0, 0,
+		image.getBounds().width, image.getBounds().height,
+		0, 0, width, height);
+		gc.dispose();
+		image.dispose(); // don't forget about me!
+		return scaled;
+	}
+
 
 	private void createMultiAttributeProperty(EObject bo, Composite comp,
 			EAttribute attr) {

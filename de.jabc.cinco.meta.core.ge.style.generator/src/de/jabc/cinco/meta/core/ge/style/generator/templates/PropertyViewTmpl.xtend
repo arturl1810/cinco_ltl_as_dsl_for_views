@@ -123,6 +123,24 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«ENDFOR»
 		);
 		«ENDIF»
+
+		
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		 «FOR attr : gm.allModelAttributes.filter[isAttributeColor] SEPARATOR ","»
+		 «gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		 «ENDFOR»                        
+		   });
+		
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : gm.allModelAttributes.filter[isAttributeColor]»
+				«CincoPropertyView.name».init_ColorAttributesParameter(
+						«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+						"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+							
+		«ENDFOR»
+				
+		«ENDIF»
+
 	}
 	
 
