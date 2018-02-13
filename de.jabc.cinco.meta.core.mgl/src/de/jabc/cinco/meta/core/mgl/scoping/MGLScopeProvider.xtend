@@ -29,6 +29,7 @@ import mgl.MglPackage
 import mgl.IncomingEdgeElementConnection
 import mgl.GraphicalElementContainment
 import mgl.ContainingElement
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 /**
  * This class contains custom scoping description.
@@ -84,7 +85,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 		var scope = null as IScope
 			var res = null as Resource
 				try{
-					res = getResource(refType.imprt.importURI, refType.eResource)
+					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -109,7 +110,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 			}else{
 				var res = null as Resource
 				try{
-					res = getResource(refType.imprt.importURI, refType.eResource)
+					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -173,29 +174,6 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
         if (file.exists) 
         	URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true)
         else null
-	}
-	
-	/**
-	 * Loads the resource for the specified {@link path}
-	 * 
-	 * @param path The path describing the resource location
-	 * @param res A helper variable: If the path is given as project relative path, this parameter is used to compute the current {@link IProject}
-	 */
-	def Resource getResource(String path, Resource res) {
-        if (path == null || path.isEmpty)
-        	return null
-        val root = ResourcesPlugin.workspace.root
-        val uri = URI.createURI(path)
-        if (uri.isPlatform) {
-        	res.resourceSet.getResource(uri,true);
-        } else {
-	        val resFile = if (res.URI.isPlatform)
-	        	root.getFile(new Path(res.getURI().toPlatformString(true)))
-	        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
-	        
-	        val file = resFile.getProject().getFile(path)
-        	res.resourceSet.getResource(getURI(file),true)
-        }
 	}
 	
 }
