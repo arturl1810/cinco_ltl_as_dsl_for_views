@@ -118,6 +118,9 @@ class EdgeAddFeatures extends APIUtils {
 			«ENDFOR»
 			
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
+			
+			// sync bendpoint changes between diagram and model
+			applyBendpointSynchronizer(connection);
 	
 «««			«IF MGLUtil::hasPostCreateHook(e)»
 «««			if (hook) «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());

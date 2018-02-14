@@ -1,9 +1,13 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.AddBendpointContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -44,5 +48,34 @@ public class CincoAddFeature extends AbstractAddFeature {
 		}
 			
 	}
+	private EContentAdapter bendpointSynchronizer;
 	
+	protected void applyBendpointSynchronizer(Connection connection) {
+		if (bendpointSynchronizer == null) {
+			bendpointSynchronizer = new EContentAdapter() {
+				@Override
+				public void notifyChanged(Notification notification) {
+					if (notification.getEventType() == Notification.SET) {
+						Object feature = notification.getFeature();
+						if (feature instanceof EReference
+							&& "bendpoints".equals(((EReference) feature).getName())) try {
+								
+							FreeFormConnection connection = (FreeFormConnection) notification.getNotifier();
+							Point newPoint = (Point) notification.getNewValue();
+							int index = connection.getBendpoints().indexOf(newPoint);
+							InternalEdge edge = (InternalEdge) getBusinessObjectForPictogramElement(connection);
+							_Point point = edge.getBendpoints().get(index);
+							point.setX(newPoint.getX());
+							point.setY(newPoint.getY());
+							
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+					super.notifyChanged(notification);
+				}
+			};
+		}
+		connection.eAdapters().add(bendpointSynchronizer);
+	}
 }
