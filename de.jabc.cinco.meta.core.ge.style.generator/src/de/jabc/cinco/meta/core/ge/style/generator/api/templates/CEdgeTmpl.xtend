@@ -79,6 +79,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 
 	@Override
 	public void reconnectSource(«Node.name» source) {
+		if (source == null)
+			return;
 		«Anchor.name» oldAnchor = getAnchor(getSourceElement());
 		«Anchor.name» newAnchor = getAnchor(source);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
@@ -95,6 +97,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	@Override
 	public void reconnectTarget(«Node.name» target) {
+		if (target == null)
+			return;
 		«Anchor.name» oldAnchor = getAnchor(getTargetElement());
 		«Anchor.name» newAnchor = getAnchor(target);
 		«ILocation.name» loc = org.eclipse.graphiti.ui.services.GraphitiUi.getPeService().getLocationRelativeToDiagram(newAnchor);
