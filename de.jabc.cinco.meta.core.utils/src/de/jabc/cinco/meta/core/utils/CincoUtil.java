@@ -193,6 +193,14 @@ public class CincoUtil {
 		return false;
 	}
 	
+	public static boolean isGrammarAttribute(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("grammar"))
+				return true;
+		}
+		return false;
+	}
+	
 	public static Resource getStylesResource(String pathToStyles, IProject p) {
 		Resource res = null;
 		URI uri = URI.createURI(pathToStyles, true);

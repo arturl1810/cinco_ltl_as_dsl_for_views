@@ -146,6 +146,9 @@
       <graphmodel-annotation
             recognized-annotation="postSave">
       </graphmodel-annotation>
+      <attribute-annotation
+            recognized-annotation="grammar">
+      </attribute-annotation>
    </extension>
 
 </fragment>
