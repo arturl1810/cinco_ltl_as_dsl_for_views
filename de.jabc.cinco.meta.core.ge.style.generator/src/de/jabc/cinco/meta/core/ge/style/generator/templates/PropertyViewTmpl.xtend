@@ -147,20 +147,11 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
 			«CincoPropertyView.name».init_GrammarEditor(
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
-				getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
+				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
 		«ENDFOR»
 		«ENDIF»
 
 	}
-	
-	«IF gm.allModelAttributes.exists[isGrammarAttribute]»
-	«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
-		private static «Injector.name» getInjector(«String.name» grammarId) {
-			«Injector.name» injector = «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector(grammarId);
-			return injector;
-		}
-	«ENDFOR»
-	«ENDIF»
 	
 	@Override
 	public void selectionChanged(«IWorkbenchPart.name» part, «ISelection.name» selection) {
