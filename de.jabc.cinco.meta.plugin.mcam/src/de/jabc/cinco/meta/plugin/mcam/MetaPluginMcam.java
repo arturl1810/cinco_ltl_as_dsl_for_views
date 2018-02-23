@@ -155,6 +155,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		String exportPackage = (String) genMcam.data.get("AdapterPackage");
 		exportPackage = exportPackage + ","
 				+ (String) genMcam.data.get("CliPackage");
+		exportPackage += ",info.scce.cinco.product.groove.start.mcam.modules.checks";
 		if (genMcam.doGenerateMerge())
 			exportPackage = exportPackage + ","
 					+ (String) genMcam.data.get("ChangeModulePackage");
