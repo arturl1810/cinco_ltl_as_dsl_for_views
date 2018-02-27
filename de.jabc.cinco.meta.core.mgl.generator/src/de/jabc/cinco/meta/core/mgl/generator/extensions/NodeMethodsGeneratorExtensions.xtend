@@ -714,6 +714,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 //	return  «ReferenceRegistry.name».getInstance().getEObject(uid);
 //	'''
 
+	def generateTypedOutgoingEdgeMethod(ElementEClasses it, Edge edge){
+		
+		mainEClass.createEOperation('''getOutgoing«edge.name»s''',null,0,-1,edge.outgoingContent)
+	}
+	
+	def outgoingContent(Edge edge)'''
+		return this.getOutgoing(«edge.name».class);
+	'''
+	def generateTypedIncomingEdgeMethod(ElementEClasses it, Edge edge){
+		
+		mainEClass.createEOperation('''getIncoming«edge.name»s''',null,0,-1,edge.incomingContent)
+	}
+	
+	def incomingContent(Edge edge)'''
+		return this.getIncoming(«edge.name».class);
+	'''
 	def String edgesList(Iterable<Edge> edges) {
 		edges.map[edge|new GeneratorUtils().fqBeanName(edge) + ".class"].join(",")
 	}

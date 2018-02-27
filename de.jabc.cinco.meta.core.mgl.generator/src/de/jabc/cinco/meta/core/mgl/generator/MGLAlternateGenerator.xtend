@@ -68,6 +68,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<EParameter, Type> enumSetterParameterMap
 	HashMap<Type,EClassifier> enumMap
 	
+	HashMap<EOperation, Edge> operationEdgeMap
 	HashMap<EOperation, Node>  operationReferencedTypeMap
 	
 	
@@ -113,6 +114,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		enumGetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		operationReferencedTypeMap.forEach[operation, node| operation.setPrimeType(node, newEPackages)]
+		operationEdgeMap.forEach[operation,edge| operation.EType = eClassesMap.get(edge.name).mainEClass]
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
 		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
@@ -172,6 +174,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		operationReferencedTypeMap = new HashMap
 		enumSetterParameterMap = new HashMap
 		enumGetterParameterMap = new HashMap
+		operationEdgeMap = new HashMap
 	}
 
 //	FIXME: Workaround for Issue #20589. Returning EObject type if Package not found 
@@ -226,6 +229,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 //		println(sorted.map[n|n.name])
 
 		sorted.forEach[node|nodeClasses.put(node,node.createModelElementClasses)]
+		nodeClasses.forEach[node,nodeClass|nodeClass.generateConnectionMethods(node as Node)]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
 			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalNode") as EClass);
@@ -246,6 +250,18 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nodeClasses
 	}
 	
+	def generateConnectionMethods(ElementEClasses classes, Node it) {
+		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
+			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
+			println(String.format("OUTGOING: %s in %s", outgoingEdges,name))
+		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
+		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
+		println(String.format("INCOMING: %s in %s", incomingEdges,name))
+		println(incomingEdgeConnections)
+		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+	}
+
 	private def void createPrimeReference(ElementEClasses nc) {
 		val node = nc.modelElement as Node
 		val operationName = '''get«node.primeName.toFirstUpper»'''
