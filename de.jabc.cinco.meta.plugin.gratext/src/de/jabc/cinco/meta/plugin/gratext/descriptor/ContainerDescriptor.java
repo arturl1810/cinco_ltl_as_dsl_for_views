@@ -37,7 +37,7 @@ public class ContainerDescriptor extends NodeDescriptor<NodeContainer> {
 	}
 	
 	protected Set<ModelElement> getContainmentRestrictions(NodeContainer container) {
-		Set<ModelElement> restrictions = (container.getExtends() != null && container.getExtends() instanceof NodeContainer) 
+		Set<ModelElement> restrictions = (container.getExtends() instanceof NodeContainer) 
 				? getContainmentRestrictions((NodeContainer) container.getExtends())
 				: new HashSet<>();
 		container.getContainableElements().forEach(containment -> {
