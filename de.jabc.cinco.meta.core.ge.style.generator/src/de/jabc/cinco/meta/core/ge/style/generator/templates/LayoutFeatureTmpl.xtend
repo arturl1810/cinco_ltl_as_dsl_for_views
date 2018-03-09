@@ -185,7 +185,7 @@ public class «gm.fuName»LayoutUtils {
 	public static void set«counter1»InlineStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if (ga instanceof «AbstractText.name») {
 			((«AbstractText.name») ga).setRotation(0.0);
-			((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, "Arial", 8, false, false));
+			((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, "«inline.font.FName»", «inline.font.fontSize», «inline.font.bold», «inline.font.italic»));
 		};		
 		«IF inline.background != null»
 				ga.setBackground(gaService.manageColor(diagram, «inline.background.r», «inline.background.g», «inline.background.b»));

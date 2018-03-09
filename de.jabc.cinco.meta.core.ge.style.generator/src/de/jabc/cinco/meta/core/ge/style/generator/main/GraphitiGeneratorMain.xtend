@@ -185,10 +185,10 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 		}
 		
-		for (me : gm.modelElements.filter[!isIsAbstract]) {
-			content = me.doGenerateModelElementEContentAdapter
-			ContentWriter::writeJavaFileInSrcGen(project, me.packageNameEContentAdapter, me.fuName+"EContentAdapter.java", content)
-		}
+//		for (me : gm.modelElements.filter[!isIsAbstract]) {
+//			content = me.doGenerateModelElementEContentAdapter
+//			ContentWriter::writeJavaFileInSrcGen(project, me.packageNameEContentAdapter, me.fuName+"EContentAdapter.java", content)
+//		}
 		
 		var usedExtensions = CincoUtil.getUsedExtensions(gm);
 	    var fileExtensionClassContent = new FileExtensionContent(gm, usedExtensions).generateJavaClassContents(gm);

@@ -29,6 +29,7 @@ import mgl.MglPackage
 import mgl.IncomingEdgeElementConnection
 import mgl.GraphicalElementContainment
 import mgl.ContainingElement
+import de.jabc.cinco.meta.core.utils.CincoUtil
 
 /**
  * This class contains custom scoping description.
@@ -69,8 +70,8 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
 		var scope = null as IScope
-		
-		
+
+
 		
 		if(attr.referencedType instanceof ReferencedEClass)
 			scope = Scopes.scopeFor((attr.referencedType as ReferencedEClass)?.type.EAllStructuralFeatures)
@@ -82,11 +83,9 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedEClass_type(ReferencedEClass refType,EReference ref){
 		var scope = null as IScope
-		val rSet = refType.eResource.resourceSet
 			var res = null as Resource
 				try{
-					val file = getFile(refType.imprt.importURI, refType.eResource)
-					res = rSet.getResource(getURI(file), true)
+					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -109,11 +108,9 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				
 				scope = Scopes.scopeFor(types)
 			}else{
-				val rSet = refType.eResource.resourceSet
 				var res = null as Resource
 				try{
-					val file = getFile(refType.imprt.importURI, refType.eResource)
-					res = rSet.getResource(getURI(file), true)
+					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
 					return null;
 				}
@@ -177,19 +174,6 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
         if (file.exists) 
         	URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true)
         else null
-	}
-	
-	def IFile getFile(String path, Resource res) {
-        if (path == null || path.isEmpty)
-        	return null
-        val root = ResourcesPlugin.workspace.root
-        val resFile = if (res.URI.isPlatform)
-        	root.getFile(new Path(res.getURI().toPlatformString(true)))
-        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
-        val uri = URI.createURI(path)
-        if (uri.isPlatform)
-        	root.getFile(new Path(uri.toPlatformString(true)))
-        else resFile.getProject().getFile(path)
 	}
 	
 }

@@ -3,14 +3,20 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.PathValidator
+import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import java.util.jar.Manifest
+import mgl.Annotation
 import mgl.Attribute
+import mgl.BoundedConstraint
+import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
@@ -25,21 +31,22 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
+import mgl.PrimitiveAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.IType
+import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import org.eclipse.emf.ecore.plugin.EcorePlugin
-import mgl.BoundedConstraint
-import java.nio.file.attribute.UserDefinedFileAttributeView
-import mgl.PrimitiveAttribute
-import mgl.ComplexAttribute
+
 
 /**
  * Custom validation rules. 
@@ -48,6 +55,12 @@ import mgl.ComplexAttribute
  */
 class MGLValidator extends AbstractMGLValidator {
 	extension InheritanceUtil = new InheritanceUtil
+	
+	public static val String NOT_EXPORTED = "package is not exported"
+	
+	
+
+	
 	@Check
 	def checkNsURIWellFormed(GraphModel model){
 		try{
@@ -718,5 +731,305 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	@Check
+	def checkCustomActionAnnotation(Annotation annot){
+		if(isCustomAction(annot.name)){ //recognize customAction
+			if(!annot.value.empty){ //check if parameter is not null
+				if(annot.value.size == 1){ //only one parameter 
+					val parameter = annot.value.get(0)
+					if(!parameter.equals("")){
+						val correctFile = findClass(parameter)  //find the corresponding java class file
+						if(correctFile !== null){
+							if(correctFile.exists ){ //checks if class exists 
+								val packageExport = correctFile.packageFragment.elementName
+								val root = ResourcesPlugin.workspace.root
+								val projects = root.projects
+								for(project : projects){
+									val package = findPackage(parameter);
+									if(package === null){
+										error("Package not found", MglPackage.Literals.ANNOTATION__VALUE)
+									}else{
+										if(project.name.equals(package.elementName)){
+											var folder = project.getFolder("META-INF")
+											var manifest = folder.getFile("MANIFEST.MF")
+											if(manifest.exists){
+												val project1 = project;
+												val isExported = findExportedPackage(project1, packageExport);
+													if(!isExported){
+												    	warning("Corresponding package is not exported", MglPackage.Literals.ANNOTATION__VALUE, NOT_EXPORTED)
+													}
+												}
+											}
+										}
+									}
+									
+							}else{ 
+								error("Java Class does not exists", MglPackage.Literals.ANNOTATION__VALUE)
+							}
+						}
+						else{
+							error("Java Class does not exists",MglPackage.Literals.ANNOTATION__VALUE)
+						}
+					}
+					else{
+						error("Java Class cannot be an empty String", MglPackage.Literals.ANNOTATION__VALUE)
+					}
+					
+				}
+				else{
+					error("CustomAction needs only one parameter", MglPackage.Literals.ANNOTATION__VALUE)
+				}
+				
+			}else{
+				error("CustomAction needs a Java Class as a parameter", MglPackage.Literals.ANNOTATION__VALUE)
+			}
+		}
+	}
 	
+	def findPackage(String parameter) { 
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return jproject
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return null;
+	}
+	
+
+	
+	
+	def findExportedPackage(IProject project, String packageName){
+		val iManiFile= project.getFolder("META-INF").getFile("MANIFEST.MF");
+		
+			CincoUtil.refreshFiles(null, iManiFile);
+			val manifest = new Manifest(iManiFile.getContents());
+			
+			var value = manifest.getMainAttributes().getValue("Export-Package");
+			if (value === null){
+				value = new String("");
+			} 
+			
+			
+			if (!value.contains(packageName)){
+				return false;
+			}else{
+				return true;
+			}
+		
+	}
+	
+	
+	def isCustomAction(String name) {
+		switch (name) {
+			case "contextMenuAction": {
+				return true
+			}
+			case "doubleClickAction": {
+				return true
+			}
+			case "postCreate": {
+				return true
+			}
+			case "postMove": {
+				return true
+			}
+			case "postResize": {
+				return true
+			}
+			case "preDelete": {
+				return true
+			}
+			default: {
+				return false
+			}
+		}
+	}
+	
+	
+	def findClass(String parameter){
+		var IType javaClass = null
+		val root = ResourcesPlugin.workspace.root
+		val projects = root.projects
+		for(project : projects){
+			var jproject = JavaCore.create(project) as IJavaProject
+			if(jproject.exists){
+				try {
+						javaClass = jproject.findType(parameter)
+						if (javaClass !== null) {
+							return javaClass 
+						}
+					} catch (Exception e) {}
+		}
+		
+		}
+		return javaClass
+	
+	}
+
+	@Check
+	def checkColorAnnotation(Annotation a) { 
+	if (a.name.equals("color")) {
+		if((a.value.size == 1)){ //one parameter allowed
+			if (a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
+				val attr = a.parent as PrimitiveAttribute
+				if(!attr.type.getName.equals("EString")){
+					error("Attribute type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
+				}
+				if(a.value.get(0) != ""){
+					if(a.value.get(0).equals("rgb")){
+						if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //correct default values
+							val defaultValue = attr.defaultValue
+									var result = defaultValue.split(",")
+									if(result.size !=3){
+										error("default value doesn't have a RGB-scheme", MglPackage.Literals.ANNOTATION__NAME)
+									}else{
+										checkRGBDefaultValues(result)
+									}
+								}
+					}					
+					else if (a.value.get(0).equals("hex")){ //check default values
+					if(!attr.defaultValue.empty || attr.defaultValue != ""){
+						val defaultValue = attr.defaultValue
+						if(defaultValue.length == 7){
+							if(defaultValue.startsWith("#")){
+								for (var i = 1; i < defaultValue.length ; i++){
+									val value = defaultValue.charAt(i)
+									if(value < '0' || value > '9' ){
+										if(!checkLetter(value)){
+											error("hex values are between 0 and 9 or A and F",  MglPackage.Literals.ANNOTATION__NAME)
+										}
+									}
+								}
+							}
+							else{
+								error("default value of hex must start with '#'",  MglPackage.Literals.ANNOTATION__NAME)
+							}
+						}else{
+							error("default value does not have a hex-scheme",  MglPackage.Literals.ANNOTATION__NAME)
+						}
+					}
+					
+					}
+					else if(a.value.get(0).equals("rgba")){ //check default values
+						if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ 
+							val defaultValue = attr.defaultValue
+							var result = defaultValue.split(",")
+							if(result.size !=4){
+								error("default value doesn't have a RGBA-scheme", MglPackage.Literals.ANNOTATION__NAME)
+							}else{
+								checkRGBDefaultValues(result)
+								var a_string = result.get(3)
+								try{
+									var alpha = Integer.parseInt(a_string)
+									if(alpha < 0 || alpha > 255){
+										error("alpha-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+									}
+									
+								}catch(Exception e){
+									error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+								}
+							}
+						}	
+					}
+					else{
+						error("color Annotation needs one parameter like rgb, rgba or hex", MglPackage.Literals.ANNOTATION__VALUE)
+					}
+				}
+			}
+			else {
+				error("Attribute has to be a PrimitiveAttribute ", MglPackage.Literals.ANNOTATION__NAME)
+			}
+			
+		}
+		else{
+			error("color Annotation needs exactly one parameter like rgb, hex or rgba", MglPackage.Literals.ANNOTATION__VALUE)
+		}
+	}
 }
+
+	def checkRGBDefaultValues(String[] result){
+		var r_string = result.get(0)
+		var g_string = result.get(1)
+		var b_string = result.get(2)
+		try{
+			var r = Integer.parseInt(r_string)	
+			var g = Integer.parseInt(g_string)
+			var b = Integer.parseInt(b_string)
+							
+			if(r < 0 || r > 255){
+				error("r-value has to be bigger or equal than 0 and lower or equal than 255 ", MglPackage.Literals.ANNOTATION__NAME )
+			}
+			if(g < 0 || g > 255){
+				error("g-value has to be bigger or equal than 0 and lower or equal than 255 ",  MglPackage.Literals.ANNOTATION__NAME )
+			}
+			if(b < 0 || b > 255){
+				error("b-value has to be bigger or equal than 0 and lower or equal than 255 ",  MglPackage.Literals.ANNOTATION__NAME)
+			}
+									
+		}catch(Exception e){
+			error("Please enter only numbers as default value", MglPackage.Literals.ANNOTATION__NAME)
+		}
+	}
+	
+	def checkLetter(char c) {
+		switch (c.toString) {
+			case 'A': {
+				return true;
+			}
+			case 'B': {
+				return true;
+			}
+			case 'C': {
+				return true;
+			}
+			
+			case 'D': {
+				return true;
+			}
+			case 'E': {
+				return true;
+			}
+			case 'F': {
+				return true;
+			}
+			default: {
+				return false;
+			}
+		}
+	}
+	
+	
+	@Check
+	def checkFileAnnotations(Annotation a){
+		if (a.name.equals("file") && a.parent instanceof PrimitiveAttribute) { //only correct Type (EString)
+			val attr = a.parent as PrimitiveAttribute
+			if(!attr.type.getName.equals("EString")){
+				error("Type has to be EString",MglPackage.Literals.ANNOTATION__NAME)
+			}
+			if(!(attr.defaultValue.empty) || attr.defaultValue.empty != ""){ //only correct default values
+				val defaultValue = attr.defaultValue
+				try{
+					 val file = new File(defaultValue);
+					 if(!file.exists){
+					 	error("Wrong Path: File doesn't exists", MglPackage.Literals.ANNOTATION__NAME)
+					 }
+				}
+				catch (Exception e){
+					error("Wrong Path: File doesn't exists", MglPackage.Literals.ANNOTATION__NAME)
+				}
+			}
+		}
+		
+	}
+}
+	

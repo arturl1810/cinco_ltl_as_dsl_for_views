@@ -2,15 +2,13 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import java.io.IOException
 import java.util.Map
+import mgl.Edge
 import mgl.GraphModel
-import mgl.ModelElement
+import mgl.Node
 import mgl.Type
-import mgl.UserDefinedType
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
@@ -18,7 +16,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
+import mgl.ModelElement
+import mgl.GraphicalModelElement
+import mgl.UserDefinedType
 
 class FactoryGeneratorExtensions {
 	
@@ -42,6 +42,8 @@ class FactoryGeneratorExtensions {
 		import graphmodel.internal.InternalModelElementContainer
 		import graphmodel.internal.InternalGraphModel
 		import graphmodel.internal.InternalContainer
+		import graphmodel.internal.InternalNode
+		import graphmodel.internal.InternalEdge
 		import graphmodel.internal.InternalType
 		import graphmodel.internal.InternalIdentifiableElement
 		import graphmodel.ModelElement
@@ -73,13 +75,12 @@ class FactoryGeneratorExtensions {
 				new «graphmodel.name»Factory
 			}
 			
-«««			«elmClasses.values.genericCreateMethod»
-			
 			«elmClasses.values.specificCreateMethods»
 			
 			private def <T extends IdentifiableElement> setInternal(T elm, InternalIdentifiableElement internal) {
 				elm => [
-					ID = generateUUID
+					if (id.isNullOrEmpty)
+						ID = generateUUID
 					switch elm {
 						GraphModel: elm.internalElement = internal as InternalGraphModel
 						ModelElement: elm.internalElement = internal as InternalModelElement
@@ -117,22 +118,15 @@ class FactoryGeneratorExtensions {
 			«getPostCreateHooks(graphmodel)»
 		}
 	'''
-	// FIXME: the classifier IDs are in arbitrary order! they do not match those of the model elements
-//	static def genericCreateMethod(Iterable<ElementEClasses> ecls) '''
-//		override create(EClass eClass) {
-//			switch eClass.classifierID {
-//				«ecls.map['''case «mainEClass.classifierID»: create«modelElement.name»'''].join('\n')»
-//				default: super.create(eClass)
-//			}
-//		}
-//	'''
 	
 	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
-//		ecls.forEach[println(it.modelElement)]
-		ecls.map[modelElement].map[specificCreateMethod].join
+		ecls.map[modelElement].filter(typeof(GraphModel)).map[specificCreateMethod].join + 
+		ecls.map[modelElement].filter(typeof(Node)).map[specificCreateMethod].join + 
+		ecls.map[modelElement].filter(typeof(Edge)).map[specificCreateMethod].join +
+		ecls.map[modelElement].filter(typeof(UserDefinedType)).map[specificCreateMethod].join
 	}
 	
-	static def specificCreateMethod(ModelElement it)'''
+	dispatch static def specificCreateMethod(GraphModel it)'''
 		/**
 		 * This method creates an «name» with the given id. Post create hook won't be triggered.
 		 *
@@ -150,9 +144,7 @@ class FactoryGeneratorExtensions {
 					«IF !(it instanceof Type)»
 						container = parent
 					«ENDIF»
-«««					«IF !(it instanceof UserDefinedType)»
-						eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-«««					«ENDIF»
+					eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
 				]
 				«postCreateHook»
 			]
@@ -196,4 +188,150 @@ class FactoryGeneratorExtensions {
 		}
 		'''
 	
+	dispatch static def specificCreateMethod(Node it)'''
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 *
+		 * @param ID: The id for the new element
+		 * @param ime: The internal model element {@link graphmodel.internal.InternalModelElement}
+		 * @param parent: The parent element of the newly created element. Needed if a post create hook accesses the parent
+		 * element of the created element
+		 * @param ID: Indicates, if the post create hook should be executed
+		 */
+		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent, boolean hook){
+			super.create«name» => [ 
+				setID(ID)
+				internal = ime ?: createInternal«name» => [
+					setID(ID + "_INTERNAL")
+					«IF !(it instanceof Type)»
+						container = parent
+					«ENDIF»
+					container = parent
+					eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+				]
+				«postCreateHook»
+			]
+			
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
+		def create«name»(String ID){
+			create«name»(ID,null,null,false)
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook will be triggered.
+		 */
+		def create«name»(InternalModelElementContainer parent){
+			create«name»(generateUUID,null,parent,true)
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook will be triggered.
+		 */
+		def create«name»(String ID, InternalModelElementContainer parent){
+			create«name»(ID,null,parent,true)
+		}
+
+		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent){
+			create«name»(ID,ime,parent,true)
+		}
+
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
+		def create«name»(InternalModelElement ime) {
+			create«name»(generateUUID,ime,null,false)
+		}
+		
+		override create«name»() {
+			create«name»(generateUUID)
+		}
+		'''
+	
+		dispatch static def specificCreateMethod(Edge it)'''
+		def create«name»(String ID, InternalModelElement ime, InternalNode source, InternalNode target, boolean hook) {
+			super.create«name» => [ 
+				setID(ID)
+				internal = ime ?: createInternal«name» => [
+					(it as InternalEdge).set_sourceElement(source)
+					(it as InternalEdge).set_targetElement(target)
+					setID(ID + "_INTERNAL")
+					eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+				]
+				«postCreateHook»
+			]
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook will be triggered.
+		 */
+		def create«name»(String ID, InternalNode source, InternalNode target){
+			create«name»(ID,null,source,target,true)
+		}
+		
+		/**
+		 * This method creates an «name» with generated id. Post create hook will be triggered.
+		 */
+		def create«name»(InternalNode source, InternalNode target){
+			create«name»(generateUUID,null,source,target,true)
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
+		def create«name»(String ID){
+			create«name»(ID,null,null,null,false)
+		}
+		
+		/**
+		 * This method creates an «name» with a generated id. Post create hook won't be triggered.
+		 */
+		override create«name»() {
+			create«name»(generateUUID)
+		}
+		'''
+		
+		dispatch static def specificCreateMethod(UserDefinedType it)'''
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 *
+		 * @param ID: The id for the new element
+		 * @param ime: The internal model element {@link graphmodel.internal.InternalModelElement}
+		 * @param parent: The parent element of the newly created element. Needed if a post create hook accesses the parent
+		 * element of the created element
+		 * @param ID: Indicates, if the post create hook should be executed
+		 */
+		def create«name»(String ID, InternalModelElement ime, boolean hook){
+			super.create«name» => [ 
+				setID(ID)
+				internal = ime ?: createInternal«name» => [
+					setID(ID + "_INTERNAL")
+					eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+				]
+				«postCreateHook»
+			]
+			
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
+		def create«name»(String ID){
+			create«name»(ID,null,false)
+		}
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
+		def create«name»(InternalModelElement ime) {
+			create«name»(generateUUID,ime,false)
+		}
+		
+		override create«name»() {
+			create«name»(generateUUID)
+		}
+		'''
 }

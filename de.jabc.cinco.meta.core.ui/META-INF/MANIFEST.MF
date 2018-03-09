@@ -24,7 +24,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.commands,
  de.jabc.cinco.meta.libraries,
- org.eclipse.graphiti
+ org.eclipse.graphiti,
+ org.eclipse.xtext.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.mgl,
  de.jabc.cinco.meta.core.pluginregistry,

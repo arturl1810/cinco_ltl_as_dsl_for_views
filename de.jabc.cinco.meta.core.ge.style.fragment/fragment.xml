@@ -137,9 +137,18 @@
       <attribute-annotation
             recognized-annotation="file">
       </attribute-annotation>
+       <attribute-annotation
+            recognized-annotation="color">
+      </attribute-annotation>
       <graphmodel-annotation
             recognized-annotation="disableHighlight">
       </graphmodel-annotation>
+      <graphmodel-annotation
+            recognized-annotation="postSave">
+      </graphmodel-annotation>
+      <attribute-annotation
+            recognized-annotation="grammar">
+      </attribute-annotation>
    </extension>
 
 </fragment>

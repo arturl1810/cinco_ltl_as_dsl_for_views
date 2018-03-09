@@ -26,6 +26,10 @@ import org.eclipse.graphiti.ui.internal.editor.DiagramBehaviorDummy
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import com.google.inject.Injector
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory.Builder
+import de.jabc.cinco.meta.core.ui.properties.CincoResourceProvider
 
 class PropertyViewTmpl extends GeneratorUtils {
 
@@ -38,6 +42,7 @@ class PropertyViewTmpl extends GeneratorUtils {
 def generatePropertyView(GraphModel gm)'''
 package «gm.packageName».property.view;
 
+import «EmbeddedEditorFactory.name».Builder;
 
 public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 
@@ -110,22 +115,43 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		});
 		
 		«CincoPropertyView.name».init_FileAttributes(new «EStructuralFeature.name»[] {
-        «FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
-        «gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
-        «ENDFOR»                        
-         });
-        
-        «IF gm.allModelAttributes.exists[isAttributeFile]»
-		«CincoPropertyView.name».init_FileAttributesExtensionFilters(
 		«FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
-			new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"}
-		«ENDFOR»
-		);
-		«ENDIF»
-	}
-	
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		});
 
+		«IF gm.allModelAttributes.exists[isAttributeFile]»
+		«FOR attr : gm.allModelAttributes.filter[isAttributeFile]»
+			«CincoPropertyView.name».init_FileAttributesExtensionFilters(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+				new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"});
+		«ENDFOR»
+		«ENDIF»
+	
+		
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr : gm.allModelAttributes.filter[isAttributeColor] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		   });
+		
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : gm.allModelAttributes.filter[isAttributeColor]»
+			«CincoPropertyView.name».init_ColorAttributesParameter(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+		«ENDFOR»
+		«ENDIF»
+
+		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
+		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
+			«CincoPropertyView.name».init_GrammarEditor(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
+		«ENDFOR»
+		«ENDIF»
+
+	}
 	
 	@Override
 	public void selectionChanged(«IWorkbenchPart.name» part, «ISelection.name» selection) {

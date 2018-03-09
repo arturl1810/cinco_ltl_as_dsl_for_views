@@ -35,6 +35,8 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import org.eclipse.core.runtime.Path
 import java.io.IOException
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalEdge
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -225,7 +227,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdEdgeMethodContent(Node node, Edge edge) '''
 		if (target.canEnd(«edge.fuName».class)) {
-			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»(id);
+			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»(id, («InternalNode.name») this.getInternalElement(), («InternalNode.name») target.getInternalElement());
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
 			return edge;
@@ -235,9 +237,11 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	
 	def newEdgeMethodContent(Node node, Edge edge) '''
 		if (target.canEnd(«edge.fuName».class)) {
-			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
+			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»((«InternalNode.name») this.getInternalElement(), («InternalNode.name») target.getInternalElement());
 			edge.setSourceElement(this);
 			edge.setTargetElement(target);
+			«InternalModelElementContainer.name» commonContainer = new «GraphModelExtension.name»().getCommonContainer(target.getContainer().getInternalContainerElement(), («InternalEdge.name») edge.getInternalElement());
+			commonContainer.getModelElements().add(edge.getInternalElement());			
 			return edge;
 		}
 		else return null;
@@ -472,10 +476,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdPrimeNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (InternalModelElementContainer) this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id);
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			((«n.fqInternalBeanName») node.getInternalElement())
+				.setLibraryComponentUID(org.eclipse.emf.ecore.util.EcoreUtil.getID(«n.primeName»));
 			node.move(x, y);
 			node.resize(width, height);
+			«IF n.hasPostCreateHook»
+				«n.fqFactoryName».eINSTANCE.postCreates(node);
+			«ENDIF»
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
@@ -489,8 +498,13 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		if (this.canContain(«n.fuName».class)) {
 			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			((«n.fqInternalBeanName») node.getInternalElement())
+				.setLibraryComponentUID(org.eclipse.emf.ecore.util.EcoreUtil.getID(«n.primeName»));
 			node.move(x, y);
 			node.resize(width, height);
+			«IF n.hasPostCreateHook»
+				«n.fqFactoryName».eINSTANCE.postCreates(node);
+			«ENDIF»
 			return node;
 		} else throw new «RuntimeException.name»(
 			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
@@ -595,6 +609,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPostSave(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"postSave",
+			null,
+			1,1,
+			me.postSaveContent
+		)
+	}
+
 	def createPreDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(me.name).mainEClass.createEOperation(
 			"preDelete",
@@ -602,6 +625,14 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			1,1,
 			me.preDeleteContent
 		)
+	}
+
+	def postSaveContent(ModelElement me) {
+		val annot = me.getAnnotation("postSave")
+		if (annot != null) '''
+		new «annot.value.get(0)»().postSave(this.getRootElement());
+		'''
+		else ""
 	}
 
 	def preDeleteContent(ModelElement me) {

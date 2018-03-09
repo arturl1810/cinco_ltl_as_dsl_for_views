@@ -10,12 +10,12 @@ import java.io.File
 import java.io.FileInputStream
 import java.net.URL
 import java.util.HashMap
+import java.util.HashSet
 import java.util.Set
 import mgl.GraphModel
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
-import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.Platform
 
@@ -29,9 +29,9 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 	
 	extension WorkspaceExtension = new WorkspaceExtension
 	extension FileExtension = new FileExtension
+	extension GeneratorUtils = new GeneratorUtils
 	
 	IProject project = null
-
 
 	override Object execute(ExecutionEvent event) throws ExecutionException {
 		val mglFile = MGLSelectionListener.INSTANCE.currentMGLFile
@@ -50,7 +50,9 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		
 		workspaceRoot.getProject(name_editorProject)?.delete(true, true, null)
 		
-		project = createDefaultPluginProject(name_editorProject, cpdFile.project.reqBundles, null)
+		val bundles = cpdFile.project.reqBundles
+		bundles.addAll(graphModel.additionalBundles)
+		project = createDefaultPluginProject(name_editorProject, bundles, null)
 		project.addAdditionalNature(null, "org.eclipse.xtext.ui.shared.xtextNature")
 		
 		graphModel.prepareGraphModel
@@ -76,6 +78,7 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 			 "org.eclipse.ui.navigator",
 			 "org.eclipse.ui.views.properties.tabbed",
 			 "org.eclipse.gef",
+			 "org.eclipse.xtext.ui",
 			 "org.eclipse.xtext.xbase.lib",
 			 "de.jabc.cinco.meta.core.ge.style.model",
 			 "de.jabc.cinco.meta.core.ge.style.generator",
@@ -92,6 +95,15 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		  ].map[Platform.getBundle(it)?.symbolicName]
 		   .filterNull + #[project.name]
 		).toSet
+	}
+
+	def private Set<String> additionalBundles(GraphModel gm) {
+		gm.allModelAttributes.
+		map[annotations].flatten.filter[name == "grammar"].
+		map[value.get(1)]. //Get second parameter which should be the fully qualified name of the grammar activator
+		map[substring(0,it.lastIndexOf("."))]. //Trim the activator's class name
+		map[substring(0,it.lastIndexOf("."))]. //Trim the "internal"
+		toSet 
 	}
 
 	def private getExpPackages(GraphModel gm) {
@@ -111,4 +123,6 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 			project.createFile(key, new FileInputStream(source))
 		}
 	}
+	
+	
 }

@@ -28,6 +28,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -45,6 +46,7 @@ import org.eclipse.xtext.util.StringInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension;
 import de.jabc.cinco.meta.util.xapi.FileExtension;
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 import mgl.Annotatable;
@@ -66,7 +68,8 @@ public class CincoUtil {
 	
 	static WorkspaceExtension workspaceExtension = new WorkspaceExtension();
 	static FileExtension fileExtension = new FileExtension();
-
+	static ResourceExtension resourceExtension = new ResourceExtension();
+	
 	public static final String ID_STYLE = "style";
 	public static final String ID_ICON = "icon";
 	public static final String ID_DISABLE= "disable";
@@ -174,9 +177,25 @@ public class CincoUtil {
 		return false;
 	}
 	
+	public static boolean isAttributeColor(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("color"))
+				return true;
+		}
+		return false;
+	}
+	
 	public static boolean isAttributeHidden(Attribute attr) {
 		for (Annotation annot : attr.getAnnotations()) {
 			if (annot.getName().equals(ID_ATTRIBUTE_HIDDEN))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean isGrammarAttribute(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("grammar"))
 				return true;
 		}
 		return false;
@@ -394,7 +413,7 @@ public class CincoUtil {
 	
 	public static IFile getFile(URI uri, EObject obj) {
 		IFile file = null;
-		if (uri.isPlatformResource()) {
+		if (uri.isPlatform()) {
 			file = workspaceExtension.getFile(uri);
 		} else {
 			file = workspaceExtension.getResource(obj).getProject().getFile(new Path(uri.toString()));
@@ -404,8 +423,9 @@ public class CincoUtil {
 	
 	public static GenModel getImportedGenmodel(Import i) {
 		URI uri = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
-		IFile file = getFile(uri, i);
-		return fileExtension.getContent(file, GenModel.class, 0);
+		Resource res = getResource(uri.toString(), i.eResource());
+		
+		return resourceExtension.getContent(res, GenModel.class, 0);
 	}
 
 	public static GraphModel getImportedGraphModel(Import i) {
@@ -505,6 +525,37 @@ public class CincoUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Loads the resource for the specified {@link path}
+	 * 
+	 * @param path The path describing the resource location
+	 * @param res A helper variable: If the path is given as project relative path, this parameter is used to compute the current {@link IProject}
+	 */
+	public static Resource getResource(String path, Resource res) {
+        if (path == null || path.isEmpty())
+        	return null;
+         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+         URI uri = URI.createURI(path);
+        if (uri.isPlatform()) {
+        	return res.getResourceSet().getResource(uri,true);
+        } else {
+	        IFile resFile = null;
+	        if (res.getURI().isPlatform())
+	        	resFile = root.getFile(new Path(res.getURI().toPlatformString(true)));
+	        else resFile = root.getFileForLocation(Path.fromOSString(res.getURI().path()));
+	        
+	        IFile file = resFile.getProject().getFile(path);
+        	return res.getResourceSet().getResource(getURI(file),true);
+        }
+        
+	}
+	
+	private static URI getURI(IFile file) {
+        if (file!=null && file.exists()) 
+        	return URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true);
+        else return null;
 	}
 	
 	private static ArrayList<String> getExtensionsWithDOM(String origText) {

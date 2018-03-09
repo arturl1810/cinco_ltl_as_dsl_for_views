@@ -208,7 +208,7 @@ public class CompoundJob extends Job {
 	 *   to an implicit total workload of the corresponding job.
 	 * @return Workload object
 	 */
-	public Workload consumeConcurrent(int quota) {
+	public ConcurrentWorkload consumeConcurrent(int quota) {
 		ConcurrentWorkload workload = new ConcurrentWorkload(this, quota);
 		steps.add(workload);
 		return workload;

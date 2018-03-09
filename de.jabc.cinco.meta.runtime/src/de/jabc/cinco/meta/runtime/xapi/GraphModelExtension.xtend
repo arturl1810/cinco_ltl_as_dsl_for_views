@@ -512,11 +512,11 @@ class GraphModelExtension {
 	 */
 	def getRootElement(Type type) {
 		var container = type.eContainer
-		while (!(container instanceof InternalGraphModel)) {
+		while (!(container instanceof InternalGraphModel) && container != null) {
 			container = container.eContainer
 		}
 		
-		(container as InternalGraphModel).element
+		if (container == null) null else (container as InternalGraphModel).element
 	}
 	
 	/**
