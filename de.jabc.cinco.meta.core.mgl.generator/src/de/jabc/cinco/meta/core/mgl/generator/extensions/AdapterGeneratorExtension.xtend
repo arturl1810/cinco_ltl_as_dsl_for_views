@@ -49,7 +49,6 @@ class AdapterGeneratorExtension {
 		
 		class «name»EContentAdapter extends «EContentAdapter.name» {
 		
-
 «««			extension «GraphModelExtension.name» = new «GraphModelExtension.name»
 		
 			override notifyChanged(«Notification.name» notification) {
