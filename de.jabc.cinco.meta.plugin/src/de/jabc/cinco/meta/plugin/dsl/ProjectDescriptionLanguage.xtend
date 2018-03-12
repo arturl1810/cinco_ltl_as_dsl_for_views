@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.dsl
 
 import de.jabc.cinco.meta.plugin.template.FileTemplate
 import org.eclipse.core.resources.IFile
+import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 
 class ProjectDescriptionLanguage {
 	
@@ -39,14 +40,23 @@ class ProjectDescriptionLanguage {
 	
 	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription struct) {
 		container => [
-			add(new FolderDescription(name) => [ 
+			add(new FolderDescription(container, name) => [ 
 				struct.apply(it)
 			])
 		]
 	}
 	
+	def pkg(FolderDescription folder, (PackageDescription)=>PackageDescription struct) {
+		System.err.println("Add pkg to folder " + folder.name)
+		System.err.println(" > folder.project: " + folder.project)
+		System.err.println(" > folder.project.template: " + folder.project.template)
+		System.err.println(" > folder.project.template.projectName: " + folder.project.template.projectName)
+		pkg(folder, folder.project.template.projectName, struct)
+	}
+	
 	def pkg(FolderDescription folder, String name, (PackageDescription)=>PackageDescription struct) {
 		folder => [ 
+			System.err.println("Add pkg '" + name + "' to folder " + folder.name)
 			packages.add(new PackageDescription(name) => [
 				struct.apply(it)
 			])
@@ -57,6 +67,26 @@ class ProjectDescriptionLanguage {
 		container => [ 
 			iterable.forEach[x | struct.apply(x)]
 		]
+	}
+	
+	/**
+	 * Language construct to define a new project and its inherent structure.
+	 * <p>Example usage:
+	 * <p><pre>
+	 *   project ("fully.qualified.project.name") [ ... ]
+	 * </pre></p>
+	 * </p>
+	 * 
+	 * @param tmpl  The project template that is used to retrieve the name of the project
+	 *   via getProjectName, typically 'model.package + projectSuffix'.
+	 * @param struct  The nested language block that defines the inherent project structure.
+	 */
+	def project(ProjectTemplate tmpl, (ProjectDescription)=>ProjectDescription struct) {
+		struct.apply(new ProjectDescription(tmpl))
+	}
+	
+	def project(ProjectTemplate tmpl, String name, (ProjectDescription)=>ProjectDescription struct) {
+		struct.apply(new ProjectDescription(tmpl, name))
 	}
 	
 	/**

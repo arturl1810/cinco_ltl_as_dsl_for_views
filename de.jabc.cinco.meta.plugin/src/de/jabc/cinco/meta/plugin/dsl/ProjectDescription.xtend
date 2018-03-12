@@ -6,9 +6,11 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static de.jabc.cinco.meta.plugin.dsl.ProjectType.*
+import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 
 class ProjectDescription extends FileContainerDescription<IProject> {
 
+	@Accessors ProjectTemplate template
 	@Accessors ProjectType type = PLUGIN
 	@Accessors BuildPropertiesDescription buildProperties = new BuildPropertiesDescription
 	@Accessors ManifestDescription manifest = new ManifestDescription
@@ -18,6 +20,16 @@ class ProjectDescription extends FileContainerDescription<IProject> {
 	new(String name) {
 		super(name)
 		deleteIfExistent = true
+	}
+	
+	new(ProjectTemplate template, String name) {
+		this(name)
+		System.err.println("Creating project '" + name + "' from template: " + template)
+		this.template = template
+	}
+	
+	new(ProjectTemplate template) {
+		this(template, template.projectName)
 	}
 	
 	def getSourceFolders() {
@@ -40,10 +52,12 @@ class ProjectDescription extends FileContainerDescription<IProject> {
 	}
 	
 	protected def init() {
+		System.err.println("Init project '" + name + "'")
 		val project = workspace.root.getProject(name)
 		this.IResource = project
 		
 		var initialize = true
+		System.err.println(" > exists: " + project.exists)
 		if (!project.exists)
 			project.create(null, monitor)
 		else if (isDeleteIfExistent) project => [

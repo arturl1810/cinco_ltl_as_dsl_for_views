@@ -44,7 +44,7 @@ class ManifestDescription extends FileDescription {
 		«"Export-Package".with(exportedPackages)»
 	'''
 	
-	def with(String name, Iterable<String> names) {
+	private def with(String name, Iterable<String> names) {
 		names.join('''«name»: ''', ",\n ", "", [it])
 	}
 }

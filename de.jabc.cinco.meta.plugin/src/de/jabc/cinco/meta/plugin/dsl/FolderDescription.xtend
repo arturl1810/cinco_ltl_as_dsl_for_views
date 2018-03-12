@@ -11,6 +11,14 @@ class FolderDescription extends FileContainerDescription<IFolder> {
 	
 	new(String name) { super(name) }
 	
+	new(FileContainerDescription<?> parent, String name) {
+		this(name)
+		this.parent = parent
+		if (parent instanceof ProjectDescription) {
+			this.project = parent
+		}
+	}
+	
 	override create() {
 		IResource = (parent ?: project)?.IResource.createFolder(name)
 		createFiles

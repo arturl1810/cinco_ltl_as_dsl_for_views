@@ -30,11 +30,11 @@ class GratextProjectTmpl extends ProjectTemplate {
 	
 	override projectDescription() {
 		
-		project (projectName) [
+		project [
 			
 			folder ("model") [
 				isSourceFolder = false
-				pkg (basePackage) [
+				pkg [
 					files = #[
 						EcoreTmpl,
 						GenmodelTmpl
@@ -42,7 +42,7 @@ class GratextProjectTmpl extends ProjectTemplate {
 				]
 			]
 			folder ("src") [
-				pkg (basePackage) [
+				pkg [
 					file (ResourceTmpl)
 				]
 				pkg (subPackage("generator")) [
@@ -106,7 +106,7 @@ class GratextProjectTmpl extends ProjectTemplate {
 	
 	def proceed() {
 		srcFolder => [
-			pkg (basePackage) [
+			pkg [
 				files = #[
 					GrammarTmpl,
 					RuntimeModuleTmpl,

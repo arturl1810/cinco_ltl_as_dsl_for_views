@@ -11,9 +11,9 @@ class GratextUiProjectTmpl extends ProjectTemplate {
 	
 	override projectDescription() {
 		
-		project (projectName) [
+		project [
 			folder ("src") [
-				pkg (basePackage) [
+				pkg [
 					file (EditorTmpl)
 				]
 				pkg (subPackage("contentassist")) [

@@ -13,10 +13,12 @@ class PrimeViewerProjectTmpl extends ProjectTemplate {
 	
 	override projectSuffix() '''primeviewer'''
 	
+	
+	
 	override projectDescription() {
-		project (projectName) [
+		project [
 			folder ("src") [
-				pkg (basePackage) [
+				pkg [
 					file (ActivatorTmpl)
 				]
 				forEachOf(primeNodes) [n |
