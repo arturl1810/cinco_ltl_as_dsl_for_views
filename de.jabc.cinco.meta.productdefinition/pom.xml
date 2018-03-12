@@ -68,7 +68,7 @@
 						<argument>-classpath</argument>
 						<classpath/>
 						<argument>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</argument>
-                        <argument>/${project.basedir}/src/de/jabc/cinco/meta/productdefinition/GenerateCPD.mwe2</argument>
+						<argument>/${project.basedir}/src/de/jabc/cinco/meta/productdefinition/GenerateCPD.mwe2</argument>
 						<argument>-p</argument>
 						<argument>runtimeProject=${project.basedir}</argument>
 					</arguments>
