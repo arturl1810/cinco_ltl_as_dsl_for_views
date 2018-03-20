@@ -65,6 +65,26 @@ class CollectionExtension {
 	}
 	
 	/**
+	 * Tests whether the iterable contains duplicates.
+	 * 
+	 * @param iterable the iterable to be examined.
+	 */
+	def <T, U> containsDuplicates(Iterable<T> iterable) {
+		iterable.containsDuplicatesByKey[it]
+	}
+	
+	/**
+	 * Tests whether the iterable contains duplicates by a given key.
+	 * 
+	 * @param iterable the iterable to be examined.
+	 * @param keyExtractor a lambda that extracts a key from each element in the iterable used
+	 *   for duplicate checking
+	 */
+	def <T, U> containsDuplicatesByKey(Iterable<T> iterable, (T) => U keyExtractor) {
+		!iterable.duplicatesByKey(keyExtractor).isEmpty
+	}
+	
+	/**
 	 * Convenience extension function for calling {@link Seq#partition} directly on an iterable,
 	 * instead of calling {@link Seq#seq} first.
 	 * 
