@@ -17,7 +17,7 @@ abstract class FileContainerDescription<T extends IContainer> extends ProjectRes
 	}
 	
 	def createFolders() {
-		folders.forEach[System.err.println(" > create folder: " + name) create(this)]
+		folders.forEach[create(this)]
 	}
 	
 	def Iterable<FileContainerDescription<?>> getHierarchy() {

@@ -47,16 +47,11 @@ class ProjectDescriptionLanguage {
 	}
 	
 	def pkg(FolderDescription folder, (PackageDescription)=>PackageDescription struct) {
-		System.err.println("Add pkg to folder " + folder.name)
-		System.err.println(" > folder.project: " + folder.project)
-		System.err.println(" > folder.project.template: " + folder.project.template)
-		System.err.println(" > folder.project.template.projectName: " + folder.project.template.projectName)
 		pkg(folder, folder.project.template.projectName, struct)
 	}
 	
 	def pkg(FolderDescription folder, String name, (PackageDescription)=>PackageDescription struct) {
 		folder => [ 
-			System.err.println("Add pkg '" + name + "' to folder " + folder.name)
 			packages.add(new PackageDescription(name) => [
 				struct.apply(it)
 			])

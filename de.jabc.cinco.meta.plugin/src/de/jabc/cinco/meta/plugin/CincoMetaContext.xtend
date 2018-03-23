@@ -19,9 +19,7 @@ abstract class CincoMetaContext {
 	new() {/* empty constructor for instantiation via reflection */}
 	
 	def <T extends CincoMetaContext> T withContext(T obj, CincoMetaContext context) {
-		obj => [
-//			println("Pass context from " + context.class.simpleName + " to " + obj.class.simpleName + " > " + context.model)
-			it.setModel(context.getModel)
-		]
+		obj.setModel(context.getModel)
+		return obj
 	}
 }

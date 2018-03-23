@@ -27,13 +27,11 @@ abstract class CincoPlugin extends CincoMetaContext implements IMetaPlugin {
 	
 	def createProject(Class<? extends ProjectTemplate> tmplClass) {
 		val project = tmplClass.newInstance.withContext(this).createProject
-		System.err.println("Plugin " + class.simpleName + " > create project: " + project)
 		project?.register
 		return project
 	}
 	
 	def register(IProject project) {
-		if (project != null)
-			BundleRegistry.INSTANCE.addBundle(project.name, false)
+		BundleRegistry.INSTANCE.addBundle(project.name, false)
 	}
 }

@@ -133,8 +133,7 @@ class LabelProviderTmpl extends FileTemplate {
 	
 	def primeElementLabel(Node it) {
 		val annotVal = anyPrimeReference?.annotations
-			.findFirst[name == "pvLabel"]
-			?.value?.get(0)
+			.findFirst[name == "pvLabel"]?.value?.get(0)
 		if (!annotVal.nullOrEmpty)
 			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«annotVal»"))'''
 		else

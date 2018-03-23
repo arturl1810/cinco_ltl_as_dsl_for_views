@@ -29,9 +29,7 @@ class GratextProjectTmpl extends ProjectTemplate {
 	override projectSuffix() { "gratext" }
 	
 	override projectDescription() {
-		
 		project [
-			
 			folder ("model") [
 				isSourceFolder = false
 				pkg [

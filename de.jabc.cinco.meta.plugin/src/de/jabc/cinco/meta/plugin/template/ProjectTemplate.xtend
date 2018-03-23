@@ -15,7 +15,6 @@ abstract class ProjectTemplate extends CincoMetaContext {
 	def createProject() {
 		init
 		val desc = getProjectDescription
-		System.err.println("Create project: " + desc.name)
 		desc?.withContext(this).create
 	}
 	
