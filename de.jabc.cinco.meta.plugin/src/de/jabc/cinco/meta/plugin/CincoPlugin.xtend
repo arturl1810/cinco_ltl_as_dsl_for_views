@@ -17,6 +17,7 @@ abstract class CincoPlugin extends CincoMetaContext implements IMetaPlugin {
 			this.run
 			return "default"
 		} catch(Exception e) {
+			e.printStackTrace
 			return "error"
 		}
 	}
@@ -32,6 +33,7 @@ abstract class CincoPlugin extends CincoMetaContext implements IMetaPlugin {
 	}
 	
 	def register(IProject project) {
-		BundleRegistry.INSTANCE.addBundle(project.name, false)
+		if (project != null)
+			BundleRegistry.INSTANCE.addBundle(project.name, false)
 	}
 }
