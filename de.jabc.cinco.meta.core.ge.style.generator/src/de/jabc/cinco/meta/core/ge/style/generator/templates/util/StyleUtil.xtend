@@ -498,7 +498,7 @@ class StyleUtil extends APIUtils {
 			«IF ga.size != null»
 			gaService.setSize(«ga.simpleName.toLowerCase», width, height);
 			«ELSE»
-			gaService.setSize(«ga.simpleName.toLowerCase», 25, 25);
+			gaService.setSize(«ga.simpleName.toLowerCase», 100, 25);
 			«ENDIF»
 			«appearanceCode(ga as AbstractShape,ga.simpleName.toLowerCase)»
 		}
