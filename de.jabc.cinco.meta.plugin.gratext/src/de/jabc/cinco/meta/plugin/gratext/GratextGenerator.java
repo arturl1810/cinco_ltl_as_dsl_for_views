@@ -59,7 +59,8 @@ public class GratextGenerator extends ProjectGenerator {
 					gmName += gm.getName().substring(1).toLowerCase();
 				}
 				
-				String genPackage = gm.getPackage() + "." + gmName.toLowerCase() + "." + gmName + "Package";
+				String genPackage = gm.getPackage() != null ? gm.getPackage() : "";
+				genPackage += "." + gmName.toLowerCase() + "." + gmName + "Package";
 				genPackages.put(gm.getNsURI(), genPackage);
 				
 				String genModelUri = "platform:/resource/" + getModelProjectSymbolicName() + "/src-gen/model/" + gm.getName() + ".genmodel";
