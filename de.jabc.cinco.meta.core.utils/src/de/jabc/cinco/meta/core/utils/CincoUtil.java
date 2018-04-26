@@ -177,6 +177,23 @@ public class CincoUtil {
 		return false;
 	}
 	
+	public static boolean isAttributePossibleValuesProvider(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("possibleValuesProvider"))
+				return true;
+		}
+		return false;
+	}
+	
+	public static String getPossibleValuesProviderClass(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("possibleValuesProvider"))
+				if(!annot.getValue().isEmpty() && annot.getValue().size() == 1)
+				return annot.getValue().get(0);
+		}
+		return null;
+	}
+	
 	public static boolean isAttributeColor(Attribute attr) {
 		for (Annotation annot : attr.getAnnotations()) {
 			if (annot.getName().equals("color"))
