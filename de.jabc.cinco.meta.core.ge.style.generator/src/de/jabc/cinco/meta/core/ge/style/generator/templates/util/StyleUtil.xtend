@@ -187,7 +187,7 @@ class StyleUtil extends APIUtils {
 		«org.eclipse.graphiti.mm.algorithms.RoundedRectangle.name» «currentGaName» = gaService.createPlainRoundedRectangle(«currentPeName», «rr.
 			cornerWidth», «rr.cornerHeight»);
 	'''
-	/**
+	/**Thus
 	 * Generates a polygon 
 	 * @param p : The polygon that will be generated
 	 * @param currentGaName : The 'Impl' of a shape e.g. 'polygonImpl25'
@@ -307,6 +307,7 @@ class StyleUtil extends APIUtils {
 		«org.eclipse.graphiti.mm.algorithms.Text.name» «currentGaName» = gaService.createPlainText(«currentPeName»);
 		
 		«««Hier muss der Code generiert werden, der den anzuzeigenden Wert aus der zugehörigen @style annotation ausliest
+		
 		«ExpressionFactoryImpl.name» factory = new com.sun.el.ExpressionFactoryImpl();
 		«LinkedList.name» <«Shape.name»>linkingList = new «LinkedList.name» <«Shape.name»>();
 		linkingList.add(«currentPeName.toString»);
@@ -676,7 +677,8 @@ class StyleUtil extends APIUtils {
 	 * 
 	 */
 	private def dispatch getText(Edge e, EList<String> vals){
-		vals.subList(1,vals.size).join(";")
+		var str = vals.subList(1,vals.size).filter[!isNullOrEmpty].join(";")
+		return str
 	}
 	
 	/**
@@ -687,7 +689,7 @@ class StyleUtil extends APIUtils {
 	private def dispatch getText(Node n, EList<String> vals) {
 		if (n.isPrime) {
 			val expPattner = Pattern.compile("\\$\\{(.*)\\}")
-			vals.subList(1,vals.size)
+			vals.subList(1,vals.size).filter[!isNullOrEmpty]
 			.map[
 				val m = expPattner.matcher(it)
 				if (m.matches) {
@@ -695,7 +697,10 @@ class StyleUtil extends APIUtils {
 				} else it
 			].join(";")	
 			
-		} else vals.subList(1,vals.size).join(";")
+		} else {
+			var str = vals.subList(1,vals.size).filter[!isNullOrEmpty].join(";")
+			return str
+		}
 	}
 	
 	def size(GraphicsAlgorithm ga) {
