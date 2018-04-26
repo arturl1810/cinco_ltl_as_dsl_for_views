@@ -166,13 +166,11 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 				«DiagramBehavior.name» db = («DiagramBehavior.name») diagramBehavior;		
 				«EObject.name» bo = getBusinessObject(pe);
 			
-				«IF gm.allModelAttributes.exists[isAttributePossibleValuesProvider]»
 				«FOR attr : gm.allModelAttributes.filter[isAttributePossibleValuesProvider]»
 				if (bo instanceof «attr.modelElement.fqBeanName»)
 					«CincoPropertyView.name».refreshPossibleValues(«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.name»_«attr.name.toFirstUpper»(), new «attr.getPossibleValuesProviderClass»().getPossibleValues((«attr.modelElement.fqBeanName») bo));
 				
 				«ENDFOR»
-				«ENDIF»				
 
 				if (pe instanceof «ConnectionDecorator.name» && !pe.equals(lastSelected)) {
 					«Connection.name» connection = ((«ConnectionDecorator.name») pe).getConnection();
