@@ -677,8 +677,7 @@ class StyleUtil extends APIUtils {
 	 * 
 	 */
 	private def dispatch getText(Edge e, EList<String> vals){
-		var str = vals.subList(1,vals.size).filter[!isNullOrEmpty].join(";")
-		return str
+		vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str].join(";")
 	}
 	
 	/**
@@ -689,7 +688,7 @@ class StyleUtil extends APIUtils {
 	private def dispatch getText(Node n, EList<String> vals) {
 		if (n.isPrime) {
 			val expPattner = Pattern.compile("\\$\\{(.*)\\}")
-			vals.subList(1,vals.size).filter[!isNullOrEmpty]
+			vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str]          //filter[!isNullOrEmpty]
 			.map[
 				val m = expPattner.matcher(it)
 				if (m.matches) {
@@ -698,8 +697,7 @@ class StyleUtil extends APIUtils {
 			].join(";")	
 			
 		} else {
-			var str = vals.subList(1,vals.size).filter[!isNullOrEmpty].join(";")
-			return str
+			vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str].join(";")
 		}
 	}
 	
