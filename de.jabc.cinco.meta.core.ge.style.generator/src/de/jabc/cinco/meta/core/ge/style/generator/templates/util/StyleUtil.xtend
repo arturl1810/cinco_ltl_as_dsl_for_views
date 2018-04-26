@@ -171,6 +171,10 @@ class StyleUtil extends APIUtils {
 		«Shape.name» «peName» = peService.createShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
 	'''
 
+	def dispatch creator(style.Image s, String peName, String containerName) '''
+		«Shape.name» «peName» = peService.createContainerShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
+	'''
+
 	def dispatch getCode(Ellipse e, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Ellipse.name» «currentGaName» = gaService.createPlainEllipse(«currentPeName»);
 	'''
