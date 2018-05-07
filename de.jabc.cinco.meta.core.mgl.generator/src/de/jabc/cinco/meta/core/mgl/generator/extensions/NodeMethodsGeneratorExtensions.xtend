@@ -299,8 +299,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def moveToMethodContent(Node node, ContainingElement ce) '''
 		«ModelElementContainer.name» source = this.getContainer();
-		int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
-		int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
+		int deltaX = x - ((«InternalNode.name») this.getInternalElement()).getX();
+		int deltaY = y - ((«InternalNode.name») this.getInternalElement()).getY();
 		s_moveTo(«ce.name.toFirstLower.paramEscape», x, y);
 		«ce.name.toFirstLower.paramEscape».getInternalContainerElement().getModelElements().add(this.getInternalElement());
 		setX(x);
