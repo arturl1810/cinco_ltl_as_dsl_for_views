@@ -84,10 +84,20 @@ class EdgeAddFeatures extends APIUtils {
 			if (sourceBo != null && sourceBo.equals(targetBo)) {
 				int x = addConContext.getSourceAnchor().getParent().getGraphicsAlgorithm().getX();
 				int y = addConContext.getSourceAnchor().getParent().getGraphicsAlgorithm().getY();
-				«Point.name» p1 = gaService.createPoint(x - 30, y + 40);
-				«Point.name» p2 = gaService.createPoint(x - 30, y - 20);
-				((«FreeFormConnection.name») connection).getBendpoints().add(p1);
-				((«FreeFormConnection.name») connection).getBendpoints().add(p2);
+				
+				«_Point.name» p1t = «InternalFactory.name».eINSTANCE.create_Point();
+				«_Point.name» p2t = «InternalFactory.name».eINSTANCE.create_Point();
+				p1t.setX(x- 30);
+				p1t.setY(y+ 40);
+				p2t.setX(x- 30);
+				p2t.setY(y- 20);
+				«e.flName».getBendpoints().add(p1t);
+				«e.flName».getBendpoints().add(p2t);
+				
+				«Point.name» p1c = gaService.createPoint(x - 30, y + 40);
+				«Point.name» p2c = gaService.createPoint(x - 30, y - 20);
+				((«FreeFormConnection.name») connection).getBendpoints().add(p1c);
+				((«FreeFormConnection.name») connection).getBendpoints().add(p2c);
 			}
 			
 			// create link and wire it
