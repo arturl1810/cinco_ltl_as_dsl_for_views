@@ -39,6 +39,7 @@ import graphmodel.internal.InternalModelElement
 
 import graphmodel.internal._Point;
 import graphmodel.internal.InternalFactory
+import graphmodel.internal.InternalContainer
 
 class EmfFactoryTmpl {
 
@@ -100,12 +101,24 @@ class EmfFactoryTmpl {
 			ime.set_targetElement(target);
 			
 			if(source.equals(target)){
+				int x = 0;
+				int y = 0;
+				
+				if(source.getContainer() instanceof «InternalContainer.name»){
+					«InternalContainer.name» con = («InternalContainer.name») source.getContainer();
+					x = con.getX() + source.getX();
+					y = con.getY() + source.getY();
+				}
+				else{
+					x = source.getX();
+					y = source.getY();
+				}
 				«_Point.name» p1 = «InternalFactory.name».eINSTANCE.create_Point();
 				«_Point.name» p2 = «InternalFactory.name».eINSTANCE.create_Point();
-				p1.setX(source.getX() - 30);
-				p1.setY(source.getY() + 40);
-				p2.setX(source.getX() - 30);
-				p2.setY(source.getY() - 20);
+				p1.setX(x - 30);
+				p1.setY(y + 40);
+				p2.setX(x - 30);
+				p2.setY(y - 20);
 				ime.getBendpoints().add(p1);
 				ime.getBendpoints().add(p2);
 			}
