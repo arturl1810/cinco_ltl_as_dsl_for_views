@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -105,8 +106,11 @@ public class ReferenceRegistry {
 	
 	public void addElement(EObject bo) {
 		String id = EcoreUtil.getID(bo);
-		if (id == null || id.isEmpty())
-			showError(bo);
+		if (id == null || id.isEmpty()) {
+			if (bo instanceof EClass) {
+				id = getEClassId((EClass) bo);
+			} else showError(bo);
+		}
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
 			if(!uri.isPlatformPlugin()){
@@ -134,6 +138,12 @@ public class ReferenceRegistry {
 			URI full = URI.createURI(uri, true);
 			Resource res = new ResourceSetImpl().getResource(full, true);
 			bo = res.getEObject(key);
+			int index = key.lastIndexOf("/");
+			if (bo == null && index > -1) {
+				String name = key.substring(index);
+				bo = res.getEObject("/"+name);
+			}
+				
 		} else {
 			if (!refreshedOnStartup) {
 				reinitializeOnStartup(ResourcesPlugin.getWorkspace().getRoot());
@@ -154,6 +164,14 @@ public class ReferenceRegistry {
 			} else System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
 		}
 		return bo;
+	}
+	
+	public String getID(EObject o) {
+		String id = EcoreUtil.getID(o);
+		if (id == null || id.isEmpty())
+			if (o instanceof EClass)
+			id = getEClassId((EClass) o);
+		return id;
 	}
 	
 	private EObject searchInAllMaps(String key) {
@@ -601,7 +619,7 @@ public class ReferenceRegistry {
 	private void extractIds(Object obj, Map<String,EObject> objectsById, List<String> wanted) {
 		if (obj instanceof EObject && !(obj instanceof Diagram)) {
 			EObject eobj = (EObject) obj;
-			String id = EcoreUtil.getID(eobj);
+			String id = getID(eobj);
 			if (id != null && !id.isEmpty()) {
 				objectsById.put(id, eobj);
 			}
@@ -715,5 +733,9 @@ public class ReferenceRegistry {
 		}
 		
 		return null;
+	}
+	
+	private String getEClassId(EClass clazz) {
+		return clazz.getEPackage().getNsURI()+"/"+clazz.getName();
 	}
 }

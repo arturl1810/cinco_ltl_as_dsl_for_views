@@ -96,7 +96,13 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditor;
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory;
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory.Builder;
+import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.osgi.framework.Bundle;
+
+import com.google.inject.Injector;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
@@ -128,6 +134,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<EStructuralFeature, Map<? extends Object, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends Object, String>>();
+	private static Map<EStructuralFeature, Injector> grammarAttributes = new HashMap<EStructuralFeature, Injector>();
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
@@ -158,6 +165,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private EMFDataBindingContext context;
 	private Object lastSelectedObject;
 
+	
+	private EmbeddedEditor editor;
+	private EmbeddedEditorModelAccess modelAccess;
 	
 	public CincoPropertyView() {
 		treeExpandState = new HashMap<Object, Object[]>();
@@ -265,6 +275,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		colorParameters.put(feature, parameter);
 	}
 
+	public static void init_GrammarEditor(EStructuralFeature feature, Injector injector) {
+		grammarAttributes.put(feature, injector);
+	}
 	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
@@ -482,6 +495,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
 
 		Label label = new Label(comp, SWT.NONE);
@@ -645,6 +659,19 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			context.bindValue(uiProp, modelObs);
 			
 			combo.setEnabled(!readOnlyAttributes.contains(attr));
+		} else if (grammarAttributes.containsKey(attr)) {
+			Injector injector = grammarAttributes.get(attr);
+			CincoResourceProvider provider = injector.getInstance(CincoResourceProvider.class);
+			EmbeddedEditorFactory factory = injector.getInstance(EmbeddedEditorFactory.class);
+			editor = factory.newEditor(provider).showErrorAndWarningAnnotations().withParent(comp);
+			editor.createPartialEditor();
+			
+			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] {
+					SWT.DefaultSelection, SWT.FocusOut });
+			
+			IEMFEditValueProperty boPorp = EMFEditProperties.value(domain, attr);
+			context.bindValue(uiProp.observe(editor.getViewer().getTextWidget()), boPorp.observe(bo));
+			
 		} else {
 			Text text = null;
 			

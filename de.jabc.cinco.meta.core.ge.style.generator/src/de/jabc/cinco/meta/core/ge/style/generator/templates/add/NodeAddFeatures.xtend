@@ -166,7 +166,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAddFeaturePrime.name» {
 			element = ((«InternalIdentifiableElement.name»)element).getElement();
 		}
 		
-		cc.putProperty("libraryComponentUID", org.eclipse.emf.ecore.util.EcoreUtil.getID(element));
+		cc.putProperty("libraryComponentUID", «ReferenceRegistry.name».getInstance().getID(element));
 		«ReferenceRegistry.name».getInstance().addElement(element);
 		cc.setTargetContainer(context.getTargetContainer());
 		cc.setLocation(context.getX(), context.getY());
