@@ -10,6 +10,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.IdentifiableElement
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
 
 class GraphitiResourceFactory {
 	
@@ -59,7 +60,10 @@ class GraphitiResourceFactory {
 									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					ie.element = cElement
-«««					ie.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+					if (!ie.element.eAdapters.exists[it instanceof «CincoEContentAdapter.name»])
+						ie.element.eAdapters.add(new «me.packageNameEContentAdapter».«me.fuName»EContentAdapter)
+					if (!ie.eAdapters.exists[it instanceof «CincoEContentAdapter.name»])
+						ie.eAdapters.add(new «me.packageNameEContentAdapter».«me.fuName»EContentAdapter)
 				}
 				«ENDFOR»
 			}
