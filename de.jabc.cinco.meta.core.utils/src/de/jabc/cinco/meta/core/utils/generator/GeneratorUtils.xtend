@@ -173,7 +173,7 @@ class GeneratorUtils extends InheritanceUtil{
 	'''«me.graphModel.packageName».api'''
 	
 	def packageNameEContentAdapter(Type me)
-	'''«me.graphModel.packageName».content.adapter'''
+	'''«me.graphModel.package».adapter'''
 	
 	/**
 	 * Returns the package name for the generated {@link ExpressionFactory}
