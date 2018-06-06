@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class Serializer {
 
@@ -190,6 +192,7 @@ class Serializer {
 			InternalModelElement: nonInternalID
 			Type: internalElement.toGratextValue
 			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
+			Date: '"' + new SimpleDateFormat("HH:mm:ss MM/dd/yyyy").format(it) + '"'
 			EObject: '''
 				«name» «nonInternalID» {
 						«attributes»
