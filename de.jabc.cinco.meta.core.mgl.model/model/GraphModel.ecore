@@ -19,7 +19,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" eType="#//internal/InternalGraphModel"
         eOpposite="#//internal/InternalGraphModel/element"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//ModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" interface="true"
+      eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getSuccessors();&#xA;@SuppressWarnings(&quot;unchecked&quot;)&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
