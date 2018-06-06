@@ -745,17 +745,18 @@ class GeneratorUtils extends InheritanceUtil{
 		}
 	'''
 
-	def getWizardClass(GraphModel mglModel) {
-		val wizardAnnot = CincoUtil.findAnnotation(mglModel, "wizard")
-		if (wizardAnnot?.value?.size > 0)
-			wizardAnnot?.value?.get(0)
-		else null
+	def getWizardLabel(GraphModel mglModel) {
+		mglModel.getAnnotationValue("wizard", 0)
 	}
 
-	def getWizardLabel(GraphModel mglModel) {
-		val wizardAnnot = CincoUtil.findAnnotation(mglModel, "wizard")
-		if (wizardAnnot?.value?.size > 1)
-			wizardAnnot?.value?.get(1)
+	def getWizardClass(GraphModel mglModel) {
+		mglModel.getAnnotationValue("wizard", 1)
+	}
+	
+	def getAnnotationValue(ModelElement me, String annotationName, int valueIndex) {
+		val annot = CincoUtil.findAnnotation(me, annotationName)
+		if (annot?.value?.size > valueIndex)
+			annot.value.get(valueIndex)
 		else null
 	}
 }
