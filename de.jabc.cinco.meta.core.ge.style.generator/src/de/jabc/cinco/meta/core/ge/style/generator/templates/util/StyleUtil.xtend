@@ -465,16 +465,17 @@ class StyleUtil extends APIUtils {
 		}
 	'''
 
-	def call(ConnectionDecorator cd, Edge e) {
-		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCall(e)
+	def call(ConnectionDecorator cd, Edge e, int cdIndex) {
+		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCall(e, cdIndex)
 		if (cd.decoratorShape != null) return cd.decoratorShape.cdShapeCall(e)
 	}
 
 	
-	def cdCall(PredefinedDecorator pd, Edge e) '''
-		org.eclipse.graphiti.mm.algorithms.Polyline cdDummy = gaService.createPolyline(null);
-		«pd.appearanceCode("cdDummy")»
-		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd, cdDummy.getLineWidth());
+	def cdCall(PredefinedDecorator pd, Edge e, int cdIndex) '''
+		«val dummyVal = "cdDummy" + cdIndex»
+		org.eclipse.graphiti.mm.algorithms.Polyline «dummyVal» = gaService.createPolyline(null);
+		«pd.appearanceCode(dummyVal)»
+		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd, «dummyVal».getLineWidth());
 «««		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 		«pd.appearanceCode("cd.getGraphicsAlgorithm()")»
 	'''
