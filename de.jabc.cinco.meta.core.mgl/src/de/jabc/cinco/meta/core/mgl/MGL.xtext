@@ -89,6 +89,7 @@ enum EDataTypeType returns EDataTypeType:
 	 |EBigDecimal
 	 |EByte
 	 |EShort
+	 |EDate
 
 ;
 
