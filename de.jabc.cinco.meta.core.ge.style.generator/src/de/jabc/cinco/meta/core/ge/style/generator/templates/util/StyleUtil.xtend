@@ -472,7 +472,9 @@ class StyleUtil extends APIUtils {
 
 	
 	def cdCall(PredefinedDecorator pd, Edge e) '''
-		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd);
+		org.eclipse.graphiti.mm.algorithms.Polyline cdDummy = gaService.createPolyline(null);
+		«pd.appearanceCode("cdDummy")»
+		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd, cdDummy.getLineWidth());
 «««		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 		«pd.appearanceCode("cd.getGraphicsAlgorithm()")»
 	'''
