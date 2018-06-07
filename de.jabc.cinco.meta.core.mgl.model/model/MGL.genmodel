@@ -26,6 +26,7 @@
       <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EDataTypeType/EBigDecimal"/>
       <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EDataTypeType/EByte"/>
       <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EDataTypeType/EShort"/>
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EDataTypeType/EDate"/>
     </genEnums>
     <genClasses ecoreClass="MGL.ecore#//GraphModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/edges"/>
