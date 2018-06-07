@@ -78,7 +78,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target, «String.name» id) {
 		«e.fqBeanName» obj = new«e.fuName»(target);
-		«EcoreUtil.name».setID(obj, id);
+		obj.transact("SetId",() -> {«EcoreUtil.name».setID(obj, id);});
 		return obj;
 	}
 	
@@ -230,7 +230,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	@Override
 	public «containableNode.fqBeanName» new«containableNode.fuName»(«String.name» id, int x, int y, int width, int height) {
 		«containableNode.fqBeanName» obj = new«containableNode.fuName»(x, y, width, height);
-		«EcoreUtil.name».setID(obj, id);
+		obj.transact("SetId",() -> {«EcoreUtil.name».setID(obj, id);});
 		return obj;
 	}
 	

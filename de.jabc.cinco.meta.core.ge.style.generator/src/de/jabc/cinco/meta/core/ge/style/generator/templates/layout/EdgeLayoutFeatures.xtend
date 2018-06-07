@@ -33,7 +33,7 @@ class EdgeLayoutFeatures extends APIUtils {
 		@Override
 		public boolean canLayout(«ILayoutContext.name» context) {
 			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			if (bo instanceof «e.fqBeanName»)
+			if (bo instanceof «e.fqInternalBeanName»)
 				return true;
 			return false;
 		}
@@ -42,7 +42,7 @@ class EdgeLayoutFeatures extends APIUtils {
 		public boolean layout(«ILayoutContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
 			Object bo = getBusinessObjectForPictogramElement(pe);
-			if (bo instanceof «e.graphModel.beanPackage».«e.name») {
+			if (bo instanceof «e.fqInternalBeanName») {
 				if (pe instanceof «Connection.name») {
 					«Connection.name» conn = («Connection.name») pe;
 					for («ConnectionDecorator.name» cd : conn.getConnectionDecorators()) {

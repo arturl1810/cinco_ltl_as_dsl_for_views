@@ -41,12 +41,14 @@ class ActionBarContributor extends MultiPageEditorActionBarContributor {
 				if (it.page == null) {
 					init(this.actionBars, this.getPage)
 				}
-			} else {
+			} else if (it != null) {
 				System.err.println("["+this.class.simpleName + "] "
 					+ "WARN Unknown type of action bar contributor: " + it.class)
 				init(this.actionBars, this.getPage)
 			}
-			activeEditor = editor
+			if (it != null) {
+				activeEditor = editor
+			}
 		]
 	}
 

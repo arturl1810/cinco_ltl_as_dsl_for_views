@@ -149,10 +149,7 @@ class MGLUtil {
 	}	
 
 	def static Set<ContainingElement> getNodeContainers(GraphModel gm) {
-		var Set<ContainingElement> nodeContainers = gm.getNodes().filter([n|(n instanceof ContainingElement)]).
-			map([nc|typeof(ContainingElement).cast(nc)]).toSet
-		nodeContainers.add(gm)
-		return nodeContainers
+		(gm.nodes.filter(ContainingElement)+#[gm]).toSet
 	}
 
 	def static Set<Node> getPossibleTargets(Edge ce) {
@@ -212,24 +209,22 @@ class MGLUtil {
 	}
 
 	def static Set<Node> getContainableNodes(ContainingElement ce) {
-		var GraphModel gm
-		if (ce instanceof NodeContainer) 
-			gm = ((ce as NodeContainer)).getGraphModel() 
-		else gm = ce as GraphModel
+		ce.rootElement.nodes.filter[n|isContained(ce, n)].toSet
 		
-		var Set<Node> nodes = gm.getNodes().filter[n|isContained(ce, n)].toSet
-		return nodes
+	}
+	
+	def private static dispatch GraphModel getRootElement(ContainingElement ce){
+		if (ce instanceof NodeContainer) 
+			return((ce as NodeContainer)).rootElement 
+		else return ce as GraphModel
 	}
 
 	def static Set<ContainingElement> getPossibleContainers(Node n) {
-		var GraphModel gm = getRootElement(n)
-		var Set<ContainingElement> containers = getNodeContainers(gm).stream().filter([nc |
-			getContainableNodes(nc).contains(n)
-		]).collect(Collectors::toSet())
-		return containers
+		
+		n.rootElement.nodeContainers.filter[nc| nc.containableNodes.contains(n)].toSet
 	}
 
-	def private static GraphModel getRootElement(Type t) {
+	def private static dispatch GraphModel getRootElement(Type t) {
 		if(t instanceof GraphModel) return (t as GraphModel) else return getRootElement((t.eContainer() as Type))
 	}
 
@@ -249,7 +244,7 @@ class MGLUtil {
 		
 		var containedInSuperType = false
 		switch (ce) {
-			NodeContainer: containedInSuperType = ce.allSuperTypes.toSet.exists[isContained((it as NodeContainer), n)]
+			NodeContainer: containedInSuperType = ce.allSuperTypes.filter(NodeContainer).toSet.exists[isContained((it as NodeContainer), n)]
 		}
 		
 		return containments.size() > 0 || containedInSuperType 
