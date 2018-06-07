@@ -18,8 +18,8 @@ class CincoAddBendpointFeature extends DefaultAddBendpointFeature {
 
 	override void addBendpoint(IAddBendpointContext context) {
 		var InternalEdge edge = (getBusinessObjectForPictogramElement(context.getConnection()) as InternalEdge)
-		super.addBendpoint(context)
 		if (!edge.pointExists(context.x, context.y)) {
+			super.addBendpoint(context)
 			var _Point p = InternalFactory.eINSTANCE.create_Point() => [x = context.x; y = context.y]
 			edge.getBendpoints().add(context.getBendpointIndex(), p)
 //			println(edge.bendpoints)
