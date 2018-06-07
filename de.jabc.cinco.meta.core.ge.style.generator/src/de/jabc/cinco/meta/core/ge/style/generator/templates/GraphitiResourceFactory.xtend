@@ -60,7 +60,7 @@ class GraphitiResourceFactory {
 									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					ie.element = cElement
-					if (!ie.eAdapters.exists[it instanceof «CincoEContentAdapter.name»])
+					if (!ie.eAdapters.exists[it instanceof «me.packageNameEContentAdapter».«me.fuName»EContentAdapter])
 						ie.eAdapters.add(new «me.packageNameEContentAdapter».«me.fuName»EContentAdapter)
 				}
 				«ENDFOR»
