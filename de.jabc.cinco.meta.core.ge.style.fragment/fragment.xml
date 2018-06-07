@@ -122,6 +122,9 @@
       <nodecontainer-annotation
             recognized-annotation="postResize">
       </nodecontainer-annotation>
+      <node-annotation
+            recognized-annotation="postResize">
+      </node-annotation>
       <nodecontainer-annotation
             recognized-annotation="postSelect">
       </nodecontainer-annotation>
