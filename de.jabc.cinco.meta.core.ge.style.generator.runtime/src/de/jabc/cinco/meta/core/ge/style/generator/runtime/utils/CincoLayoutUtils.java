@@ -141,11 +141,12 @@ public class CincoLayoutUtils {
 	 * Defines the appearance of the Circle
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
-	public static void createCIRCLE(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer) {
+	public static void createCIRCLE(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		org.eclipse.graphiti.services.IGaService gaService = org.eclipse.graphiti.services.Graphiti.getGaService();
 		Ellipse tmp = gaService.createEllipse(gaContainer);
-		gaService.setSize(tmp, 12, 12);
-		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
+		int size = 12+lineWidth*2;
+		gaService.setSize(tmp, size, size);
+		gaService.setLocation(tmp, tmp.getX() - 2, tmp.getY());
 		tmp.setFilled(true);
 	}
 
@@ -153,9 +154,12 @@ public class CincoLayoutUtils {
 	 * Defines the appearance of the Triangle
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
-	public static  void createTRIANGLE(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer) {
+	public static  void createTRIANGLE(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		org.eclipse.graphiti.services.IGaService gaService = org.eclipse.graphiti.services.Graphiti.getGaService();
-		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
+		int dX = 10 + lineWidth*2;
+		int dY = (int) (5 + lineWidth*1.5);
+		
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY });
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);
 	}
@@ -164,9 +168,11 @@ public class CincoLayoutUtils {
 	 * Defines the appearance of the Arrow
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
-	public static  void createARROW(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer) {
+	public static  void createARROW(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		org.eclipse.graphiti.services.IGaService gaService = org.eclipse.graphiti.services.Graphiti.getGaService();
-		Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
+		int dX = 7 + lineWidth*2;
+		int dY = 1 + lineWidth*2;
+		Polyline tmp = gaService.createPolyline(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY });
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 	}
 
@@ -174,9 +180,11 @@ public class CincoLayoutUtils {
 	 * Defines the appearance of the Diamond
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
-	public static  void createDIAMOND(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer) {
+	public static  void createDIAMOND(org.eclipse.graphiti.mm.GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		org.eclipse.graphiti.services.IGaService gaService = org.eclipse.graphiti.services.Graphiti.getGaService();
-		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
+		int dX = 8 + lineWidth;
+		int dY = 5 + lineWidth;
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY,  -dX*2,0 });
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);
 	}

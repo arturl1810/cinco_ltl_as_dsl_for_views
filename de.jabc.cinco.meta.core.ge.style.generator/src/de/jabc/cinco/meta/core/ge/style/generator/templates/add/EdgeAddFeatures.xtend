@@ -120,7 +120,8 @@ class EdgeAddFeatures extends APIUtils {
 			_d = «InternalFactory.name».eINSTANCE.create_Decoration();
 			_p = «InternalFactory.name».eINSTANCE.create_Point();
 			cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
-			«d.call(e)»
+			«val cdIndex = CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)»
+			«d.call(e, cdIndex)»
 			«Graphiti.name».getPeService().setPropertyValue(
 				cd.getGraphicsAlgorithm(), «CincoLayoutUtils.name».KEY_GA_NAME, "«d.gaName»");
 			«IF d.decoratorShape != null»
@@ -131,7 +132,7 @@ class EdgeAddFeatures extends APIUtils {
 			_d.setLocation(«d.location»);
 			_d.setLocationShift(_p);
 			
-			peService.setPropertyValue(cd, "cdIndex", "«CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)»");
+			peService.setPropertyValue(cd, "cdIndex", "«cdIndex»");
 			link(cd, «e.flName»);
 			if («e.flName».getDecorators().size() <= «CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)»)
 				«e.flName».getDecorators().add(«CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
