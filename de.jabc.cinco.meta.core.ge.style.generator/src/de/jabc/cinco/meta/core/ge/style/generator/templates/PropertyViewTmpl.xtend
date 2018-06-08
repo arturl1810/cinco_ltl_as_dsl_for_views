@@ -123,21 +123,63 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«ENDFOR»
 		«ENDIF»
 	
-		
+	
+		«FOR t : gm.types.filter[t | t instanceof UserDefinedType].map[t | t as UserDefinedType]»
 		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
-		«FOR attr : gm.allModelAttributes.filter[isAttributeColor] SEPARATOR ","»
+		«FOR attr :t.allAttributes.filter[isAttributeColor] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		   });
+		«ENDFOR»
+
+		«FOR n : gm.nodes»
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr :n.allAttributes.filter[isAttributeColor] SEPARATOR ","»
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
 		«ENDFOR»                        
 		   });
+		«ENDFOR»
 		
+		«FOR e : gm.edges»
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr : e.allAttributes.filter[isAttributeColor] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		   });
+		«ENDFOR»
+	
+		
+		«FOR t : gm.types.filter[t| t instanceof UserDefinedType].map[t| t as UserDefinedType]»
 		«IF gm.allModelAttributes.exists[isAttributeColor]»
-		«FOR attr : gm.allModelAttributes.filter[isAttributeColor]»
-			«CincoPropertyView.name».init_ColorAttributesParameter(
+		«FOR attr : t.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»(),
+				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+		«ENDFOR»
+		«ENDIF»
+		«ENDFOR»
+		
+		«FOR n : gm.nodes»
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : n.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
 				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
 		«ENDFOR»
 		«ENDIF»
+		«ENDFOR»
 
+
+		«FOR e : gm.edges»
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : e.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+		«ENDFOR»
+		«ENDIF»
+		«ENDFOR»
+		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
 			«CincoPropertyView.name».init_GrammarEditor(
