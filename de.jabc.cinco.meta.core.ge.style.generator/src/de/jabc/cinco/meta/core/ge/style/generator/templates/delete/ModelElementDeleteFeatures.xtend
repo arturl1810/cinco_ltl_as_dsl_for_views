@@ -3,7 +3,6 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.delete
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
 import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IDeleteContext
@@ -11,6 +10,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
 import mgl.ModelElement
+import graphmodel.internal.InternalGraphModel
 
 class ModelElementDeleteFeatures extends GeneratorUtils{
 	
@@ -50,13 +50,16 @@ class ModelElementDeleteFeatures extends GeneratorUtils{
 		public boolean canDelete(«IDeleteContext.name» context) {
 			return canDelete(context, «!CincoUtil.isDeleteDisabled(me)»);
 		}
-		
 	
 		@Override
 		public void delete(«IDeleteContext.name» context) {
 			«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			if (bo instanceof «me.fqInternalBeanName»)
-				((«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement()).delete();
+			if (bo instanceof «me.fqInternalBeanName») {
+				«me.fqInternalBeanName» elm = («me.fqInternalBeanName») bo;
+				«InternalGraphModel.name» intModel = elm.getRootElement();
+				((«me.fqBeanName») elm.getElement()).delete();
+				intModel.getElement().updateModelElements();
+			}
 		}
 	
 		@Override
