@@ -37,6 +37,10 @@ import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 
+import graphmodel.internal._Point;
+import graphmodel.internal.InternalFactory
+import graphmodel.internal.InternalContainer
+
 class EmfFactoryTmpl {
 
 	extension APIUtils = new APIUtils()
@@ -95,6 +99,30 @@ class EmfFactoryTmpl {
 			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») create«me.fuName»().getInternalElement();
 			ime.set_sourceElement(source);
 			ime.set_targetElement(target);
+			
+			if(source.equals(target)){
+				int x = 0;
+				int y = 0;
+				
+				if(source.getContainer() instanceof «InternalContainer.name»){
+					«InternalContainer.name» con = («InternalContainer.name») source.getContainer();
+					x = con.getX() + source.getX();
+					y = con.getY() + source.getY();
+				}
+				else{
+					x = source.getX();
+					y = source.getY();
+				}
+				«_Point.name» p1 = «InternalFactory.name».eINSTANCE.create_Point();
+				«_Point.name» p2 = «InternalFactory.name».eINSTANCE.create_Point();
+				p1.setX(x - 30);
+				p1.setY(y + 40);
+				p2.setX(x - 30);
+				p2.setY(y - 20);
+				ime.getBendpoints().add(p1);
+				ime.getBendpoints().add(p2);
+			}
+	
 			«InternalModelElementContainer.name» container = new «GraphModelExtension.name»().getCommonContainer(source.getRootElement(), source, target);
 			container.getModelElements().add(ime);
 			addEdge(source, target, ime);
