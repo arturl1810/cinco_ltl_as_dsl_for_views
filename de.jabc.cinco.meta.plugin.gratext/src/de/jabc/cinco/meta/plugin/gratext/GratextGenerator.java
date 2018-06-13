@@ -59,8 +59,7 @@ public class GratextGenerator extends ProjectGenerator {
 					gmName += gm.getName().substring(1).toLowerCase();
 				}
 				
-				String genPackage = gm.getPackage() != null ? gm.getPackage() : "";
-				genPackage += "." + gmName.toLowerCase() + "." + gmName + "Package";
+				String genPackage = createGenPackageName(gm.getPackage(), gmName.toLowerCase(), gmName + "Package");
 				genPackages.put(gm.getNsURI(), genPackage);
 				
 				String genModelUri = "platform:/resource/" + getModelProjectSymbolicName() + "/src-gen/model/" + gm.getName() + ".genmodel";
@@ -69,7 +68,10 @@ public class GratextGenerator extends ProjectGenerator {
 			if (i.getImportURI().endsWith(".ecore")) {
 				GenModel gm = CincoUtil.getImportedGenmodel(i);
 				gm.getGenPackages().forEach(genPkg -> {
-					String genPackage = genPkg.getBasePackage() + "." + genPkg.getEcorePackage().getName() + "." + genPkg.getPrefix() + "Package";
+					String name = genPkg.getEcorePackage().getName();
+					if (name == null)
+						name = genPkg.getPrefix().toLowerCase();
+					String genPackage = createGenPackageName(genPkg.getBasePackage(), name, genPkg.getPrefix() + "Package");
 					genPackages.put(genPkg.getNSURI(), genPackage);
 					
 					String genModelUri = URI.createPlatformResourceURI(
@@ -78,6 +80,12 @@ public class GratextGenerator extends ProjectGenerator {
 				});
 			}
 		});
+	}
+	
+	private String createGenPackageName(String basePkg, String pkgSuffix, String pkgName) {
+		String name = (basePkg != null) ? (basePkg + ".") : "";
+		name += (pkgSuffix != null) ? pkgSuffix + "." : "";
+		return name + pkgName;
 	}
 	
 	@Override
