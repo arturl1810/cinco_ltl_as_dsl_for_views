@@ -13,7 +13,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
@@ -30,6 +35,7 @@ import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.TransformerTemplate;
 import mgl.GraphModel;
+import mgl.Import;
 
 public class GratextGenerator extends ProjectGenerator {
 	
@@ -72,11 +78,12 @@ public class GratextGenerator extends ProjectGenerator {
 					if (name == null)
 						name = genPkg.getPrefix().toLowerCase();
 					String genPackage = createGenPackageName(genPkg.getBasePackage(), name, genPkg.getPrefix() + "Package");
-					genPackages.put(genPkg.getNSURI(), genPackage);
+					String nsURI = getNSURI(genPkg, i);
+					genPackages.put(nsURI, genPackage);
 					
 					String genModelUri = URI.createPlatformResourceURI(
 							gm.eResource().getURI().toPlatformString(false), false).toString();
-					genModelURIs.put(genPkg.getNSURI(), genModelUri);
+					genModelURIs.put(nsURI, genModelUri);
 				});
 			}
 		});
@@ -86,6 +93,29 @@ public class GratextGenerator extends ProjectGenerator {
 		String name = (basePkg != null) ? (basePkg + ".") : "";
 		name += (pkgSuffix != null) ? pkgSuffix + "." : "";
 		return name + pkgName;
+	}
+	
+	private String getNSURI(GenPackage genPkg, Import i) {
+		if (genPkg.getNSURI() != null)
+			return genPkg.getNSURI();
+		if (i.getImportURI().endsWith(".ecore")) {
+			URI uri = URI.createURI(i.getImportURI());
+			Resource res = CincoUtil.getResource(uri.toString(), i.eResource());
+			TreeIterator<Object> contents = EcoreUtil.getAllContents(res, true);
+			while (contents.hasNext()) {
+				Object content = contents.next();
+				if (content instanceof EPackage) {
+					if (((EPackage) content).eClass().getName().equals(genPkg.eClass().getName())) {
+						return ((EPackage) content).getNsURI();
+					}
+				}
+			};
+		}
+		if (i.getImportURI().endsWith(".mgl")) {
+			GraphModel gm = CincoUtil.getImportedGraphModel(i);
+			return gm.getNsURI();
+		}
+		return null;
 	}
 	
 	@Override
