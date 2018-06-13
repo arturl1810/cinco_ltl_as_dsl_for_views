@@ -64,25 +64,20 @@ public class GratextGenerator extends ProjectGenerator {
 				if (gm.getName().length() > 1) {
 					gmName += gm.getName().substring(1).toLowerCase();
 				}
-				
 				String genPackage = createGenPackageName(gm.getPackage(), gmName.toLowerCase(), gmName + "Package");
 				genPackages.put(gm.getNsURI(), genPackage);
-				
 				String genModelUri = "platform:/resource/" + getModelProjectSymbolicName() + "/src-gen/model/" + gm.getName() + ".genmodel";
 				genModelURIs.put(gm.getNsURI(), genModelUri);
 			}
 			if (i.getImportURI().endsWith(".ecore")) {
 				GenModel gm = CincoUtil.getImportedGenmodel(i);
+				String genModelUri = URI.createPlatformResourceURI(gm.eResource().getURI().toPlatformString(false), false).toString();
 				gm.getGenPackages().forEach(genPkg -> {
-					String name = genPkg.getEcorePackage().getName();
-					if (name == null)
-						name = genPkg.getPrefix().toLowerCase();
+					String name = getName(genPkg);
 					String genPackage = createGenPackageName(genPkg.getBasePackage(), name, genPkg.getPrefix() + "Package");
 					String nsURI = getNSURI(genPkg, i);
-					genPackages.put(nsURI, genPackage);
 					
-					String genModelUri = URI.createPlatformResourceURI(
-							gm.eResource().getURI().toPlatformString(false), false).toString();
+					genPackages.put(nsURI, genPackage);
 					genModelURIs.put(nsURI, genModelUri);
 				});
 			}
@@ -95,6 +90,13 @@ public class GratextGenerator extends ProjectGenerator {
 		return name + pkgName;
 	}
 	
+	private String getName(GenPackage genPkg) {
+		String name = genPkg.getEcorePackage().getName();
+		if (name == null)
+			name = genPkg.getPrefix().toLowerCase();
+		return name;
+	}
+	
 	private String getNSURI(GenPackage genPkg, Import i) {
 		if (genPkg.getNSURI() != null)
 			return genPkg.getNSURI();
@@ -105,7 +107,7 @@ public class GratextGenerator extends ProjectGenerator {
 			while (contents.hasNext()) {
 				Object content = contents.next();
 				if (content instanceof EPackage) {
-					if (((EPackage) content).eClass().getName().equals(genPkg.eClass().getName())) {
+					if (((EPackage) content).getName().equals(getName(genPkg))) {
 						return ((EPackage) content).getNsURI();
 					}
 				}
