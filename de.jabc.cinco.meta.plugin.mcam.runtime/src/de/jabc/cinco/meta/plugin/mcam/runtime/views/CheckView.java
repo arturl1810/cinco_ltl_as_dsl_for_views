@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -180,9 +181,12 @@ public class CheckView extends McamView<CheckViewPage> {
 
 	@Override
 	public CheckViewPage<?, ?, ?> createPage(String id, IEditorPart editor) {
-		PageFactory pf = getPageFactory();
-		if (pf != null)
-			return pf.createCheckViewPage(id, editor);
+		List<PageFactory> pfs = getPageFactories();
+		for (PageFactory pf : pfs) {
+			CheckViewPage<?, ?, ?> page = pf.createCheckViewPage(id, editor);
+			if (page != null)
+				return page;
+		}
 		return null;
 	}
 
