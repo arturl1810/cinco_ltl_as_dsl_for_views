@@ -79,12 +79,13 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _C
 		if (ignoreResource(iResource))
 			return;
 
-		if (iResource instanceof org.eclipse.core.internal.resources.File)
-			if (Arrays.asList(getFileExtensions()).contains(
-					iResource.getFileExtension())) {
+		List<String> fileExtensions = new ArrayList<>(getFileExtensions());
+		if (iResource instanceof org.eclipse.core.internal.resources.File) {
+			if (fileExtensions.contains(iResource.getFileExtension())) {
 				EObject model = loadModel(iResource);
 				addCheckProcess((IFile) iResource, model.eResource());
 			}
+		}
 
 		if (iResource instanceof org.eclipse.core.internal.resources.Container)
 			try {
@@ -99,7 +100,6 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _C
 	}
 
 	private boolean ignoreResource(IResource iResource) {
-		System.out.println("Ignore " + iResource);
 		for (String string : Arrays.asList(tmpNames)) {
 			if (iResource.getName().toLowerCase().contains(string.toLowerCase()))
 				return true;
