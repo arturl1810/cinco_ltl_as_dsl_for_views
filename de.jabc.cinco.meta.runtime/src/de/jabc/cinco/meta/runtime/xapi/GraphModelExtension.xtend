@@ -216,9 +216,9 @@ class GraphModelExtension {
 	private def <C extends IdentifiableElement> Iterable<C> findDeeply_recurse(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression, Set<ModelElementContainer> visited) {
 		if (!visited.add(container))
 			return #[]
-		val children = container.find(ModelElementContainer)
-		children.filter(clazz)
-			+ container.plus(children)
+		val candidates = container.plus(container.find(IdentifiableElement))
+		candidates.filter(clazz)
+			+ candidates
 				.map(progression).filterNull
 				.map[findDeeply_recurse(clazz, progression, visited)].flatten
 	}
