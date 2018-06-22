@@ -121,7 +121,7 @@ public class «gm.fuName»LayoutUtils {
 		
 		}
 		
-		public static void updateStyleFromAppearance(«GraphicsAlgorithm.name» ga, «Appearance.name» appearance, «Diagram.name» diagram) {
+		public static void updateStyleFromAppearance(«Appearance.name» appearance,«GraphicsAlgorithm.name» ga, «Diagram.name» diagram) {
 				if (appearance != null) {
 					if (appearance.getImagePath() != null && ga instanceof «Image.name») {
 						String imageId = «gm.packageName».«gm.fuName»GraphitiUtils.getInstance().getImageId(appearance.getImagePath());

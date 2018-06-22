@@ -44,9 +44,8 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 			if (gaName != null && !gaName.isEmpty() && d != null) {
 				«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils
 					.updateStyleFromAppearance(
-						s.getGraphicsAlgorithm(), 
 						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
-							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
+							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName),s.getGraphicsAlgorithm(), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 			if («me.instanceofCheck("object")») {
@@ -71,9 +70,8 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 				if (gaName != null && !gaName.isEmpty() && d != null) {
 					«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils.
 						updateStyleFromAppearance(
-							s.getGraphicsAlgorithm(), 
 							new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
-								(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
+								(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), s.getGraphicsAlgorithm(), d);
 				}
 				«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 				if («me.instanceofCheck("object")») {
