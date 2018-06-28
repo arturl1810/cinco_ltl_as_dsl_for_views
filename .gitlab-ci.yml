@@ -8,7 +8,7 @@ build:
     paths:
       - /builds/scce/cinco/m2/repository
     key: maven
-  image: registry.gitlab.com/scce/cinco:latest
+  image: scce/maven:latest
   only:
     - schedules
     - web

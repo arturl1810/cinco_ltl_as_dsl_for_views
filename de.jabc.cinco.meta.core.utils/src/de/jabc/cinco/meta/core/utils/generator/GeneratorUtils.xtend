@@ -173,7 +173,7 @@ class GeneratorUtils extends InheritanceUtil{
 	'''«me.graphModel.packageName».api'''
 	
 	def packageNameEContentAdapter(Type me)
-	'''«me.graphModel.packageName».content.adapter'''
+	'''«me.graphModel.package».adapter'''
 	
 	/**
 	 * Returns the package name for the generated {@link ExpressionFactory}
@@ -745,4 +745,18 @@ class GeneratorUtils extends InheritanceUtil{
 		}
 	'''
 
+	def getWizardLabel(GraphModel mglModel) {
+		mglModel.getAnnotationValue("wizard", 0)
+	}
+
+	def getWizardClass(GraphModel mglModel) {
+		mglModel.getAnnotationValue("wizard", 1)
+	}
+	
+	def getAnnotationValue(ModelElement me, String annotationName, int valueIndex) {
+		val annot = CincoUtil.findAnnotation(me, annotationName)
+		if (annot?.value?.size > valueIndex)
+			annot.value.get(valueIndex)
+		else null
+	}
 }

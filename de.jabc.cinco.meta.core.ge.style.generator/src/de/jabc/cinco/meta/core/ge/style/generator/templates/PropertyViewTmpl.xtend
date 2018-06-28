@@ -1,35 +1,30 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import mgl.GraphModel
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
-import org.eclipse.ui.ISelectionListener
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import de.jabc.cinco.meta.core.ui.properties.CincoPropertyView
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
+import mgl.GraphModel
+import mgl.UserDefinedType
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.ui.IWorkbenchPart
+import org.eclipse.gef.GraphicalEditPart
+import org.eclipse.graphiti.mm.pictograms.Connection
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import org.eclipse.graphiti.platform.IDiagramBehavior
+import org.eclipse.graphiti.services.Graphiti
+import org.eclipse.graphiti.ui.editor.DiagramBehavior
+import org.eclipse.graphiti.ui.editor.DiagramEditor
+import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart
+import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
-
-import static extension de.jabc.cinco.meta.core.utils.CincoUtil.* import mgl.UserDefinedType
-import mgl.Attribute
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.gef.GraphicalEditPart
-import org.eclipse.graphiti.ui.editor.DiagramBehavior
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
-import org.eclipse.graphiti.mm.pictograms.Connection
-import org.eclipse.graphiti.services.Graphiti
-import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart
-import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart
-import org.eclipse.graphiti.platform.IDiagramBehavior
-import de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils.CincoGraphitiUtils
-import org.eclipse.graphiti.ui.internal.editor.DiagramBehaviorDummy
-import org.eclipse.graphiti.ui.editor.DiagramEditor
-
-import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import com.google.inject.Injector
+import org.eclipse.ui.ISelectionListener
+import org.eclipse.ui.IWorkbenchPart
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory
-import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory.Builder
-import de.jabc.cinco.meta.core.ui.properties.CincoResourceProvider
+
+import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class PropertyViewTmpl extends GeneratorUtils {
 
@@ -128,21 +123,63 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«ENDFOR»
 		«ENDIF»
 	
-		
+	
+		«FOR t : gm.types.filter[t | t instanceof UserDefinedType].map[t | t as UserDefinedType]»
 		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
-		«FOR attr : gm.allModelAttributes.filter[isAttributeColor] SEPARATOR ","»
+		«FOR attr :t.allAttributes.filter[isAttributeColor] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		   });
+		«ENDFOR»
+
+		«FOR n : gm.nodes»
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr :n.allAttributes.filter[isAttributeColor] SEPARATOR ","»
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
 		«ENDFOR»                        
 		   });
+		«ENDFOR»
 		
+		«FOR e : gm.edges»
+		«CincoPropertyView.name».init_ColorAttributes(new «EStructuralFeature.name»[] {
+		«FOR attr : e.allAttributes.filter[isAttributeColor] SEPARATOR ","»
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+		«ENDFOR»                        
+		   });
+		«ENDFOR»
+	
+		
+		«FOR t : gm.types.filter[t| t instanceof UserDefinedType].map[t| t as UserDefinedType]»
 		«IF gm.allModelAttributes.exists[isAttributeColor]»
-		«FOR attr : gm.allModelAttributes.filter[isAttributeColor]»
-			«CincoPropertyView.name».init_ColorAttributesParameter(
+		«FOR attr : t.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»(),
+				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+		«ENDFOR»
+		«ENDIF»
+		«ENDFOR»
+		
+		«FOR n : gm.nodes»
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : n.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
 				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
 		«ENDFOR»
 		«ENDIF»
+		«ENDFOR»
 
+
+		«FOR e : gm.edges»
+		«IF gm.allModelAttributes.exists[isAttributeColor]»
+		«FOR attr : e.allAttributes.filter[isAttributeColor]»
+		«CincoPropertyView.name».init_ColorAttributesParameter(
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+				"«attr.annotations.filter[name == "color"].map[value].get(0).get(0)»");
+		«ENDFOR»
+		«ENDIF»
+		«ENDFOR»
+		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
 			«CincoPropertyView.name».init_GrammarEditor(
@@ -155,6 +192,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 	
 	@Override
 	public void selectionChanged(«IWorkbenchPart.name» part, «ISelection.name» selection) {
+		«WorkbenchExtension.name» wb = new «WorkbenchExtension.name»();
 		if (isStructuredSelection(selection)) {
 			«Object.name» element = ((«IStructuredSelection.name») selection).getFirstElement();
 			«PictogramElement.name» pe = null;
@@ -162,13 +200,19 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 				pe = getPictogramElement(element);
 			
 			«IDiagramBehavior.name» diagramBehavior = null;
-			if (part instanceof «DiagramEditor.name»){
-				diagramBehavior = ((«DiagramEditor.name») part).getDiagramBehavior();
+			«DiagramEditor.name» editor = wb.getActiveDiagramEditor();
+			if (editor != null){
+				diagramBehavior = editor.getDiagramBehavior();
 			}
 			if (diagramBehavior instanceof «DiagramBehavior.name») {
 				«DiagramBehavior.name» db = («DiagramBehavior.name») diagramBehavior;		
 				«EObject.name» bo = getBusinessObject(pe);
 			
+				«FOR attr : gm.allModelAttributes.filter[isAttributePossibleValuesProvider]»
+				if (bo instanceof «attr.modelElement.fqBeanName»)
+					«CincoPropertyView.name».refreshPossibleValues(«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.name»_«attr.name.toFirstUpper»(), new «attr.getPossibleValuesProviderClass»().getPossibleValues((«attr.modelElement.fqBeanName») bo));
+				
+				«ENDFOR»
 
 				if (pe instanceof «ConnectionDecorator.name» && !pe.equals(lastSelected)) {
 					«Connection.name» connection = ((«ConnectionDecorator.name») pe).getConnection();

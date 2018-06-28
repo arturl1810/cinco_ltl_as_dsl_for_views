@@ -294,6 +294,10 @@ class GratextGrammarTemplate extends AbstractGratextTemplate {
 		_EBoolean returns _ecore::EBoolean:
 			'true' | 'false'
 		;
+
+		_EDate returns _ecore::EDate:
+			_STRING
+		;
 		
 		terminal _ID : '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')* ;
 		

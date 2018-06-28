@@ -10,6 +10,9 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.IdentifiableElement
+import de.jabc.cinco.meta.runtime.contentadapter.CincoEContentAdapter
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import org.eclipse.graphiti.mm.pictograms.Shape
 
 class GraphitiResourceFactory {
 	
@@ -59,7 +62,8 @@ class GraphitiResourceFactory {
 									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					ie.element = cElement
-«««					ie.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+					if (!ie.eAdapters.exists[it instanceof «me.packageNameEContentAdapter».«me.fuName»EContentAdapter])
+						ie.eAdapters.add(new «me.packageNameEContentAdapter».«me.fuName»EContentAdapter)
 				}
 				«ENDFOR»
 			}
@@ -75,7 +79,16 @@ class GraphitiResourceFactory {
 		}
 		
 		def fetchLinkedElement(«Diagram.name» d, «IdentifiableElement.name» me) {
-			d.pictogramLinks?.filter[businessObjects.contains(me)].head?.pictogramElement
+			var pe = d.pictogramLinks?.filter[businessObjects.contains(me)].head?.pictogramElement
+			if (pe === null) 
+				pe = d.getPes.filter[link?.businessObjects?.contains(me)].head
+			if (pe === null)
+				pe = d.connections.filter[link?.businessObjects?.contains(me)].head
+			pe
+		}
+		
+		private def Iterable<«Shape.name»> getPes(«ContainerShape.name» cs) {
+			return cs.children + cs.children.filter(«ContainerShape.name»).map[getPes].flatten
 		}
 	}
 	'''

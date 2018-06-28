@@ -7,6 +7,7 @@ import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 
 class PluginXMLTmpl extends GeneratorUtils {
 
+	private GraphModel gm
 	private String gmName
 	private String pkgName
 	private String icon
@@ -14,6 +15,7 @@ class PluginXMLTmpl extends GeneratorUtils {
 	private String nsUri
 
 	def generatePluginXML(GraphModel gm){
+		this.gm = gm
 		gmName = gm.name
 		pkgName = gm.packageName.toString
 		icon = gm.iconPath
@@ -110,21 +112,25 @@ class PluginXMLTmpl extends GeneratorUtils {
 	'''
 	
 	def wizards() {
-		wizards(pkgName, gmName, icon)
+		wizard(
+			gm.wizardClass ?: '''«pkgName».wizard.«gmName»DiagramWizard''',
+			pkgName, gmName, icon,
+			gm.wizardLabel ?: '''New «gmName»'''
+		)
 	}
 	
-	def wizards(String pkgName, String gmName, String icon) '''
+	def wizard(String className, String pkgName, String gmName, String icon, String name) '''
 	<extension
 		point="org.eclipse.ui.newWizards">
 	<!--@CincoGen «gmName»-->
 		<wizard
 			category="de.jabc.cinco.meta.core.wizards.category.cinco"
-			class="«pkgName».wizard.«gmName»DiagramWizard"
+			class="«className»"
 			«IF !icon.nullOrEmpty»
 			icon="«icon»"
 			«ENDIF»
 			id="«pkgName».wizard.«gmName.toLowerCase»"
-			name="New «gmName»">
+			name="«name»">
 		</wizard>
 	</extension>
 	'''

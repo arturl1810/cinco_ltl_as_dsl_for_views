@@ -15,9 +15,7 @@ import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import graphmodel.Type
-import graphmodel.GraphModel
 import graphmodel.internal.InternalGraphModel
-import org.eclipse.emf.ecore.EClass
 
 /**
  * GraphModel-specific extension methods.
@@ -111,7 +109,6 @@ class GraphModelExtension {
 	/**
 	 * Finds all elements of specific type inside the specified container.
 	 * <br>Recurses into all sub-containers.
-	 * <br>The type of each element is matched to the specified type via {@code instanceof}.
 	 * <p>
 	 * Convenient method for {@code findDeeply(container, cls, [])}</p>
 	 * 
@@ -127,9 +124,24 @@ class GraphModelExtension {
 	}
 	
 	/**
+	 * Finds all elements of any of the specified types inside the specified container.
+	 * <br>Recurses into all sub-containers.
+	 * <p>
+	 * Convenient method for {@code findDeeply(container, classes, [])}</p>
+	 * 
+	 * @param container - The container holding the elements to be searched through.
+	 * @param cls - The class of the elements to be found.
+	 * @return  A set of elements of the specified type. Might be empty but is never null.
+	 */
+	def Iterable<? extends ModelElement> find(ModelElementContainer container, Class<? extends ModelElement>... classes) {
+		val children = container.modelElements
+		val filtered = children.filter[child | classes.exists[isInstance(child)]]
+		filtered + children.filter(ModelElementContainer).map[find(classes)].flatten
+	}
+	
+	/**
 	 * Finds the element of specific type inside the specified container.
 	 * <br>Recurses into all sub-containers.
-	 * <br>The type of each element is matched to the specified type via {@code instanceof}.
 	 * <p>
 	 * Convenient method for {@code find(container, cls).head}</p>
 	 * 
@@ -204,9 +216,9 @@ class GraphModelExtension {
 	private def <C extends IdentifiableElement> Iterable<C> findDeeply_recurse(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression, Set<ModelElementContainer> visited) {
 		if (!visited.add(container))
 			return #[]
-		val children = container.find(ModelElementContainer)
-		children.filter(clazz)
-			+ container.plus(children)
+		val candidates = container.plus(container.find(IdentifiableElement))
+		candidates.filter(clazz)
+			+ candidates
 				.map(progression).filterNull
 				.map[findDeeply_recurse(clazz, progression, visited)].flatten
 	}

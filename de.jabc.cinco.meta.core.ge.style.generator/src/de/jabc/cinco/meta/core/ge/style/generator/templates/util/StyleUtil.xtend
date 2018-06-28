@@ -171,6 +171,10 @@ class StyleUtil extends APIUtils {
 		«Shape.name» «peName» = peService.createShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
 	'''
 
+	def dispatch creator(style.Image s, String peName, String containerName) '''
+		«Shape.name» «peName» = peService.createContainerShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
+	'''
+
 	def dispatch getCode(Ellipse e, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Ellipse.name» «currentGaName» = gaService.createPlainEllipse(«currentPeName»);
 	'''
@@ -183,7 +187,7 @@ class StyleUtil extends APIUtils {
 		«org.eclipse.graphiti.mm.algorithms.RoundedRectangle.name» «currentGaName» = gaService.createPlainRoundedRectangle(«currentPeName», «rr.
 			cornerWidth», «rr.cornerHeight»);
 	'''
-	/**
+	/**Thus
 	 * Generates a polygon 
 	 * @param p : The polygon that will be generated
 	 * @param currentGaName : The 'Impl' of a shape e.g. 'polygonImpl25'
@@ -303,6 +307,7 @@ class StyleUtil extends APIUtils {
 		«org.eclipse.graphiti.mm.algorithms.Text.name» «currentGaName» = gaService.createPlainText(«currentPeName»);
 		
 		«««Hier muss der Code generiert werden, der den anzuzeigenden Wert aus der zugehörigen @style annotation ausliest
+		
 		«ExpressionFactoryImpl.name» factory = new com.sun.el.ExpressionFactoryImpl();
 		«LinkedList.name» <«Shape.name»>linkingList = new «LinkedList.name» <«Shape.name»>();
 		linkingList.add(«currentPeName.toString»);
@@ -460,14 +465,17 @@ class StyleUtil extends APIUtils {
 		}
 	'''
 
-	def call(ConnectionDecorator cd, Edge e) {
-		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCall(e)
+	def call(ConnectionDecorator cd, Edge e, int cdIndex) {
+		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCall(e, cdIndex)
 		if (cd.decoratorShape != null) return cd.decoratorShape.cdShapeCall(e)
 	}
 
 	
-	def cdCall(PredefinedDecorator pd, Edge e) '''
-		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd);
+	def cdCall(PredefinedDecorator pd, Edge e, int cdIndex) '''
+		«val dummyVal = "cdDummy" + cdIndex»
+		org.eclipse.graphiti.mm.algorithms.Polyline «dummyVal» = gaService.createPolyline(null);
+		«pd.appearanceCode(dummyVal)»
+		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd, «dummyVal».getLineWidth());
 «««		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 		«pd.appearanceCode("cd.getGraphicsAlgorithm()")»
 	'''
@@ -498,7 +506,7 @@ class StyleUtil extends APIUtils {
 			«IF ga.size != null»
 			gaService.setSize(«ga.simpleName.toLowerCase», width, height);
 			«ELSE»
-			gaService.setSize(«ga.simpleName.toLowerCase», 25, 25);
+			gaService.setSize(«ga.simpleName.toLowerCase», 100, 25);
 			«ENDIF»
 			«appearanceCode(ga as AbstractShape,ga.simpleName.toLowerCase)»
 		}
@@ -672,7 +680,7 @@ class StyleUtil extends APIUtils {
 	 * 
 	 */
 	private def dispatch getText(Edge e, EList<String> vals){
-		vals.subList(1,vals.size).join(";")
+		vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str].join(";")
 	}
 	
 	/**
@@ -683,7 +691,7 @@ class StyleUtil extends APIUtils {
 	private def dispatch getText(Node n, EList<String> vals) {
 		if (n.isPrime) {
 			val expPattner = Pattern.compile("\\$\\{(.*)\\}")
-			vals.subList(1,vals.size)
+			vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str]          //filter[!isNullOrEmpty]
 			.map[
 				val m = expPattner.matcher(it)
 				if (m.matches) {
@@ -691,7 +699,9 @@ class StyleUtil extends APIUtils {
 				} else it
 			].join(";")	
 			
-		} else vals.subList(1,vals.size).join(";")
+		} else {
+			vals.subList(1,vals.size).map[str| if(str.isNullOrEmpty) " " else str].join(";")
+		}
 	}
 	
 	def size(GraphicsAlgorithm ga) {

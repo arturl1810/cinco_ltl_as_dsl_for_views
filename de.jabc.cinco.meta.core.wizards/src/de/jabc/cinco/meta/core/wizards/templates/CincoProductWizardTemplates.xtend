@@ -172,7 +172,7 @@ graphModel «modelName» {
 		incomingEdges ({Transition,LabeledTransition}[1,*])
 	}
 	
-	// use the "blueTextRectangle" as style and pass the attribute "text" as parameter
+	// use the "blueTextRectangle" as style and pass the attribute "name" as parameter
 	@style(blueTextRectangle, "${name}")
 	«IF features.contains(ICONS)»
 	@icon("icons/Activity.png")

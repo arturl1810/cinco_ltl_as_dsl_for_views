@@ -73,7 +73,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	@Override
 	public «n.fqBeanName» new«n.fuName»(«String.name» id, int x, int y, int width, int height) {
 		«n.fqBeanName» obj = new«n.fuName»(x, y, width, height);
-		«EcoreUtil.name».setID(obj, id);
+		obj.transact("SetId",() -> {«EcoreUtil.name».setID(obj, id);});
 		return obj;
 	}
 	

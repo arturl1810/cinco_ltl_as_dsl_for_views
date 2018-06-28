@@ -92,6 +92,7 @@ class DiagramBuilder {
 		} else switch bo {
 			InternalEdge: {
 				addBendpoints(bo, pe)
+				updateDecorators(bo, pe)
 			}
 			InternalModelElementContainer :
 				bo.modelElements.filter(InternalNode).forEach[
@@ -111,6 +112,12 @@ class DiagramBuilder {
 		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
 		diagramTypeProvider.diagramBehavior.executeFeature(
 			featureProvider.getAddBendpointFeature(ctx), ctx);
+	}
+	
+	def updateDecorators(InternalEdge edge, PictogramElement pe) {
+		edge.decorators.forEach[ dec, i|
+			updateDecorator((pe as FreeFormConnection), i, dec.locationShift?.x -> dec.locationShift?.y)
+		]
 	}
 	
 	def updateDecorator(Connection con, int index, Pair<Integer,Integer> location) {

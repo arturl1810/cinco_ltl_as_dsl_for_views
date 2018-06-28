@@ -122,6 +122,9 @@
       <nodecontainer-annotation
             recognized-annotation="postResize">
       </nodecontainer-annotation>
+      <node-annotation
+            recognized-annotation="postResize">
+      </node-annotation>
       <nodecontainer-annotation
             recognized-annotation="postSelect">
       </nodecontainer-annotation>
@@ -149,6 +152,9 @@
       <attribute-annotation
             recognized-annotation="grammar">
       </attribute-annotation>
+      <graphmodel-annotation
+            recognized-annotation="wizard">
+      </graphmodel-annotation>
    </extension>
 
 </fragment>
