@@ -198,8 +198,9 @@ class GratextGrammarTemplate extends AbstractGratextTemplate {
 			val entry = switch it:type {
 				GraphModel: acronym -> name
 				ModelElement: graphModel.acronym -> name
-				EClass: EPackage.acronym -> name
+				EClass: if (EPackage.acronym == "ecore") {"_ecore" -> name} else EPackage.acronym -> name
 			}
+			
 			'''[«entry.key»::«entry.value»|_ID]'''
 		}
 	}
@@ -224,13 +225,13 @@ class GratextGrammarTemplate extends AbstractGratextTemplate {
 				case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«it.gratextName» += «type(it)» ( ',' ^«it.gratextName» += «type(it)» )* )? ']' )?'''
 				default: '''( '«it.name»' ^«it.gratextName» = «type(it)» )?'''
 			}
-		].join(' &\n')
+		].join(' \n')
 		val primeStr = switch elm {
 			Node: elm.prime
 		}
 		if (attrs.empty)
 			primeStr
-		else if(primeStr != null) "( " + primeStr + ' &\n' + attrsStr + " )" else "( " + attrsStr + " )"
+		else if(primeStr != null) "( " + primeStr + ' \n' + attrsStr + " )" else "( " + attrsStr + " )"
 	}
 
 	def prime(Node node) {
@@ -242,7 +243,7 @@ class GratextGrammarTemplate extends AbstractGratextTemplate {
 	def imports() '''
 		import "«graphmodel.nsURI»/«project.acronym»"
 		import "«graphmodel.nsURI»" as «model.acronym»
-		«references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
+		«references.entrySet.filter[value != "http://www.eclipse.org/emf/2002/Ecore"].map['''import "«it.value»" as «it.key»'''].join('\n')»
 		import "http://www.jabc.de/cinco/gdl/graphmodel/internal" as _graphmodel
 		import "http://www.eclipse.org/emf/2002/Ecore" as _ecore
 	'''
