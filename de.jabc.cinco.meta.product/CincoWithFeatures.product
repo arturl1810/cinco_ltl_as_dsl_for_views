@@ -33,7 +33,6 @@
       startupForegroundColor="FFFFFF" />
    <launcher name="cinco">
       <linux icon="icon.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -59,7 +58,6 @@
       <feature id="org.eclipse.pde.source"/>
       <feature id="org.eclipse.equinox.p2.rcp.feature"/>
       <feature id="org.eclipse.equinox.p2.user.ui"/>
-      <feature id="org.eclipse.cvs"/>
       <feature id="org.eclipse.equinox.p2.rcp.feature.source"/>
       <feature id="org.eclipse.jdt.source"/>
       <feature id="org.eclipse.jdt"/>
@@ -77,10 +75,8 @@
       <feature id="org.eclipse.emf.mapping"/>
       <feature id="org.eclipse.emf.codegen.ecore.ui"/>
       <feature id="org.eclipse.emf.codegen.ui.source"/>
-      <feature id="org.eclipse.xtext.ui.source"/>
       <feature id="org.eclipse.equinox.p2.extras.feature.source"/>
       <feature id="org.eclipse.emf.mapping.ui.source"/>
-      <feature id="org.eclipse.xtext.xtext.ui.source"/>
       <feature id="org.eclipse.xtext.xbase.lib"/>
       <feature id="org.eclipse.emf.doc"/>
       <feature id="org.eclipse.emf.ecore.edit.source"/>
@@ -95,12 +91,8 @@
       <feature id="org.eclipse.emf.edit"/>
       <feature id="org.eclipse.emf.converter"/>
       <feature id="org.eclipse.emf.mapping.ecore.source"/>
-      <feature id="org.eclipse.xtext.examples.source"/>
       <feature id="org.eclipse.emf.databinding.source"/>
       <feature id="org.eclipse.emf.mapping.source"/>
-      <feature id="org.eclipse.xtext.xbase.source"/>
-      <feature id="org.eclipse.cvs.source"/>
-      <feature id="org.eclipse.emf.doc.source"/>
       <feature id="org.eclipse.emf.databinding.edit"/>
       <feature id="org.eclipse.xtext.examples"/>
       <feature id="org.eclipse.emf.common.ui"/>
@@ -112,12 +104,10 @@
       <feature id="org.eclipse.emf.codegen.source"/>
       <feature id="org.eclipse.emf.codegen.ecore"/>
       <feature id="org.eclipse.emf.databinding"/>
-      <feature id="org.eclipse.xtext.xbase.lib.source"/>
       <feature id="org.eclipse.xtext.ui"/>
       <feature id="org.eclipse.xtext.docs"/>
       <feature id="org.eclipse.xtext.xbase"/>
       <feature id="org.eclipse.emf.edit.ui"/>
-      <feature id="org.eclipse.xtext.runtime.source"/>
       <feature id="org.eclipse.emf.codegen.ecore.ui.source"/>
       <feature id="org.eclipse.emf.mapping.ecore"/>
       <feature id="org.eclipse.xtext.xtext.ui"/>
@@ -132,44 +122,33 @@
       <feature id="org.eclipse.graphiti.feature.examples"/>
       <feature id="de.jabc.cinco.meta.core.mgl.sdk"/>
       <feature id="org.eclipse.jgit"/>
-      <feature id="org.eclipse.graphiti.feature.tools.source"/>
-      <feature id="org.eclipse.graphiti.source.feature"/>
-      <feature id="org.eclipse.graphiti.feature.examples.source"/>
       <feature id="de.jabc.cinco.meta.core.ge.style.sdk"/>
       <feature id="org.eclipse.emf.validation.ocl"/>
       <feature id="org.eclipse.xsd"/>
       <feature id="org.eclipse.xsd.edit"/>
       <feature id="org.eclipse.gef"/>
-      <feature id="org.eclipse.mylyn_feature"/>
-      <feature id="org.eclipse.mylyn.context_feature"/>
-      <feature id="org.eclipse.mylyn.ide_feature"/>
-      <feature id="org.eclipse.mylyn.java_feature"/>
-      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
-      <feature id="org.eclipse.mylyn.commons.notifications"/>
       <feature id="org.eclipse.draw2d"/>
-      <feature id="org.eclipse.mylyn.commons"/>
-      <feature id="org.eclipse.mylyn.commons.repositories"/>
-      <feature id="org.eclipse.mylyn.tasks.ide"/>
-      <feature id="org.eclipse.mylyn.monitor"/>
-      <feature id="org.eclipse.mylyn.discovery"/>
-      <feature id="org.eclipse.mylyn.team_feature"/>
-      <feature id="org.eclipse.mylyn.commons.identity"/>
       <feature id="org.eclipse.emf.transaction"/>
       <feature id="org.eclipse.emf.ecore.source"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.source.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.source.feature"/>
-      <feature id="org.eclipse.ecf.core.ssl.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient4.source.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
-      <feature id="org.eclipse.ecf.core.source.feature"/>
-      <feature id="org.eclipse.ecf.core.ssl.source.feature"/>
       <feature id="de.jabc.cinco.meta.productdefinition.sdk"/>
       <feature id="org.eclipse.ecf.core.feature"/>
       <feature id="org.eclipse.emf.common.source"/>
       <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
-      <feature id="org.eclipse.ecf.filetransfer.source.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature.source"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature.source"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature.source"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature.source"/>
+      <feature id="org.eclipse.emf.mwe2.language.sdk"/>
+      <feature id="org.eclipse.emf.mwe2.runtime.sdk"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature.source"/>
+      <feature id="org.eclipse.xtext.redist"/>
+      <feature id="org.eclipse.emf.mwe2.launcher"/>
+      <feature id="org.eclipse.emf.mwe2.launcher.source"/>
+      <feature id="org.eclipse.ecf.core.feature.source"/>
    </features>
 
    <configurations>
