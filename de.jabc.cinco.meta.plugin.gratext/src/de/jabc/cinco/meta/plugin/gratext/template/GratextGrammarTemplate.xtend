@@ -220,7 +220,7 @@ class GratextGrammarTemplate extends AbstractGratextTemplate {
 
 	def attributes(ModelElement elm) {
 		val attrs = model.resp(elm).attributes
-		val attrsStr = attrs.map [
+		val attrsStr = attrs.sortBy[name].map [
 			switch it {
 				case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«it.gratextName» += «type(it)» ( ',' ^«it.gratextName» += «type(it)» )* )? ']' )?'''
 				default: '''( '«it.name»' ^«it.gratextName» = «type(it)» )?'''

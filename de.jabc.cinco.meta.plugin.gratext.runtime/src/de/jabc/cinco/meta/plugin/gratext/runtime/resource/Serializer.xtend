@@ -15,7 +15,9 @@ import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
 import graphmodel.internal._Decoration
 import graphmodel.internal._Point
+import java.text.SimpleDateFormat
 import java.util.Collection
+import java.util.Date
 import java.util.List
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -25,8 +27,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class Serializer {
 
@@ -99,6 +99,7 @@ class Serializer {
 	}
 	
 	def Iterable<EStructuralFeature> attributes(EClass it) {
+		var retval =
 		if (InternalPackage.eINSTANCE.getEClassifiers.contains(it))
 			#[]
 		else (
@@ -106,6 +107,8 @@ class Serializer {
 			+ getEReferences
 			+ getESuperTypes.map[attributes].flatten
 		).filter[!name?.startsWith("gratext_")]
+		getEAttributes.filter[name?.equals("libraryComponentUID")] + retval.filter[!name?.equals("libraryComponentUID")].sortBy[name]
+		 
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
