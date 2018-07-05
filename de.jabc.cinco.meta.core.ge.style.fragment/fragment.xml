@@ -155,6 +155,9 @@
       <graphmodel-annotation
             recognized-annotation="wizard">
       </graphmodel-annotation>
+      <type-annotation
+            recognized-annotation="label">
+      </type-annotation>
    </extension>
 
 </fragment>

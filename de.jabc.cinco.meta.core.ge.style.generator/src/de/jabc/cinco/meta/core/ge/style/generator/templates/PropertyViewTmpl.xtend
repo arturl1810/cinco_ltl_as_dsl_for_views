@@ -180,6 +180,13 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«ENDIF»
 		«ENDFOR»
 		
+		«FOR t : gm.types.filter(UserDefinedType).filter[hasLabel]»
+		«CincoPropertyView.name».init_TypeLabel(
+			«gm.beanPackage».internal.impl.Internal«t.fuName»Impl.class,
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«t.annotations.filter[name == "label"].head.value.head.toFirstUpper»()
+		);
+		«ENDFOR»
+		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
 			«CincoPropertyView.name».init_GrammarEditor(
@@ -187,7 +194,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
 		«ENDFOR»
 		«ENDIF»
-
+		
 	}
 	
 	@Override
