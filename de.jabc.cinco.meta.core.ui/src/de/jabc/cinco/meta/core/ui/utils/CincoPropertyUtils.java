@@ -53,4 +53,15 @@ public class CincoPropertyUtils {
 		return retVal;
 	}
 
+	public static EStructuralFeature getLabeledFeature(Class<? extends Object> clazz, Map<Class<? extends EObject>, EStructuralFeature> typeLabeles) {
+		Class<? extends Object> currentClass = clazz;
+		while (currentClass != null) {
+			EStructuralFeature feature = typeLabeles.get(currentClass);
+			if (feature  != null)
+				return feature;
+			currentClass = (Class<? extends Object>) currentClass.getSuperclass();
+		}
+		return null;
+	}
+	
 }

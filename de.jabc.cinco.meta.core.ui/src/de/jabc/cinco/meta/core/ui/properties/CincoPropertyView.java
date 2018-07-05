@@ -102,6 +102,7 @@ import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory.Builder;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.osgi.framework.Bundle;
 
+import com.google.common.collect.ContiguousSet;
 import com.google.inject.Injector;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
@@ -808,8 +809,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 
 				if (eObject instanceof Type) {
 					InternalType internalType = ((Type) eObject).getInternalElement();
-					if (typeLabel.containsKey(internalType.getClass())){
-						EStructuralFeature attribute = typeLabel.get(internalType.getClass());
+					EStructuralFeature attribute = CincoPropertyUtils.getLabeledFeature(internalType.getClass(), typeLabel);
+					if (attribute != null) {
 						Object value = internalType.eGet(attribute);
 						if (value instanceof String)
 							return (String) value;
