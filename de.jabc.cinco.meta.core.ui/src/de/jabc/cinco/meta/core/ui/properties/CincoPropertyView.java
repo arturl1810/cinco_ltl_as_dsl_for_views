@@ -812,8 +812,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					EStructuralFeature attribute = CincoPropertyUtils.getLabeledFeature(internalType.getClass(), typeLabel);
 					if (attribute != null) {
 						Object value = internalType.eGet(attribute);
-						if (value instanceof String)
+						if (value instanceof String && !((String) value).isEmpty())
 							return (String) value;
+						else return "<<" + attribute.getName() + ">>";
 					}
 				}
 				
