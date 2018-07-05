@@ -133,6 +133,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
+	private static Map<Class<? extends EObject>, EStructuralFeature> typeLabel = new HashMap<Class<? extends EObject>, EStructuralFeature>();
 	private static Map<EStructuralFeature, Map<? extends Object, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends Object, String>>();
 	private static Map<EStructuralFeature, Injector> grammarAttributes = new HashMap<EStructuralFeature, Injector>();
 	private Map<Object, Object[]> treeExpandState;
@@ -278,6 +279,11 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	public static void init_GrammarEditor(EStructuralFeature feature, Injector injector) {
 		grammarAttributes.put(feature, injector);
 	}
+	
+	public static void init_TypeLabel(Class<? extends EObject> clazz, EStructuralFeature feature) {
+		typeLabel.put(clazz, feature);
+	}
+	
 	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
@@ -800,6 +806,16 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				EObject eObject = (EObject) element;
 				EObject eContainer = eObject.eContainer();
 
+				if (eObject instanceof Type) {
+					InternalType internalType = ((Type) eObject).getInternalElement();
+					if (typeLabel.containsKey(internalType.getClass())){
+						EStructuralFeature attribute = typeLabel.get(internalType.getClass());
+						Object value = internalType.eGet(attribute);
+						if (value instanceof String)
+							return (String) value;
+					}
+				}
+				
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
 					Object value = eContainer.eGet(ref, true);
 					if (isMultiValued(value) && !((List<?>) value).isEmpty()) {
