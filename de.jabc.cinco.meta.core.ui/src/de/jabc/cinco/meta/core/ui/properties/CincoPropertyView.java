@@ -813,7 +813,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					if (attribute != null) {
 						Object value = internalType.eGet(attribute);
 						if (value instanceof String && !((String) value).isEmpty())
-							return (String) value;
+							return (String) value.toString();
+						if (value instanceof Enum<?>)
+							return ((Enum) value).toString();
 						else return "<<" + attribute.getName() + ">>";
 					}
 				}
