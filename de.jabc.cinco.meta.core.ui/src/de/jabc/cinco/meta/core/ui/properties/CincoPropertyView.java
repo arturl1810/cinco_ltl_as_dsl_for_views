@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -379,6 +380,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					disposeChildren(simpleViewComposite);
 					if (o instanceof Type) {
 						InternalType internalElement = ((Type) o).getInternalElement();
+						registeredListeners.stream().filter(l -> l instanceof IValuesProposalProvider).forEach(vpp ->  ((IValuesProposalProvider) vpp).refreshValues((EObject) o));
 						createSimplePropertyView(internalElement, simpleViewComposite);
 					}
 					else if (o instanceof EObject)
