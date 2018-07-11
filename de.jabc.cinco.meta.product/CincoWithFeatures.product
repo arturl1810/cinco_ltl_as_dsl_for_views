@@ -12,7 +12,7 @@
 
    <launcherArgs>
       <programArgsLin>--launcher.GTK_version
-2
+3
       </programArgsLin>
       <vmArgs>-Xms40m
 -Xmx3072m
