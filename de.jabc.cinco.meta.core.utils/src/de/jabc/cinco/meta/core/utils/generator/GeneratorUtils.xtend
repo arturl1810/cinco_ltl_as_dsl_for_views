@@ -43,6 +43,7 @@ import org.eclipse.graphiti.features.IMoveFeature
 import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import java.util.LinkedHashMap
 
 class GeneratorUtils extends InheritanceUtil{
 	
@@ -386,7 +387,7 @@ class GeneratorUtils extends InheritanceUtil{
 	 * @param gm The processes {@link GraphModel}
 	 */
 	def getPaletteGroupsMap(GraphModel gm) {
-		val map = new HashMap<String, List<GraphicalModelElement>>
+		val map = new LinkedHashMap<String, List<GraphicalModelElement>>
 		map.put(ID_NODES, new ArrayList)
 		for (Node n : gm.nodes.filter[!isIsAbstract && primeReference == null && !isCreateDisabled]) {
 			if (!hasPaletteCategory(n))
@@ -398,10 +399,12 @@ class GeneratorUtils extends InheritanceUtil{
 		for (Edge e : gm.edges.filter[e | !e.isIsAbstract && !e.isCreateDisabled]){
 			e.annotations.filter[name.equals("palette")].forEach[value.forEach[v | addToMap(map,v, e)]]
 		}
-			
+		
 		map.remove("none");
 		map.remove("None");
 		map.remove("NONE");
+		
+		map.entrySet.sortBy[key]
 		
 		return map
 	}
