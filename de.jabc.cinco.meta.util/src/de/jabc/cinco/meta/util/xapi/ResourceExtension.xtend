@@ -55,7 +55,7 @@ class ResourceExtension {
 	 */
 	def IResource getIResource(Resource resource) {
 		extension val WorkspaceExtension = new WorkspaceExtension
-		resource.getURI.resource
+		resource.getURI.IResource
 	}
 	
 	/**
