@@ -29,16 +29,18 @@ class MweWorkflowTmpl extends FileTemplate {
 	
 	override init() {
 		model.importedGraphModels.forEach[
+			val pkg = if (!package.nullOrEmpty) '''«package».''' else ""
 			genPackages.put(nsURI,
-				'''«package».«name.toLowerCase».«name.toLowerCase.toFirstUpper»Package''')
+				'''«pkg»«name.toLowerCase».«name.toLowerCase.toFirstUpper»Package''')
 			genModelURIs.put(nsURI,
 				'''platform:/resource/«model.projectName»/src-gen/model/«name».genmodel''')
 		]
 		
 		model.importedGenModels.forEach[ genModel |
 			genModel.genPackages.forEach[
+				val pkg = if (!basePackage.nullOrEmpty) '''«basePackage».''' else ""
 				genPackages.put(NSURI,
-					'''«basePackage».«getEcorePackage.name».«prefix»Package''')
+					'''«pkg»«getEcorePackage.name».«prefix»Package''')
 				genModelURIs.put(NSURI,
 					URI.createPlatformResourceURI(eResource.URI.toPlatformString(false), false).toString())
 			]

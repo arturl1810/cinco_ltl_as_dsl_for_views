@@ -51,7 +51,7 @@ class GraphModelExtension {
     //================================================================================
 	
 	def String getProjectName(GraphModel it) {
-		resource.project.name
+		IResource.project.name
 	}
 	
 	def String getProjectSymbolicName(GraphModel model) {
@@ -59,7 +59,7 @@ class GraphModelExtension {
 		val serviceRef = bundleContext.getServiceReference(IBundleProjectService.name)
 		val service = bundleContext.getService(serviceRef) as IBundleProjectService
 		try {
-			return service.getDescription(model.resource.project).symbolicName
+			return service.getDescription(model.IResource.project).symbolicName
 		} catch (CoreException e) {
 			e.printStackTrace
 		} finally {
@@ -299,8 +299,8 @@ class GraphModelExtension {
 	}
 	
 	def GenModel getGenModel(Import imprt) {
-		createURI(removeExtension(imprt.importURI).concat(".genmodel"))
-			.getFile.getContent(GenModel, 0)
+		val uri = createURI(removeExtension(imprt.importURI).concat(".genmodel"))
+		uri.resource.getContent(GenModel, 0)
 	}
 	
 	def GraphModel getImportedGraphModel(Import imprt) {

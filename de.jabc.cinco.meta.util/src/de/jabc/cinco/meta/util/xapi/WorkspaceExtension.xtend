@@ -49,7 +49,7 @@ class WorkspaceExtension {
 	 * Retrieves the resource for the specified URI from the workspace,
 	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
-	def getResource(URI uri) {
+	def getIResource(URI uri) {
 		if (uri != null) {
 			workspace.root.findMember(
 				if (uri.isPlatformResource)
@@ -62,8 +62,8 @@ class WorkspaceExtension {
 	 * Retrieves the resource for the specified object from the workspace,
 	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
-	def getResource(EObject eobj) {
-		eobj.getURI.resource
+	def getIResource(EObject eobj) {
+		eobj.getURI.IResource
 	}
 	
 	/**
@@ -72,7 +72,7 @@ class WorkspaceExtension {
 	 * or it is not a file.
 	 */
 	def getFile(URI uri) {
-		val res = uri.resource
+		val res = uri.IResource
 		if (res instanceof IFile)
 			res as IFile
 		else null

@@ -22,7 +22,11 @@ class FileExtension {
 	}
 	
 	def getResource(IFile file) {
-		new ResourceSetImpl().getResource(file.platformResourceURI, true)
+		getResource(file.platformResourceURI)
+	}
+	
+	def getResource(URI uri) {
+		new ResourceSetImpl().getResource(uri, true)
 	}
 	
 	/**
