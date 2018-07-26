@@ -35,6 +35,7 @@ import static org.eclipse.emf.common.util.URI.*
 
 import static extension org.eclipse.emf.common.util.URI.createURI
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getRootContainer
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 
 class GraphModelExtension {
 	
@@ -360,11 +361,56 @@ class GraphModelExtension {
 	def getFqInternalBeanName(Type it)
 		'''«internalBeanPackage».«internalBeanName»'''
 	
+	//================================================================================
+	// ReferencedType Extensions
+	//================================================================================
+	
 	def getType(ReferencedType it) {
 		switch it {
 			ReferencedModelElement: type
 			ReferencedEClass: type
 		}
+	}
+	
+	def getTypeName(ReferencedType primeRef) {
+		switch it:primeRef {
+			ReferencedEClass : type.name
+			ReferencedModelElement : type.name
+		}
+	}
+	
+	def getFqBeanName(ReferencedType primeRef) {
+		switch primeRef {
+			ReferencedModelElement: primeRef.type.fqBeanName
+			ReferencedEClass: {
+				val primeEPackage = primeRef.type.EPackage
+				val genPkg = primeRef.genModel.genPackages.findFirst[name == primeEPackage.name]
+				primeRef.getFqBeanName(genPkg)
+			}
+		}
+	}
+	
+	def getFqBeanName(ReferencedType primeRef, GenPackage genPkg) {
+		var pkg = ""
+		if (genPkg.basePackage != null)
+			pkg += genPkg.basePackage + "."
+		val genPkgName = genPkg.name
+		if (genPkgName != null)
+			pkg += genPkgName + "."
+		return pkg + primeRef.typeName
+	}
+	
+	def getImportedModel(ReferencedEClass primeRef) {
+		primeRef.imprt.importedModel
+	}
+	
+	def getGenModel(ReferencedEClass primeRef) {
+		primeRef.imprt.genModel
+	}
+	
+	def getName(GenPackage genPkg) {
+		genPkg.getEcorePackage?.name
+		?: genPkg.prefix?.toLowerCase
 	}
 	
 	//================================================================================
