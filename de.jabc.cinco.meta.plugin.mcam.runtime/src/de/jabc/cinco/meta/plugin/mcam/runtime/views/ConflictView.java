@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views;
 
 import java.io.File;
+import java.util.List;
 
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
@@ -338,9 +339,12 @@ public class ConflictView extends McamView<ConflictViewPage> {
 
 	@Override
 	public ConflictViewPage<?, ?, ?> createPage(String pageId, IEditorPart editor) {
-		PageFactory pf = getPageFactory();
-		if (pf != null)
-			return pf.createConflictViewPage(pageId, editor);
+		List<PageFactory> pfs = getPageFactories();
+		for (PageFactory pf : pfs) {
+			ConflictViewPage<?, ?, ?> page = pf.createConflictViewPage(pageId, editor);
+			if (page != null)
+				return page;
+		}
 		return null;
 	}
 

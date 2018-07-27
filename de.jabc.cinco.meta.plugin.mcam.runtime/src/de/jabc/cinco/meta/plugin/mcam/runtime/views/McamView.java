@@ -1,7 +1,9 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -452,10 +454,10 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		boolean editorWithInput = editor != null
 					&& editor.getEditorInput() != null;
 		if (editorWithInput) {
-			PageFactory pageFactory = getPageFactory();
-			if (pageFactory != null) {
-				return pageFactory.canHandle(
-						EclipseUtils.getResource(editor));
+			List<PageFactory> pageFactories = getPageFactories();
+			if (pageFactories != null) {
+				return pageFactories.stream().anyMatch(
+					factory -> factory.canHandle(EclipseUtils.getResource(editor)));
 			}
 		}
 		return false;
@@ -505,22 +507,26 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 
 	
 	
-	protected PageFactory getPageFactory() {
+	protected List<PageFactory> getPageFactories() {
+		System.out.println("MCaM RUNTIME Extension Registry: " + Platform.getExtensionRegistry());
+		List<PageFactory> factories = new ArrayList<>();
 		IConfigurationElement[] configElements = Platform
 				.getExtensionRegistry().getConfigurationElementsFor(
 						EXTENSION_ID);
 		for (IConfigurationElement ce : configElements) {
 			try {
+				System.out.println("Create MCaM extension: " + ce);
 				Object o = ce.createExecutableExtension("class");
+				System.out.println(" > " + o);
 
 				if (o instanceof PageFactory)
-					return (PageFactory) o;
+					factories.add((PageFactory) o);
 
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return factories;
 	}
 
 	@Override

@@ -12,10 +12,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- de.jabc.cinco.meta.runtime
+ de.jabc.cinco.meta.runtime,
+ org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: graphmodel,
+Import-Package: de.jabc.cinco.meta.core.referenceregistry,
+ graphmodel,
  graphmodel.internal,
  info.scce.mcam.framework.adapter,
  info.scce.mcam.framework.modules,
@@ -23,6 +25,7 @@ Import-Package: graphmodel,
  info.scce.mcam.framework.registry.change,
  info.scce.mcam.framework.registry.check,
  info.scce.mcam.framework.strategies.merge,
+ org.eclipse.core.internal.resources,
  org.eclipse.core.resources,
  org.eclipse.emf.common.util,
  org.eclipse.emf.ecore,

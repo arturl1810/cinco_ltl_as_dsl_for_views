@@ -1,9 +1,11 @@
-package ${McamViewPagePackage};
+package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
 import graphmodel.GraphModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -18,6 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core.FrameworkExecution;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.PageFactory;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
@@ -27,26 +30,33 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _C
 
 	private ResourceExtension resourceHelper = new ResourceExtension();
 
-	private String[] fileExtensions = { 
-		// @PROJECT_CHECK_PAGE_EXT
-		"" 
-	};
-
 	private String[] tmpNames = { "temp", "tmp" };
 
 	private IProject iProject = null;
+	
+	private List<PageFactory> pageFactories = null;
 
-	public ProjectCheckViewPage(String pageId) {
+	public ProjectCheckViewPage(String pageId, List<PageFactory> pageFactories) {
 		super(pageId);
+		this.pageFactories = pageFactories;
+	}
+	
+	public List<String> getFileExtensions() {
+		List<String> list = new ArrayList<>();
+		for (PageFactory pageFactory : pageFactories) {
+			list.addAll(pageFactory.getFileExtensions());
+		}
+		return list;
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public FrameworkExecution getFrameWorkExecution(IFile iFile) {
-		FrameworkExecution fe = null;
-		// @PROJECT_CHECK_PAGE_ADD
-		// ${CliPackage}.${GraphModelName}Execution fe = new ${GraphModelName}Execution();
-		// getCheckProcesses().add(fe.createCheckPhase(fe.initApiAdapterFromResource(resource, EclipseUtils.getFile(iFile))));
-		return fe;
+		for (PageFactory pageFactory : pageFactories) {
+			FrameworkExecution fe = pageFactory.getFrameWorkExecution(iFile);
+			if (fe != null)
+				return fe;
+		}
+		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -69,12 +79,13 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, _C
 		if (ignoreResource(iResource))
 			return;
 
-		if (iResource instanceof org.eclipse.core.internal.resources.File)
-			if (Arrays.asList(fileExtensions).contains(
-					iResource.getFileExtension())) {
+		List<String> fileExtensions = new ArrayList<>(getFileExtensions());
+		if (iResource instanceof org.eclipse.core.internal.resources.File) {
+			if (fileExtensions.contains(iResource.getFileExtension())) {
 				EObject model = loadModel(iResource);
 				addCheckProcess((IFile) iResource, model.eResource());
 			}
+		}
 
 		if (iResource instanceof org.eclipse.core.internal.resources.Container)
 			try {
