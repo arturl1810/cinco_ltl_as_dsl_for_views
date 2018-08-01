@@ -216,6 +216,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val gmClasses = model.createModelElementClasses
 		gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
+		gmClasses.generateTypedModelElementGetter
 		val map = new HashMap
 		map.put(model,gmClasses)
 		map
@@ -237,6 +238,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nodeClasses.values.filter[n| (n.modelElement instanceof ContainingElement)].forEach[nc|
 			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
+			nc.generateTypedModelElementGetter
 			
 		]
 		
@@ -512,6 +514,23 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 	}
 	
+	
+	def generateTypedModelElementGetter(ElementEClasses ec){
+		val me = ec.modelElement
+		val ecl = ec.mainEClass
+		if(me instanceof ContainingElement){
+			val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
+			val content = typedModelElementGetterContent(l)
+			val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
+			complexGetterParameterMap.put(eOp,l)
+		}
+	}
+	
+	def typedModelElementGetterContent(Node node) '''
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
+				.stream().map(me -> («node.fqBeanName»)me.getElement()).
+					collect(java.util.stream.Collectors.toList()));
+	'''
 	
 
 	private def HashMap<ModelElement,? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {

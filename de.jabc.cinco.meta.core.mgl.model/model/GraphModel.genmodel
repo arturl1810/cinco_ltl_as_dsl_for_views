@@ -189,6 +189,9 @@
         <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getNodes/T"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/updateModelElements"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getNodes.1">
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getNodes.1/T"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>

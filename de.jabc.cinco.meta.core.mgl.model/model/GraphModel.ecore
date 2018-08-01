@@ -514,6 +514,12 @@
         <details key="body" value="for (ModelElement me : getModelElements()) {&#xA;&#x9;me.update();&#xA;&#x9;if (me instanceof ModelElementContainer)&#xA;&#x9;&#x9;((ModelElementContainer) me).updateModelElements();&#xA;}"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="getNodes" upperBound="-1">
+      <eGenericType eTypeParameter="#//ModelElementContainer/getNodes.1/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Node"/>
+      </eTypeParameters>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
