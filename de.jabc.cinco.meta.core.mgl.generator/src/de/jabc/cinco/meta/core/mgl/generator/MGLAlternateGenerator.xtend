@@ -520,15 +520,25 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val ecl = ec.mainEClass
 		if(me instanceof ContainingElement){
 			val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
-			val content = typedModelElementGetterContent(l)
-			val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
-			complexGetterParameterMap.put(eOp,l)
+			var content = null as CharSequence
+			if(l!=null){
+				content = typedModelElementGetterContent(l.fqBeanName)
+				val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
+				complexGetterParameterMap.put(eOp,l)
+			}else{
+				content = typedModelElementGetterContent("graphmodel.Node")
+				ecl.createEOperation("getNodes",nodeEClass,0,-1,content)	
+			}
 		}
 	}
 	
-	def typedModelElementGetterContent(Node node) '''
+	def nodeEClass(){
+		graphModelPackage.node
+	}
+	
+	def typedModelElementGetterContent(CharSequence fqBeanName) '''
 		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
-				.stream().map(me -> («node.fqBeanName»)me.getElement()).
+				.stream().map(me -> («fqBeanName»)me.getElement()).
 					collect(java.util.stream.Collectors.toList()));
 	'''
 	
