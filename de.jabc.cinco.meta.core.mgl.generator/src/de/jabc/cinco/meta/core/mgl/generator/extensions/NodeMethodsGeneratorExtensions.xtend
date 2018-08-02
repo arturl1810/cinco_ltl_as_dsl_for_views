@@ -37,6 +37,7 @@ import org.eclipse.core.runtime.Path
 import java.io.IOException
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalEdge
+import mgl.OutgoingEdgeElementConnection
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -107,23 +108,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	
 		val internalNodeClass = map.get(node.name).internalEClass
 		val nodeClass = map.get(node.name).mainEClass
-		//FIXME: For the simple case this method does not create successor methods.
-//		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
-//		val eTypeClass = if (lmNode == null)
-//				return
-//			else
-//				map.get(lmNode.name).mainEClass
-//
-//		nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
-		
-		// FIXME: Adding the missing successor methods (see above)
+		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
+		if (lmNode != null){
+			val eTypeClass = map.get(lmNode.name).mainEClass
+			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent)
+		}
 		node.possibleSuccessors.toSet.forEach[
-			val eTypeClass = map.get(it.name).mainEClass
+			val successorClass = map.get(it.name).mainEClass
 			val methodName = "get"+it.name.toFirstUpper+"Successors"
-			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getInternalSuccessorsContent.toString)
-			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
+			internalNodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getInternalSuccessorsContent.toString)
+			nodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getSuccessorsContent.toString)
 		]
 	}
+	
+	
+	
 
 	def getInternalSuccessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
@@ -132,25 +131,31 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def getSuccessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this).getSuccessors(«eTypeClass.name».class);
 	'''
+	
 
 	def specializeGetPredecessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
 		
 		val internalNodeClass = map.get(node.name).internalEClass
 		val nodeClass = map.get(node.name).mainEClass
-		// FIXME: Adding the missing predecessors methods (see above)
+		val lmNode = node.possiblePredecessors.lowestMutualSuperNode
+		if (lmNode != null){
+			val eTypeClass = map.get(lmNode.name).mainEClass
+			nodeClass.createEOperation("getPredecessors", eTypeClass, 0, -1, eTypeClass.getPredecessorsContent)
+		}
 		node.possiblePredecessors.toSet.forEach[
 			val eTypeClass = map.get(it.name).mainEClass
 			val methodName = "get"+it.name.toFirstUpper+"Predecessors"
-			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorContent.toString)
-			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorContent.toString)
+			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorsContent.toString)
+			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorsContent.toString)
 		]
+		
 	}
 
-	def getPredecessorContent(EClass eTypeClass) '''
+	def getPredecessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this).getPredecessors(«eTypeClass.name».class);
 	'''
 
-	def getInternalePredecessorContent(EClass eTypeClass) '''
+	def getInternalePredecessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this.getElement()).getPredecessors(«eTypeClass.name».class);
 	'''
 
@@ -740,14 +745,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		vars.join(",")
 	}
 
-	def List<Node> possibleSuccessors(Node node) {
-		node.outgoingEdgeConnections.map [
+	def possibleSuccessors(Node node) {
+		node.outgoingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
 			connectingEdges.map [ edge |
 				edge.edgeElementConnections.filter(IncomingEdgeElementConnection).map[connectedElement]
 			]
-		].flatten.flatten.map[it as Node].toList
+		].flatten.flatten.map[it as Node]
+		
 	}
-
+	def possiblePredecessors(Node node) {
+		node.incomingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
+			connectingEdges.map [ edge |
+				edge.edgeElementConnections.filter(OutgoingEdgeElementConnection).map[connectedElement]
+			]
+		].flatten.flatten.map[it as Node]
+		
+	}
 	/**
 	 * Collects all containment constraints of a given ContainingElement including all inherited
 	 * containment constraints.
