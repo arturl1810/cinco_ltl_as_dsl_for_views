@@ -32,7 +32,7 @@
     </eOperations>
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> successors = this.getSuccessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;&#x9;T t = (T) n;&#xA;&#x9;&#x9;retval.add(t);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
+        <details key="body" value="@SuppressWarnings(&quot;all&quot;)&#xA;java.util.List&lt;T> successors =(java.util.List&lt;T>) ((graphmodel.internal.InternalNode)this.getInternalElement()).&#xA;&#x9;&#x9;getSuccessors().stream().&#xA;&#x9;&#x9;&#x9;map(me -> me.getElement()).&#xA;&#x9;&#x9;&#x9;&#x9;filter(me -> clazz.isAssignableFrom(((Node)me).getClass())).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;collect(java.util.stream.Collectors.toList());&#xA;&#x9;&#x9;&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;retval.addAll(successors);&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors.1/T"/>
       <eTypeParameters name="T">
@@ -55,7 +55,7 @@
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> successors = this.getPredecessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;&#x9;T t = (T) n;&#xA;&#x9;&#x9;retval.add(t);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
+        <details key="body" value="@SuppressWarnings(&quot;all&quot;)&#xA;java.util.List&lt;T> successors =(java.util.List&lt;T>) ((graphmodel.internal.InternalNode)this.getInternalElement()).&#xA;&#x9;&#x9;getPredecessors().stream().&#xA;&#x9;&#x9;&#x9;map(me -> me.getElement()).&#xA;&#x9;&#x9;&#x9;&#x9;filter(me -> clazz.isAssignableFrom(((Node)me).getClass())).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;collect(java.util.stream.Collectors.toList());&#xA;&#x9;&#x9;&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;retval.addAll(successors);&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors.1/T"/>
       <eTypeParameters name="T">
