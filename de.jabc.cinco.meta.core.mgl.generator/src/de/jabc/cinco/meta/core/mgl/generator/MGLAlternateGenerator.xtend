@@ -3,10 +3,9 @@ package de.jabc.cinco.meta.core.mgl.generator
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import graphmodel.GraphmodelPackage
-import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
-import graphmodel.internal.InternalGraphModel
 import java.util.ArrayList
 import java.util.HashMap
 import mgl.Attribute
@@ -20,7 +19,6 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.PrimitiveAttribute
-import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.Type
 import mgl.UserDefinedType
@@ -35,18 +33,11 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
-import org.eclipse.emf.transaction.RecordingCommand
-import org.eclipse.emf.transaction.TransactionalEditingDomain
-import org.eclipse.emf.transaction.util.TransactionUtil
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import mgl.impl.ReferencedModelElementImpl
-import graphmodel.internal.impl.InternalGraphModelImpl
-import org.eclipse.emf.ecore.EObject
-import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -423,7 +414,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	
 	def EClass internalType(ModelElement element){
-		val ip = graphmodel.internal.InternalPackage.eINSTANCE
+		val ip = InternalPackage.eINSTANCE
 		switch (element){
 			case element instanceof GraphModel: return ip.internalGraphModel
 			case element instanceof UserDefinedType: return ip.internalType
@@ -433,7 +424,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	}
 	
-		private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
+	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
@@ -519,15 +510,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val me = ec.modelElement
 		val ecl = ec.mainEClass
 		if(me instanceof ContainingElement){
-			val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
+			//val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
+			val l = me.allContainableNodes.lowestMutualSuperNode
 			var content = null as CharSequence
 			if(l!=null){
 				content = typedModelElementGetterContent(l.fqBeanName)
 				val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
 				complexGetterParameterMap.put(eOp,l)
 			}else{
-				content = typedModelElementGetterContent("graphmodel.Node")
-				ecl.createEOperation("getNodes",nodeEClass,0,-1,content)	
+				//content = typedModelElementGetterContent("graphmodel.Node")
+				//ecl.createEOperation("getNodes",nodeEClass,0,-1,content)	
 			}
 		}
 	}
