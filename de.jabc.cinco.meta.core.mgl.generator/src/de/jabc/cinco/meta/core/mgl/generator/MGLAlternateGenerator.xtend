@@ -205,7 +205,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def HashMap<ModelElement,ElementEClasses> createGraphModel(GraphModel model) {
 		val gmClasses = model.createModelElementClasses
-		gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
+		if(gmClasses.modelElement.extends == null)
+			gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
+			
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
 		gmClasses.generateTypedModelElementGetter
 		val map = new HashMap
@@ -223,11 +225,15 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		sorted.forEach[node|nodeClasses.put(node,node.createModelElementClasses)]
 		nodeClasses.forEach[node,nodeClass|nodeClass.generateConnectionMethods(node as Node)]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
-			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
+			
+			if(nc.modelElement.extends == null)
+				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
+				
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalNode") as EClass);
 		]
 		nodeClasses.values.filter[n| (n.modelElement instanceof ContainingElement)].forEach[nc|
-			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
+			if(nc.modelElement.extends == null)
+				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
 			nc.generateTypedModelElementGetter
 			
@@ -471,7 +477,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def HashMap<ModelElement,? extends ElementEClasses> createEdges(GraphModel model) {
 		val edg = new HashMap<ModelElement,ElementEClasses> ();
 		model.edges.topSort.forEach[edg.put(it,createModelElementClasses)]
-		edg.values.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
+		edg.values.forEach[ec|
+			if(ec.modelElement.extends == null)
+				ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass;
 			ec.generateTypedSourceGetter
 			ec.generateTypedTargetGetter;

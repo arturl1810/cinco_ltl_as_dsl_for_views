@@ -451,7 +451,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (InternalModelElementContainer)this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (graphmodel.internal.InternalModelElementContainer)this.getInternalElement());
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 			node.move(x, y);
 			node.resize(width, height);
@@ -466,7 +466,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»((InternalModelElementContainer) this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»((graphmodel.internal.InternalModelElementContainer) this.getInternalElement());
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 			node.move(x, y);
 			node.resize(width, height);
