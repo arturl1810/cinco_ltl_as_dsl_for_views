@@ -17,7 +17,7 @@ class ScopeProviderTmpl extends FileTemplate {
 	override getTargetFileName() '''«model.name»GratextScopeProvider.xtend'''
 	
 	def scopeMethodTmpl(ModelElement me) {
-		val modelElementRefs = me.attributes
+		val modelElementRefs = me.allAttributes
 			.filter(ComplexAttribute)
 			.filter[model.containsModelElement(type.name)]
 			.filter[!model.containsUserDefinedType(type.name)]
