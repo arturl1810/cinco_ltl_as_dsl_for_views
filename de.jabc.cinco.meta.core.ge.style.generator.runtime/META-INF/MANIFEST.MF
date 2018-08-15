@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.runtime,
  org.eclipse.gef,
  org.eclipse.emf.transaction,
- org.eclipse.emf.workspace;bundle-version="1.5.1"
+ org.eclipse.emf.workspace
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
@@ -42,7 +42,7 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.xapi
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Import-Package: com.sun.el;version="2.2.0",
+Import-Package: com.sun.el,
  de.jabc.cinco.meta.core.ui.editor,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.registry,

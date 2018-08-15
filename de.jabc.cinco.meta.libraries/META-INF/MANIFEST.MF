@@ -18,9 +18,9 @@ Require-Bundle: org.eclipse.emf,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.mwe.core,
  org.eclipse.xtend.typesystem.emf,
- org.apache.log4j;bundle-version="1.2.15";visibility:=reexport,
- com.google.guava;bundle-version="15.0.0";visibility:=reexport,
- javax.inject;bundle-version="1.0.0";visibility:=reexport
+ org.apache.log4j;visibility:=reexport,
+ com.google.guava;visibility:=reexport,
+ javax.inject;visibility:=reexport
 Export-Package: freemarker.cache,
  freemarker.core,
  freemarker.debug,

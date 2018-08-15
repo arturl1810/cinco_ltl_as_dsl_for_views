@@ -6,9 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.core.wizards.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.navigator;bundle-version="3.5.200",
- org.eclipse.core.resources;bundle-version="3.8.1",
- org.eclipse.xtext.ui.shared;bundle-version="2.4.1",
+ org.eclipse.ui.navigator,
+ org.eclipse.core.resources,
+ org.eclipse.xtext.ui.shared,
  de.jabc.cinco.meta.core.mgl.model,
  org.eclipse.xtend.lib,
  com.google.guava,

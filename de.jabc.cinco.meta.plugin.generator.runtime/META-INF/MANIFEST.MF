@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.model,
  org.eclipse.graphiti.ui,
  org.eclipse.ui.workbench,
- org.apache.commons.lang;bundle-version="2.6.0",
+ org.apache.commons.lang,
  de.jabc.cinco.meta.core.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

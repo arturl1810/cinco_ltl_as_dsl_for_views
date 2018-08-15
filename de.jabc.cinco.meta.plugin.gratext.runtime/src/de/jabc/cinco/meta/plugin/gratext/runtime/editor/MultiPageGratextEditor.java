@@ -172,7 +172,6 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			if (editor != sourceEditor
 					&& innerState != null
 					&& innerState instanceof GratextResource) {
-				((GratextResource) innerState).skipInternalStateUpdate();
 				((GratextResource) innerState).onNewParseResult(() -> {
 					awaitingResourceUpdate = false;
 				});
