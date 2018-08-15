@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e # failing commands will cause the shell script to exit immediately
+target="/Users/work/Tools/cinco-1.0.0-SNAPSHOT"
+
+git pull
+mvn -Pmacosx clean package
+rm -r $target/*
+cp -r de.jabc.cinco.meta.product/target/products/de.jabc.cinco.meta.product.product/macosx/cocoa/x86_64/cinco*.app $target/
+cp -r ~/Tools/cinco-m2ePlugins/* $target/cinco*.app/Contents/Eclipse/plugins/
+$target/cinco*.app/Contents/MacOS/cinco & 
