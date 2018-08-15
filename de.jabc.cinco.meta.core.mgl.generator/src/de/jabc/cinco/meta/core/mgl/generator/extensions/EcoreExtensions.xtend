@@ -8,14 +8,17 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.ecore.ETypeParameter
+
+
 
 class EcoreExtensions {
-	
+	static extension EcoreFactory = EcoreFactory.eINSTANCE
 	val static annotationSource = "http://www.eclipse.org/emf/2002/GenModel"
 	val static key= "body"
 	
 	def static  EReference createReference(EClass eClass, String name, EClass type, int lowerBound, int upperBound, boolean containment, EReference opposite){
-		var eReference = EcoreFactory.eINSTANCE.createEReference
+		var eReference = createEReference
 		eReference.name = name
 		eReference.EType = type
 		eReference.lowerBound = lowerBound
@@ -30,7 +33,7 @@ class EcoreExtensions {
 	}
 	
 	def static EAttribute createEAttribute(EClass eClass, String name, EClassifier type, Integer lowerBound, Integer upperBound){
-		val eAttr = EcoreFactory.eINSTANCE.createEAttribute
+		val eAttr = createEAttribute
 		eAttr.name = name 
 		eAttr.EType = type
 		eAttr.upperBound = upperBound 
@@ -42,13 +45,13 @@ class EcoreExtensions {
 	
 	
 	def static createEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, String content, EParameter ...parameters){
-		val eOp = EcoreFactory.eINSTANCE.createEOperation
+		val eOp = createEOperation
 		eOp.EType = type
 		eOp.lowerBound = lowerBound
 		eOp.upperBound = upperBound
 		eOp.EParameters += parameters
 		eOp.name = name
-		val eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+		val eAnnotation = createEAnnotation
 		eAnnotation.source = annotationSource
 		eAnnotation.details.put(key,content)
 		eOp.EAnnotations += eAnnotation
@@ -57,12 +60,15 @@ class EcoreExtensions {
 		eOp
 	}
 	
+	
 	def static createEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, CharSequence content, EParameter ...parameters){
 		createEOperation(eClass,name,type,lowerBound,upperBound,content.toString,parameters)
 	}
 	
+	
+	
 	def static createEParameter(EClass type, String name, int lowerBound, int upperBound) {
-		val eParam = EcoreFactory.eINSTANCE.createEParameter;
+		val eParam = createEParameter;
 		eParam.EType = type
 		eParam.name = name
 		eParam.lowerBound = lowerBound
@@ -71,7 +77,7 @@ class EcoreExtensions {
 	}
 
 	def static createEParameter(EDataType type, String name, int lowerBound, int upperBound) {
-		val eParam = EcoreFactory.eINSTANCE.createEParameter;
+		val eParam = createEParameter;
 		eParam.EType = type
 		eParam.name = name
 		eParam.lowerBound = lowerBound
@@ -94,4 +100,5 @@ class EcoreExtensions {
 	def static createEObject(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EObject,name,lb,ub)
 	}
+	
 }

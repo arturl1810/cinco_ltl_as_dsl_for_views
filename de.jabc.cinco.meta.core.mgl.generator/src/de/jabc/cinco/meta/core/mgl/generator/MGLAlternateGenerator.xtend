@@ -3,10 +3,9 @@ package de.jabc.cinco.meta.core.mgl.generator
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import graphmodel.GraphmodelPackage
-import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
-import graphmodel.internal.InternalGraphModel
 import java.util.ArrayList
 import java.util.HashMap
 import mgl.Attribute
@@ -20,7 +19,6 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.PrimitiveAttribute
-import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.Type
 import mgl.UserDefinedType
@@ -35,18 +33,11 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
-import org.eclipse.emf.transaction.RecordingCommand
-import org.eclipse.emf.transaction.TransactionalEditingDomain
-import org.eclipse.emf.transaction.util.TransactionUtil
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import mgl.impl.ReferencedModelElementImpl
-import graphmodel.internal.impl.InternalGraphModelImpl
-import org.eclipse.emf.ecore.EObject
-import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -68,6 +59,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<EParameter, Type> enumSetterParameterMap
 	HashMap<Type,EClassifier> enumMap
 	
+	HashMap<EOperation, Edge> operationEdgeMap
 	HashMap<EOperation, Node>  operationReferencedTypeMap
 	
 	
@@ -113,6 +105,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		enumGetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		operationReferencedTypeMap.forEach[operation, node| operation.setPrimeType(node, newEPackages)]
+		operationEdgeMap.forEach[operation,edge| operation.EType = eClassesMap.get(edge.name).mainEClass]
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
 		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
@@ -172,6 +165,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		operationReferencedTypeMap = new HashMap
 		enumSetterParameterMap = new HashMap
 		enumGetterParameterMap = new HashMap
+		operationEdgeMap = new HashMap
 	}
 
 //	FIXME: Workaround for Issue #20589. Returning EObject type if Package not found 
@@ -211,8 +205,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def HashMap<ModelElement,ElementEClasses> createGraphModel(GraphModel model) {
 		val gmClasses = model.createModelElementClasses
-		gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
+		if(gmClasses.modelElement.extends == null)
+			gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
+			
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
+		gmClasses.generateTypedModelElementGetter
 		val map = new HashMap
 		map.put(model,gmClasses)
 		map
@@ -226,13 +223,19 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 //		println(sorted.map[n|n.name])
 
 		sorted.forEach[node|nodeClasses.put(node,node.createModelElementClasses)]
+		nodeClasses.forEach[node,nodeClass|nodeClass.generateConnectionMethods(node as Node)]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
-			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
+			
+			if(nc.modelElement.extends == null)
+				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
+				
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalNode") as EClass);
 		]
 		nodeClasses.values.filter[n| (n.modelElement instanceof ContainingElement)].forEach[nc|
-			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
+			if(nc.modelElement.extends == null)
+				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
+			nc.generateTypedModelElementGetter
 			
 		]
 		
@@ -246,6 +249,18 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nodeClasses
 	}
 	
+	def generateConnectionMethods(ElementEClasses classes, Node it) {
+		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
+			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
+			println(String.format("OUTGOING: %s in %s", outgoingEdges,name))
+		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
+		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
+		println(String.format("INCOMING: %s in %s", incomingEdges,name))
+		println(incomingEdgeConnections)
+		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+	}
+
 	private def void createPrimeReference(ElementEClasses nc) {
 		val node = nc.modelElement as Node
 		val operationName = '''get«node.primeName.toFirstUpper»'''
@@ -405,7 +420,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	
 	def EClass internalType(ModelElement element){
-		val ip = graphmodel.internal.InternalPackage.eINSTANCE
+		val ip = InternalPackage.eINSTANCE
 		switch (element){
 			case element instanceof GraphModel: return ip.internalGraphModel
 			case element instanceof UserDefinedType: return ip.internalType
@@ -415,7 +430,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	}
 	
-		private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
+	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
@@ -462,7 +477,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def HashMap<ModelElement,? extends ElementEClasses> createEdges(GraphModel model) {
 		val edg = new HashMap<ModelElement,ElementEClasses> ();
 		model.edges.topSort.forEach[edg.put(it,createModelElementClasses)]
-		edg.values.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
+		edg.values.forEach[ec|
+			if(ec.modelElement.extends == null)
+				ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass;
 			ec.generateTypedSourceGetter
 			ec.generateTypedTargetGetter;
@@ -496,6 +513,34 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 	}
 	
+	
+	def generateTypedModelElementGetter(ElementEClasses ec){
+		val me = ec.modelElement
+		val ecl = ec.mainEClass
+		if(me instanceof ContainingElement){
+			//val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
+			val l = me.allContainableNodes.lowestMutualSuperNode
+			var content = null as CharSequence
+			if(l!=null){
+				content = typedModelElementGetterContent(l.fqBeanName)
+				val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
+				complexGetterParameterMap.put(eOp,l)
+			}else{
+				//content = typedModelElementGetterContent("graphmodel.Node")
+				//ecl.createEOperation("getNodes",nodeEClass,0,-1,content)	
+			}
+		}
+	}
+	
+	def nodeEClass(){
+		graphModelPackage.node
+	}
+	
+	def typedModelElementGetterContent(CharSequence fqBeanName) '''
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
+				.stream().map(me -> («fqBeanName»)me.getElement()).
+					collect(java.util.stream.Collectors.toList()));
+	'''
 	
 
 	private def HashMap<ModelElement,? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
