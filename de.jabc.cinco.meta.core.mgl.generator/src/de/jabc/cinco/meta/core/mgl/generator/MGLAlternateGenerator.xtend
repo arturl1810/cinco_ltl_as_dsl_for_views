@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EEnumLiteral
+import org.eclipse.emf.ecore.EGenericType
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EParameter
@@ -38,6 +39,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import org.eclipse.emf.ecore.ETypeParameter
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -54,6 +56,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<String, ElementEClasses> eClassesMap
 
 	HashMap<EOperation, Type> complexGetterParameterMap
+	HashMap<EGenericType, Type> complexGenericGetterParameterMap
 	HashMap<EParameter, Type> complexSetterParameterMap
 	HashMap<EOperation, Type> enumGetterParameterMap
 	HashMap<EParameter, Type> enumSetterParameterMap
@@ -95,12 +98,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		elementEClasses.putAll(graphModel.createUserDefinedTypes)
 
 		epk.EClassifiers += elementEClasses.values.map[ec|ec.mainEClass]
-		internalEPackage.EClassifiers += elementEClasses.values.filter[internalEClass!=null].map[internalEClass]
-		viewsEPackage.EClassifiers += elementEClasses.values.filter[mainView!=null].map[mainView]
+		internalEPackage.EClassifiers += elementEClasses.values.filter[internalEClass!== null].map[internalEClass]
+		viewsEPackage.EClassifiers += elementEClasses.values.filter[mainView!== null].map[mainView]
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[!views.nullOrEmpty].map[views].flatten
 
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
 		complexGetterParameterMap.forEach[key,value| /*println(value);*/key.EType = elementEClasses.get(value).mainEClass]
+		complexGenericGetterParameterMap.forEach[key,value| /*println(value);*/key.EClassifier = elementEClasses.get(value).mainEClass]
 		complexSetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		enumGetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
@@ -161,6 +165,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		toReferenceMap = new HashMap
 		complexSetterParameterMap = new HashMap
 		complexGetterParameterMap = new HashMap
+		complexGenericGetterParameterMap = new HashMap
 		enumMap = new HashMap
 		operationReferencedTypeMap = new HashMap
 		enumSetterParameterMap = new HashMap
@@ -173,7 +178,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val prime = node.retrievePrimeReference as ReferencedModelElement
 		var pkg = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI]
 		val etype = 
-			if (pkg != null) pkg.getEClassifier(prime.type.name) as EClass
+			if (pkg !== null) pkg.getEClassifier(prime.type.name) as EClass
 			else EcorePackage.eINSTANCE.EObject 
 		operation.EType = etype
 
@@ -205,7 +210,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def HashMap<ModelElement,ElementEClasses> createGraphModel(GraphModel model) {
 		val gmClasses = model.createModelElementClasses
-		if(gmClasses.modelElement.extends == null)
+		if(gmClasses.modelElement.extends === null)
 			gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
 			
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
@@ -226,13 +231,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nodeClasses.forEach[node,nodeClass|nodeClass.generateConnectionMethods(node as Node)]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
 			
-			if(nc.modelElement.extends == null)
+			if(nc.modelElement.extends === null)
 				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
 				
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalNode") as EClass);
 		]
 		nodeClasses.values.filter[n| (n.modelElement instanceof ContainingElement)].forEach[nc|
-			if(nc.modelElement.extends == null)
+			if(nc.modelElement.extends === null || !(nc.modelElement.extends instanceof ContainingElement))
 				nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
 			nc.generateTypedModelElementGetter
@@ -306,18 +311,18 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			}
 	}
 	
-	private def getInternalPrimeTypeCast(Node node){
-			switch(node.retrievePrimeReference){
-				case node.retrievePrimeReference instanceof ReferencedModelElement : {
-					return '''(«(node.retrievePrimeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
-				}
-				default: return ''''''
-			}
-	}
+//	private def getInternalPrimeTypeCast(Node node){
+//			switch(node.retrievePrimeReference){
+//				case node.retrievePrimeReference instanceof ReferencedModelElement : {
+//					return '''(«(node.retrievePrimeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
+//				}
+//				default: return ''''''
+//			}
+//	}
 	
 
 	private def void createInheritance(ModelElement me, GraphModel gm) {
-		if (me.extend != null) {
+		if (me.extend !== null) {
 			val elmClasses = eClassesMap.get(me.name)
 			val inh = eClassesMap.get(me.extend.name)
 			elmClasses.mainEClass.ESuperTypes += inh.mainEClass
@@ -353,7 +358,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	private def createParentViewMethods(ModelElement element, ElementEClasses elementEClasses) {
 		var String parentName = null
-		if (element.extend != null) {
+		if (element.extend !== null) {
 			parentName = element.extend.name
 			val parentClasses = eClassesMap.get(parentName)
 			var getterName = "get" + parentClasses.mainView.name
@@ -385,7 +390,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		element.allAttributes.forEach [ attr |
 			if (!(attr instanceof ComplexAttribute && (attr as ComplexAttribute).override && mainView)) {
 				val feature = attr.internalEClassFeature(internalEClass)
-				if (feature != null) {
+				if (feature !== null) {
 					view.createGetter(eClass, attr)
 					view.createSetter(eClass, attr, element instanceof UserDefinedType)
 					if(attr.upperBound!=1){
@@ -478,7 +483,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val edg = new HashMap<ModelElement,ElementEClasses> ();
 		model.edges.topSort.forEach[edg.put(it,createModelElementClasses)]
 		edg.values.forEach[ec|
-			if(ec.modelElement.extends == null)
+			if(ec.modelElement.extends=== null)
 				ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass;
 			ec.generateTypedSourceGetter
@@ -492,7 +497,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	def generateTypedSourceGetter(ElementEClasses ec) {
 		val mec = (ec.modelElement as Edge)
 		val bestSource = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleSources].flatten.lowestMutualSuperNode
-		if(bestSource!=null){
+		if(bestSource!== null){
 			val beanName = bestSource.fqBeanName
 			val eOp = ec.mainEClass.createEOperation("getSourceElement",null,0,1,'''return(«beanName»)super.getSourceElement();''')
 			putToGetterMap(eOp,bestSource)
@@ -505,7 +510,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	def generateTypedTargetGetter(ElementEClasses ec){
 		val mec = (ec.modelElement as Edge)
 		val bestTarget = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleTargets].flatten.lowestMutualSuperNode
-		if(bestTarget!=null){
+		if(bestTarget!== null){
 			val beanName = bestTarget.fqBeanName
 			val eOp = ec.mainEClass.createEOperation("getTargetElement",null,0,1,'''return(«beanName»)super.getTargetElement();''')
 			putToGetterMap(eOp,bestTarget)
@@ -521,13 +526,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			//val l = me.containableElements.map[types].flatten.filter(Node).lowestMutualSuperNode
 			val l = me.allContainableNodes.lowestMutualSuperNode
 			var content = null as CharSequence
-			if(l!=null){
+			if(l!== null){
 				content = typedModelElementGetterContent(l.fqBeanName)
-				val eOp = ecl.createEOperation("getNodes",null,0,-1,content)
-				complexGetterParameterMap.put(eOp,l)
-			}else{
-				//content = typedModelElementGetterContent("graphmodel.Node")
-				//ecl.createEOperation("getNodes",nodeEClass,0,-1,content)	
+				val eGen = ecl.createGenericListEOperation("getNodes",null,0,-1,content)
+				complexGenericGetterParameterMap.put(eGen,l)
 			}
 		}
 	}
@@ -584,7 +586,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val mClass = mec.mainEClass
 		val me = mec.modelElement
 		mClass.createEOperation("isExactly"+me.name,EcorePackage.eINSTANCE.EBoolean,0,1,"return true;")
-		if(me.extends!=null)
+		if(me.extends!== null)
 			mClass.createEOperation("isExactly"+me.extends.name,EcorePackage.eINSTANCE.EBoolean,0,1,"return false;") 
 		
 	}
@@ -769,7 +771,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	'''
 
 	private def getterPrefix(PrimitiveAttribute attr) {
-		if (attr.type != null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
+		if (attr.type !== null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
 	
 
