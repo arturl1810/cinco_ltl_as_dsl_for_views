@@ -59,7 +59,34 @@ class EcoreExtensions {
 		eClass.EOperations.add(eOp)
 		eOp
 	}
+
+	def static createGenericListEOperation(EClass eClass, String name, EClassifier type,String content, EParameter ...parameters){
+		val eOp = createEOperation
+		val eGen = createEGenericType
+		
+		eGen.EClassifier = EcorePackage.eINSTANCE.getEClassifier("EEList")
+		eOp.EGenericType = eGen				 
+		val eGen2 = createEGenericType
+		eGen.ETypeArguments += eGen2
+		val eGen3 = createEGenericType
+		eGen2.EUpperBound = eGen3
+		eGen3.EClassifier = type
+		eOp.lowerBound = 1
+		eOp.upperBound = 1
+		eOp.EParameters += parameters
+		eOp.name = name
+		val eAnnotation = createEAnnotation
+		eAnnotation.source = annotationSource
+		eAnnotation.details.put(key,content)
+		eOp.EAnnotations += eAnnotation
+		
+		eClass.EOperations.add(eOp)
+		eGen3
+	}
 	
+	def static createGenericListEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, CharSequence content, EParameter ...parameters){
+		createGenericListEOperation(eClass,name,type,content.toString,parameters)
+	}
 	
 	def static createEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, CharSequence content, EParameter ...parameters){
 		createEOperation(eClass,name,type,lowerBound,upperBound,content.toString,parameters)
