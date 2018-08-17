@@ -15,6 +15,7 @@ import mgl.EDataTypeType
 import mgl.Edge
 import mgl.Enumeration
 import mgl.GraphModel
+import mgl.GraphicalModelElement
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
@@ -39,7 +40,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import org.eclipse.emf.ecore.ETypeParameter
+import java.util.HashSet
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -224,11 +225,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def HashMap<ModelElement,? extends ElementEClasses> createNodes(GraphModel model) {
 		val nodeClasses = new HashMap<ModelElement,ElementEClasses>
 		var sorted = model.nodes.topSort
-
-//		println(sorted.map[n|n.name])
-
+		
 		sorted.forEach[node|nodeClasses.put(node,node.createModelElementClasses)]
-		nodeClasses.forEach[node,nodeClass|nodeClass.generateConnectionMethods(node as Node)]
+		nodeClasses.forEach[node,nodeClass|
+			nodeClass.generateConnectionMethods(node as Node);
+			nodeClass.createSpecializedGetContainer
+		]
 		nodeClasses.values.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
 			
 			if(nc.modelElement.extends === null)
@@ -246,15 +248,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 		nodeClasses.values
 		.filter[(modelElement as Node).prime]
-//		.filter[(modelElement as Node).retrievePrimeReference.imprt==null 
-//			|| !(modelElement as Node).retrievePrimeReference.imprt.stealth
-//		]
 		.forEach[createPrimeReference]
 		
 		nodeClasses
 	}
 	
-	def generateConnectionMethods(ElementEClasses classes, Node it) {
+	private def generateConnectionMethods(ElementEClasses classes, Node it) {
 		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
 			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
 		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
@@ -421,17 +420,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	
-	def EClass internalType(ModelElement element){
-		val ip = InternalPackage.eINSTANCE
-		switch (element){
-			case element instanceof GraphModel: return ip.internalGraphModel
-			case element instanceof UserDefinedType: return ip.internalType
-			default: return ip.internalModelElement
-			
-
-		}
-	}
-	
 	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
@@ -491,7 +479,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	}
 	
-	def generateTypedSourceGetter(ElementEClasses ec) {
+	private def generateTypedSourceGetter(ElementEClasses ec) {
 		val mec = (ec.modelElement as Edge)
 		val bestSource = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleSources].flatten.lowestMutualSuperNode
 		if(bestSource!== null){
@@ -504,7 +492,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	
 
-	def generateTypedTargetGetter(ElementEClasses ec){
+	private def generateTypedTargetGetter(ElementEClasses ec){
 		val mec = (ec.modelElement as Edge)
 		val bestTarget = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleTargets].flatten.lowestMutualSuperNode
 		if(bestTarget!== null){
@@ -516,7 +504,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	
-	def generateTypedModelElementGetter(ElementEClasses ec){
+	private def generateTypedModelElementGetter(ElementEClasses ec){
 		val me = ec.modelElement
 		val ecl = ec.mainEClass
 		if(me instanceof ContainingElement){
@@ -531,11 +519,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	}
 	
-	def nodeEClass(){
-		graphModelPackage.node
-	}
 	
-	def typedModelElementGetterContent(CharSequence fqBeanName) '''
+	private def typedModelElementGetterContent(CharSequence fqBeanName) '''
 		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
 				.stream().map(me -> («fqBeanName»)me.getElement()).
 					collect(java.util.stream.Collectors.toList()));
@@ -647,7 +632,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		complexSetterParameterMap.put(parameter, type)
 	}
 	
-	def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
+	private def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
 «««	«IF isUserDefinedType»
 «««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
 «««	if (dom == null)
@@ -771,5 +756,42 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		if (attr.type !== null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
 	
+	private def createSpecializedGetContainer(ElementEClasses it){
+		val n = modelElement as GraphicalModelElement
+		
+		val containers = n.allContainingElements
+		if(!containers.nullOrEmpty && containers.filter(GraphModel).size == 0){
+			val lmsn  = containers.filter(Node).lowestMutualSuperNode
+			println(containers)
+			println(lmsn)
+			if(lmsn !== null){
+				val content = specializedGetContainerContent(lmsn.fqBeanName)
+				val eObj = mainEClass.createEOperation("getContainer",null,0,1,content)
+				complexGetterParameterMap.put(eObj,lmsn)
+			}
+		}else if(containers.size == 1 && containers.head instanceof GraphModel){
+			val content = specializedGetContainerContent(modelElement.graphModel.fqBeanName)
+				val eObj = mainEClass.createEOperation("getContainer",null,0,1,content)
+				complexGetterParameterMap.put(eObj,modelElement.graphModel)
+		}
+	}
+	
+	def Iterable<ContainingElement>allContainingElements(GraphicalModelElement element){
+		if(element !== null){
+		val containingElements = new HashSet<ContainingElement> 
+		
+		if (element.graphModel.allContainmentConstraints.exists[types.contains(element) && upperBound !== 0])
+			containingElements += element.graphModel
+		
+		containingElements += element.graphModel.nodeContainers.filter[allContainmentConstraints.exists[types.contains(element) && upperBound !== 0]] 
+		containingElements += element.allSuperTypes.map[(it as GraphicalModelElement).allContainingElements].flatten
+		containingElements
+		
+		}else #[]
+	}
+	
+	def specializedGetContainerContent(CharSequence fqName)'''
+	return («fqName»)getInternalElement().getContainer().getContainerElement();
+	'''
 
 }
