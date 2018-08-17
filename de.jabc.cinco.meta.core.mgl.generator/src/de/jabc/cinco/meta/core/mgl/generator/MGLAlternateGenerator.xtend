@@ -257,12 +257,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	def generateConnectionMethods(ElementEClasses classes, Node it) {
 		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
 			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
-			println(String.format("OUTGOING: %s in %s", outgoingEdges,name))
 		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
 		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
 		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
-		println(String.format("INCOMING: %s in %s", incomingEdges,name))
-		println(incomingEdgeConnections)
 		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
 	}
 
