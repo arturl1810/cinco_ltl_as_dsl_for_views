@@ -515,6 +515,9 @@
       </eAnnotations>
     </eOperations>
     <eOperations name="getNodes" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return (EList&lt;T>)getNodes(Node.class);"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//ModelElementContainer/getNodes.1/T"/>
       <eTypeParameters name="T">
         <eBounds eClassifier="#//Node"/>
