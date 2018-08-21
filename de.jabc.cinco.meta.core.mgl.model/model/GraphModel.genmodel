@@ -56,7 +56,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/move/x"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/move/y"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/resize" body="transact(&quot;Set width&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);&#xA;&#x9;this.postResize(this, 0, width, height);&#xA;&#x9;this.update();&#xA;});">
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/resize">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/width"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/height"/>
       </genOperations>

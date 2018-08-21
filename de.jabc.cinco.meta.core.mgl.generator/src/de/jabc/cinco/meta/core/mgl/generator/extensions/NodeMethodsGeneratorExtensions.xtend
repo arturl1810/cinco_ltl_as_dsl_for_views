@@ -648,6 +648,17 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		else ""
 	}
 
+	def createResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"resize",
+			null,
+			1,1,
+			me.resizeContent,
+			createEInt("width",1,1),
+			createEInt("height",1,1)
+		)
+	}
+
 	def createPostResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(me.name).mainEClass.createEOperation(
 			"postResize",
@@ -660,6 +671,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			createEInt("height",1,1)
 		)
 	}
+	
+	def resizeContent(ModelElement me) '''
+		transact("Set width", () -> {
+			((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);
+			((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);
+			this.postResize(this, 0, width, height);
+			this.update();
+		});
+	'''
 	
 	def postResizeContent(ModelElement me) {
 		val annot = me.getAnnotation("postResize")

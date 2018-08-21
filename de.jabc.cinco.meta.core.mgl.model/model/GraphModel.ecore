@@ -154,10 +154,6 @@
       <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="resize">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="transact(&quot;Set width&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);&#xA;&#x9;this.postResize(this, 0, width, height);&#xA;&#x9;this.update();&#xA;});"/>
-        <details key="documentation" value="ATTENTION: The direction flag is currently neigher taken into accout during resize execution nor&#xA; passed to the subsequent postResize call!"/>
-      </eAnnotations>
       <eParameters name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="height" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>

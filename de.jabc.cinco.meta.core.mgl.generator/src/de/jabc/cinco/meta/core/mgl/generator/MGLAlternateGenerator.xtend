@@ -127,6 +127,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createMoveToMethods(eClassesMap)
 			node.createGraphicalInformationGetter(eClassesMap)
 			node.createPreDeleteMethods(eClassesMap)
+			node.createResizeMethods(eClassesMap)
 			node.createPostResizeMethods(eClassesMap)
 		]
 		
