@@ -373,7 +373,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;child.delete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//this.eContainer = null;"/>
+        <details key="body" value="&#x9;&#x9;preDelete();&#xA;&#x9;&#x9;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;&#x9;&#x9;child.delete();&#xA;&#x9;&#x9;if (getInternalElement() == null) return; //deleting children might have hook-deleted myself&#xA;&#x9;&#x9;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;&#x9;&#x9;allEdges.addAll(getIncoming());&#xA;&#x9;&#x9;allEdges.addAll(getOutgoing());&#xA;&#x9;&#x9;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;&#x9;&#x9;edge.delete();&#xA;&#x9;&#x9;if (getInternalElement() == null) return; //deleting edges might have hook-deleted myself&#xA;&#x9;&#x9;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;&#x9;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;&#x9;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;&#x9;&#x9;});&#xA;&#x9;&#x9;//this.eContainer = null;"/>
       </eAnnotations>
     </eOperations>
   </eClassifiers>
