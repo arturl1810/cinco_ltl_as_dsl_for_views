@@ -127,6 +127,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createMoveToMethods(eClassesMap)
 			node.createGraphicalInformationGetter(eClassesMap)
 			node.createPreDeleteMethods(eClassesMap)
+			node.createPostDeleteMethods(eClassesMap)
 			node.createResizeMethods(eClassesMap)
 			node.createPostResizeMethods(eClassesMap)
 		]
@@ -142,6 +143,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			edge.createCanReconnectMethods(eClassesMap)
 			edge.createReconnectMethods(eClassesMap)
 			edge.createPreDeleteMethods(eClassesMap)
+			edge.createPostDeleteMethods(eClassesMap)
 		]
 		graphModel.modelElements.forEach[
 			createRootElementGetter(eClassesMap)

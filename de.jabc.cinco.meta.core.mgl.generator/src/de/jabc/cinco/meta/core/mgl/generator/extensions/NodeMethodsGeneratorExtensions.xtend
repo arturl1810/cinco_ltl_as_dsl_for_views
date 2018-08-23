@@ -38,6 +38,7 @@ import java.io.IOException
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalEdge
 import mgl.OutgoingEdgeElementConnection
+import mgl.MglPackage
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -632,6 +633,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPostDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"getPostDeleteFunction",
+			GraphmodelPackage.eINSTANCE.runnable,
+			1,1,
+			me.getPostDeleteFunctionContent
+		)
+	}
+
 	def postSaveContent(ModelElement me) {
 		val annot = me.getAnnotation("postSave")
 		if (annot != null) '''
@@ -646,6 +656,16 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		new «annot.value.get(0)»().preDelete(this);
 		'''
 		else ""
+	}
+	
+	def getPostDeleteFunctionContent(ModelElement me) {
+		val annot = me.getAnnotation("postDelete")
+		if (annot != null) '''
+		de.jabc.cinco.meta.runtime.hook.CincoPostDeleteHook<«me.fqBeanName»> postDeleteHook = new «annot.value.get(0)»();
+		return postDeleteHook.getPostDeleteFunction(this);
+		'''
+		else "return () -> {};"
+		
 	}
 
 	def createResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {

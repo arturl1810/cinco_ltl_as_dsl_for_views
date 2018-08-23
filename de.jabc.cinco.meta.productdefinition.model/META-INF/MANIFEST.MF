@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Cinco Product Definition
+Bundle-Name: %pluginName
 Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition.model;singleton:=true
+Automatic-Module-Name: de.jabc.cinco.meta.productdefinition.model
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName

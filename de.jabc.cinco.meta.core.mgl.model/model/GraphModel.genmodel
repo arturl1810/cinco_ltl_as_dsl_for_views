@@ -68,7 +68,9 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaX"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaY"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/delete" body="preDelete();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/delete" body="preDelete();&#xA;Runnable postDeleteFunction = getPostDeleteFunction();&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;if (getInternalElement() == null) return; //deleting edges might have hook-deleted myself&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;postDeleteFunction.run();"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getPostDeleteFunction"
+          body="return () -> {};"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/preDelete" body=""/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/canMoveTo" body="return targetContainer.canContain(this.getClass());">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/canMoveTo/targetContainer"/>
@@ -127,8 +129,10 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/setTargetElement" body="transact(&quot;Set Target&quot;, () -> {&#xA;&#x9;((graphmodel.internal.InternalEdge)getInternalElement()).setTargetElement(targetElement);&#xA;});">
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/setTargetElement/targetElement"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//Edge/delete" body="transact(&quot;Delete&quot;, () -> {&#xA;&#x9;preDelete();&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;//org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;&#xA;"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/getPostDeleteFunction"
+          body="return () -> {};"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/preDelete" body=""/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/delete" body="preDelete();&#xA;Runnable postDeleteFunction = getPostDeleteFunction();&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;postDeleteFunction.run();"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/canClone" body="return source.canStart(this.getClass()) &amp;&amp; target.canEnd(this.getClass());">
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/source"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/target"/>
@@ -157,7 +161,7 @@
     <genClasses ecoreClass="GraphModel.ecore#//Container">
       <genOperations ecoreOperation="GraphModel.ecore#//Container/getInternalContainerElement"
           body="return (InternalModelElementContainer)getInternalElement();"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//Container/delete" body="&#x9;&#x9;preDelete();&#xA;&#x9;&#x9;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;&#x9;&#x9;child.delete();&#xA;&#x9;&#x9;if (getInternalElement() == null) return; //deleting children might have hook-deleted myself&#xA;&#x9;&#x9;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;&#x9;&#x9;allEdges.addAll(getIncoming());&#xA;&#x9;&#x9;allEdges.addAll(getOutgoing());&#xA;&#x9;&#x9;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;&#x9;&#x9;edge.delete();&#xA;&#x9;&#x9;if (getInternalElement() == null) return; //deleting edges might have hook-deleted myself&#xA;&#x9;&#x9;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;&#x9;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;&#x9;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;&#x9;&#x9;});&#xA;&#x9;&#x9;//this.eContainer = null;"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Container/delete" body="preDelete();&#xA;Runnable postDeleteFunction = getPostDeleteFunction();&#xA;for (graphmodel.Node child : getAllNodes())&#xA;&#x9;child.delete();&#xA;if (getInternalElement() == null) return; //deleting children might have hook-deleted myself&#xA;java.util.HashSet&lt;graphmodel.Edge> allEdges = new java.util.HashSet&lt;>();&#xA;allEdges.addAll(getIncoming());&#xA;allEdges.addAll(getOutgoing());&#xA;for (graphmodel.Edge edge : allEdges)&#xA;&#x9;edge.delete();&#xA;if (getInternalElement() == null) return; //deleting edges might have hook-deleted myself&#xA;transact(&quot;Delete&quot;, () -> {&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;});&#xA;postDeleteFunction.run();"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/internalElement"/>
@@ -238,7 +242,7 @@
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Type">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Type/internalElement"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//Type/delete" body="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);&#xA;//this.eContainer = null;"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Type/delete" body="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Type/preDelete" body=""/>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Runnable"/>
