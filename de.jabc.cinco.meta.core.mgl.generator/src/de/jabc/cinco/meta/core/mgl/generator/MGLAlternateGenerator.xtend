@@ -779,6 +779,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 	}
 	
+	
 	def Iterable<ContainingElement>allContainingElements(GraphicalModelElement element){
 		if(element !== null){
 		val containingElements = new HashSet<ContainingElement> 
@@ -786,11 +787,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		if (element.graphModel.allContainmentConstraints.exists[types.contains(element) && upperBound !== 0])
 			containingElements += element.graphModel
 		
-		containingElements += element.graphModel.nodeContainers.filter[allContainmentConstraints.exists[types.contains(element) && upperBound !== 0]] 
-		containingElements += element.allSuperTypes.map[(it as GraphicalModelElement).allContainingElements].flatten
+		containingElements += element.containingElements 
+		containingElements += element.allSuperTypes.map[(it as GraphicalModelElement).containingElements].flatten
+		containingElements += element.subTypes.map[(it as GraphicalModelElement).containingElements].flatten
 		containingElements
 		
 		}else #[]
+	}
+	
+	def containingElements(GraphicalModelElement element){
+		element.graphModel.nodeContainers.filter[allContainmentConstraints.exists[types.contains(element) && upperBound !== 0]]
 	}
 	
 	def specializedGetContainerContent(CharSequence fqName)'''
