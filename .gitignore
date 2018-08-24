@@ -6,3 +6,4 @@
 /all-jdks
 *xtend-gen*
 workspace-emf-tmp
+/.metadata/

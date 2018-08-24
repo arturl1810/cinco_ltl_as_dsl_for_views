@@ -19,6 +19,8 @@
 		<module>de.jabc.cinco.meta.core.mgl.generator</module>
 		<module>de.jabc.cinco.meta.core.mgl.model</module>
 		<module>de.jabc.cinco.meta.plugin</module>
+		<module>de.jabc.cinco.meta.plugin.behavior</module>
+		<module>de.jabc.cinco.meta.plugin.behavior.runtime</module>
 		<module>de.jabc.cinco.meta.plugin.spreadsheet</module>
 		<module>de.jabc.cinco.meta.plugin.pyro</module>
 		<module>de.jabc.cinco.meta.plugin.executer</module>
@@ -38,8 +40,10 @@
 		<module>de.jabc.cinco.meta.plugin.generator</module>
 		<module>de.jabc.cinco.meta.plugin.generator.runtime</module>
 		<module>de.jabc.cinco.meta.plugin.ocl</module>
+		<module>de.jabc.cinco.meta.plugin.placeholder</module>
 		<module>de.jabc.cinco.meta.plugin.primeviewer</module>
 		<!--<module>de.jabc.cinco.meta.plugin.treeviewer</module> -->
+		<module>de.jabc.cinco.meta.plugin.stack</module>
 		<module>de.jabc.cinco.meta.product</module>
 		<module>de.jabc.cinco.meta.core.ui</module>
 		<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.executable</module> -->

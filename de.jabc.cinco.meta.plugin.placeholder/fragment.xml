@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.placeholder.PlaceholderPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="placeholder">
+      </graphmodel-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="placeholder">
+      </nodecontainer-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.placeholder.validation.ValidatorPlaceholder">
+      </validator>
+   </extension>
+
+</fragment>

@@ -10,8 +10,7 @@
       <!-- @generated ProductDefinition -->
       <package
             uri="http://www.jabc.de/meta/productdefinition"
-            class="productDefinition.ProductDefinitionPackage"
-            genModel="model/ProductDefinition.genmodel"/>
+            class="productDefinition.ProductDefinitionPackage"/>
    </extension>
 
 </plugin>

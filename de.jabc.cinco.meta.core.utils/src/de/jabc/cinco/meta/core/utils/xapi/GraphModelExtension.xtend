@@ -36,6 +36,8 @@ import static org.eclipse.emf.common.util.URI.*
 import static extension org.eclipse.emf.common.util.URI.createURI
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getRootContainer
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import mgl.GraphicalModelElement
+import mgl.Annotation
 
 class GraphModelExtension {
 	
@@ -83,6 +85,53 @@ class GraphModelExtension {
 	
 	def canContain(ContainingElement elm, ModelElement element) {
 		elm.containables.exists[it == element]
+	}
+	
+	/**
+	 * Returns an iterable of all nodes that be contained in cont.
+	 * 
+	 * @param cont Node in that all returned nodes can be contained in. 
+	 */
+	def Iterable<Node> getContainableNodes(ContainingElement cont){
+		cont.containables.filter(Node)
+	}
+	
+	/**
+	 * Returns an iterable of all containers and can be contained in cont.
+	 * 
+	 * @param cont Node in that all returned containers can be contained in. 
+	 */
+	def Iterable<NodeContainer> getContainableNodeContainers(ContainingElement cont){
+		cont.containables.filter(NodeContainer)
+	}
+	
+	/**
+	 * Returns an iterable of all nodes that are no containers and can be contained in cont.
+	 * 
+	 * @param cont Node in that all returned nodes can be contained in. 
+	 */
+	 def Iterable<Node> getContainableNonContainerNodes(ContainingElement cont){
+		cont.containableNodes.drop(NodeContainer)
+	}
+	
+	/**
+	 * Returns an Iterable of all Containers that can contain cont.
+	 * 
+	 * @param cont ModelElement that can be contained in the returned containers.
+	 * The Graphmodel is inferenced from the node cont.
+	 */
+	def Iterable<NodeContainer> getContainingContainers(Node cont){
+		cont.getContainingContainers(cont.graphModel)
+	}
+	
+	/**
+	 * Returns an Iterable of all Containers in model that can contain cont.
+	 * 
+	 * @param cont ModelElement that can be contained in the returned containers.
+	 * @param model Graphmodel to be searched for containers. 
+	 */
+	def Iterable<NodeContainer> getContainingContainers(GraphicalModelElement cont, GraphModel model){
+		model.containers.filter[canContain(cont)]
 	}
 	
 	def getContainables(ContainingElement elm) {
@@ -194,6 +243,29 @@ class GraphModelExtension {
 	
 	def getPrimeReferences(GraphModel it) {
 		nodes.map[primeReference].filterNull
+	}
+	
+	/**
+	 * Returns an iterable of all Nodes that are defined in model and have the annotation annot.
+	 * 
+	 * @param model GraphModel in which the returned nodes are defined.
+	 * @param annName Name of the annotation the returned nodes have.
+	 */
+	def getAllNodesWithAnnotation(GraphModel model, String annName){
+		model.nodes.filter[hasAnnotation(annName)]
+	}
+	
+	/**
+	 * Returns an iterable that contains all values the annotation referenced by annName
+	 * has in the graphmodel model.
+	 * 
+	 * @param model Graphmodel to be searched for the annotation
+	 * @param annName Name of the annotation
+	 */
+	def getAllAnnotationValues(GraphModel model, String annName){
+		model.getAllNodesWithAnnotation(annName)
+			.flatMap[annotations.filter[it.name == annName]]
+			.flatMap[value]
 	}
 	
 	//================================================================================
@@ -411,6 +483,32 @@ class GraphModelExtension {
 	def getName(GenPackage genPkg) {
 		genPkg.getEcorePackage?.name
 		?: genPkg.prefix?.toLowerCase
+	}
+	
+	//================================================================================
+    // Annotation Extensions
+    //================================================================================
+    
+    /**
+	 * Returns the ModelElement associated with the Annotation annot.
+	 * 
+	 * @param annot
+	 */
+	def getAnnotatedModelElement(Annotation annot) {
+		switch it:annot.parent {
+			ModelElement: it
+		}
+	}
+	
+	/**
+	 * Returns the Attribute associated with the Annotation annot.
+	 * 
+	 * @param annot
+	 */
+	def getAnnotatedAttribute(Annotation annot) {
+		switch it:annot.parent {
+			Attribute: it
+		}
 	}
 	
 	//================================================================================

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id2"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.stack.StackPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="stack">
+      </graphmodel-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="stackable">
+      </nodecontainer-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.stack.validation.ValidatorStack">
+      </validator>
+   </extension>
+
+</fragment>
