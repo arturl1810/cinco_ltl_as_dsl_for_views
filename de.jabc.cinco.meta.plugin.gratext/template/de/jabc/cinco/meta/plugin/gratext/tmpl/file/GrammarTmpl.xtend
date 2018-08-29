@@ -28,7 +28,7 @@ class GrammarTmpl extends FileTemplate {
 			ModelElement: graphModel.name.toLowerCase -> graphModel.nsURI
 			EClassifier: EPackage.name -> EPackage.nsURI
 		}].filter[key != null]
-			.filter[value != model.nsURI]
+			.filter[value != model.nsURI && key != "ecore"]
 			.forEach[importMappings.add(it)]
 	}
 	
@@ -155,7 +155,11 @@ class GrammarTmpl extends FileTemplate {
 			val entry = switch it:type {
 				GraphModel: name.toLowerCase -> name
 				ModelElement: graphModel.name.toLowerCase -> name
-				EClass: EPackage.name -> name
+				EClass:{
+					if (EPackage.name == "ecore")
+						"_ecore" -> name
+					else EPackage.name -> name
+				}
 			}
 			'''[«entry.key»::«entry.value»|_ID]'''
 		}
@@ -175,19 +179,22 @@ class GrammarTmpl extends FileTemplate {
 	}
 
 	def attributes(ModelElement elm) {
-		val attrs = elm.allAttributes
+		val attrs = elm.allAttributes.sortBy[name]
 		val attrsStr = attrs.map [
 			switch it {
 				case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«gratextName» += «typeReference» ( ',' ^«gratextName» += «typeReference» )* )? ']' )?'''
 				default: '''( '«name»' ^«gratextName» = «typeReference» )?'''
 			}
-		].join(' &\n')
+//		].join(' &\n')
+		//Generate unordered groups
+		].join(' \n')
 		val primeStr = switch elm {
 			Node: elm.prime
 		}
 		if (attrs.empty)
 			primeStr
-		else if(primeStr != null) "( " + primeStr + ' &\n' + attrsStr + " )" else "( " + attrsStr + " )"
+//		else if(primeStr != null) "( " + primeStr + ' &\n' + attrsStr + " )" else "( " + attrsStr + " )"
+		else if(primeStr != null) "( " + primeStr + ' \n' + attrsStr + " )" else "( " + attrsStr + " )"
 	}
 
 	def prime(Node node) {
