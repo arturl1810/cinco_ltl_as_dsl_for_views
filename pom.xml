@@ -18,6 +18,9 @@
 		<module>de.jabc.cinco.meta.core.mgl</module>
 		<module>de.jabc.cinco.meta.core.mgl.generator</module>
 		<module>de.jabc.cinco.meta.core.mgl.model</module>
+		<module>de.jabc.cinco.meta.plugin</module>
+		<module>de.jabc.cinco.meta.plugin.behavior</module>
+		<module>de.jabc.cinco.meta.plugin.behavior.runtime</module>
 		<module>de.jabc.cinco.meta.plugin.spreadsheet</module>
 		<module>de.jabc.cinco.meta.plugin.pyro</module>
 		<module>de.jabc.cinco.meta.plugin.executer</module>
@@ -37,8 +40,10 @@
 		<module>de.jabc.cinco.meta.plugin.generator</module>
 		<module>de.jabc.cinco.meta.plugin.generator.runtime</module>
 		<module>de.jabc.cinco.meta.plugin.ocl</module>
+		<module>de.jabc.cinco.meta.plugin.placeholder</module>
 		<module>de.jabc.cinco.meta.plugin.primeviewer</module>
 		<!--<module>de.jabc.cinco.meta.plugin.treeviewer</module> -->
+		<module>de.jabc.cinco.meta.plugin.stack</module>
 		<module>de.jabc.cinco.meta.product</module>
 		<module>de.jabc.cinco.meta.core.ui</module>
 		<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.executable</module> -->
@@ -55,12 +60,12 @@
 		<module>de.jabc.cinco.meta.util</module>
 	</modules>
 	<properties>
-		<tycho.version>0.24.0</tycho.version>
-		<xtext.version>2.9.1</xtext.version>
-		<mwe2.launch.version>2.8.3</mwe2.launch.version>
+		<tycho.version>1.2.0</tycho.version>
+		<xtext.version>2.14.0</xtext.version>
+		<mwe2.launch.version>2.9.1.201705291010</mwe2.launch.version>
 		<build-helper.version>1.8</build-helper.version>
 		<antrun.version>1.8</antrun.version>
-		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
+		<photon-repo.url>http://download.eclipse.org/releases/photon</photon-repo.url>
 		<mtsg.version>1.1.3</mtsg.version>
 		<ecore-sibs.version>1.5</ecore-sibs.version>
 		<maven-source-version>1.8</maven-source-version>
@@ -73,8 +78,8 @@
 			<url>https://ls5svn.cs.tu-dortmund.de/maven-public/</url>
 		</repository>
 		<repository>
-			<id>mars</id>
-			<url>${mars-repo.url}</url>
+			<id>photon</id>
+			<url>${photon-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
@@ -161,6 +166,13 @@
 						</goals>
 					</execution>
 				</executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.equinox.common</artifactId>
+            <version>3.10.0</version>
+          </dependency>
+        </dependencies>
 				<configuration>
 					<outputDirectory>${basedir}/xtend-gen</outputDirectory>
 					<testOutputDirectory>${basedir}/xtend-gen</testOutputDirectory>
@@ -280,8 +292,8 @@
 		<profile>
 			<id>release</id>
 			<properties>
-				<tycho.version>0.24.0</tycho.version>
-				<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
+				<tycho.version>1.2.0</tycho.version>
+				<photon-repo.url>http://download.eclipse.org/releases/photon</photon-repo.url>
 				<cinco.version>${project.version}</cinco.version>
 			</properties>
 		</profile>

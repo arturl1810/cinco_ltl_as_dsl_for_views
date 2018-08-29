@@ -443,7 +443,7 @@ public class CincoUtil {
 		if (uri.isPlatform()) {
 			file = workspaceExtension.getFile(uri);
 		} else {
-			file = workspaceExtension.getResource(obj).getProject().getFile(new Path(uri.toString()));
+			file = workspaceExtension.getIResource(obj).getProject().getFile(new Path(uri.toString()));
 		}
 		return file;
 	}

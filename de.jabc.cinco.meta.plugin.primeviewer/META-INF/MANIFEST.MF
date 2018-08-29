@@ -6,12 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.utils,
- de.jabc.cinco.meta.core.utils.generator,
- de.jabc.cinco.meta.core.utils.projects,
- graphmodel,
- mgl,
- org.eclipse.core.resources,
- org.eclipse.xtext.util,
- org.eclipse.xtext.xtext.generator.util
-Require-Bundle: de.jabc.cinco.meta.core
+Import-Package: graphmodel,
+ mgl
+Require-Bundle: de.jabc.cinco.meta.core,
+ de.jabc.cinco.meta.plugin

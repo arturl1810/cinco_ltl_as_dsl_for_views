@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
+import org.eclipse.core.resources.IncrementalProjectBuilder
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.IPath
@@ -16,11 +17,11 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.osgi.framework.Bundle
+import org.osgi.framework.FrameworkUtil
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getURI
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.osgi.framework.FrameworkUtil
-import org.osgi.framework.Bundle
 
 /**
  * Workspace-specific extension methods.
@@ -48,7 +49,7 @@ class WorkspaceExtension {
 	 * Retrieves the resource for the specified URI from the workspace,
 	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
-	def getResource(URI uri) {
+	def getIResource(URI uri) {
 		if (uri != null) {
 			workspace.root.findMember(
 				if (uri.isPlatformResource)
@@ -61,8 +62,8 @@ class WorkspaceExtension {
 	 * Retrieves the resource for the specified object from the workspace,
 	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
-	def getResource(EObject eobj) {
-		eobj.getURI.resource
+	def getIResource(EObject eobj) {
+		eobj.getURI.IResource
 	}
 	
 	/**
@@ -71,7 +72,7 @@ class WorkspaceExtension {
 	 * or it is not a file.
 	 */
 	def getFile(URI uri) {
-		val res = uri.resource
+		val res = uri.IResource
 		if (res instanceof IFile)
 			res as IFile
 		else null
@@ -109,6 +110,14 @@ class WorkspaceExtension {
 			}
 		}
 		return resource
+	}
+	
+	/**
+	 * Creates a file with the specified name and content.
+	 * Only replaces its content if the file already exists.
+	 */
+	def createFile(IContainer container, String name, CharSequence content) {
+		container.createFile(name, content?.toString, true)
 	}
 	
 	/**
@@ -335,5 +344,17 @@ class WorkspaceExtension {
    			.map[toString]
    			.drop[endsWith("/")] // findEntries also lists hidden directories, like .data/
    			.map[URI.createURI(it)]
+	}
+	
+	def cleanAndBuild(IProject it) {
+		build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+	}
+	
+	def buildFull(IProject it) {
+		build(IncrementalProjectBuilder.FULL_BUILD, null);
+	}
+	
+	def buildIncremental(IProject it) {
+		build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 }

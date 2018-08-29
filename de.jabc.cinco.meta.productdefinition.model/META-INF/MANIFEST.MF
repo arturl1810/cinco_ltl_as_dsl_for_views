@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Cinco Product Definition
+Bundle-Name: %pluginName
 Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition.model;singleton:=true
+Automatic-Module-Name: de.jabc.cinco.meta.productdefinition.model
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -12,6 +13,6 @@ Export-Package: productDefinition,
  productDefinition.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- de.jabc.cinco.meta.core.mgl.model;bundle-version="0.4.0";visibility:=reexport,
- de.jabc.cinco.meta.core.ge.style.model;bundle-version="0.4.0"
+ de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
+ de.jabc.cinco.meta.core.ge.style.model
 Bundle-ActivationPolicy: lazy

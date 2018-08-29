@@ -29,9 +29,9 @@
 					</dependencies>
 					<repositories>
 						<repository>
-							<id>mars</id>
+							<id>photon</id>
 							<layout>p2</layout>
-							<url>${mars-repo.url}</url>
+							<url>${photon-repo.url}</url>
 						</repository>
 					</repositories>
 				</configuration>

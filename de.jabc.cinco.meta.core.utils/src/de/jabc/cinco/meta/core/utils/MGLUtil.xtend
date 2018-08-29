@@ -435,4 +435,51 @@ class MGLUtil {
 		dNode
 	}
 	
+	
+		/**
+	 * Returns containable Elements from subtypes 
+	 */	
+	 public static def Iterable<ContainingElement> subContainableElements(ContainingElement it){
+	 	switch it{
+	 		NodeContainer: subTypes.map[st| st as ContainingElement]
+	 		GraphModel: subTypes.map[st| st as ContainingElement]
+	 	}
+	 }
+	 
+	 public static def allContainableNodes(ContainingElement it){
+	 	(inheritedContainableNodes + subContainableElements.map[containableNodes].flatten).toSet
+	 }
+		
+	/**
+	 * Returns inherited containable Elements
+	 */
+	 public static def inheritedContainableNodes(ContainingElement it){
+	 	(containableNodeElements + superContainers.map[containableNodes].flatten).toSet
+	 }
+	 /**
+	  * Returns all superTypes that are ContainingElements
+	  */
+	 public static def Iterable<ContainingElement> superContainers(ContainingElement it){
+	 	switch it{
+	 		GraphModel: return #[]
+	 		NodeContainer:{
+	 			var a = new ArrayList<ContainingElement>
+	 			if(extends!== null){
+	 				switch b:extends{
+	 					NodeContainer: return a + #[b] + b.superContainers
+	 					Node: return a
+	 				}
+	 				
+	 			}
+	 		}
+	 	}
+	 	return #[]
+	 }
+	 /**
+	  * Returns containable nodes from the containableElements attribute
+	  */
+	 public static def containableNodeElements(ContainingElement it){
+	 	containableElements.map[types].flatten.filter(Node)
+	 }
+	
 }

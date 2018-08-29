@@ -3,14 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Spreadsheet
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin.spreadsheet;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.5.1"
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.jdt,
  org.eclipse.jdt.core,
  org.eclipse.pde.core,
  org.apache.commons.io,
  org.eclipse.core.resources,
- de.jabc.cinco.meta.libraries;bundle-version="0.6.0",
+ de.jabc.cinco.meta.libraries,
  de.jabc.cinco.meta.core.utils
 Import-Package: de.jabc.cinco.meta.core.utils.xtext,
  org.eclipse.jface.text.contentassist,

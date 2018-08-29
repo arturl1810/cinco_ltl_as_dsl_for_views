@@ -113,6 +113,15 @@
       <edge-annotation
             recognized-annotation="preDelete">
       </edge-annotation>
+      <node-annotation
+            recognized-annotation="postDelete">
+      </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="postDelete">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="postDelete">
+      </edge-annotation>
       <nodecontainer-annotation
             recognized-annotation="postMove">
       </nodecontainer-annotation>

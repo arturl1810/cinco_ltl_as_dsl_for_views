@@ -115,7 +115,6 @@ public class McamViewGenerator {
 
 			if (generateCheck) {
 				generateCheckViewPage();
-				generateProjectCheckViewPage();
 			}
 
 			generatePageFactory();
@@ -195,42 +194,6 @@ public class McamViewGenerator {
 		templateGen.generateFile();
 	}
 	
-	private void generateProjectCheckViewPage() throws IOException, TemplateException {
-		data.put("ClassName", "ProjectCheckViewPage");
-
-		String filename = "src-gen"
-				+ File.separator
-				+ ((String) data.get("McamViewPagePackage")).replace(".",
-						File.separator) + File.separator
-				+ (String) data.get("ClassName") + ".java";
-
-		IFile res = mcamViewProject.getFile(filename);
-		if (res == null || !res.exists()) {
-			TemplateGenerator templateGen = new TemplateGenerator(
-					"templates/views/ProjectCheckViewPage.tpl", mcamViewProject);
-			templateGen.setFilename((String) data.get("ClassName") + ".java");
-			templateGen.setPkg((String) data.get("McamViewPagePackage"));
-			templateGen.setData(data);
-			templateGen.generateFile();
-
-			System.out.println("ProjectCheckViewPage not found... now generated!");
-		}
-		
-		IFile file = mcamViewProject.getFile(filename);
-		
-		String code_extension = "\"" + data.get("GraphModelExtension") + "\",";
-		insertCodeAfterMarker(
-				file.getRawLocation().makeAbsolute().toFile(),
-				"// @PROJECT_CHECK_PAGE_EXT", code_extension);
-		
-		String code_cpadd = "if (iFile.getFileExtension().equals(\"" + data.get("GraphModelExtension") + "\")) \n"
-				+ "fe = new " + data.get("CliPackage") + "." + data.get("GraphModelName") + "Execution(); \n";
-		insertCodeAfterMarker(
-				file.getRawLocation().makeAbsolute().toFile(),
-				"// @PROJECT_CHECK_PAGE_ADD", code_cpadd);
-		
-	}
-	
 	private void generateConflictViewPage() throws IOException,
 			TemplateException {
 		data.put("ClassName", graphModelName + "ConflictViewPage");
@@ -278,16 +241,6 @@ public class McamViewGenerator {
 			insertCodeAfterMarker(
 					file.getRawLocation().makeAbsolute().toFile(),
 					"// @FACTORY_CHECK", code_check);
-			
-			String code_project_check = (String) data.get("McamViewPagePackage") + "." 
-					+ "ProjectCheckViewPage page = new "
-					+ (String) data.get("McamViewPagePackage") + "."
-					+ "ProjectCheckViewPage(id); \n"
-					+ "page.addCheckProcesses(iFile.getProject()); \n"
-					+ "return page; \n";
-			insertCodeAfterMarker(
-					file.getRawLocation().makeAbsolute().toFile(),
-					"// @FACTORY_PROJECT_CHECK", code_project_check);
 		}
 
 		if (generateMerge) {
@@ -306,6 +259,17 @@ public class McamViewGenerator {
 		insertCodeAfterMarker(
 				file.getRawLocation().makeAbsolute().toFile(),
 				"// @FACTORY_HANDLE", code_handle);
+		
+		String code_extension = "\"" + data.get("GraphModelExtension") + "\",";
+		insertCodeAfterMarker(
+				file.getRawLocation().makeAbsolute().toFile(),
+				"// @PROJECT_CHECK_PAGE_EXT", code_extension);
+		
+		String code_cpadd = "if (iFile.getFileExtension().equals(\"" + data.get("GraphModelExtension") + "\")) \n"
+				+ "fe = new " + data.get("CliPackage") + "." + data.get("GraphModelName") + "Execution(); \n";
+		insertCodeAfterMarker(
+				file.getRawLocation().makeAbsolute().toFile(),
+				"// @PROJECT_CHECK_PAGE_ADD", code_cpadd);
 	}
 
 	private void insertCodeAfterMarker(File file, String marker, String code) {

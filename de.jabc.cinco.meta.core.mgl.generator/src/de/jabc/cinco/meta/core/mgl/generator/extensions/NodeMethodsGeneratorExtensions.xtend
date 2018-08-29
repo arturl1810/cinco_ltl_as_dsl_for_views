@@ -37,6 +37,8 @@ import org.eclipse.core.runtime.Path
 import java.io.IOException
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalEdge
+import mgl.OutgoingEdgeElementConnection
+import mgl.MglPackage
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -107,23 +109,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	
 		val internalNodeClass = map.get(node.name).internalEClass
 		val nodeClass = map.get(node.name).mainEClass
-		//FIXME: For the simple case this method does not create successor methods.
-//		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
-//		val eTypeClass = if (lmNode == null)
-//				return
-//			else
-//				map.get(lmNode.name).mainEClass
-//
-//		nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
-		
-		// FIXME: Adding the missing successor methods (see above)
+		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
+		if (lmNode != null){
+			val eTypeClass = map.get(lmNode.name).mainEClass
+			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent)
+		}
 		node.possibleSuccessors.toSet.forEach[
-			val eTypeClass = map.get(it.name).mainEClass
+			val successorClass = map.get(it.name).mainEClass
 			val methodName = "get"+it.name.toFirstUpper+"Successors"
-			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getInternalSuccessorsContent.toString)
-			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
+			internalNodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getInternalSuccessorsContent.toString)
+			nodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getSuccessorsContent.toString)
 		]
 	}
+	
+	
+	
 
 	def getInternalSuccessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
@@ -132,25 +132,31 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def getSuccessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this).getSuccessors(«eTypeClass.name».class);
 	'''
+	
 
 	def specializeGetPredecessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
 		
 		val internalNodeClass = map.get(node.name).internalEClass
 		val nodeClass = map.get(node.name).mainEClass
-		// FIXME: Adding the missing predecessors methods (see above)
+		val lmNode = node.possiblePredecessors.lowestMutualSuperNode
+		if (lmNode != null){
+			val eTypeClass = map.get(lmNode.name).mainEClass
+			nodeClass.createEOperation("getPredecessors", eTypeClass, 0, -1, eTypeClass.getPredecessorsContent)
+		}
 		node.possiblePredecessors.toSet.forEach[
 			val eTypeClass = map.get(it.name).mainEClass
 			val methodName = "get"+it.name.toFirstUpper+"Predecessors"
-			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorContent.toString)
-			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorContent.toString)
+			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorsContent.toString)
+			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorsContent.toString)
 		]
+		
 	}
 
-	def getPredecessorContent(EClass eTypeClass) '''
+	def getPredecessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this).getPredecessors(«eTypeClass.name».class);
 	'''
 
-	def getInternalePredecessorContent(EClass eTypeClass) '''
+	def getInternalePredecessorsContent(EClass eTypeClass) '''
 		return ((graphmodel.Node)this.getElement()).getPredecessors(«eTypeClass.name».class);
 	'''
 
@@ -446,7 +452,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newIdNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (InternalModelElementContainer)this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id, (graphmodel.internal.InternalModelElementContainer)this.getInternalElement());
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 			node.move(x, y);
 			node.resize(width, height);
@@ -461,7 +467,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»((InternalModelElementContainer) this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»((graphmodel.internal.InternalModelElementContainer) this.getInternalElement());
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 			node.move(x, y);
 			node.resize(width, height);
@@ -627,6 +633,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPostDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"getPostDeleteFunction",
+			GraphmodelPackage.eINSTANCE.runnable,
+			1,1,
+			me.getPostDeleteFunctionContent
+		)
+	}
+
 	def postSaveContent(ModelElement me) {
 		val annot = me.getAnnotation("postSave")
 		if (annot != null) '''
@@ -642,6 +657,27 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		'''
 		else ""
 	}
+	
+	def getPostDeleteFunctionContent(ModelElement me) {
+		val annot = me.getAnnotation("postDelete")
+		if (annot != null) '''
+		de.jabc.cinco.meta.runtime.hook.CincoPostDeleteHook<«me.fqBeanName»> postDeleteHook = new «annot.value.get(0)»();
+		return postDeleteHook.getPostDeleteFunction(this);
+		'''
+		else "return () -> {};"
+		
+	}
+
+	def createResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"resize",
+			null,
+			1,1,
+			me.resizeContent,
+			createEInt("width",1,1),
+			createEInt("height",1,1)
+		)
+	}
 
 	def createPostResizeMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
 		elemClasses.get(me.name).mainEClass.createEOperation(
@@ -655,6 +691,15 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			createEInt("height",1,1)
 		)
 	}
+	
+	def resizeContent(ModelElement me) '''
+		transact("Set width", () -> {
+			((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);
+			((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);
+			this.postResize(this, 0, width, height);
+			this.update();
+		});
+	'''
 	
 	def postResizeContent(ModelElement me) {
 		val annot = me.getAnnotation("postResize")
@@ -714,6 +759,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 //	return  «ReferenceRegistry.name».getInstance().getEObject(uid);
 //	'''
 
+	def generateTypedOutgoingEdgeMethod(ElementEClasses it, Edge edge){
+		
+		mainEClass.createEOperation('''getOutgoing«edge.name»s''',null,0,-1,edge.outgoingContent)
+	}
+	
+	def outgoingContent(Edge edge)'''
+		return this.getOutgoing(«edge.name».class);
+	'''
+	def generateTypedIncomingEdgeMethod(ElementEClasses it, Edge edge){
+		
+		mainEClass.createEOperation('''getIncoming«edge.name»s''',null,0,-1,edge.incomingContent)
+	}
+	
+	def incomingContent(Edge edge)'''
+		return this.getIncoming(«edge.name».class);
+	'''
 	def String edgesList(Iterable<Edge> edges) {
 		edges.map[edge|new GeneratorUtils().fqBeanName(edge) + ".class"].join(",")
 	}
@@ -724,14 +785,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		vars.join(",")
 	}
 
-	def List<Node> possibleSuccessors(Node node) {
-		node.outgoingEdgeConnections.map [
+	def possibleSuccessors(Node node) {
+		node.outgoingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
 			connectingEdges.map [ edge |
 				edge.edgeElementConnections.filter(IncomingEdgeElementConnection).map[connectedElement]
 			]
-		].flatten.flatten.map[it as Node].toList
+		].flatten.flatten.map[it as Node]
+		
 	}
-
+	def possiblePredecessors(Node node) {
+		node.incomingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
+			connectingEdges.map [ edge |
+				edge.edgeElementConnections.filter(OutgoingEdgeElementConnection).map[connectedElement]
+			]
+		].flatten.flatten.map[it as Node]
+		
+	}
 	/**
 	 * Collects all containment constraints of a given ContainingElement including all inherited
 	 * containment constraints.

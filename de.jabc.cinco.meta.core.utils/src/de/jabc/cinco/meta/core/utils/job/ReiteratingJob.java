@@ -78,6 +78,18 @@ public abstract class ReiteratingJob extends Job {
         cleanup();
         return getStatus();
     }
+    
+    /**
+     * Runs this job and waits for it via {@code job.join()}
+     */
+    public void runAndWait() {
+		schedule();
+		try {
+			join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
     public synchronized void pause() {
         paused = true;

@@ -225,9 +225,9 @@ class StyleUtil extends APIUtils {
 		} //«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_POINTS, pointsString);
 		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_POINTS, pointsString);
 		
-		if(!(«currentPeName».getContainer() instanceof «Diagram.name»))
+		if(!(«currentPeName».getContainer() instanceof «Diagram.name») && «p.parentContainerShape instanceof ContainerShape») {
 			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight());
-		else peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getGraphicsAlgorithm().getHeight()); 
+		} else peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getGraphicsAlgorithm().getHeight()); 
 		
 			«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_«node.graphModel.fuName»DefaultAppearanceStyle(«currentGaName», getDiagram());
 			gaService.setLocation(«currentGaName», 0, 0);
@@ -391,7 +391,12 @@ class StyleUtil extends APIUtils {
 «««		else 
 		//Setting the size independent of the one given in the context. 
 		//Thus, it is possible to resize inner shapes correctly
+		«IF a instanceof Polygon»
+		//If the graphicsAlgorithm is a polygon, set the computed size. (The condition is checked in the generator)
+		gaService.setSize(«gaName», width, height);
+		«ELSE»
 		gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
+		«ENDIF»
 		«setSizeProperties(a, gaName)»
 	'''
 	

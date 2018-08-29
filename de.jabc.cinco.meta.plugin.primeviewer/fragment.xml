@@ -6,7 +6,7 @@
          name="name"
          point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
       <metaplugin_description
-            metapluginService="de.jabc.cinco.meta.plugin.primeviewer.PrimeViewMetaPlugin">
+            metapluginService="de.jabc.cinco.meta.plugin.primeviewer.PrimeViewerPlugin">
       </metaplugin_description>
       <graphmodel-annotation
             recognized-annotation="primeviewer">
@@ -15,7 +15,7 @@
             ValidatorClass="de.jabc.cinco.meta.plugin.primeviewer.validation.PrimeViewerValidator">
       </validator>
       <proposalprovider
-            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.primeviewer.proposalprovider.PrimeViewerAcceptor">
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.primeviewer.contentassist.PrimeViewerProposalProvider">
       </proposalprovider>
       <prime-annotation
             recognized-annotation="pvLabel">
