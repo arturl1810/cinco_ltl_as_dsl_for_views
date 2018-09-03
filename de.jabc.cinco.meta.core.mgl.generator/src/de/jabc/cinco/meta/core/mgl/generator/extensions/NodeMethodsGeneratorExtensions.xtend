@@ -222,7 +222,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 				sourceEClass.createEOperation(operationName, edgeEClass, 0, 1,
 					node.newIdEdgeMethodContent(edge),
 					targetEClass.createEParameter("target", 1, 1),
-					createEString("id",1,1))
+					createEStringParameter("id",1,1))
 					
 				sourceEClass.createEOperation(operationName, edgeEClass, 0, 1,
 					node.newEdgeMethodContent(edge),
@@ -265,8 +265,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 					1,
 					node.canMoveToMethodContent(c),
 					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), 
-					createEInt("x",1,1), 
-					createEInt("y",1,1)
+					createEIntParameter("x",1,1), 
+					createEIntParameter("y",1,1)
 			)
 		]
 	}
@@ -281,25 +281,25 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val nodeEClass = elemClasses.get(node.name).mainEClass
 		containers.forEach[
 			c |	nodeEClass.createEOperation("moveTo",null,1,1,node.moveToMethodContent(c), 
-					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEIntParameter("x",1,1), createEIntParameter("y",1,1)
 				)
 				
 				nodeEClass.createEOperation("s_moveTo",null,1,1,node._moveToMethodContent(c), 
-					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEIntParameter("x",1,1), createEIntParameter("y",1,1)
 				)
 		]
 		
 		nodeEClass.createEOperation("s_moveTo",null,1,1,"", 
-			GraphmodelPackage.Literals.MODEL_ELEMENT_CONTAINER.createEParameter("container",1,1), createEInt("x",1,1), createEInt("y",1,1)
+			GraphmodelPackage.Literals.MODEL_ELEMENT_CONTAINER.createEParameter("container",1,1), createEIntParameter("x",1,1), createEIntParameter("y",1,1)
 		)
 		
 		nodeEClass.createEOperation("postMove", null,1,1,node.postMoveContent,
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("source",1,1),
 			GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("target",1,1),
-			createEInt("x",1,1),
-			createEInt("y",1,1),
-			createEInt("deltaX",1,1), 
-			createEInt("deltaY",1,1)
+			createEIntParameter("x",1,1),
+			createEIntParameter("y",1,1),
+			createEIntParameter("deltaX",1,1), 
+			createEIntParameter("deltaY",1,1)
 		)
 	}
 
@@ -356,8 +356,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newNodeSimpleMethodContent(n),
-						createEInt("x",1,1),
-						createEInt("y",1,1)
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -366,10 +366,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newNodeMethodContent(n),
-						createEInt("x",1,1),
-						createEInt("y",1,1),
-						createEInt("width",1,1),
-						createEInt("height",1,1)
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1),
+						createEIntParameter("width",1,1),
+						createEIntParameter("height",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -378,9 +378,9 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newIdNodeSimpleMethodContent(n),
-						createEString("id",1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1)
+						createEStringParameter("id",1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -389,11 +389,11 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newIdNodeMethodContent(n),
-						createEString("id",1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1),
-						createEInt("width",1,1),
-						createEInt("height",1,1)
+						createEStringParameter("id",1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1),
+						createEIntParameter("width",1,1),
+						createEIntParameter("height",1,1)
 					)
 			]
 			
@@ -404,9 +404,9 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newPrimeNodeSimpleMethodContent(n),
-						createEObject(n.primeName, 1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1)
+						createEObjectParameter(n.primeName, 1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -415,11 +415,11 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newPrimeNodeMethodContent(n),
-						createEObject(n.primeName, 1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1),
-						createEInt("width",1,1),
-						createEInt("height",1,1)
+						createEObjectParameter(n.primeName, 1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1),
+						createEIntParameter("width",1,1),
+						createEIntParameter("height",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -428,10 +428,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newIdPrimeNodeSimpleMethodContent(n),
-						createEObject(n.primeName, 1,1),
-						createEString("id", 1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1)
+						createEObjectParameter(n.primeName, 1,1),
+						createEStringParameter("id", 1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1)
 					)
 					
 				elemClasses.get(ce.name).mainEClass.
@@ -440,12 +440,12 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newIdPrimeNodeMethodContent(n),
-						createEObject(n.primeName, 1,1),
-						createEString("id", 1,1),
-						createEInt("x",1,1),
-						createEInt("y",1,1),
-						createEInt("width",1,1),
-						createEInt("height",1,1)
+						createEObjectParameter(n.primeName, 1,1),
+						createEStringParameter("id", 1,1),
+						createEIntParameter("x",1,1),
+						createEIntParameter("y",1,1),
+						createEIntParameter("width",1,1),
+						createEIntParameter("height",1,1)
 					)
 				]
 	} 
@@ -535,9 +535,9 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def createNewGraphModel(GraphModel gm, HashMap<String, ElementEClasses> elmClasses){
 		var eClass = elmClasses.get(gm.name).mainEClass
 		var opName = "new"+gm.fuName
-		var pathParam = createEString("path", 1,1)
-		var fileParam = createEString("fileName", 1,1)
-		var hookParam = createEBoolean("postCreateHook",1,1)
+		var pathParam = createEStringParameter("path", 1,1)
+		var fileParam = createEStringParameter("fileName", 1,1)
+		var hookParam = createEBooleanParameter("postCreateHook",1,1)
 		var content = gm.createNewGraphModelContent
 		eClass.createEOperation(opName, eClass, 1,1, content, pathParam, fileParam, hookParam)
 	}
@@ -674,8 +674,8 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			null,
 			1,1,
 			me.resizeContent,
-			createEInt("width",1,1),
-			createEInt("height",1,1)
+			createEIntParameter("width",1,1),
+			createEIntParameter("height",1,1)
 		)
 	}
 
@@ -686,9 +686,9 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			1,1,
 			me.postResizeContent,
 			createEParameter(elemClasses.get(me.name).mainEClass,"modelElement",1,1),
-			createEInt("direction",1,1),
-			createEInt("width",1,1),
-			createEInt("height",1,1)
+			createEIntParameter("direction",1,1),
+			createEIntParameter("width",1,1),
+			createEIntParameter("height",1,1)
 		)
 	}
 	

@@ -2,18 +2,17 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.emf.ecore.EParameter
-import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EcorePackage
-import org.eclipse.emf.ecore.ETypeParameter
-
-
 
 class EcoreExtensions {
 	static extension EcoreFactory = EcoreFactory.eINSTANCE
+	static extension EcorePackage = EcorePackage.eINSTANCE
 	val static annotationSource = "http://www.eclipse.org/emf/2002/GenModel"
 	val static key= "body"
 	
@@ -24,7 +23,7 @@ class EcoreExtensions {
 		eReference.lowerBound = lowerBound
 		eReference.upperBound = upperBound
 		eReference.containment = containment
-		if(opposite!=null){
+		if(opposite !== null){
 			eReference.EOpposite = opposite	
 			opposite.EOpposite = eReference
 		}
@@ -51,10 +50,7 @@ class EcoreExtensions {
 		eOp.upperBound = upperBound
 		eOp.EParameters += parameters
 		eOp.name = name
-		val eAnnotation = createEAnnotation
-		eAnnotation.source = annotationSource
-		eAnnotation.details.put(key,content)
-		eOp.EAnnotations += eAnnotation
+		eOp.setEOperationBody(content)
 		
 		eClass.EOperations.add(eOp)
 		eOp
@@ -75,13 +71,17 @@ class EcoreExtensions {
 		eOp.upperBound = 1
 		eOp.EParameters += parameters
 		eOp.name = name
+		eOp.setEOperationBody(content)
+		
+		eClass.EOperations.add(eOp)
+		eGen3
+	}
+	
+	protected def static boolean setEOperationBody(EOperation eOp,String content) {
 		val eAnnotation = createEAnnotation
 		eAnnotation.source = annotationSource
 		eAnnotation.details.put(key,content)
 		eOp.EAnnotations += eAnnotation
-		
-		eClass.EOperations.add(eOp)
-		eGen3
 	}
 	
 	def static createGenericListEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, CharSequence content, EParameter ...parameters){
@@ -112,19 +112,19 @@ class EcoreExtensions {
 		eParam
 	}
 	
-	def static createEString(String name, int lb, int ub) {
+	def static createEStringParameter(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EString,name,lb,ub)
 	}
 	
-	def static createEInt(String name, int lb, int ub) {
+	def static createEIntParameter(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EInt,name,lb,ub)
 	}
 	
-	def static createEBoolean(String name, int lb, int ub) {
+	def static createEBooleanParameter(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EBoolean,name,lb,ub)
 	}
 	
-	def static createEObject(String name, int lb, int ub) {
+	def static createEObjectParameter(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EObject,name,lb,ub)
 	}
 	

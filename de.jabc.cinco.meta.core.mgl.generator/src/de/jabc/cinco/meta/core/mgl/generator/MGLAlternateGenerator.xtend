@@ -272,7 +272,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val stringType = EcorePackage.eINSTANCE.EString
 		nc.internalEClass.createEAttribute("libraryComponentUID", EcorePackage.eINSTANCE.EString,0,1)
 		nc.mainEClass.createEOperation("getLibraryComponentUID", stringType, 1,1, node.libraryComponentIdGetterContent)
-		nc.mainEClass.createEOperation("setLibraryComponentUID", null, 1,1, node.libraryComponentIdSetterContent, createEString("id",1,1))
+		nc.mainEClass.createEOperation("setLibraryComponentUID", null, 1,1, node.libraryComponentIdSetterContent, createEStringParameter("id",1,1))
 		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
 		val internalOp = nc.internalEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceInternalGetter)
 		if(node.retrievePrimeReference instanceof ReferencedModelElement) {
