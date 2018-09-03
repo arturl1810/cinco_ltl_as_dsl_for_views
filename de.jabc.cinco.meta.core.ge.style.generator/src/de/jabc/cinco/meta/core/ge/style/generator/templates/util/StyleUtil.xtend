@@ -90,24 +90,22 @@ class StyleUtil extends APIUtils {
 				rc.setHeight(context.getHeight());
 				rc.setX(context.getX());
 				rc.setY(context.getY());
-				«CincoAbstractResizeFeature.name» rf = 
-					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
-«««				rf.activateApiCall(!hook);
-			
-				if (rf != null)
-					rf.resizeShape(rc);
+«««				«CincoAbstractResizeFeature.name» rf = 
+«««					(«CincoAbstractResizeFeature.name»)getFeatureProvider().getResizeShapeFeature(rc);
+
+«««				if (rf != null)
+«««					rf.resizeShape(rc);
+				«CincoResizeFeature.name».resize(rc);
 			} else if (parentIsDiagram)  {
 				«ResizeShapeContext.name» rc = new «ResizeShapeContext.name»(«currentPeName»);
 				rc.setWidth(width);
 				rc.setHeight(height);
 				rc.setX(context.getX() + minX);
 				rc.setY(context.getY() + minY);
-				«CincoAbstractResizeFeature.name» rf = 
-					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
-«««				rf.activateApiCall(!hook);
+«««				«CincoAbstractResizeFeature.name» rf = 
+«««					(«CincoAbstractResizeFeature.name») getFeatureProvider().getResizeShapeFeature(rc);
 			
-				if (rf != null)
-					rf.resizeShape(rc);
+				«CincoResizeFeature.name».resize(rc);
 			}
 			
 			peService.createChopboxAnchor(«currentPeName»);
