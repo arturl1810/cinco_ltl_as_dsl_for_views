@@ -331,6 +331,10 @@
       <genClasses ecoreClass="GraphModel.ecore#//internal/InternalContainer">
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalContainer/getContainerElement"
             body="return (ModelElementContainer) this.getElement();&#xA;"/>
+        <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalContainer/canContain"
+            body="if (nodes != null &amp;&amp; nodes.size() > 0 &amp;&amp; getContainmentConstraints().size() > 0) {&#xA;boolean canContain = true;&#xA;&#xA;for (int i = 1; i &lt;= nodes.size(); i++) {&#xA;&#x9;final java.util.List&lt;Class&lt;? extends Node>> subNodes = nodes.subList(i, nodes.size());&#xA;&#x9;Class&lt;? extends Node> currentNode = nodes.get(i - 1);&#xA;&#x9;long constraintCount = getContainmentConstraints().stream().filter(c -> c.isInTypes(currentNode)).count();&#xA;&#x9;canContain &amp;= constraintCount != 0 &amp;&amp; getContainmentConstraints().stream().filter(c -> c.isInTypes(currentNode)).allMatch(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(c -> !c.violationAfterInsert(currentNode, subNodes, this.getContainerElement())));&#xA;&#x9;}&#xA;&#x9;return canContain;&#xA;}&#xA;return false;">
+          <genParameters ecoreParameter="GraphModel.ecore#//internal/InternalContainer/canContain/nodes"/>
+        </genOperations>
       </genClasses>
       <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalModelElementContainer">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalModelElementContainer/modelElements"/>

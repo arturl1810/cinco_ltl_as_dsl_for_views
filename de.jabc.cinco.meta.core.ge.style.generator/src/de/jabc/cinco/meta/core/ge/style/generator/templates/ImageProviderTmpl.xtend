@@ -82,8 +82,10 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 			if (files.size() == 1) {
 				«IFile.name» f = files.get(0);
 				«URL.name» url = f.getLocationURI().toURL();
-				addImage(path, url.toString());
-				addImageFilePath(path, url.toString());
+				if (images.get(path) == null) {
+					addImage(path, url.toString());
+					addImageFilePath(path, url.toString());
+				}
 			}  else {
 				java.io.File f = new «File.name»(path);
 				if (f.exists()) {
