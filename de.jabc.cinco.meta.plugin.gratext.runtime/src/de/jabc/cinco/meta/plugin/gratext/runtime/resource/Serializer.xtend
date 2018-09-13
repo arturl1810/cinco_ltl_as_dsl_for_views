@@ -107,7 +107,7 @@ class Serializer {
 			+ getEReferences
 			+ getESuperTypes.map[attributes].flatten
 		).filter[!name?.startsWith("gratext_")]
-		getEAttributes.filter[name?.equals("libraryComponentUID")] + retval.filter[!name?.equals("libraryComponentUID")].sortBy[name]
+		retval.filter[name?.equals("libraryComponentUID")] + retval.filter[!name?.equals("libraryComponentUID")].sortBy[name]
 		 
 	}
 	
