@@ -66,22 +66,9 @@ class NodeResizeFeatures extends GeneratorUtils{
 		public void resizeShape(final «IResizeShapeContext.name» context) {
 			bo = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
 			«graphmodel.Node.name» node = («graphmodel.Node.name») bo.getElement();
-			node.resize(context.getWidth(), context.getHeight());
 			node.setX(context.getX());
 			node.setY(context.getY());
-
-«««			«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getDiagram());
-«««			if (dom == null) 
-«««				dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getDiagram().eResource().getResourceSet());
-«««			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, "Resize") {
-«««				@Override
-«««				protected void doExecute() {
-«««					bo = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
-«««					((«graphmodel.Node.name») bo.getElement()).resize(context.getWidth(),context.getHeight());
-«««					«CincoResizeFeature.name».resize(context);
-««««««					layoutPictogramElement(context.getPictogramElement());
-«««				}
-«««			});
+			node.resize(context.getWidth(), context.getHeight());
 		}	
 	}
 	'''
