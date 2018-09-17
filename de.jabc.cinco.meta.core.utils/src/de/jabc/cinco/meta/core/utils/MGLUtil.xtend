@@ -393,11 +393,11 @@ class MGLUtil {
 	}
 	 
 	def static postAttributeValueChange(ModelElement it, String varName) {
-		annotations.filter[name == "postAttributeValueChange"].map[generatePostAttributeValueChange(varName)].join("\n")
+		annotations.filter[name == "postAttributeChange"].map[generatePostAttributeValueChange(varName)].join("\n")
 	}
 	 
 	def static generatePostAttributeValueChange(Annotation it, String varName) '''
-	new «value.get(0)»().handleChange(«varName».element as «parent.fqBeanName»)
+	new «value.get(0)»().handleChange(«varName».element as «parent.fqBeanName», feature)
 	'''
 	 
 	def static Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
