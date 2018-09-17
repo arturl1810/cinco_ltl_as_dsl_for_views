@@ -104,6 +104,9 @@
       <edge-annotation
             recognized-annotation="postAttributeChange">
       </edge-annotation>
+      <type-annotation
+            recognized-annotation="postAttributeChange">
+      </type-annotation>
       <node-annotation
             recognized-annotation="preDelete">
       </node-annotation>
@@ -149,7 +152,7 @@
       <attribute-annotation
             recognized-annotation="file">
       </attribute-annotation>
-       <attribute-annotation
+      <attribute-annotation
             recognized-annotation="color">
       </attribute-annotation>
       <graphmodel-annotation
