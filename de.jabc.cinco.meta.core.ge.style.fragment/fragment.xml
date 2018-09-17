@@ -93,16 +93,16 @@
             recognized-annotation="readOnly">
       </attribute-annotation>
       <graphmodel-annotation
-            recognized-annotation="postAttributeValueChange">
+            recognized-annotation="postAttributeChange">
       </graphmodel-annotation>
       <nodecontainer-annotation
-            recognized-annotation="postAttributeValueChange">
+            recognized-annotation="postAttributeChange">
       </nodecontainer-annotation>
       <node-annotation
-            recognized-annotation="postAttributeValueChange">
+            recognized-annotation="postAttributeChange">
       </node-annotation>
       <edge-annotation
-            recognized-annotation="postAttributeValueChange">
+            recognized-annotation="postAttributeChange">
       </edge-annotation>
       <node-annotation
             recognized-annotation="preDelete">
