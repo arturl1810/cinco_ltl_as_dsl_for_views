@@ -14,6 +14,8 @@ import de.jabc.cinco.meta.core.utils.CincoUtil
 import org.eclipse.ui.IEditorInput
 import org.eclipse.emf.ecore.EObject
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.PageAwareDiagramEditorInput
+import mgl.UserDefinedType
+import org.eclipse.emf.common.util.TreeIterator
 
 class DiagramEditorTmpl extends GeneratorUtils{
 
@@ -38,10 +40,19 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 		
 		«ReferenceRegistry.name».getInstance().registerListener();
 	
-«««		for («PictogramLink.name» pl : «gm.fuName»GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
-«««			for («EObject.name» bo : pl.getBusinessObjects())
-«««				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
-		
+		«EObject.name» bo = getDiagramTypeProvider().getDiagram().getLink().getBusinessObjects().get(0);
+		«TreeIterator.name»<«EObject.name»> eContents = bo.eAllContents();
+		eContents.forEachRemaining(it ->
+		{
+			«FOR type : gm.types.filter(UserDefinedType)»
+			if (it instanceof «type.fqInternalBeanName») {
+				if (it.eAdapters().stream().filter(a -> a instanceof «type.packageNameEContentAdapter».«type.fuName»EContentAdapter).count() == 0) {
+					it.eAdapters().add(new «type.packageNameEContentAdapter».«type.fuName»EContentAdapter());
+				}
+			}
+			«ENDFOR»
+		});
+	
 		«IF ! CincoUtil.isHighlightContainmentDisabled(gm)»
 			«Highlighter.name».INSTANCE.get().listenToDiagramDrag(this, getGraphicalControl());
 		«ENDIF»
