@@ -50,7 +50,7 @@ class WorkspaceExtension {
 	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
 	def getIResource(URI uri) {
-		if (uri != null) {
+		if (uri !== null) {
 			workspace.root.findMember(
 				if (uri.isPlatformResource)
 					uri.toPlatformString(true)
@@ -66,6 +66,15 @@ class WorkspaceExtension {
 		eobj.getURI.IResource
 	}
 	
+	/**
+	 * Retrieves the project that contains the resource of the specified
+	 * object from the workspace, if existent. Returns {@code null} if the
+	 * resource or the project does not exist.
+	 */
+	def getProject(EObject eobj) {
+		eobj.getURI?.IResource?.project
+	}
+
 	/**
 	 * Retrieves the file for the specified URI from the workspace,
 	 * if existent. Returns {@code null} if the resource does not exist
