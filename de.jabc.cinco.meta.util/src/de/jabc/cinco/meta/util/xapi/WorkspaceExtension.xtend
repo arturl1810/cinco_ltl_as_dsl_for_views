@@ -22,6 +22,8 @@ import org.osgi.framework.Bundle
 import org.osgi.framework.FrameworkUtil
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getURI
+import org.eclipse.core.runtime.Platform
+import org.eclipse.core.runtime.IConfigurationElement
 
 /**
  * Workspace-specific extension methods.
@@ -101,7 +103,7 @@ class WorkspaceExtension {
 	 * Recursively creates its parents as well, if not existent yet.
 	 */
 	def <T extends IResource> T create(T resource) throws CoreException {
-		if (resource == null || resource.exists)
+		if (resource === null || resource.exists)
 			return resource
 		val monitor = new NullProgressMonitor
 		if (!resource.parent.exists)
@@ -250,7 +252,7 @@ class WorkspaceExtension {
 	 */
 	def getFolder(IContainer container) {
 		val path = container.projectRelativePath
-		if (path == null)
+		if (path === null)
 			return null
 		container.getFolder(path)
 	}
@@ -289,10 +291,10 @@ class WorkspaceExtension {
 	 */
 	def <T extends IResource> List<T> getResources(IContainer container, Class<T> clazz, Predicate<T> resConstraint, Predicate<IContainer> contConstraint) {
 		val List<T> list = newArrayList
-		if (container == null
+		if (container === null
 				|| !container.exists
 				|| !container.isAccessible
-				|| contConstraint != null && !contConstraint.test(container)) {
+				|| contConstraint !== null && !contConstraint.test(container)) {
 			return list
 		}
 		var IResource[] members = null
@@ -301,11 +303,11 @@ class WorkspaceExtension {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		if (members != null) {
+		if (members !== null) {
 			for (member : members) {
 				if (clazz.isAssignableFrom(member.class)) {
 					val T resource = member as T
-					if (resConstraint == null || resConstraint.test(resource)) {
+					if (resConstraint === null || resConstraint.test(resource)) {
 						list.add(resource)
 					}
 				}
@@ -365,5 +367,44 @@ class WorkspaceExtension {
 	
 	def buildIncremental(IProject it) {
 		build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+	}
+	
+	/**
+	 * Retrieves all extensions for the specified extension point from
+	 * the platform's extension registry.
+	 * 
+	 * @return list of newly created instances for all found extensions
+	 */
+	def getExtensions(String extensionPointID) {
+		getExtensions(extensionPointID, Object)
+	}
+	
+	/**
+	 * Retrieves all extensions for the specified extension point from
+	 * the platform's extension registry.
+	 * 
+	 * @return list of newly created instances for all found extensions
+	 *   that match the specified type.
+	 */
+	def <T> getExtensions(String extensionPointID, Class<T> expectedType) {
+		Platform.extensionRegistry
+			?.getConfigurationElementsFor(extensionPointID)
+			?.map[createExecutableExtension]
+			?.filter(expectedType)
+	}
+	
+	/**
+	 * Creates a new instance of the extension type given by the 'class'
+	 * attribute of the specified configuration element.
+	 * 
+	 * @return a newly created instance of the extension
+	 */
+	def createExecutableExtension(IConfigurationElement elem) {
+		try {
+			elem.createExecutableExtension("class")
+		} catch (CoreException e) {
+			e.printStackTrace
+			return null
+		}
 	}
 }
