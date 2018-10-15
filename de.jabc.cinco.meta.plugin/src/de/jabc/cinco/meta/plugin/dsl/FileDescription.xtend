@@ -4,6 +4,7 @@ import de.jabc.cinco.meta.plugin.template.FileTemplate
 import java.util.function.Consumer
 import org.eclipse.core.resources.IFile
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.core.runtime.Path
 
 class FileDescription extends ProjectResourceDescription<IFile> {
 	
@@ -11,6 +12,7 @@ class FileDescription extends ProjectResourceDescription<IFile> {
 	@Accessors Class<? extends FileTemplate> templateClass
 	@Accessors Consumer<IFile> postProcessing
 	@Accessors FileTemplate template
+	@Accessors boolean overwrite = true
 	
 	new(String name) { super(name) }
 	
@@ -40,28 +42,30 @@ class FileDescription extends ProjectResourceDescription<IFile> {
 	
 	override IFile create() {
 		val content = getContent
-		if (content != null)
+		if (content !== null)
 			return createFile(name, content)
 		
 		var template = getTemplate
-		if (template == null)
+		if (template === null)
 			template = (this.template = templateClass?.newInstance)
-		if (template != null) template => [
+		if (template !== null) template => [
 			it.model = this.model
 			it.parent = this.parent
 			it.project = this.project
 			createFile(targetFileName, it.content)
 		]
 		
-		if (IResource == null)
+		if (IResource === null)
 			warn("Nothing to create: content is null and no template provided")
 		return IResource
 	}
 	
 	protected def createFile(String fileName, CharSequence content) {
-		val file = parent.IResource.createFile(fileName, content)
-		IResource = file
-		postProcessing?.accept(file)
+		if (overwrite || !parent.IResource.getFile(new Path(fileName))?.exists) {
+			val file = parent.IResource.createFile(fileName, content)
+			IResource = file
+			postProcessing?.accept(file)
+		}
 		return IResource
 	}
 }

@@ -7,19 +7,32 @@ import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 class ProjectDescriptionLanguage {
 	
 	def <T extends FileContainerDescription<?>> file(T container, Class<? extends FileTemplate> template) {
-		container => [ add(new FileDescription(template)) ]
+		file(container, template, true)
+	}
+	
+	def <T extends FileContainerDescription<?>> file(T container, Class<? extends FileTemplate> template, boolean overwrite) {
+		container => [ add(new FileDescription(template) => [it.overwrite = overwrite]) ]
 	}
 	
 	def <T extends FileContainerDescription<?>> file(T container, Class<? extends FileTemplate> template, (IFile)=>void postProcessing) {
+		file(container, template, true, postProcessing)
+	}
+	
+	def <T extends FileContainerDescription<?>> file(T container, Class<? extends FileTemplate> template, boolean overwrite, (IFile)=>void postProcessing) {
 		container => [ 
 			add(new FileDescription(template) => [
+				it.overwrite = overwrite
 				it.postProcessing = postProcessing
 			])
 		]
 	}
 	
 	def <T extends FileContainerDescription<?>> file(T container, FileTemplate template) {
-		container => [ add(new FileDescription(template)) ]
+		file(container, template, true)
+	}
+	
+	def <T extends FileContainerDescription<?>> file(T container, FileTemplate template, boolean overwrite) {
+		container => [ add(new FileDescription(template) => [it.overwrite = overwrite]) ]
 	}
 	
 	def <T extends FileContainerDescription<?>> file(T container, Pair<Class<? extends FileTemplate>, CharSequence> template) {
