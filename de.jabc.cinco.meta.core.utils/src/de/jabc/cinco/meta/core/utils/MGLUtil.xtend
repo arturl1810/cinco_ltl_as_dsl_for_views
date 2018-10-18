@@ -154,15 +154,12 @@ class MGLUtil {
 
 	def static Set<Node> getPossibleTargets(Edge ce) {
 		val HashSet<Node> targets = new HashSet()
-		ce.getEdgeElementConnections().filter([eec|eec instanceof IncomingEdgeElementConnection]).forEach([ieec |
-			targets.add((ieec.eContainer() as Node))
-		])
+		ce.getEdgeElementConnections().filter(IncomingEdgeElementConnection).forEach([ targets += eContainer as Node ])
 		return targets
 	}
 	
 	def static getAllPossibleTargets(Edge ce){
 		(ce.allSuperTypes.map[it as Edge].map[it.possibleTargets].flatten + ce.possibleTargets).toSet
-		
 	}
 
 	def static Set<Node> getPossibleSuccessors(Node n) {

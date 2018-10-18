@@ -3,24 +3,20 @@ package de.jabc.cinco.meta.core.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.util.UriUtil;
 
 public class PathValidator {
 
@@ -51,7 +47,16 @@ public class PathValidator {
 		}
 		
 		else {
-			return checkFileExists(getFile(path));
+			String fileExists = checkFileExists(getFile(path));
+			if(!fileExists.isEmpty()) {
+				//check for folder
+				String folderExists = checkFolderExists(getFolder(path));
+				if(!folderExists.isEmpty()) {
+					return fileExists+folderExists;
+				}
+				return folderExists;
+			}
+			return fileExists;
 		}
 	}
 
@@ -74,9 +79,13 @@ public class PathValidator {
 		}
 		
 		else {
-			IFile file = getFile(path);
-			if (file.exists())
-				return getURI(file);
+			IResource resource = getFile(path);
+			if(!resource.exists()) {
+				//try folder
+				resource = getFolder(path);
+			}
+			if (resource.exists())
+				return getURI(resource);
 		}
 		return null;
 	}
@@ -202,7 +211,14 @@ public class PathValidator {
 		return "";
 	}
 	
-	private static URI getURI(IFile file) {
+	private static String checkFolderExists(IFolder folder) {
+        if (!folder.exists()) {
+			return "The specified folder: \""+folder.getFullPath()+"\" does not exist.";
+		}
+		return "";
+	}
+	
+	private static URI getURI(IResource file) {
         if (!file.exists()) 
 			return null;
 		return URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true);
@@ -265,5 +281,21 @@ public class PathValidator {
         	return root.getFile(new Path(uri.toPlatformString(true)));
         else
         	return resFile.getProject().getFile(path);
+	}
+	
+	private static IFolder getFolder(String path) {
+        if (path == null || path.isEmpty())
+        	return null;
+        IFile resFile = null;
+        if (res.getURI().isPlatform()) {
+        	resFile = root.getFile(new Path(res.getURI().toPlatformString(true)));
+        } else {
+        	resFile = root.getFileForLocation(Path.fromOSString(res.getURI().path()));
+        }
+        URI uri = URI.createURI(path);
+        if (uri.isPlatform())
+        	return root.getFolder(new Path(uri.toPlatformString(true)));
+        else
+        	return resFile.getProject().getFolder(path);
 	}
 }
