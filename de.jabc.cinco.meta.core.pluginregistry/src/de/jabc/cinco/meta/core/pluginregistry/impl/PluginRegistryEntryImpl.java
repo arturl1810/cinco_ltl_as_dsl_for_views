@@ -141,7 +141,7 @@ public class PluginRegistryEntryImpl implements PluginRegistryEntry {
 		case PluginRegistryEntryImpl.NODE_ANNOTATION: return this.nodeAnnotations;
 		case PluginRegistryEntryImpl.EDGE_ANNOTATION: return this.edgeAnnotations;
 		case PluginRegistryEntryImpl.GRAPH_MODEL_ANNOTATION: return this.graphModelAnnotations;
-		case PluginRegistryEntryImpl.NODE_CONTAINER_ANNOTATION: return this.graphModelAnnotations;
+		case PluginRegistryEntryImpl.NODE_CONTAINER_ANNOTATION: return this.nodeContainerAnnotations;
 		case PluginRegistryEntryImpl.TYPE_ANNOTATION: return this.typeAnnotations;
 		case PluginRegistryEntryImpl.PRIME_ANNOTATION: return this.primeAnnotations;
 		case PluginRegistryEntryImpl.ATTRIBUTE_ANNOTATION: return this.attributeAnnotations;
