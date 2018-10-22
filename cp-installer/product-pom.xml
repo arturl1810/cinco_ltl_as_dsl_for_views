@@ -14,6 +14,9 @@
     <cincoproduct.id>info.scce.cinco.product.example.product.id</cincoproduct.id> <!-- EDIT THIS LINE: value taken from generated .product file -->
     <cincoproduct.regexp>^(info.scce.cinco.product.example.product.id-)(.*)$$</cincoproduct.regexp> <!-- EDIT THIS LINE: same id as above -->
   </properties>
+
+  <!-- NO CHANGES REQUIRED BELOW THIS LINE -->
+
   <build>
     <plugins>
         <plugin>
