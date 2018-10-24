@@ -783,11 +783,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	def Iterable<ContainingElement>allContainingElements(GraphicalModelElement element){
 		if(element !== null){
 		val containingElements = new HashSet<ContainingElement> 
-		
-		if (element.graphModel.allContainmentConstraints.exists[types.contains(element) && upperBound !== 0])
+		val containable = element.graphModel.allContainmentConstraints
+		if (containable.exists[(types.contains(element)||types.empty) && upperBound !== 0] || element.graphModel.containableElements.empty) {			
 			containingElements += element.graphModel
+		}
 		
-		containingElements += element.containingElements 
+		containingElements += element.containingElements
 		containingElements += element.allSuperTypes.map[(it as GraphicalModelElement).containingElements].flatten
 		containingElements += element.subTypes.map[(it as GraphicalModelElement).containingElements].flatten
 		containingElements
