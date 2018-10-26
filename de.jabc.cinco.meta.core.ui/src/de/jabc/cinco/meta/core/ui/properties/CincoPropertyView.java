@@ -302,7 +302,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		treeViewComposite.setLayout(new GridLayout(1, false));
 		treeViewComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		
-		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
+		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		simpleViewComposite.setLayout(new GridLayout(1,false));
 		simpleViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
