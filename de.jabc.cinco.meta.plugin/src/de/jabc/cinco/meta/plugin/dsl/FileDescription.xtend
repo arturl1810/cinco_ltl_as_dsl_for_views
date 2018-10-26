@@ -49,7 +49,6 @@ class FileDescription extends ProjectResourceDescription<IFile> {
 		if (template === null)
 			template = (this.template = templateClass?.newInstance)
 		if (template !== null) template => [
-			it.cpd = this.cpd
 			it.model = this.model
 			it.parent = this.parent
 			it.project = this.project
