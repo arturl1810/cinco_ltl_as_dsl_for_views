@@ -15,8 +15,7 @@ public class CPDValidator implements IMetaPluginValidator {
 	public ValidationResult<String, EStructuralFeature> checkAll(EObject eObject) {
 		if (eObject instanceof Annotation) {
 			Annotation a = (Annotation) eObject;
-			if (a.getName().equals("disableGratext")
-					|| a.getName().equals("sortGratext")) {
+			if (a.getName().equals("disableGratext")) {
 				if (!a.getValue().isEmpty()) {
 					return newError("No arguments allowed.",
 							eObject.eClass().getEStructuralFeature("value"));
