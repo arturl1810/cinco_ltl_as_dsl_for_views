@@ -311,7 +311,10 @@ class FactoryGeneratorExtensions {
 					setID(ID + "_INTERNAL")
 					eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
 				]
-				«postCreateHook»
+				«IF (!annotations.filter[name == "postCreate"].isEmpty)»
+					postCreates
+				«ENDIF»
+«««				«postCreateHook»
 			]
 			
 		}
