@@ -170,6 +170,9 @@
       <type-annotation
             recognized-annotation="label">
       </type-annotation>
+      <type-annotation
+            recognized-annotation="postCreate">
+      </type-annotation>
    </extension>
 
 </fragment>

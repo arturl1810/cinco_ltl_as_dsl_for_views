@@ -358,6 +358,7 @@ class MGLUtil {
 	 }
 	 
 	 def static getPostCreateHooks(GraphModel it) {
+	 	types.map[annotations.filter[name == "postCreate"]].map[postCreates].join("\n") +
 	 	modelElements.map[annotations.filter[name == "postCreate"]].map[postCreates].join("\n")
 	 }
 	 
