@@ -171,34 +171,6 @@ public class GratextLanguageBuild extends ReiteratingJob {
 		}
 	}
 	
-//	public void buildIdeProject() {
-//		if (!failed) try {
-//			String projectName = this.project.getName() + ".ide";
-//			IProject project = getProject(projectName);
-//			if (project != null) {
-//				monitor.setTaskName("Refreshing " + projectName);
-//				project.refreshLocal(IProject.DEPTH_INFINITE, null);
-//				monitor.setTaskName("Building " + projectName);
-//				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-//			}
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
-//	public void buildUIProject() {
-//		if (!failed) try {
-//			String projectName = this.project.getName() + ".ui";
-//			IProject project = getProject(projectName);
-//			if (project != null) {
-//				monitor.setTaskName("Building " + projectName);
-//				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-//			}
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	private IProject getProject(String name) {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 	}

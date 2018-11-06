@@ -14,10 +14,7 @@ import de.jabc.cinco.meta.plugin.gratext.tmpl.file.RuntimeModuleTmpl
 import de.jabc.cinco.meta.plugin.gratext.tmpl.file.ScopeProviderTmpl
 import de.jabc.cinco.meta.plugin.gratext.tmpl.file.TransformerTmpl
 import de.jabc.cinco.meta.plugin.template.ProjectTemplate
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.runtime.Path
 
-import static de.jabc.cinco.meta.core.utils.EclipseFileUtils.copyFromBundleToFile
 import static de.jabc.cinco.meta.plugin.gratext.GratextBuilder.PROJECT_REGISTRY
 import de.jabc.cinco.meta.plugin.gratext.tmpl.file.AstFactoryTmpl
 import de.jabc.cinco.meta.plugin.gratext.tmpl.file.LinkingServiceTmpl
@@ -69,29 +66,10 @@ class GratextProjectTmpl extends ProjectTemplate {
 			
 			requiredBundles = #[
 				model.projectName,
-//				"org.eclipse.ui",
-//				"org.eclipse.ui.navigator",
-//				"org.eclipse.swt",
-//				"org.eclipse.core.runtime",
-//				"org.eclipse.core.resources",
-//				"org.eclipse.emf.common",
-//				"org.eclipse.emf.ecore",
-//				"org.eclipse.emf.codegen.ecore",
-				"org.eclipse.emf.transaction",
-//				"org.eclipse.emf.mwe.utils",
-				"org.eclipse.emf.mwe2.launch",
-//				"org.eclipse.xtext",
-//				"org.eclipse.xtext.generator",
-//				"org.eclipse.xtext.util",
-//				"org.eclipse.xtext.xbase",
-//				"org.eclipse.xtext.xbase.lib",
-//				"org.eclipse.xtext.common.types",
-//				"org.antlr.runtime",
-//				"org.apache.commons.logging",
-//				"de.jabc.cinco.meta.core.mgl.model",
-//				"de.jabc.cinco.meta.core.ui",
 				"de.jabc.cinco.meta.core.utils",
-				"de.jabc.cinco.meta.plugin.gratext.runtime"
+				"de.jabc.cinco.meta.plugin.gratext.runtime",
+				"org.eclipse.emf.transaction",
+				"org.eclipse.emf.mwe2.launch"
 			]
 			project = it
 		]
@@ -101,7 +79,6 @@ class GratextProjectTmpl extends ProjectTemplate {
 		super.createProject => [
 			PROJECT_REGISTRY.add(this)
 			new GratextModelBuild(it).runAndWait
-//			assertAntlrPatch
 		]
 	}
 	
@@ -145,13 +122,4 @@ class GratextProjectTmpl extends ProjectTemplate {
 	def getMglModel() {
 		model
 	}
-	
-//	private def assertAntlrPatch(IProject project) {
-//		val file = project.getFile(new Path(".antlr-generator-3.2.0-patch.jar"));
-//		if (!file.exists) copyFromBundleToFile(
-//			"de.jabc.cinco.meta.libraries",
-//			"lib_local/antlr-generator-3.2.0-patch.jar",
-//			file
-//		);
-//	}
 }

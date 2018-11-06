@@ -1,9 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.build;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
@@ -40,8 +38,6 @@ import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
 public abstract class GratextMwe2Job extends ReiteratingThread {
 
 	private static final int INTERVAL = 1000;
-//	private static String ANTLR_PATCH_FILENAME = ".antlr-generator-3.2.0-patch.jar";
-//	private static String DOWNLOAD_URL = "http://download.itemis.com/antlr-generator-3.2.0-patch.jar";
 	
 	private IProject project;
 	private IFile mwe2File;
@@ -50,7 +46,6 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 	private List<ILaunchConfiguration> launches;
 	private List<ILaunchConfiguration> unseen;
 	private ILaunchListener launchListener;
-//	private IFile antlrPatch;
 	
 	public GratextMwe2Job(IProject project) {
 		super(INTERVAL, INTERVAL / 10);
@@ -82,8 +77,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		//System.out.println("[Gratext.Listener" + hashCode() + "] Created launches list: " + launches.hashCode());
 		
 		unseen = new ArrayList<>();
-    	processes = new ArrayList<>(); 
-//    	antlrPatch = findAntlrPatch();
+    	processes = new ArrayList<>();
 		registerLaunchListener();
 		launch(project, mwe2File);
     }
@@ -131,7 +125,6 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 				.forEach(cfg -> { try { 
 					cfg.delete();
 				} catch(CoreException e) { e.printStackTrace(); }});
-//			assertAntlrPatch(project);
 			launch(type, project, file);
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -260,48 +253,6 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		return file;
 	}
 	
-//	private void assertAntlrPatch(IProject project) {
-//		//System.out.println("[Gratext.Listener" + hashCode() + "] Assert Antlr patch in " + project.getName());
-//		IFile file = project.getFile(new Path(ANTLR_PATCH_FILENAME));
-//		//System.out.println("[Gratext.Listener" + hashCode() + "] Antlr patch exists: " + file.exists());
-//		if (!file.exists()) {
-//			IFile antlrPatch = findAntlrPatch();
-//			//System.out.println("[Gratext.Listener" + hashCode() + "] Not found Antlr patch for project " + project.getName());
-//			if (antlrPatch == null) {
-//				antlrPatch = downloadAntlrPatch(project);
-//			} else try {
-//				//System.out.println("[Gratext.Listener" + hashCode() + "] Create Antlr patch file: " + file.getProjectRelativePath());
-//				file.create(antlrPatch.getContents(), true, null);
-//			} catch(CoreException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-    
-//    private IFile findAntlrPatch() {
-//		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-//			IFile file = project.getFile(new Path(ANTLR_PATCH_FILENAME));
-//			if (file.exists()) {
-//				//System.out.println("[Gratext.Listener" + hashCode() + "] Found Antlr patch: " + file.getFullPath());
-//				return file;
-//			}
-//		}
-//		return null;
-//	}
-    
-//    private IFile downloadAntlrPatch(IProject project) {
-//		//System.out.println("[Gratext.Listener" + hashCode() + "] downloading file from '" + DOWNLOAD_URL + "' ...");
-//		try {
-//			BufferedInputStream stream = new BufferedInputStream(new URL(DOWNLOAD_URL).openStream());
-//			IFile file = createFile(project, ANTLR_PATCH_FILENAME, stream);
-//			//System.out.println("[Gratext.Listener" + hashCode() + "] finished downloading.");
-//			return file;
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-    
     @Override
     public void quit() {
     	super.quit();
