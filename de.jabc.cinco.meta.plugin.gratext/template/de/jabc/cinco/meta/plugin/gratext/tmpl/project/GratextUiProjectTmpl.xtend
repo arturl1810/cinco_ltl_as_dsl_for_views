@@ -33,6 +33,7 @@ class GratextUiProjectTmpl extends ProjectTemplate {
 			
 			requiredBundles = #[
 				GratextProjectTmpl.projectName,
+				GratextIdeProjectTmpl.projectName,
 				"de.jabc.cinco.meta.plugin.gratext.runtime"
 			]
 			
