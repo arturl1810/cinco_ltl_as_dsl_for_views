@@ -69,7 +69,9 @@ class GratextProjectTmpl extends ProjectTemplate {
 				"de.jabc.cinco.meta.core.utils",
 				"de.jabc.cinco.meta.plugin.gratext.runtime",
 				"org.eclipse.emf.transaction",
-				"org.eclipse.emf.mwe2.launch"
+				"org.eclipse.emf.mwe2.launch",
+				"org.eclipse.xtext.ide",
+				"org.eclipse.xtext.xbase.ide"
 			]
 			project = it
 		]

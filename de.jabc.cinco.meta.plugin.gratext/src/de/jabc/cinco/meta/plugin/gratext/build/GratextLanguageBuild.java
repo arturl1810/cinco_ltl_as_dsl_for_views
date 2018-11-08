@@ -133,7 +133,6 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	
 	private void refreshProjects() {
 		refreshProject("");
-		refreshProject(".ide");
 		refreshProject(".ui");
 	}
 	
@@ -152,7 +151,6 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	
 	private void buildProjects() {
 		buildProject("");
-		buildProject(".ide");
 		buildProject(".ui");
 	}
 	

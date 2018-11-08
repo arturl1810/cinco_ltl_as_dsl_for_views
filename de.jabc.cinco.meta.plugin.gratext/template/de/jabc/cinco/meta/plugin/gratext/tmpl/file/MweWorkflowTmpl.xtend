@@ -100,6 +100,10 @@ class MweWorkflowTmpl extends FileTemplate {
 						eclipsePluginTest = {
 							enabled = false
 						}
+						genericIde = {
+							enabled = true
+							name = projectName // generate to the base project
+						}
 						createEclipseMetaData = true
 						codeConfig = {
 							preferXtendStubs = false
