@@ -115,6 +115,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		 */
 		this.readCPDFile();
 		this.readCincoProperties();
+		this.deleteFolders();
 		this.readGenerationTimestamp();
 		this.calculateMGL_Sets();
 		if (generateMGLs.size() == 0) {
@@ -419,12 +420,26 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		res.load(cpdFile.getContents(), null);
 		return res.getContents().get(0);
 	}
+	
+	private void deleteFolders() {
+		IProject project = cpdFile.getProject();
+		List<String> toDelete = CincoProperties.getDeleteFolders();
+		for (String folder : toDelete) try {
+			IResource resource = project.findMember(folder);
+			if (resource != null) {
+				resource.delete(org.eclipse.core.resources.IResource.FORCE, null);
+			}
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private void deleteGeneratedResources() {
 		IProject project = cpdFile.getProject();
 		try {
 			Collection<IResource> toDelete = new ArrayList<>();
 			toDelete.add(project.findMember("resources-gen/"));
+			
 			for (IResource resource : toDelete) {
 				if (resource != null) {
 					resource.delete(org.eclipse.core.resources.IResource.FORCE, null);
@@ -665,7 +680,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private void readCincoProperties() {
-		CincoProperties.getInstance().load(cpdFile.getProject());
+		CincoProperties.newInstance().load(cpdFile.getProject());
 	}
 
 	private void readGenerationTimestamp() {
