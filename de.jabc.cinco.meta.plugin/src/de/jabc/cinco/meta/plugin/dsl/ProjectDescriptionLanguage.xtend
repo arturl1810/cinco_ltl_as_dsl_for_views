@@ -51,6 +51,12 @@ class ProjectDescriptionLanguage {
 		container => [ templates.map[new FileDescription(value?.toString, key)].forEach[container.add(it)] ]
 	}
 	
+	def <T extends FileContainerDescription<?>> filesFromBundle(T container, Pair<String,String> bundleSource) {
+		container => [
+			filesFromBundles.add(bundleSource)
+		]
+	}
+	
 	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription struct) {
 		container => [
 			add(new FolderDescription(container, name) => [ 

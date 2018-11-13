@@ -4,15 +4,25 @@ import java.util.Set
 import org.eclipse.core.resources.IContainer
 import org.eclipse.xtend.lib.annotations.Accessors
 
+import static extension org.eclipse.core.runtime.Platform.getBundle
+
 abstract class FileContainerDescription<T extends IContainer> extends ProjectResourceDescription<T> {
 	
 	@Accessors boolean deleteIfExistent = false
 	@Accessors Set<FileDescription> files = newHashSet
+	@Accessors Set<Pair<String,String>> filesFromBundles = newHashSet
 	@Accessors Set<FolderDescription> folders = newLinkedHashSet
 	
 	new(String name) { super(name) }
 	
 	def createFiles() {
+		filesFromBundles
+			.map[getBundle(key)?.findEntries(value, "*", true)]
+			.map[toList].flatten
+			.forEach[
+				getIResource.createFile(
+					file.substring(file.lastIndexOf('/') + 1), openStream)
+			]
 		files.forEach[create(this)]
 	}
 	
