@@ -249,7 +249,7 @@ class CollectionExtension {
 	 * @param associator a lambda expression for establishing an association 
 	 * 	between a node and the node to be deleted.
 	 */
-	public def <T> removeByAssociation(Seq<T> seq, (T) => T associator) {		
+	def <T> removeByAssociation(Seq<T> seq, (T) => T associator) {
 		seq.removeByAssociatedElements[
 			Seq.of(associator.apply(it))
 		]
@@ -267,7 +267,7 @@ class CollectionExtension {
 	 * @param associator a lambda expression for establishing an association 
 	 * 	between a node and the node to be deleted.
 	 */
-	public def <T> removeByAssociatedElements(Seq<T> seq, (T) => Seq<T> associator) {		
+	def <T> removeByAssociatedElements(Seq<T> seq, (T) => Seq<T> associator) {
 		val dupe = seq.duplicate
 		val deleteItems = dupe.v1.flatMap[associator.apply(it)].distinct
 		dupe.v2.removeAll(deleteItems)
@@ -335,5 +335,21 @@ class CollectionExtension {
 	 */
 	def <K,V> add(Map<K,V> map, Pair<K,V> pair) {
 		map.put(pair.key, pair.value)
+	}
+	
+	/**
+	 * Tests whether the iterable contains the specified object.
+	 * This is a convenient method for <code>iterable.exists[it == obj]</code>
+	 * 
+	 * @param iterable
+	 *            the iterable. May not be <code>null</code>.
+	 * @param obj
+	 *            the obj to be searched
+	 * @return <code>true</code> if the iterable contains the object,
+	 *   <code>false</code> otherwise.
+	 */
+	@Pure
+	def <T> contains(Iterable<T> iterable, T obj) {
+		iterable.exists[it == obj]
 	}
 }
