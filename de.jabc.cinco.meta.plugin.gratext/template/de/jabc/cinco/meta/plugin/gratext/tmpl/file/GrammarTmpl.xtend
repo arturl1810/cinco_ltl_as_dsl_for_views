@@ -179,22 +179,23 @@ class GrammarTmpl extends FileTemplate {
 	}
 
 	def attributes(ModelElement elm) {
-		val attrs = elm.allAttributes.sortBy[name]
+		val sorted = cpd?.annotations?.exists[name == "sortGratext"]
+		val attrs = if (sorted) elm.allAttributes.sortBy[name] else elm.allAttributes
+		val attrSeparator = if (sorted) ' \n' else ' &\n'
 		val attrsStr = attrs.map [
 			switch it {
 				case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«gratextName» += «typeReference» ( ',' ^«gratextName» += «typeReference» )* )? ']' )?'''
 				default: '''( '«name»' ^«gratextName» = «typeReference» )?'''
 			}
-//		].join(' &\n')
-		//Generate unordered groups
-		].join(' \n')
+		].join(attrSeparator)
 		val primeStr = switch elm {
 			Node: elm.prime
 		}
 		if (attrs.empty)
 			primeStr
-//		else if(primeStr != null) "( " + primeStr + ' &\n' + attrsStr + " )" else "( " + attrsStr + " )"
-		else if(primeStr != null) "( " + primeStr + ' \n' + attrsStr + " )" else "( " + attrsStr + " )"
+		else if (primeStr !== null)
+			"( " + primeStr + attrSeparator + attrsStr + " )"
+		else "( " + attrsStr + " )"
 	}
 
 	def prime(Node node) {

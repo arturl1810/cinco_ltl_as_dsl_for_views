@@ -56,4 +56,14 @@
             name="Generate Gratext">
       </command>
    </extension>
+   <extension
+         id="GratextSortFeature"
+         name="Gratext Sort Feature"
+         point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
+      <cpd_metaplugin_description
+            cpdMetapluginService="de.jabc.cinco.meta.plugin.gratext.CPDMetaPlugin"
+            recognized-annotation="sortGratext"
+            validatorClass="de.jabc.cinco.meta.plugin.gratext.CPDValidator">
+      </cpd_metaplugin_description>
+   </extension>
 </fragment>

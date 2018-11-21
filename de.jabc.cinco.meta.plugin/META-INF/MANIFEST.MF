@@ -21,5 +21,6 @@ Export-Package: de.jabc.cinco.meta.plugin,
  de.jabc.cinco.meta.plugin.dsl,
  de.jabc.cinco.meta.plugin.template,
  de.jabc.cinco.meta.plugin.validation
-Import-Package: org.eclipse.core.resources
+Import-Package: org.eclipse.core.resources,
+ productDefinition
 
