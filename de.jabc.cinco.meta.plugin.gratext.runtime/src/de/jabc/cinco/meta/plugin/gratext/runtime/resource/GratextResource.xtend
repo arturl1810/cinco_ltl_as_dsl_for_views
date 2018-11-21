@@ -23,12 +23,12 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	private GraphModel model
-	private Iterable<ResourceContributor> contributors
-	private final HashMap<EObject,ResourceContributor> contributions = newHashMap
-	private Runnable internalStateChangedHandler
-	private Runnable newParseResultHandler
-	private boolean skipInternalStateUpdate
+	GraphModel model
+	Iterable<ResourceContributor> contributors
+	val HashMap<EObject,ResourceContributor> contributions = newHashMap
+	Runnable internalStateChangedHandler
+	Runnable newParseResultHandler
+	boolean skipInternalStateUpdate
 	
 	def Transformer getTransformer(InternalGraphModel model)
 	
@@ -36,9 +36,13 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	def void removeTransformer(InternalGraphModel model)
 	
+	def boolean isSortGratext()
+	
 	def String serialize() {
 		val internalModel = model?.internalElement ?: getContent(InternalGraphModel)
-		new Serializer(this, internalModel, getLastTransformer(internalModel)).run
+		(new Serializer(internalModel, internalModel.lastTransformer) => [
+			sorted = isSortGratext
+		]).run
 	}
 	
 	override doSave(OutputStream outputStream, Map<?, ?> options) {

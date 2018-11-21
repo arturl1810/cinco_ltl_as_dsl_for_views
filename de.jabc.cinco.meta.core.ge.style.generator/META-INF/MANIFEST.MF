@@ -45,6 +45,20 @@ Import-Package: de.jabc.cinco.meta.core.utils.generator,
  de.jabc.cinco.meta.util.xapi,
  org.eclipse.graphiti.ui.features,
  style
-Export-Package: de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils,
- de.jabc.cinco.meta.core.ge.style.generator.main
+Export-Package: de.jabc.cinco.meta.core.ge.style.generator.action,
+ de.jabc.cinco.meta.core.ge.style.generator.api.main,
+ de.jabc.cinco.meta.core.ge.style.generator.api.templates,
+ de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils,
+ de.jabc.cinco.meta.core.ge.style.generator.main,
+ de.jabc.cinco.meta.core.ge.style.generator.templates,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.add,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.create,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.delete,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.layout,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.move,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.resize,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.update,
+ de.jabc.cinco.meta.core.ge.style.generator.templates.util
 

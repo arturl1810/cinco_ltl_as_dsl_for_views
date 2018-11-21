@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
-import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource
 import graphmodel.IdentifiableElement
 import graphmodel.ModelElement
 import graphmodel.Node
@@ -15,7 +14,9 @@ import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
 import graphmodel.internal._Decoration
 import graphmodel.internal._Point
+import java.text.SimpleDateFormat
 import java.util.Collection
+import java.util.Date
 import java.util.List
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -25,25 +26,17 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.getID
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class Serializer {
 
 	val nodesSerializationOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[orderIndex]]
-		
 	val nodesLayerOrder = new NonEmptyRegistry[InternalModelElementContainer it | allNodes.sortBy[layer]]
 
 	InternalGraphModel model
-	GratextResource resource
 	Transformer transformer
+	protected boolean sorted
 	
-	def getAllNodes(InternalModelElementContainer c) {
-		c.modelElements.filter(InternalNode)
-	}
-	
-	new (GratextResource resource, InternalGraphModel model, Transformer transformer) {
-		this.resource = resource
+	new (InternalGraphModel model, Transformer transformer) {
 		this.model = model
 		this.transformer = transformer
 	}
@@ -99,13 +92,21 @@ class Serializer {
 	}
 	
 	def Iterable<EStructuralFeature> attributes(EClass it) {
-		if (InternalPackage.eINSTANCE.getEClassifiers.contains(it))
-			#[]
-		else (
-			getEAttributes
-			+ getEReferences
-			+ getESuperTypes.map[attributes].flatten
-		).filter[!name?.startsWith("gratext_")]
+		val retval =
+			if (InternalPackage.eINSTANCE.getEClassifiers.contains(it))
+				#[]
+			else (
+				getEAttributes
+				+ getEReferences
+				+ getESuperTypes.map[attributes].flatten
+			)
+		if (sorted)
+			retval.filter[name == "libraryComponentUID"]
+			+ retval.filter[
+					!name?.startsWith("gratext_") && name != "libraryComponentUID"
+				].sortBy[name]
+		else
+			retval.filter[!name?.startsWith("gratext_")]
 	}
 	
 	def <T> combine(Collection<? extends T> l1, Collection<? extends T> l2, Iterable<? extends T> l3) {
@@ -215,6 +216,10 @@ class Serializer {
 			}
 			default: getID
 		}
+	}
+	
+	def getAllNodes(InternalModelElementContainer c) {
+		c.modelElements.filter(InternalNode)
 	}
 	
 }

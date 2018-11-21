@@ -1,8 +1,9 @@
 package de.jabc.cinco.meta.runtime.provider
 
 import de.jabc.cinco.meta.runtime.CincoRuntimeBaseClass
-import graphmodel.ModelElement
+import graphmodel.Type
 import java.util.Map
+import graphmodel.IdentifiableElement
 
 /** 
  * This class returns a map with possible "display" strings for an attribute of type <A>
@@ -10,7 +11,7 @@ import java.util.Map
  * @param<E> The {@link ModelElement} type which contains the attribute
  * @param<A> The {@link ModelElement}'s attribute type
  */
-abstract class CincoValuesProvider<E extends ModelElement, A extends Object> extends CincoRuntimeBaseClass {
+abstract class CincoValuesProvider<E extends IdentifiableElement, A extends Object> extends CincoRuntimeBaseClass {
 	
 	/** 
 	 * @param modelElement The {@link ModelElement} containing the attribute

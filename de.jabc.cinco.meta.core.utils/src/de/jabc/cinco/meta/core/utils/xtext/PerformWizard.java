@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.JavaCore;
 
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction;
 import de.jabc.cinco.meta.runtime.action.CincoDoubleClickAction;
-import de.jabc.cinco.meta.runtime.action.CincoPostValueChangeListener;
+import de.jabc.cinco.meta.runtime.action.CincoPostAttributeChangeHook;
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 import de.jabc.cinco.meta.runtime.hook.CincoPostMoveHook;
 import de.jabc.cinco.meta.runtime.hook.CincoPostResizeHook;
@@ -81,7 +81,7 @@ public class PerformWizard {
 		else if(name.equals("postSelect"))
 			superclass = CincoPostSelectHook.class.getName();
 		else if(name.equals("postAttributeValueChange"))
-				superclass = CincoPostValueChangeListener.class.getName();
+				superclass = CincoPostAttributeChangeHook.class.getName();
 		else if(name.equals("preDelete"))
 			superclass = CincoPreDeleteHook.class.getName();
 		else if(name.equals("possibleValueProvider"))

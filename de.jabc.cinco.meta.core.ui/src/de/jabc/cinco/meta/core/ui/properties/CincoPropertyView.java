@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -102,6 +103,7 @@ import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory.Builder;
 import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorModelAccess;
 import org.osgi.framework.Bundle;
 
+import com.google.common.collect.ContiguousSet;
 import com.google.inject.Injector;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
@@ -133,6 +135,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
+	private static Map<Class<? extends EObject>, EStructuralFeature> typeLabel = new HashMap<Class<? extends EObject>, EStructuralFeature>();
 	private static Map<EStructuralFeature, Map<? extends Object, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends Object, String>>();
 	private static Map<EStructuralFeature, Injector> grammarAttributes = new HashMap<EStructuralFeature, Injector>();
 	private Map<Object, Object[]> treeExpandState;
@@ -279,6 +282,11 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		grammarAttributes.put(feature, injector);
 	}
 	
+	public static void init_TypeLabel(Class<? extends EObject> clazz, EStructuralFeature feature) {
+		typeLabel.put(clazz, feature);
+	}
+	
+	
 	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject))// || referencesMap.get(bo.getClass()) == null)
 			return;
@@ -294,7 +302,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		treeViewComposite.setLayout(new GridLayout(1, false));
 		treeViewComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		
-		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
+		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		simpleViewComposite.setLayout(new GridLayout(1,false));
 		simpleViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -372,6 +380,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					disposeChildren(simpleViewComposite);
 					if (o instanceof Type) {
 						InternalType internalElement = ((Type) o).getInternalElement();
+						registeredListeners.stream().filter(l -> l instanceof IValuesProposalProvider).forEach(vpp ->  ((IValuesProposalProvider) vpp).refreshValues((EObject) o));
 						createSimplePropertyView(internalElement, simpleViewComposite);
 					}
 					else if (o instanceof EObject)
@@ -800,6 +809,19 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				EObject eObject = (EObject) element;
 				EObject eContainer = eObject.eContainer();
 
+				if (eObject instanceof Type) {
+					InternalType internalType = ((Type) eObject).getInternalElement();
+					EStructuralFeature attribute = CincoPropertyUtils.getLabeledFeature(internalType.getClass(), typeLabel);
+					if (attribute != null) {
+						Object value = internalType.eGet(attribute);
+						if (value instanceof String && !((String) value).isEmpty())
+							return (String) value.toString();
+						if (value instanceof Enum<?>)
+							return ((Enum) value).toString();
+						else return "<<" + attribute.getName() + ">>";
+					}
+				}
+				
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
 					Object value = eContainer.eGet(ref, true);
 					if (isMultiValued(value) && !((List<?>) value).isEmpty()) {
