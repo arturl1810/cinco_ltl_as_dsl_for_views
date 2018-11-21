@@ -41,7 +41,7 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	protected void prepare() {
 		monitor = getMonitor();
 		findModelFolder();
-		triggerRefresh();
+		refreshProjects();
 		findMwe2();
 		runMwe2();
 	}
@@ -56,10 +56,8 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	protected void afterwork() {
 		if (jobStatus.isOK())  {
 			deleteSources();
-			triggerRefresh();
-			buildProject();
-			buildUIProject();
-		} else triggerRefresh();
+			buildProjects();
+		} else refreshProjects();
 	}
 	
 	private void findModelFolder() {
@@ -133,29 +131,36 @@ public class GratextLanguageBuild extends ReiteratingJob {
 		}
 	}
 	
-	private void triggerRefresh() {
-		if (!failed) try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-			getProject(project.getName() + ".ui").refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
+	private void refreshProjects() {
+		refreshProject("");
+		refreshProject(".ui");
 	}
 	
-	public void buildProject() {
+	private void refreshProject(String suffix) {
 		if (!failed) try {
-			monitor.setTaskName("Building " + project.getName());
-			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void buildUIProject() {
-		if (!failed) try {
-			String projectName = this.project.getName() + ".ui";
+			String projectName = this.project.getName() + suffix;
 			IProject project = getProject(projectName);
 			if (project != null) {
+				monitor.setTaskName("Refreshing " + projectName);
+				project.refreshLocal(IProject.DEPTH_INFINITE, null);
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void buildProjects() {
+		buildProject("");
+		buildProject(".ui");
+	}
+	
+	public void buildProject(String suffix) {
+		if (!failed) try {
+			String projectName = this.project.getName() + suffix;
+			IProject project = getProject(projectName);
+			if (project != null) {
+				monitor.setTaskName("Refreshing " + projectName);
+				project.refreshLocal(IProject.DEPTH_INFINITE, null);
 				monitor.setTaskName("Building " + projectName);
 				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 			}
