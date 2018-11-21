@@ -16,6 +16,8 @@ import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.part.MultiPageEditorPart
 
 import static org.eclipse.emf.ecore.util.EcoreUtil.equals
+import graphmodel.ModelElement
+import graphmodel.internal.InternalModelElement
 
 /**
  * Workbench-specific extension methods.
@@ -278,7 +280,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 		element.internalElement.eResource?.diagram?.pictogramLinks
 			.filter[businessObjects.exists[equals(it, element)]]
 			.map[pictogramElement]
-			.findFirst[it != null]
+			.findFirst[it !== null]
 	}
 	
 	/**
@@ -290,7 +292,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def testBusinessObjectType(PictogramElement pe, Class<?> cls) {
 		val bo = pe.businessObject
-		if (bo == null)
+		if (bo === null)
 			return false
 		var test = cls.isAssignableFrom(bo.class)
 		if (!test && bo instanceof InternalIdentifiableElement) {
@@ -325,6 +327,39 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	def getDiagram(IEditorPart editor) {
 		extension val ext = new ResourceExtension
 		editor?.resource?.diagram
+	}
+	
+	/**
+	 * Retrieves all model elements that are currently selected in the editor.
+	 * Returns an empty list if the diagram does not exist or the editor is closed.
+	 */
+	def getSelectedModelElements(GraphModel model) {
+		model?.diagram?.selectedPictogramElements
+			.map[businessObject]
+			.filter(InternalModelElement)
+			.map[element]
+	}
+	
+	/**
+	 * Retrieves all pictogram elements that are currently selected in the editor.
+	 * Returns an empty list if the diagram does not exist or the editor is closed.
+	 */
+	def getSelectedPictogramElements(Diagram diagram) {
+		diagram?.diagramBehavior?.selectedPictogramElements?.toList ?: #[]
+	}
+	
+	/**
+	 * Tests whether the specified model element is currently selected in the editor.
+	 */
+	def isSelected(ModelElement element) {
+		element?.rootElement?.selectedModelElements?.exists[it == element]
+	}
+	
+	/**
+	 * Tests whether the specified model element is currently selected in the editor.
+	 */
+	def isSelected(PictogramElement element) {
+		element?.diagram?.selectedPictogramElements?.contains(element)
 	}
 	
 	/**
@@ -375,21 +410,21 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def refresh(Diagram diagram) {
-		async[| diagram.diagramBehavior?.refreshContent ]
+		async[ diagram.diagramBehavior?.refreshContent ]
 	}
 	
 	def refreshDiagramEditor() {
-		async[| activeDiagramEditor?.diagramBehavior?.refresh ]
+		async[ activeDiagramEditor?.diagramBehavior?.refresh ]
 	}
 	
 	def refreshDecorators(PictogramElement pe) {
-		async[| pe.editor?.diagramBehavior?.refreshRenderingDecorators(pe) ]
+		async[ pe.editor?.diagramBehavior?.refreshRenderingDecorators(pe) ]
 	}
 	
 	def refreshDecorators(Iterable<PictogramElement> pes) {
 		val db = pes?.map[editor?.diagramBehavior]?.filterNull?.head
-		if (db != null) 
-			async[| for (pe : pes) db.refreshRenderingDecorators(pe) ] 
+		if (db !== null) 
+			async[ for (pe : pes) db.refreshRenderingDecorators(pe) ] 
 		else System.err.println("No DiagramBehavior found for any pictogram")
 	}
 	

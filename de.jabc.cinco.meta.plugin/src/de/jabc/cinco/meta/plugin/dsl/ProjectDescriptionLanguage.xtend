@@ -51,6 +51,12 @@ class ProjectDescriptionLanguage {
 		container => [ templates.map[new FileDescription(value?.toString, key)].forEach[container.add(it)] ]
 	}
 	
+	def <T extends FileContainerDescription<?>> filesFromBundle(T container, Pair<String,String> bundleSource) {
+		container => [
+			filesFromBundles.add(bundleSource)
+		]
+	}
+	
 	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription struct) {
 		container => [
 			add(new FolderDescription(container, name) => [ 
@@ -121,6 +127,10 @@ class ProjectDescriptionLanguage {
 	
 	def setBinIncludes(ProjectDescription projDesc, String[] names) {
 		projDesc => [ buildProperties.binIncludes => [clear addAll(names)] ]
+	}
+
+	def setAdditionalBundles(ProjectDescription projDesc, String[] names) {
+		projDesc => [ buildProperties.additionalBundles => [clear addAll(names)] ]
 	}
 	
 	def setExportedPackages(ProjectDescription projDesc, String[] names) {

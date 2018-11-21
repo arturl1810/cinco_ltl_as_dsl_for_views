@@ -4,31 +4,36 @@ import java.util.Properties
 import org.eclipse.core.resources.IProject
 import java.nio.file.Paths
 import java.io.FileInputStream
+import java.util.List
 
 class CincoProperties extends Properties {
 	
 	// name of the Cinco config folder to be expected in the home of the user
-	public static String CONFIG_FOLDER = ".cinco";
+	public static val CONFIG_FOLDER = ".cinco";
 	
 	// name of the properties file to be expected in the root of a project
-	public static String PROPERTIES_FILE_NAME = "cinco.properties";
+	public static val PROPERTIES_FILE_NAME = "cinco.properties";
 	
 	// Pairs: Property key -> Default value
-	private static val MAX_THREADS = "maxThreads" -> 0; // default: no limit
-	private static val VM_ARGS = "vmArgs" -> "";
+	static val MAX_THREADS = "maxThreads" -> 0; // default: no limit
+	static val DELETE_FOLDERS = "deleteFolders" -> ""; // default: none
+	static val VM_ARGS = "vmArgs" -> ""; // default: no args
 	
 	// singleton pattern
 	private new() {}
-	private static CincoProperties INSTANCE
-	public static def getInstance() {
-		INSTANCE ?: (INSTANCE = new CincoProperties() => [load])
-	}
+	static CincoProperties INSTANCE
+	static def newInstance() { INSTANCE = new CincoProperties => [load] }
+	static def getInstance() { INSTANCE ?: newInstance }
 	
 	/*
 	 * Convenient Getters
 	 */
 	static def getMaxThreads() {
 		MAX_THREADS.intValue
+	}
+	
+	static def getDeleteFolders() {
+		DELETE_FOLDERS.strValues
 	}
 	
 	static def getVmArgs() {
@@ -40,7 +45,7 @@ class CincoProperties extends Properties {
 	 */
 	def load() {
 		val home = System.getProperty("user.home")
-		if (home != null) try {
+		if (home !== null) try {
 			val file = Paths.get(home).resolve(CONFIG_FOLDER).resolve(PROPERTIES_FILE_NAME).toFile
 			if (file.exists) {
 				load(new FileInputStream(file))
@@ -59,17 +64,25 @@ class CincoProperties extends Properties {
 		if (file.exists) {
 			super.load(file.contents)
 		}
-		println(this)
+		println("Cinco Properties: " + this)
 	}
 	
 	private static def String getStrValue(Pair<String,String> p) {
 		instance.getProperty(p.key) ?: p.value
 	}
 	
+	private static def List<String> getStrValues(Pair<String,String> p) {
+		(instance.getProperty(p.key) ?: p.value).splitValues.toList
+	}
+	
 	private static def Integer getIntValue(Pair<String,Integer> p) {
 		val value = instance.getProperty(p.key)
-		if (value != null) 
+		if (value !== null) 
 			Integer.parseInt(value)
 		else p.value
+	}
+	
+	private static def splitValues(String listOfValues) {
+		listOfValues?.split(",")?.map[trim]?.filter[!nullOrEmpty] ?: #[]
 	}
 }
