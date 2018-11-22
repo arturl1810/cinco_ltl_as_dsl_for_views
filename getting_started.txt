@@ -2,8 +2,8 @@ Starting Requirements:
 
 - Oracle JDK 8 (Open JDK 8 might be supported when stable)
 - Maven 3 installed
-- Eclipse 4.5.2 "Mars SR2" in the "Modeling Tools" variant: 
-  http://eclipse.org/downloads/packages/eclipse-modeling-tools/mars2
+- Eclipse "Photon" in the "Modeling Tools" variant: 
+  https://www.eclipse.org/downloads/packages/release/photon/r
 
 
 Preparing Eclipse Modeling:
@@ -15,7 +15,7 @@ Preparing Eclipse Modeling:
 to 'eclipse.ini' before the line '--launcher.appendVmargs' when experiencing graphical issues
 - Start Eclipse with a fresh workspace
 - Help / Install Modeling Components
-	- mark Xpand, Graphiti and Xtext for installation
+	- mark Xtend, Graphiti and Xtext for installation (not Xpand)
 	- finish -> next -> next -> accept -> finish
 	- yes, restart
 
