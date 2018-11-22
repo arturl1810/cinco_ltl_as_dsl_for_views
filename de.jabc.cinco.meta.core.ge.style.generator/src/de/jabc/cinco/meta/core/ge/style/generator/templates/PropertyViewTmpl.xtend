@@ -25,6 +25,7 @@ import org.eclipse.xtext.ui.editor.embedded.EmbeddedEditorFactory
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import de.jabc.cinco.meta.core.ui.properties.IValuesProposalProvider
 
 class PropertyViewTmpl extends GeneratorUtils {
 
@@ -39,7 +40,7 @@ package «gm.packageName».property.view;
 
 import «EmbeddedEditorFactory.name».Builder;
 
-public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
+public class «gm.fuName»PropertyView implements «ISelectionListener.name», «IValuesProposalProvider.name» {
 
 	private «PictogramElement.name» lastSelected;
 	private static «ISelectionListener.name» listener;
@@ -180,6 +181,13 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«ENDIF»
 		«ENDFOR»
 		
+		«FOR t : gm.types.filter(UserDefinedType).filter[hasLabel]»
+		«CincoPropertyView.name».init_TypeLabel(
+			«gm.beanPackage».internal.impl.Internal«t.fuName»Impl.class,
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«t.annotations.filter[name == "label"].head.value.head.toFirstUpper»()
+		);
+		«ENDFOR»
+		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
 			«CincoPropertyView.name».init_GrammarEditor(
@@ -187,7 +195,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
 		«ENDFOR»
 		«ENDIF»
-
+		
 	}
 	
 	@Override
@@ -245,6 +253,15 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 
 	private boolean isStructuredSelection(«ISelection.name» selection) {
 		return selection instanceof «IStructuredSelection.name»;
+	}
+	
+	@Override
+	public void refreshValues(«EObject.name» bo) {
+		«FOR attr : gm.allModelAttributes.filter[isAttributePossibleValuesProvider]»
+		if (bo instanceof «attr.modelElement.fqBeanName»)
+			«CincoPropertyView.name».refreshPossibleValues(«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.name»_«attr.name.toFirstUpper»(), new «attr.getPossibleValuesProviderClass»().getPossibleValues((«attr.modelElement.fqBeanName») bo));
+		
+		«ENDFOR»
 	}
 	
 }

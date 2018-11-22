@@ -73,14 +73,6 @@ public class GratextBuilder extends AbstractHandler {
 		return null;
 	}
 
-//	private void build(IProject project) {
-//		try {
-//			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	private IFile createFile(String projectName, String folderName, String fileName, CharSequence content) {
 		IProject project = workspace.getWorkspaceRoot().getProject(projectName);
 		IFolder folder = workspace.createFolder(project, folderName);

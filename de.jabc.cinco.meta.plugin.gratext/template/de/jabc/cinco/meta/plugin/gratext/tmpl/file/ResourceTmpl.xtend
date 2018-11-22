@@ -37,6 +37,10 @@ class ResourceTmpl extends FileTemplate {
 			override removeTransformer(InternalGraphModel model) {
 				lastTransformers.put(model, transformers.remove(model))
 			}
+		
+			override isSortGratext() {
+				«cpd?.annotations?.exists[name == "sortGratext"]»
+			}
 		}
 	'''
 	

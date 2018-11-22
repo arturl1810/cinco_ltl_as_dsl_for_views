@@ -636,44 +636,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	private def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
-«««	«IF isUserDefinedType»
-«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
-«««	if (dom == null)
-«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
-«««	«ELSE»
-«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
-«««	if (dom == null)
-«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
-«««	«ENDIF»
-«««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
-«««		@Override
-«««		protected void doExecute() {
 		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
 			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
 		});
-«««		}
-«««	});
 	'''
 
 	private def createSetterContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
-«««	«IF isUserDefinedType»
-«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»());
-«««	if (dom == null)
-«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().eResource().getResourceSet());
-«««	«ELSE»
-«««	«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement());
-«««	if (dom == null)
-«««		dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain(getInternal«modelElementClass.name.toFirstUpper»().getRootElement().eResource().getResourceSet());
-«««	«ENDIF»
-«««	dom.getCommandStack().execute(new «RecordingCommand.name»(dom) {
-«««		@Override
-«««		protected void doExecute() {
 		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
 			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
 		});
 			
-«««		}
-«««	});
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
@@ -743,7 +715,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def removeContent(EClass modelElementClass, String featureName)'''
-	getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().remove(«featureName»);
+	getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
+		getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().remove(«featureName»);
+	});	
 	'''
 
 	private def createTypedInternalGetter(ElementEClasses elmClasses){

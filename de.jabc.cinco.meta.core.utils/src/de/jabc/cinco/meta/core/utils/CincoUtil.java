@@ -57,6 +57,7 @@ import mgl.GraphModel;
 import mgl.Import;
 import mgl.ModelElement;
 import mgl.Node;
+import mgl.UserDefinedType;
 import productDefinition.CincoProduct;
 import style.EdgeStyle;
 import style.NodeStyle;
@@ -72,6 +73,7 @@ public class CincoUtil {
 	
 	public static final String ID_STYLE = "style";
 	public static final String ID_ICON = "icon";
+	public static final String ID_LABEL = "label";
 	public static final String ID_DISABLE= "disable";
 	public static final String ID_DISABLE_CREATE = "create";
 	public static final String ID_DISABLE_DELETE = "delete";
@@ -213,6 +215,14 @@ public class CincoUtil {
 	public static boolean isGrammarAttribute(Attribute attr) {
 		for (Annotation annot : attr.getAnnotations()) {
 			if (annot.getName().equals("grammar"))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean hasLabel(UserDefinedType udt) {
+		for (Annotation annot : udt.getAnnotations()) {
+			if (annot.getName().equals(ID_LABEL))
 				return true;
 		}
 		return false;

@@ -128,6 +128,10 @@ class ProjectDescriptionLanguage {
 	def setBinIncludes(ProjectDescription projDesc, String[] names) {
 		projDesc => [ buildProperties.binIncludes => [clear addAll(names)] ]
 	}
+
+	def setAdditionalBundles(ProjectDescription projDesc, String[] names) {
+		projDesc => [ buildProperties.additionalBundles => [clear addAll(names)] ]
+	}
 	
 	def setExportedPackages(ProjectDescription projDesc, String[] names) {
 		projDesc => [ manifest.exportedPackages => [clear addAll(names)] ]

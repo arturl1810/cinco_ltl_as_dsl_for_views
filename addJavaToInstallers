@@ -23,8 +23,8 @@ for os in linux win32 macosx; do
 	echo "Version: $version"
 
 	if [ ${os} = 'macosx' ]; then
-		cincoini="${version}/cinco.app/Contents/MacOS/cinco.ini"
-		javapath="../../../java/Contents/Home/bin/java"
+		cincoini="${version}.app/Contents/Eclipse/cinco.ini"
+		javapath="../../java/Contents/Home/bin/java"
 	elif [ ${os} = 'win32' ]; then
 		cincoini="${version}/cinco.ini"
 		javapath="java/bin/java.exe"
@@ -35,24 +35,43 @@ for os in linux win32 macosx; do
 		echo "Unknown os=${os}. Exiting."
 		exit 2
 	fi
-	
+
+	echo "Cinco.ini: $cincoini"
+	echo "javapath: $javapath"
+
 	echo "Extracting ${cincoini} from ${zip}"
 	unzip ${zip} "${cincoini}" || exit 3
 
 	echo "Adding '-vm ${javapath}' to ${cincoini}"
 	sed -i "s,-vmargs,-vm\n${javapath}\n-vmargs," ${cincoini} || exit 4
 
-	echo "Copying all-jdks/java-${os} to ${version}/java"
-	cp -a all-jdks/java-${os} ${version}/java || exit 5
+	if [ ${os} = 'macosx' ]; then
+		echo "Copying all-jdks/java-${os} to ${version}.app/java"
+		cp -a all-jdks/java-${os} ${version}.app/java || exit 5
 
-	echo "Adding ${version} to ${zip}"
-	zip -q --symlinks -r ${zip} ${version} || exit 6
+		echo "adding ${version}.app to ${zip}"
+		zip -q --symlinks -r ${zip} ${version}.app || exit 6
 
-	echo "Deleting ${version}"
-	rm -rf ${version} || exit 7
+		echo "Deleting ${version}.app"
+		rm -rf ${version}.app || exit 7
 
-	echo "Done with ${os}"
-	echo
+		echo "Done with ${os}"
+		echo
+	else
+		echo "Copying all-jdks/java-${os} to ${version}/java"
+		cp -a all-jdks/java-${os} ${version}/java || exit 5
+
+		echo "adding ${version} to ${zip}"
+		zip -q --symlinks -r ${zip} ${version} || exit 6
+
+		echo "Deleting ${version}"
+		rm -rf ${version} || exit 7
+
+		echo "Done with ${os}"
+		echo
+	fi
+
+
 
 done
 
