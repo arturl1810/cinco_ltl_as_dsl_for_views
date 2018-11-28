@@ -217,9 +217,14 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 				«EObject.name» bo = getBusinessObject(pe);
 			
 				«FOR attr : gm.allModelAttributes.filter[isAttributePossibleValuesProvider]»
-				if (bo instanceof «attr.modelElement.fqBeanName»)
-					«CincoPropertyView.name».refreshPossibleValues(«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.name»_«attr.name.toFirstUpper»(), new «attr.getPossibleValuesProviderClass»().getPossibleValues((«attr.modelElement.fqBeanName») bo));
+					if (bo instanceof «attr.modelElement.fqBeanName»)
+						«CincoPropertyView.name».refreshPossibleValues(«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.name»_«attr.name.toFirstUpper»(), new «attr.getPossibleValuesProviderClass»().getPossibleValues((«attr.modelElement.fqBeanName») bo));
+				«ENDFOR»
 				
+				«FOR postSelect : gm.modelElements.map[findAnnotationPostSelect].filterNull»
+					if (bo instanceof «postSelect.parent.fqBeanName») {
+						new «postSelect.value.get(0)»().postSelect((«postSelect.parent.fqBeanName») bo);
+					}
 				«ENDFOR»
 
 				if (pe instanceof «ConnectionDecorator.name» && !pe.equals(lastSelected)) {
