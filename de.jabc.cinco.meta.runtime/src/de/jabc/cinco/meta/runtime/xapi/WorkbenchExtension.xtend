@@ -363,6 +363,77 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	/**
+	 * Selects the specified model element by replacing the current selection.
+	 * 
+	 */
+	def void select(ModelElement element) {
+		element.diagram?.select(#[element.pictogramElement])
+	}
+	
+	/**
+	 * Selects the specified pictogram element by replacing the current selection.
+	 */
+	def void select(PictogramElement pe) {
+		pe.diagram?.select(#[pe])
+	}
+	
+	/**
+	 * Selects the specified model elements by replacing the current selection.
+	 */
+	def void select(GraphModel model, ModelElement[] elements) {
+		model.diagram?.select(elements?.map[pictogramElement])
+	}
+	
+	/**
+	 * Selects the specified pictogram elements by replacing the current selection.
+	 */
+	def void select(Diagram diagram, PictogramElement[] pes) {
+		diagram.diagramBehavior?.diagramContainer?.selectPictogramElements(pes)
+	}
+	
+	/**
+	 * Unselects the specified model element.
+	 */
+	def void unselect(ModelElement element) {
+		element.pictogramElement?.unselect
+	}
+	
+	/**
+	 * Unselects the specified pictogram element.
+	 */
+	def void unselect(PictogramElement pe) {
+		pe.diagram?.unselect(#[pe])
+	}
+	
+	/**
+	 * Unselects the specified model elements.
+	 */
+	def void unselect(GraphModel model, ModelElement[] elements) {
+		model.diagram?.unselect(elements?.map[pictogramElement])
+	}
+	
+	/**
+	 * Unselects the specified pictogram elements.
+	 */
+	def void unselect(Diagram it, PictogramElement[] pes) {
+		select(selectedPictogramElements.filter[!pes.contains(it)])
+	}
+	
+	/**
+	 * Clears the current selection.
+	 */
+	def void clearSelection(GraphModel model) {
+		model.diagram?.clearSelection
+	}
+	
+	/**
+	 * Clears the current selection.
+	 */
+	def void clearSelection(Diagram diagram) {
+		diagram.select(#[])
+	}
+	
+	/**
 	 * Retrieves the graph model contained in the underlying resource that
 	 * represents this editor's input.
 	 * It is assumed that the editor implements the interface
