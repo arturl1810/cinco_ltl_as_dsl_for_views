@@ -33,7 +33,7 @@ class MweWorkflowTmpl extends FileTemplate {
 			genPackages.put(nsURI,
 				'''«pkg»«name.toLowerCase».«name.toLowerCase.toFirstUpper»Package''')
 			genModelURIs.put(nsURI,
-				'''platform:/resource/«model.projectName»/src-gen/model/«name».genmodel''')
+				'''platform:/resource/«it.projectName»/src-gen/model/«name».genmodel''')
 		]
 		
 		model.importedGenModels.forEach[ genModel |
