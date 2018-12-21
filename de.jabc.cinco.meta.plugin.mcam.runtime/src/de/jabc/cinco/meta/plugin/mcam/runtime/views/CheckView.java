@@ -33,8 +33,8 @@ public class CheckView extends McamView<CheckViewPage> {
 	private IAction showByIdViewAction;
 
 	private IAction showNonErrorsAction;
-	
 	private IAction showCheckPerformanceAction;
+	private IAction stopAtFirstErrorAction;
 
 	@Override
 	protected void initView(Composite parent) {
@@ -57,6 +57,7 @@ public class CheckView extends McamView<CheckViewPage> {
 		manager.add(viewSubmenu);
 		
 		manager.add(showCheckPerformanceAction);
+		manager.add(stopAtFirstErrorAction);
 
 		// manager.add(new Separator());
 	}
@@ -151,6 +152,21 @@ public class CheckView extends McamView<CheckViewPage> {
 		showCheckPerformanceAction
 				.setToolTipText("show check perfomance");
 		showCheckPerformanceAction.setChecked(false);
+		
+		/*
+		 * ------------------------------------------
+		 */
+		stopAtFirstErrorAction = new Action() {
+			public void run() {
+				activePage.getCheckConfiguration().switchStopAtFirstError();
+				activePage.getTreeViewer().refresh(true);
+				reloadViewState();
+			}
+		};
+		stopAtFirstErrorAction.setText("stop at first error");
+		stopAtFirstErrorAction
+				.setToolTipText("stop at first error");
+		stopAtFirstErrorAction.setChecked(false);
 
 	}
 
@@ -163,6 +179,8 @@ public class CheckView extends McamView<CheckViewPage> {
 				.isShowNonErrors());
 		
 		showCheckPerformanceAction.setChecked(activePage.getLabelProvider().isShowPerformance());
+		
+		stopAtFirstErrorAction.setChecked(activePage.getCheckConfiguration().isStopAtFirstError());
 
 		switch (activePage.getDataProvider().getActiveView()) {
 		case BY_ID:

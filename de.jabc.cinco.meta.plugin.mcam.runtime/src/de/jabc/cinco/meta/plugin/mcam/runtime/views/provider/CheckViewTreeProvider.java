@@ -8,6 +8,7 @@ import info.scce.mcam.framework.adapter.EntityId;
 import info.scce.mcam.framework.modules.CheckModule;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CheckResult;
+import info.scce.mcam.framework.processes.CheckResult.CheckResultType;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckModuleNode;
@@ -61,13 +62,28 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 
 	@Override
 	protected void loadData(Object rootObject) {
+		System.out.println("["+getClass().getSimpleName()+"] loadData");
 		final long timeStart = System.currentTimeMillis();
 
 		checkProcesses = page.getCheckProcesses();
 		if (checkProcesses.size() <= 0)
 			return;
+		
+		boolean stopAtFirstError = page.getCheckConfiguration().isStopAtFirstError();
+		boolean foundFirstError = false;
 		for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+			System.out.println("["+getClass().getSimpleName()+"] loadData > checkProcess: " + checkProcess.getModel().getModelName());
 			checkProcess.checkModel();
+			for (CheckModule<?, ?> module : checkProcess.getModules()) {
+				if (module.hasResultOfType(CheckResultType.ERROR)) {
+					System.out.println("["+getClass().getSimpleName()+"] loadData > checkProcess > CheckResult is ERROR -> STOP! ");
+					foundFirstError = true;
+				}
+			}
+			if (stopAtFirstError && foundFirstError) {
+				System.out.println("["+getClass().getSimpleName()+"] loadData > stop at first error ");
+				break;
+			}
 		}
 		
 		final long timeLoad = System.currentTimeMillis();
@@ -95,11 +111,8 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 
 		byIdRoot = new ContainerTreeNode(null, "root");
 		if (checkProcesses.size() == 1) {
-			for (EntityId id : checkProcesses.get(0).getCheckInformationMap()
-					.keySet()) {
-				System.out.println(id);
+			for (EntityId id : checkProcesses.get(0).getCheckInformationMap().keySet()) {
 				buildTreeById(id, byIdRoot, checkProcesses.get(0));
-				
 			}
 			addDefaultOkNode(byIdRoot);
 		} else {
