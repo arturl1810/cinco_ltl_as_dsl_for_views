@@ -372,7 +372,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
-
+			
 			if (e1 instanceof String && e2 instanceof String) {
 				String s1 = (String) e1;
 				String s2 = (String) e2;

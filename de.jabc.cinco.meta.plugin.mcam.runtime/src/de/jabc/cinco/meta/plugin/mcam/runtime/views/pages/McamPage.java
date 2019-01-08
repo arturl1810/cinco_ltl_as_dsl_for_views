@@ -161,7 +161,7 @@ public abstract class McamPage {
 		treeViewer.getTree().setLayoutData(gridDataViewer);
 		treeViewer.setContentProvider(defaultContentProvider);
 		treeViewer.setLabelProvider(getDefaultLabelProvider());
-		treeViewer.setSorter(getDefaultSorter());
+		treeViewer.setComparator(getDefaultSorter());
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {

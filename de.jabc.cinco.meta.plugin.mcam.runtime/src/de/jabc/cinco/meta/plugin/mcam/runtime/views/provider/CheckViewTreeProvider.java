@@ -1,14 +1,11 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.provider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import graphmodel.GraphModel;
-import info.scce.mcam.framework.adapter.EntityId;
-import info.scce.mcam.framework.modules.CheckModule;
-import info.scce.mcam.framework.processes.CheckProcess;
-import info.scce.mcam.framework.processes.CheckResult;
-import info.scce.mcam.framework.processes.CheckResult.CheckResultType;
+import de.jabc.cinco.meta.core.utils.job.CompoundJob;
+import de.jabc.cinco.meta.core.utils.job.JobFactory;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckModuleNode;
@@ -19,21 +16,34 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.DefaultOkObject;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
+import graphmodel.GraphModel;
+import info.scce.mcam.framework.adapter.EntityId;
+import info.scce.mcam.framework.modules.CheckModule;
+import info.scce.mcam.framework.processes.CheckProcess;
+import info.scce.mcam.framework.processes.CheckResult;
+import info.scce.mcam.framework.processes.CheckResult.CheckResultType;
 
 public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A extends _CincoAdapter<E, M>>
 		extends TreeProvider {
+	
 	private CheckViewPage<E, M, A> page;
-
+	private WorkbenchExtension workbench = new WorkbenchExtension();
+	
 	public enum ViewType {
 		BY_MODULE, BY_ID
 	}
 
 	private ContainerTreeNode byModuleRoot = null;
 	private ContainerTreeNode byIdRoot = null;
+	private HashMap<CheckProcess<?, ?>, TreeNode> byModuleNodes = new HashMap<>();
+	private HashMap<CheckProcess<?, ?>, TreeNode> byIdNodes = new HashMap<>();
 
 	private ViewType activeView = ViewType.BY_ID;
 
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
+	private CompoundJob checkJob = null;
+	private boolean foundFirstError = false;
 
 	public CheckViewTreeProvider(CheckViewPage<E, M, A> page, ViewType vType) {
 		super();
@@ -62,64 +72,53 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 
 	@Override
 	protected void loadData(Object rootObject) {
-		System.out.println("["+getClass().getSimpleName()+"] loadData");
-		final long timeStart = System.currentTimeMillis();
-
+		if (checkJob != null && checkJob.getResult() == null) {
+			checkJob.cancel();
+		}
+		
 		checkProcesses = page.getCheckProcesses();
 		if (checkProcesses.size() <= 0)
 			return;
 		
-		boolean stopAtFirstError = page.getCheckConfiguration().isStopAtFirstError();
-		boolean foundFirstError = false;
-		for (CheckProcess<?, ?> checkProcess : checkProcesses) {
-			System.out.println("["+getClass().getSimpleName()+"] loadData > checkProcess: " + checkProcess.getModel().getModelName());
-			checkProcess.checkModel();
-			for (CheckModule<?, ?> module : checkProcess.getModules()) {
-				if (module.hasResultOfType(CheckResultType.ERROR)) {
-					System.out.println("["+getClass().getSimpleName()+"] loadData > checkProcess > CheckResult is ERROR -> STOP! ");
-					foundFirstError = true;
-				}
-			}
-			if (stopAtFirstError && foundFirstError) {
-				System.out.println("["+getClass().getSimpleName()+"] loadData > stop at first error ");
-				break;
-			}
-		}
-		
-		final long timeLoad = System.currentTimeMillis();
-
 		buildTree();
-		final long timeBuild = System.currentTimeMillis();
-
-		System.out.println(page.getClass().getSimpleName()
-				+ " - load: " + (timeLoad - timeStart)
-				+ " ms / build: " + (timeBuild - timeLoad) + " ms");
+		
+		checkJob = JobFactory.job("Validation");
+		checkJob
+			.consume(1)
+				.task(this::initCheckRun)
+			.consumeConcurrent(99)
+				.taskForEach(checkProcesses, this::runCheckProcess)
+			.onDone(this::resortTree)
+			.schedule();
 	}
 
 	protected void buildTree() {
 		byModuleRoot = new ContainerTreeNode(null, "root");
+		byIdRoot = new ContainerTreeNode(null, "root");
+		TreeNode node;
+		
 		if (checkProcesses.size() == 1) {
-			for (CheckModule<?, ?> module : checkProcesses.get(0).getModules()) {
-				buildTreeByModule(module, byModuleRoot, checkProcesses.get(0));
+			CheckProcess<?, ?> checkProcess = checkProcesses.get(0);
+			for (CheckModule<?, ?> module : checkProcess.getModules()) {
+				node = buildTreeByModule(module, byModuleRoot, checkProcess);
+				byModuleNodes.put(checkProcess, node);
 			}
 			addDefaultOkNode(byModuleRoot);
-		} else {
-			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
-				buildTreeByModule(checkProcess, byModuleRoot, checkProcess);
-			}
-		}
-
-		byIdRoot = new ContainerTreeNode(null, "root");
-		if (checkProcesses.size() == 1) {
-			for (EntityId id : checkProcesses.get(0).getCheckInformationMap().keySet()) {
-				buildTreeById(id, byIdRoot, checkProcesses.get(0));
+			for (EntityId id : checkProcess.getCheckInformationMap().keySet()) {
+				node = buildTreeById(id, byIdRoot, checkProcess);
+				byIdNodes.put(checkProcess, node);
 			}
 			addDefaultOkNode(byIdRoot);
 		} else {
 			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
-				buildTreeById(checkProcess, byIdRoot, checkProcess);
+				node = buildTreeByModule(checkProcess, byModuleRoot, checkProcess);
+				byModuleNodes.put(checkProcess, node);
+				node = buildTreeById(checkProcess, byIdRoot, checkProcess);
+				byIdNodes.put(checkProcess, node);
 			}
 		}
+		
+		resortTree();
 	}
 	
 	protected void addDefaultOkNode(TreeNode parentNode) {
@@ -202,4 +201,74 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		return node;
 	}
 
+	void refreshTreeNode(CheckProcess<?, ?> checkProcess) {
+		final TreeNode byModuleNode = byModuleNodes.get(checkProcess);
+		if (byModuleNode != null) {
+			workbench.async(new Runnable() {
+				@Override
+				public void run() {
+					if (byModuleNode.getChildren().isEmpty()) {
+						for (CheckModule<?, ?> module : checkProcess.getModules()) {
+							buildTreeByModule(module, byModuleNode, checkProcess);
+						}
+					}
+					page.getTreeViewer().refresh(byModuleNode);
+				}
+			});
+		} else {
+			buildTree();
+		}
+		
+		
+		final TreeNode byIdNode = byIdNodes.get(checkProcess);
+		if (byIdNode != null) {
+			workbench.async(new Runnable() {
+				@Override
+				public void run() {
+					if (byIdNode.getChildren().isEmpty()) {
+						for (EntityId  id : checkProcess.getCheckInformationMap().keySet()) {
+							buildTreeById(id, byIdNode, checkProcess);
+						}
+					}
+					page.getTreeViewer().refresh(byIdNode);
+				}
+			});
+		} else {
+			buildTree();
+		}
+	}
+	
+	void resortTree() {
+		workbench.async(new Runnable() {
+			@Override
+			public void run() {
+				page.getTreeViewer().refresh(false);
+			}
+		});
+	}
+	
+	boolean hasError(CheckProcess<?, ?> checkProcess) {
+		for (CheckModule<?, ?> module : checkProcess.getModules()) {
+			if (module.hasResultOfType(CheckResultType.ERROR)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	void initCheckRun() {
+		foundFirstError = false;
+	}
+	
+	void runCheckProcess(CheckProcess<?,?> checkProcess) {
+		if (foundFirstError && page.getCheckConfiguration().isStopAtFirstError()) {
+			return;
+		}
+		checkProcess.checkModel();
+		refreshTreeNode(checkProcess);
+		if (hasError(checkProcess)) {
+			foundFirstError = true;
+			resortTree();
+		}
+	}
 }
