@@ -101,6 +101,10 @@ public abstract class ReiteratingThread extends Thread {
     	failed = true;
     	quit();
     }
+    
+    public boolean isStarted() {
+    	return myself != null;
+    }
     	
 	public void onFinished(Runnable callback) {
 		onFinishedCallbacks.add(callback);

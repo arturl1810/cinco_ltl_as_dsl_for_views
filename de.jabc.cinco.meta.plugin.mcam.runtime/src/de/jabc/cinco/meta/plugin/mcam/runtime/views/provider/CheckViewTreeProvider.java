@@ -3,9 +3,11 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.provider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.LinkedTransferQueue;
 
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
 import de.jabc.cinco.meta.core.utils.job.JobFactory;
+import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckModuleNode;
@@ -40,6 +42,9 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 	private HashMap<CheckProcess<?, ?>, TreeNode> byIdNodes = new HashMap<>();
 
 	private ViewType activeView = ViewType.BY_ID;
+	private boolean treeResortRequested = false;
+	private ReiteratingThread treeRefresher = new TreeRefresher();
+	private LinkedTransferQueue<CheckProcess<?,?>> treeNodeRefreshRequests = new LinkedTransferQueue<>();
 
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 	private CompoundJob checkJob = null;
@@ -85,10 +90,10 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		checkJob = JobFactory.job("Validation");
 		checkJob
 			.consume(1)
-				.task(this::initCheckRun)
+				.task(this::preChecking)
 			.consumeConcurrent(99)
 				.taskForEach(checkProcesses, this::runCheckProcess)
-			.onDone(this::resortTree)
+			.onDone(this::postChecking)
 			.schedule();
 	}
 
@@ -118,7 +123,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 			}
 		}
 		
-		resortTree();
+		refreshTree();
 	}
 	
 	protected void addDefaultOkNode(TreeNode parentNode) {
@@ -201,19 +206,17 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		return node;
 	}
 
+	@SuppressWarnings("restriction")
 	void refreshTreeNode(CheckProcess<?, ?> checkProcess) {
 		final TreeNode byModuleNode = byModuleNodes.get(checkProcess);
 		if (byModuleNode != null) {
-			workbench.async(new Runnable() {
-				@Override
-				public void run() {
-					if (byModuleNode.getChildren().isEmpty()) {
-						for (CheckModule<?, ?> module : checkProcess.getModules()) {
-							buildTreeByModule(module, byModuleNode, checkProcess);
-						}
+			workbench.async(() -> {
+				if (byModuleNode.getChildren().isEmpty()) {
+					for (CheckModule<?, ?> module : checkProcess.getModules()) {
+						buildTreeByModule(module, byModuleNode, checkProcess);
 					}
-					page.getTreeViewer().refresh(byModuleNode);
 				}
+				page.getTreeViewer().refresh(byModuleNode);
 			});
 		} else {
 			buildTree();
@@ -222,29 +225,45 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		
 		final TreeNode byIdNode = byIdNodes.get(checkProcess);
 		if (byIdNode != null) {
-			workbench.async(new Runnable() {
-				@Override
-				public void run() {
-					if (byIdNode.getChildren().isEmpty()) {
-						for (EntityId  id : checkProcess.getCheckInformationMap().keySet()) {
-							buildTreeById(id, byIdNode, checkProcess);
-						}
+			workbench.async(() -> {
+				if (byIdNode.getChildren().isEmpty()) {
+					for (EntityId  id : checkProcess.getCheckInformationMap().keySet()) {
+						buildTreeById(id, byIdNode, checkProcess);
 					}
-					page.getTreeViewer().refresh(byIdNode);
 				}
+				page.getTreeViewer().refresh(byIdNode);
 			});
 		} else {
 			buildTree();
 		}
 	}
 	
+	@SuppressWarnings("restriction")
+	void refreshTree() {
+		workbench.async(() -> page.getTreeViewer().refresh(false));
+	}
+	
+	@SuppressWarnings("restriction")
 	void resortTree() {
-		workbench.async(new Runnable() {
-			@Override
-			public void run() {
-				page.getTreeViewer().refresh(false);
-			}
-		});
+		workbench.async(() -> page.getTreeViewer().refresh(false));
+	}
+	
+	void requestTreeResort() {
+		treeResortRequested = true;
+		assertTreeRefresherIsAlive();
+	}
+	
+	void requestTreeNodeRefresh(CheckProcess<?,?> checkProcess) {
+		treeNodeRefreshRequests.add(checkProcess);
+		assertTreeRefresherIsAlive();
+	}
+	
+	void assertTreeRefresherIsAlive() {
+		if (!treeRefresher.isStarted()) {
+			treeRefresher.start();
+		} else {
+			treeRefresher.unpause();
+		}
 	}
 	
 	boolean hasError(CheckProcess<?, ?> checkProcess) {
@@ -256,8 +275,9 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		return false;
 	}
 	
-	void initCheckRun() {
+	void preChecking() {
 		foundFirstError = false;
+		treeResortRequested = false;
 	}
 	
 	void runCheckProcess(CheckProcess<?,?> checkProcess) {
@@ -265,10 +285,38 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 			return;
 		}
 		checkProcess.checkModel();
-		refreshTreeNode(checkProcess);
+		requestTreeNodeRefresh(checkProcess);
 		if (hasError(checkProcess)) {
 			foundFirstError = true;
-			resortTree();
+			requestTreeResort();
+		}
+	}
+	
+	void postChecking() {
+		requestTreeResort();
+	}
+	
+	class TreeRefresher extends ReiteratingThread {
+		
+		public TreeRefresher() {
+			super(500);
+		}
+		
+		@Override
+		protected void work() {
+			CheckProcess<?,?> checkProcess = treeNodeRefreshRequests.poll();
+			if (checkProcess == null && !treeResortRequested) {
+				pause();
+				return;
+			}
+			while (checkProcess != null) {
+				refreshTreeNode(checkProcess);
+				checkProcess = treeNodeRefreshRequests.poll();
+			}
+			if (treeResortRequested) {
+				treeResortRequested = false;
+				resortTree();
+			}
 		}
 	}
 }
