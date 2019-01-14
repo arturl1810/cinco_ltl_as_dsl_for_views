@@ -94,7 +94,10 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 			}
 		
 		
-		return scope
+		if(scope!==null)
+			scope
+		else
+			IScope.NULLSCOPE
 	}
 	
 	def IScope scope_ReferencedModelElement_type(ReferencedModelElement refType,EReference ref){
@@ -119,7 +122,12 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 					scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof ModelElement])
 				}
 			}
-		return scope
+		if(scope!==null)
+			scope
+		else
+			IScope.NULLSCOPE
+		
+		 
 	}
 	
 	def dispatch GraphModel getGraphModel(ModelElement element){
