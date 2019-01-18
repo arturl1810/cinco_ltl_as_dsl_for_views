@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedTransferQueue;
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
 import de.jabc.cinco.meta.core.utils.job.JobFactory;
 import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckModuleNode;
@@ -38,8 +39,10 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 
 	private ContainerTreeNode byModuleRoot = null;
 	private ContainerTreeNode byIdRoot = null;
-	private HashMap<CheckProcess<?, ?>, TreeNode> byModuleNodes = new HashMap<>();
-	private HashMap<CheckProcess<?, ?>, TreeNode> byIdNodes = new HashMap<>();
+	private NonEmptyRegistry<CheckProcess<?,?>, List<TreeNode>> byModuleNodes
+			= new NonEmptyRegistry<>( (cp) -> new ArrayList<>() );
+	private NonEmptyRegistry<CheckProcess<?,?>, List<TreeNode>> byIdNodes
+			= new NonEmptyRegistry<>( (cp) -> new ArrayList<>() );
 
 	private ViewType activeView = ViewType.BY_ID;
 	private boolean treeResortRequested = false;
@@ -80,12 +83,12 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 		if (checkJob != null && checkJob.getResult() == null) {
 			checkJob.cancel();
 		}
-		
+
 		checkProcesses = page.getCheckProcesses();
 		if (checkProcesses.size() <= 0)
 			return;
 		
-		buildTree();
+		initTree();
 		
 		checkJob = JobFactory.job("Validation");
 		checkJob
@@ -95,6 +98,14 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 				.taskForEach(checkProcesses, this::runCheckProcess)
 			.onDone(this::postChecking)
 			.schedule();
+	}
+	
+	protected void initTree() {
+		byModuleNodes.clear();
+		byModuleRoot = new ContainerTreeNode(null, "root");
+		byIdNodes.clear();
+		byIdRoot = new ContainerTreeNode(null, "root");
+		refreshTree();
 	}
 
 	protected void buildTree() {
@@ -106,20 +117,20 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 			CheckProcess<?, ?> checkProcess = checkProcesses.get(0);
 			for (CheckModule<?, ?> module : checkProcess.getModules()) {
 				node = buildTreeByModule(module, byModuleRoot, checkProcess);
-				byModuleNodes.put(checkProcess, node);
+				byModuleNodes.get(checkProcess).add(node);
 			}
 			addDefaultOkNode(byModuleRoot);
 			for (EntityId id : checkProcess.getCheckInformationMap().keySet()) {
 				node = buildTreeById(id, byIdRoot, checkProcess);
-				byIdNodes.put(checkProcess, node);
+				byIdNodes.get(checkProcess).add(node);
 			}
 			addDefaultOkNode(byIdRoot);
 		} else {
 			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
 				node = buildTreeByModule(checkProcess, byModuleRoot, checkProcess);
-				byModuleNodes.put(checkProcess, node);
+				byModuleNodes.get(checkProcess).add(node);
 				node = buildTreeById(checkProcess, byIdRoot, checkProcess);
-				byIdNodes.put(checkProcess, node);
+				byIdNodes.get(checkProcess).add(node);
 			}
 		}
 		
@@ -208,30 +219,34 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 
 	@SuppressWarnings("restriction")
 	void refreshTreeNode(CheckProcess<?, ?> checkProcess) {
-		final TreeNode byModuleNode = byModuleNodes.get(checkProcess);
-		if (byModuleNode != null) {
+		List<TreeNode> cpByModuleNodes = byModuleNodes.get(checkProcess);
+		if (!cpByModuleNodes.isEmpty()) {
 			workbench.async(() -> {
-				if (byModuleNode.getChildren().isEmpty()) {
-					for (CheckModule<?, ?> module : checkProcess.getModules()) {
-						buildTreeByModule(module, byModuleNode, checkProcess);
+				for (TreeNode byModuleNode : cpByModuleNodes) {
+					if (byModuleNode.getChildren().isEmpty()) {
+						for (CheckModule<?, ?> module : checkProcess.getModules()) {
+							buildTreeByModule(module, byModuleNode, checkProcess);
+						}
 					}
+					page.getTreeViewer().refresh(byModuleNode);
 				}
-				page.getTreeViewer().refresh(byModuleNode);
 			});
 		} else {
 			buildTree();
 		}
 		
 		
-		final TreeNode byIdNode = byIdNodes.get(checkProcess);
-		if (byIdNode != null) {
+		List<TreeNode> cpByIdNodes = byIdNodes.get(checkProcess);
+		if (!cpByIdNodes.isEmpty()) {
 			workbench.async(() -> {
-				if (byIdNode.getChildren().isEmpty()) {
-					for (EntityId  id : checkProcess.getCheckInformationMap().keySet()) {
-						buildTreeById(id, byIdNode, checkProcess);
+				for (TreeNode byIdNode : cpByIdNodes) {
+					if (byIdNode.getChildren().isEmpty()) {
+						for (EntityId  id : checkProcess.getCheckInformationMap().keySet()) {
+							buildTreeById(id, byIdNode, checkProcess);
+						}
 					}
+					page.getTreeViewer().refresh(byIdNode);
 				}
-				page.getTreeViewer().refresh(byIdNode);
 			});
 		} else {
 			buildTree();
@@ -240,7 +255,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, A e
 	
 	@SuppressWarnings("restriction")
 	void refreshTree() {
-		workbench.async(() -> page.getTreeViewer().refresh(false));
+		workbench.async(() -> page.getTreeViewer().refresh(true));
 	}
 	
 	@SuppressWarnings("restriction")

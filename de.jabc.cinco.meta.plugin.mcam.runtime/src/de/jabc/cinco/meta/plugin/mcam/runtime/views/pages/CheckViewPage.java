@@ -301,7 +301,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 		@Override
 		public StyledString getStyledText(Object obj) {
 			StyledString styledString = new StyledString("unknown");
-
 			if (obj instanceof TreeNode == false)
 				return styledString;
 
@@ -324,9 +323,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 			}
 			if (element instanceof _CincoId) {
 				CheckProcess<?, ?> cp = getCheckProcessById((_CincoId) element);
-				CheckInformation<?, ?> checkInfo = cp.getCheckInformationMap()
-						.get(element);
-				styledString.append(
+				CheckInformation<?, ?> checkInfo = cp.getCheckInformationMap().get(element);
+				if (checkInfo != null) styledString.append(
 						" ("
 								// +
 								// checkInfo.getNumberOf(CheckResultType.FAILURE)
