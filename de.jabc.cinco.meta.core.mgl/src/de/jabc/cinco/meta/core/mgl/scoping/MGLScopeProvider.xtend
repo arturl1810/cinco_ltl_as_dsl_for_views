@@ -69,9 +69,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
-		var scope = null as IScope
-
-
+		var scope = IScope.NULLSCOPE
 		
 		if(attr.referencedType instanceof ReferencedEClass)
 			scope = Scopes.scopeFor((attr.referencedType as ReferencedEClass)?.type.EAllStructuralFeatures)
@@ -82,7 +80,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	def IScope scope_ReferencedEClass_type(ReferencedEClass refType,EReference ref){
-		var scope = null as IScope
+		var scope = IScope.NULLSCOPE
 			var res = null as Resource
 				try{
 					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
@@ -93,15 +91,11 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof EClass])
 			}
 		
-		
-		if(scope!==null)
-			scope
-		else
-			IScope.NULLSCOPE
+		return scope
 	}
 	
 	def IScope scope_ReferencedModelElement_type(ReferencedModelElement refType,EReference ref){
- 		var scope = null as IScope
+ 		var scope = IScope.NULLSCOPE
 			if(refType.local){
 				var me = refType.eContainer as ModelElement
 				var graphModel = me.graphModel
@@ -122,12 +116,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 					scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof ModelElement])
 				}
 			}
-		if(scope!==null)
-			scope
-		else
-			IScope.NULLSCOPE
-		
-		 
+		return scope
 	}
 	
 	def dispatch GraphModel getGraphModel(ModelElement element){
