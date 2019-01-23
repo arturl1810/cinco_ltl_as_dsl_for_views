@@ -1,0 +1,124 @@
+package de.jabc.cinco.meta.core.mgl.serializer
+
+import mgl.Annotation
+import mgl.ComplexAttribute
+import mgl.Edge
+import mgl.EdgeElementConnection
+import mgl.GraphModel
+import mgl.Import
+import mgl.Node
+import mgl.PrimeParameters
+import mgl.PrimitiveAttribute
+import mgl.ReferencedEClass
+import mgl.ReferencedModelElement
+import mgl.ReferencedType
+import mgl.Type
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EObject
+import mgl.NodeContainer
+import mgl.GraphicalElementContainment
+
+class MGLSerializer {
+	
+	def dispatch CharSequence serialize(GraphModel gm) '''
+	«gm.imports.serialize»
+	
+	«gm.annotations.serialize»
+	graphModel «gm.name» {
+		«serializePackage(gm.package)»
+		«serializeNsUri(gm.nsURI)»
+		«serializeIcon(gm.iconPath)»
+		«serializeFileExtension(gm.fileExtension)»
+		
+		«gm.attributes?.serialize("\n")»
+		
+		«gm.nodes?.serialize("\n")»
+		
+		«gm.edges?.serialize("\n")»
+		
+		«gm.types?.serialize("\n")»
+	}
+	
+	'''
+	
+	def dispatch CharSequence serialize(EList<? extends EObject> objs)
+	'''«objs.serialize("")»'''
+
+	def CharSequence serialize(EList<? extends EObject> objs, String separator) {
+		objs?.map[serialize].join(separator)
+	}	
+	
+	def dispatch CharSequence serialize(Node n) '''
+	«n.annotations.serialize("\n")»
+	node «n.name» «n.extends.serializeExtends» {
+		«n.primeReference?.serialize»
+		«n.parameters?.serialize»
+		«n.attributes.serialize("\n")»
+		«IF !n.incomingEdgeConnections.nullOrEmpty»
+			incomingEdges(«n.incomingEdgeConnections.serialize(",")»)
+		«ENDIF»
+		«IF !n.outgoingEdgeConnections.nullOrEmpty»
+			outgoingEdges(«n.outgoingEdgeConnections.serialize(",")»)
+		«ENDIF»
+		«IF n instanceof NodeContainer»
+			«IF !n.containableElements.nullOrEmpty»
+			containableElements(«n.containableElements.serialize(",")»)
+			«ENDIF»
+		«ENDIF»
+	}
+	'''
+	
+	def dispatch CharSequence serialize(Edge e) '''
+	«e.annotations.serialize("\n")»
+	edge «e.name» «e.extends.serializeExtends» {
+		«e.attributes.serialize("\n")»
+	}
+	'''
+	
+	def dispatch CharSequence serialize(Annotation it) 
+	'''@«name»(«value.map[v | '''"«v»"'''].join(",")»)'''
+	
+	def dispatch CharSequence serialize(Import it) 
+	'''«IF stealth»stealth«ENDIF »import "«importURI»" as «name»'''
+	
+	def dispatch CharSequence serialize(PrimitiveAttribute it) '''
+	«annotations.serialize»
+	attr «type.getName» as «name»'''
+	
+	def dispatch CharSequence serialize(ComplexAttribute it) '''
+	«annotations.serialize»
+	attr «type.getName» as «name»'''
+	
+	def dispatch CharSequence serialize(ReferencedType it) '''
+	«annotations.serialize»
+	prime «type» as «name»
+	'''
+	
+	def dispatch type(ReferencedModelElement it)'''
+	«IF imprt !== null»«imprt.name»«ELSE»this::«ENDIF»«type.name»'''
+	
+	def dispatch type(ReferencedEClass it)'''«imprt.name».«type.name»'''
+	
+	
+	def dispatch serialize(PrimeParameters it) '''
+	'''
+	
+	def dispatch serialize(EdgeElementConnection eec) 
+	'''{«eec.connectingEdges.map[name].join(",")»}[«eec.lowerBound», «eec.upperBound.toBound»]'''
+	
+	def dispatch serialize(GraphicalElementContainment gec) 
+	'''{«gec.types.map[name].join(",")»}[«gec.lowerBound», «gec.upperBound.toBound»]'''
+	
+	def toBound(int i) {
+		if (i == -1) '''*''' else i.toString
+	}
+	
+	
+	
+	def serializePackage(String s)'''«IF !s.empty»package «s»«ENDIF»'''
+	def serializeNsUri(String s)'''«IF !s.empty»nsURI "«s»"«ENDIF»'''
+	def serializeIcon(String s)'''«IF !s.empty»iconPath "«s»"«ENDIF»'''
+	def serializeFileExtension(String s)'''«IF !s.empty»diagramExtension "«s»"«ENDIF»'''
+	def serializeExtends(Type t) '''«IF t !== null» extends «t.name»«ENDIF»'''
+}
+
