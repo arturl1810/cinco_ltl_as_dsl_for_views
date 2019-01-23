@@ -17,13 +17,17 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 import mgl.NodeContainer
 import mgl.GraphicalElementContainment
+import mgl.UserDefinedType
+import mgl.Enumeration
+import org.eclipse.emf.ecore.util.EcoreUtil
+import mgl.ModelElement
 
 class MGLSerializer {
 	
 	def dispatch CharSequence serialize(GraphModel gm) '''
-	«gm.imports.serialize»
+	«gm.imports.serialize("\n")»
 	
-	«gm.annotations.serialize»
+	«gm.annotations.serialize("\n")»
 	graphModel «gm.name» {
 		«serializePackage(gm.package)»
 		«serializeNsUri(gm.nsURI)»
@@ -41,16 +45,10 @@ class MGLSerializer {
 	
 	'''
 	
-	def dispatch CharSequence serialize(EList<? extends EObject> objs)
-	'''«objs.serialize("")»'''
-
-	def CharSequence serialize(EList<? extends EObject> objs, String separator) {
-		objs?.map[serialize].join(separator)
-	}	
-	
+	//==========NODE Type serializer=========//
 	def dispatch CharSequence serialize(Node n) '''
 	«n.annotations.serialize("\n")»
-	node «n.name» «n.extends.serializeExtends» {
+	«n.serializeAbstract» «n.nodeType» «n.name» «n.serializeExtends» {
 		«n.primeReference?.serialize»
 		«n.parameters?.serialize»
 		«n.attributes.serialize("\n")»
@@ -68,18 +66,48 @@ class MGLSerializer {
 	}
 	'''
 	
+	//==========EDGE Type serializer=========//
 	def dispatch CharSequence serialize(Edge e) '''
 	«e.annotations.serialize("\n")»
-	edge «e.name» «e.extends.serializeExtends» {
+	«e.serializeAbstract» edge «e.name» «e.serializeExtends» {
 		«e.attributes.serialize("\n")»
 	}
 	'''
 	
-	def dispatch CharSequence serialize(Annotation it) 
+	//==========UserDefiened Type serializer=========//
+	def dispatch serialize(UserDefinedType t) '''
+	«t.annotations.serialize("\n")»
+	«t.serializeAbstract» type «t.name» «t.serializeExtends» {
+		«t.attributes.serialize("\n")»
+	}
+	'''
+	
+	//==========ENUM serializer=========//
+	def dispatch serialize(Enumeration e) '''
+	«e.annotations.serialize("\n")»
+	enum «e.name» «e.serializeExtends» {
+		«FOR lit: e.literals SEPARATOR " "» "«lit»" «ENDFOR»
+	}
+	'''
+	
+	
+	def dispatch CharSequence serialize(EList<? extends EObject> objs)
+	'''«objs.serialize("")»'''
+
+	def CharSequence serialize(EList<? extends EObject> objs, String separator) {
+		objs?.map[serialize].join(separator)
+	}
+	
+		
+	def dispatch CharSequence serialize(Annotation it) {
+	if (!value.nullOrEmpty)
 	'''@«name»(«value.map[v | '''"«v»"'''].join(",")»)'''
+	else
+	'''@«name»'''
+	}
 	
 	def dispatch CharSequence serialize(Import it) 
-	'''«IF stealth»stealth«ENDIF »import "«importURI»" as «name»'''
+	'''«IF stealth»stealth «ENDIF »import "«importURI»" as «name»'''
 	
 	def dispatch CharSequence serialize(PrimitiveAttribute it) '''
 	«annotations.serialize»
@@ -94,31 +122,64 @@ class MGLSerializer {
 	prime «type» as «name»
 	'''
 	
-	def dispatch type(ReferencedModelElement it)'''
-	«IF imprt !== null»«imprt.name»«ELSE»this::«ENDIF»«type.name»'''
+	def dispatch type(ReferencedModelElement it)
+	'''«IF imprt !== null»«imprt.name»::«ELSE»this::«ENDIF»«type.name»'''
 	
-	def dispatch type(ReferencedEClass it)'''«imprt.name».«type.name»'''
 	
+	def dispatch type(ReferencedEClass it)
+	'''«imprt.name».«type.name»'''
+	
+	def serializeAbstract(ModelElement me) {
+		if (me.isIsAbstract) '''abstract'''
+	}
+	
+	def nodeType(Node n) {
+		switch (n) {
+			NodeContainer:'''container'''
+			Node:'''node'''
+			default: {
+				
+			}
+		}
+	}
 	
 	def dispatch serialize(PrimeParameters it) '''
 	'''
 	
-	def dispatch serialize(EdgeElementConnection eec) 
+	def dispatch serialize(EdgeElementConnection eec) {
+	if (!eec.connectingEdges.nullOrEmpty)
 	'''{«eec.connectingEdges.map[name].join(",")»}[«eec.lowerBound», «eec.upperBound.toBound»]'''
+	else
+	'''*[«eec.lowerBound», «eec.upperBound.toBound»]'''
+	}
 	
-	def dispatch serialize(GraphicalElementContainment gec) 
+	def dispatch serialize(GraphicalElementContainment gec) {
+	if (!gec.types.nullOrEmpty)
 	'''{«gec.types.map[name].join(",")»}[«gec.lowerBound», «gec.upperBound.toBound»]'''
+	else
+	'''*[«gec.lowerBound», «gec.upperBound.toBound»]'''
+	}
 	
 	def toBound(int i) {
 		if (i == -1) '''*''' else i.toString
 	}
 	
 	
-	
 	def serializePackage(String s)'''«IF !s.empty»package «s»«ENDIF»'''
 	def serializeNsUri(String s)'''«IF !s.empty»nsURI "«s»"«ENDIF»'''
 	def serializeIcon(String s)'''«IF !s.empty»iconPath "«s»"«ENDIF»'''
 	def serializeFileExtension(String s)'''«IF !s.empty»diagramExtension "«s»"«ENDIF»'''
-	def serializeExtends(Type t) '''«IF t !== null» extends «t.name»«ENDIF»'''
+	
+	
+	def serializeExtends(Type t) {
+		var ext = switch (t) {
+			Node: t.extends
+			Edge: t.extends
+			UserDefinedType: t.extends
+			default: null			
+		}
+		if (ext !== null) '''extends «ext.name»'''
+		else ''''''
+	}
 }
 
