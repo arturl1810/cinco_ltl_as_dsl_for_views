@@ -26,8 +26,8 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
 
-		Object source = model.getElementById(sourceId);		
-		Object target = model.getElementById(targetId);
+		Object source = model.searchElementById(sourceId);		
+		Object target = model.searchElementById(targetId);
 		
 		if (source instanceof Node && target instanceof Node)
 			element.clone((Node) source, (Node) target);
@@ -35,15 +35,15 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		Object element_target = model.getElementById(id);
+		Object element_target = model.searchElementById(id);
 		if (element_target != null)
 			return false;
 
-		Object source = model.getElementById(sourceId);
+		Object source = model.searchElementById(sourceId);
 		if (source == null)
 			return false;
 		
-		Object target = model.getElementById(targetId);
+		Object target = model.searchElementById(targetId);
 		if (target == null)
 			return false;
 
@@ -56,7 +56,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 		/*
@@ -69,7 +69,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		element_target.delete();
 	}
 
@@ -87,7 +87,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			${ModelElementName} element = (${ModelElementName}) targetModel.getElementById(id);
+			${ModelElementName} element = (${ModelElementName}) targetModel.searchElementById(id);
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;

@@ -39,14 +39,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		<#if ModelElementName == GraphModelName>
 		modelAdapter.getModel().set${AttributeName?cap_first}(newValue);
 		<#else>
-		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.searchElementById(id);
 		element_target.set${AttributeName?cap_first}(newValue);
 		</#if>
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 		
@@ -58,14 +58,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		<#if ModelElementName == GraphModelName>
 		modelAdapter.getModel().set${AttributeName?cap_first}(oldValue);
 		<#else>
-		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) modelAdapter.searchElementById(id);
 		element_target.set${AttributeName?cap_first}(oldValue);
 		</#if>
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 		
@@ -85,36 +85,24 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 
-			${ModelElementName} sourceElement = (${ModelElementName}) sourceModel.getElementById(id);
-			${ModelElementName} targetElement = (${ModelElementName}) targetModel.getElementById(id);
+			${ModelElementName} sourceElement = (${ModelElementName}) sourceModel.searchElementById(id);
+			${ModelElementName} targetElement = (${ModelElementName}) targetModel.searchElementById(id);
 
 			boolean changed = false;
 			
-			<#if AttributeCategory == "Normal">
 			<#if AttributeType == "boolean">
 			if (sourceElement.is${AttributeName?cap_first}() != targetElement.is${AttributeName?cap_first}()) {
 				changed = true;				
 			}
-			<#else>
-			if (sourceElement.get${AttributeName?cap_first}() != targetElement.get${AttributeName?cap_first}()) {
-				changed = true;				
-			}
-			</#if>
 			<#else>
 			if (sourceElement.get${AttributeName?cap_first}() == null && targetElement.get${AttributeName?cap_first}() != null) {
 				changed = true;
 			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() == null) {
 				changed = true;
 			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() != null) {
-				<#if AttributeCategory == "ModelElement">
-				if (!sourceElement.get${AttributeName?cap_first}().getId().equals(targetElement.get${AttributeName?cap_first}().getId())) {
-					changed = true;				
-				}
-				<#else>
 				if (!sourceElement.get${AttributeName?cap_first}().equals(targetElement.get${AttributeName?cap_first}())) {
 					changed = true;				
 				}
-				</#if>
 			}
 			</#if>
 

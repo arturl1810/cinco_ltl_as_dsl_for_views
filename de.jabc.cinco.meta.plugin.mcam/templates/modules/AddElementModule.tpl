@@ -33,18 +33,18 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void execute(${GraphModelName}Adapter modelAdapter) {
-		Object container = modelAdapter.getElementById(containerId);
+		Object container = modelAdapter.searchElementById(containerId);
 		if (container instanceof ModelElementContainer)
 			element.clone((ModelElementContainer) container);
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter modelAdapter) {
-		Object container = modelAdapter.getElementById(containerId);
+		Object container = modelAdapter.searchElementById(containerId);
 		if (container == null)
 			return false;
 
-		Object element2 = modelAdapter.getElementById(id);
+		Object element2 = modelAdapter.searchElementById(id);
 		if (element2 != null)
 			return false;
 		
@@ -57,7 +57,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_new = (${ModelElementName}) model.searchElementById(id);
 		if (element_new == null)
 			return false;
 		/*
@@ -80,7 +80,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_new = (${ModelElementName}) model.searchElementById(id);
 		element_new.delete();
 	}
 
@@ -100,7 +100,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
-			change.element = (${ModelElementName}) targetModel.getElementById(id);
+			change.element = (${ModelElementName}) targetModel.searchElementById(id);
 			change.containerId = targetModel.getIdByString(change.element.getContainer().getId());
 			changes.add(change);
 		}

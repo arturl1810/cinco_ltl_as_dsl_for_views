@@ -65,7 +65,7 @@ public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelNa
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			${ModelElementName} element = (${ModelElementName}) sourceModel.getElementById(id);
+			${ModelElementName} element = (${ModelElementName}) sourceModel.searchElementById(id);
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
