@@ -57,6 +57,12 @@ class ProjectDescriptionLanguage {
 		]
 	}
 	
+	def <T extends FileContainerDescription<?>> filesFromProject(T container, Pair<String,String> bundleSource) {
+		container => [
+			filesFromProjects.add(bundleSource)
+		]
+	}
+	
 	def <T extends FileContainerDescription<?>> folder(T container, String name, (FolderDescription)=>FolderDescription struct) {
 		container => [
 			add(new FolderDescription(container, name) => [ 

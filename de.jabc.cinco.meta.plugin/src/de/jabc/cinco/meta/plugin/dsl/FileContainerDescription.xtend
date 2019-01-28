@@ -5,12 +5,14 @@ import org.eclipse.core.resources.IContainer
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static extension org.eclipse.core.runtime.Platform.getBundle
+import org.eclipse.core.resources.ResourcesPlugin
 
 abstract class FileContainerDescription<T extends IContainer> extends ProjectResourceDescription<T> {
 	
 	@Accessors boolean deleteIfExistent = false
 	@Accessors Set<FileDescription> files = newHashSet
 	@Accessors Set<Pair<String,String>> filesFromBundles = newHashSet
+	@Accessors Set<Pair<String,String>> filesFromProjects = newHashSet
 	@Accessors Set<FolderDescription> folders = newLinkedHashSet
 	
 	new(String name) { super(name) }
@@ -23,8 +25,17 @@ abstract class FileContainerDescription<T extends IContainer> extends ProjectRes
 				getIResource.createFile(
 					file.substring(file.lastIndexOf('/') + 1), openStream)
 			]
+			
 		files.forEach[create(this)]
+		
+		filesFromProjects
+			.map[ResourcesPlugin.workspace?.root?.getProject(key)?.getFolder(value).files]
+			.flatten
+			.forEach[
+				copy(getIResource.fullPath.append(name), true, null)
+			]
 	}
+	
 	
 	def createFolders() {
 		folders.forEach[create(this)]
