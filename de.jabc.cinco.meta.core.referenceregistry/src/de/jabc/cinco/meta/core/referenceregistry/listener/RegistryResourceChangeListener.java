@@ -25,19 +25,20 @@ public class RegistryResourceChangeListener implements IResourceChangeListener {
 		IPath from = null;
 		for (IResourceDelta child: delta.getAffectedChildren()) {
 			IResource res = child.getResource();
-			if (res instanceof IProject) {
-				if (deleted(child)) {
-					ReferenceRegistry.getInstance().handleProjectDeleted((IProject) res);
-				}
-				else if (openedOrClosed(child)) {
-					IProject project = (IProject) res;
-					if (project.isOpen()) {
-						ReferenceRegistry.getInstance().handleProjectOpened(project);
-					} else {
-						ReferenceRegistry.getInstance().handleProjectClosed(project);
-					}
-				}
-			}
+			
+//			if (res instanceof IProject) {
+//				if (deleted(child)) {
+//					ReferenceRegistry.getInstance().handleProjectDeleted((IProject) res);
+//				}
+//				else if (openedOrClosed(child)) {
+//					IProject project = (IProject) res;
+//					if (project.isOpen()) {
+//						ReferenceRegistry.getInstance().handleProjectOpened(project);
+//					} else {
+//						ReferenceRegistry.getInstance().handleProjectClosed(project);
+//					}
+//				}
+//			}
 			
 			if (res instanceof IFile) {
 				IFile file = (IFile) res;
@@ -46,6 +47,7 @@ public class RegistryResourceChangeListener implements IResourceChangeListener {
 //				//System.out.println("Delta-Flags : " + child.getFlags());
 //				//System.out.println("From: " + child.getMovedFromPath());
 //				//System.out.println("To: " + child.getMovedToPath());
+				
 				if (added(child)){
 					ReferenceRegistry.getInstance().handleAdd(getUri(file.getFullPath()));
 				}
@@ -53,7 +55,7 @@ public class RegistryResourceChangeListener implements IResourceChangeListener {
 					ReferenceRegistry.getInstance().handleDelete(getUri(file.getFullPath()));
 				}
 				if (changed(child)){
-					ReferenceRegistry.getInstance().handleContentChange(getUri(file.getFullPath()));
+					ReferenceRegistry.getInstance().handleChange(getUri(file.getFullPath()));
 				} 
 				if (movedFrom(child)) {
 					from = child.getMovedFromPath();

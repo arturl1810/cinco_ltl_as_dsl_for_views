@@ -9,11 +9,10 @@
             id="de.jabc.cinco.meta.core.referenceregistry.contributor"
             objectClass="org.eclipse.core.resources.IResource">
          <action
-               class="de.jabc.cinco.meta.core.referenceregistry.ReInitializeFromWorkspace"
+               class="de.jabc.cinco.meta.core.referenceregistry.ClearReferenceRegistryAction"
                id="de.jabc.cinco.meta.core.referenceregistry.reinitRefReg"
-               label="Reinitialize Registry">
+               label="Clear Reference Registry">
          </action>
       </objectContribution>
    </extension>
-
 </plugin>
