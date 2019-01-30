@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
@@ -38,8 +37,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
 
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException
 
 class CNodeTmpl extends APIUtils {
 

@@ -1,8 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CGraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
@@ -27,6 +25,8 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.internal.editor.DiagramEditorDummy
 import org.eclipse.graphiti.ui.services.GraphitiUi
+
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class CGraphModelTmpl extends APIUtils {
 

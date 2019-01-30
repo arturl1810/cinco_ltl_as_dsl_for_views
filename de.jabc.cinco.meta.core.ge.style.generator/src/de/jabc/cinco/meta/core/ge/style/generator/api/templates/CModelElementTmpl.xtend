@@ -3,18 +3,20 @@ package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoRemoveFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import graphmodel.internal.InternalModelElement
 import mgl.ModelElement
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.impl.RemoveContext
 import org.eclipse.graphiti.features.context.impl.UpdateContext
+import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.platform.IDiagramBehavior
 import org.eclipse.graphiti.ui.editor.DiagramBehavior
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.graphiti.mm.pictograms.Diagram
-import org.eclipse.graphiti.dt.IDiagramTypeProvider
-import graphmodel.internal.InternalModelElement
+
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class CModelElementTmpl extends APIUtils {
 	

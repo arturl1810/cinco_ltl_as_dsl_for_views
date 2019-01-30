@@ -1,37 +1,35 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CEdge
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddBendpointFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import graphmodel.GraphModel
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import graphmodel.IdentifiableElement
+import graphmodel.ModelElementContainer
+import graphmodel.Node
+import graphmodel.internal.InternalNode
 import mgl.Edge
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.datatypes.ILocation
+import org.eclipse.graphiti.features.IAddBendpointFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IReconnectionFeature
+import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import graphmodel.Node
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
-import graphmodel.internal.InternalEdge
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CNode
-import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
-import graphmodel.internal.InternalNode
-import graphmodel.ModelElementContainer
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CEdge
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
-import org.eclipse.graphiti.features.context.impl.AddBendpointContext
-import org.eclipse.graphiti.features.IAddBendpointFeature
-import org.eclipse.graphiti.features.impl.DefaultAddBendpointFeature
-import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
-import org.eclipse.graphiti.dt.IDiagramTypeProvider
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddBendpointFeature
+
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class CEdgeTmpl extends APIUtils {
 	
@@ -195,7 +193,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	@Override
-	public «me.fqBeanName» copy(«graphmodel.Node.name» source, «graphmodel.Node.name» target) {
+	public «me.fqBeanName» copy(«Node.name» source, «Node.name» target) {
 		«me.fqBeanName» copy = this.clone(source, target);
 		«EcoreUtil.name».setID(copy, «EcoreUtil.name».generateUUID());
 		return copy;

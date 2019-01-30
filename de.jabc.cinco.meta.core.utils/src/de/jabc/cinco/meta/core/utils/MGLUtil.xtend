@@ -318,6 +318,17 @@ class MGLUtil {
 	 		PrimitiveAttribute : attr.type.getName
 		}
 	}
+	
+	def static Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
+		val superTypes = new ArrayList<ModelElement>
+		var current = element.extend
+		while (current.extend !== null || current != current.extend) {
+			superTypes += current
+			current = current.extend
+		}
+
+		superTypes
+	}
 	 
 	 def static getAllSubclasses(ModelElement me) {
 	 	if (!subClasses.containsKey(me)) {

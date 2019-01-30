@@ -54,6 +54,8 @@ class GeneratorUtils extends InheritanceUtil{
     protected extension FileExtension = new FileExtension
     protected extension GraphModelExtension= new GraphModelExtension 
 	
+	protected static extension MGLUtil
+	
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
 	
@@ -707,16 +709,6 @@ class GeneratorUtils extends InheritanceUtil{
 	def fqInternalPackageName(ModelElement me) 
 		'''«me.beanPackage».internal.InternalPackage'''
 
-	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
-		val superTypes = new ArrayList<ModelElement>
-		var current = element.extend
-		while (current.extend != null || current != current.extend) {
-			superTypes += current
-			current = current.extend
-		}
-
-		superTypes
-	}
 
 	def ModelElement extend(ModelElement element) {
 		switch element {
