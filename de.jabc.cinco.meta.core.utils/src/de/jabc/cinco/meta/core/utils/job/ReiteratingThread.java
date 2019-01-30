@@ -101,6 +101,25 @@ public abstract class ReiteratingThread extends Thread {
     	failed = true;
     	quit();
     }
+    
+    public void waitUntilDone() {
+    	if (!isStarted()) {
+    		throw new IllegalStateException("Thread is not running!");
+    	}
+    	try {
+    		myself.join();
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public boolean isStarted() {
+    	return myself != null;
+    }
+    
+    public boolean isPaused() {
+    	return paused;
+    }
     	
 	public void onFinished(Runnable callback) {
 		onFinishedCallbacks.add(callback);
