@@ -485,7 +485,7 @@ class GraphModelExtension {
 	 * @param node - The node for which to retrieve successors.
 	 * @return An iterable of reachable nodes.
 	 */
-	def <T extends Edge> findSuccessors(Node node) {
+	def findSuccessors(Node node) {
 		findSuccessorsVia(node, Edge)
 	}
 	
@@ -511,6 +511,41 @@ class GraphModelExtension {
 		val typecheck = [Edge edge | classes.exists[cls | !#[edge].filter(cls).isEmpty] ]
 		val successors = node.outgoing.filter(typecheck).map[targetElement]
 		successors + successors.map[findSuccessorsVia_recurse(classes, visited)].flatten
+	}
+	
+	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following incoming edges, recursively.
+	 * 
+	 * @param node - The node for which to retrieve predecessors.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findPredecessors(Node node) {
+		findPredecessorsVia(node, Edge)
+	}
+	
+	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following incoming edges, recursively. Only those edges are respected
+	 * that match any of the specified types.
+	 * 
+	 * @param node - The node for which to retrieve predecessors.
+	 * @param classes - The list of edge types that should be considered only.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findPredecessorsVia(Node node, Class<? extends Edge>... classes) {
+		findPredecessorsVia_recurse(node, classes, newHashSet).toSet
+	}
+	
+	/**
+	 * Cycle-aware recursion by following incoming edges matching the specified types.
+	 */
+	private def Iterable<Node> findPredecessorsVia_recurse(Node node, Iterable<Class<? extends Edge>> classes, Set<Node> visited) {
+		if (!visited.add(node))
+			return #[]
+		val typecheck = [Edge edge | classes.exists[cls | !#[edge].filter(cls).isEmpty] ]
+		val predecessors = node.incoming.filter(typecheck).map[sourceElement]
+		predecessors + predecessors.map[findPredecessorsVia_recurse(classes, visited)].flatten
 	}
 	
 	/**
