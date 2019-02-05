@@ -62,7 +62,7 @@ class ContentProviderTmpl extends FileTemplate {
 					«TreeIterator.name»<«EObject.name»> x = resource.getAllContents();
 					while(x.hasNext()){
 					«EObject.name» o = x.next();
-					          if((o.eClass().getName().equals("«primeTypeName»")||o.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«primeTypeName»")) )&& o.eClass().getEPackage().getNsPrefix().equals("«primeTypePackagePrefix»")){
+					          if(«primeTypeName»ProviderHelper.isA«primeTypeName»(o)){
 					       		prime = o;
 					       		eObjList.add(o);
 					       }

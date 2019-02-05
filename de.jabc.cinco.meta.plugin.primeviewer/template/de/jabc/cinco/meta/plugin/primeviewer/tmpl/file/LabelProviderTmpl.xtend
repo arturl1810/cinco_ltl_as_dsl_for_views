@@ -59,7 +59,7 @@ class LabelProviderTmpl extends FileTemplate {
 			public «Image.name» getImage(«Object.name» element) {
 				if(element instanceof «EObject.name»){
 					«EObject.name» eElement = («EObject.name») element;
-					if(eElement.eClass().getName().equals("«primeTypeName»")){
+					if(«primeTypeName»ProviderHelper.isA«primeTypeName»(eElement)){
 						«EStructuralFeature.name» cincoImagePathFeature = eElement.eClass().getEStructuralFeature("cincoImagePath");
 						if(cincoImagePathFeature!=null){
 							«Object.name» imagePath= eElement.eGet(cincoImagePathFeature);
@@ -98,8 +98,7 @@ class LabelProviderTmpl extends FileTemplate {
 			public String getText(«Object.name» element) {
 				if(element instanceof «EObject.name»){
 					«EObject.name» eElement = («EObject.name») element;
-					if (eElement.eClass().getName().equals("«primeTypeName»")
-							|| eElement.eClass().getEAllSuperTypes().stream().anyMatch(e -> e.getName().equals("«primeTypeName»"))) {
+					if («primeTypeName»ProviderHelper.isA«primeTypeName»(eElement)) {
 						
 						if (eElement instanceof «GraphModel.name») {
 							eElement = ((«GraphModel.name»)element).getInternalElement();

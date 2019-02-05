@@ -11,6 +11,7 @@ import de.jabc.cinco.meta.plugin.dsl.FolderDescription
 import de.jabc.cinco.meta.plugin.dsl.PackageDescription
 import de.jabc.cinco.meta.plugin.dsl.FileDescription
 import de.jabc.cinco.meta.plugin.dsl.ProjectDescriptionLanguage
+import de.jabc.cinco.meta.plugin.primeviewer.tmpl.file.ProviderHelperTmpl
 
 class PrimeViewerProjectTmpl extends ProjectTemplate {
 	
@@ -41,6 +42,11 @@ class PrimeViewerProjectTmpl extends ProjectTemplate {
 			subPkg.add(
 				new FileDescription(
 					new LabelProviderTmpl(node)
+				)
+			)
+			subPkg.add(
+				new FileDescription(
+					new ProviderHelperTmpl(node)
 				)
 			)
 			folder.packages.add(subPkg)
@@ -75,7 +81,8 @@ class PrimeViewerProjectTmpl extends ProjectTemplate {
 					pkg (subPackage(n.primeTypePackagePrefix)) [
 						files = #[
 							new ContentProviderTmpl(n),
-							new LabelProviderTmpl(n)
+							new LabelProviderTmpl(n),
+							new ProviderHelperTmpl(n)
 						]
 					]
 				]

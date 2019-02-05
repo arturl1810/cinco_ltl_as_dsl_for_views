@@ -754,4 +754,10 @@ class GeneratorUtils extends InheritanceUtil{
 			annot.value.get(valueIndex)
 		else null
 	}
+	
+	def ePackageName(GraphModel it)'''«name.toLowerCase.toFirstUpper»Package'''
+	/**
+	 * generates the fully qualified EPackage name for a MGL GraphModel
+	 */
+	def fqEPackageName(GraphModel it)'''«package».«name.toLowerCase».«ePackageName»'''
 }
