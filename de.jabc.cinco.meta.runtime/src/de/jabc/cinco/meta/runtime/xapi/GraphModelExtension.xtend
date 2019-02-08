@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import graphmodel.Type
 import graphmodel.internal.InternalGraphModel
+import java.util.List
 
 /**
  * GraphModel-specific extension methods.
@@ -478,6 +479,182 @@ class GraphModelExtension {
 	}
 	
 	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following outgoing edges, recursively.
+	 * 
+	 * @param node - The node for which to retrieve successors.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findSuccessors(Node node) {
+		findSuccessorsVia(node, Edge)
+	}
+	
+	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following outgoing edges, recursively. Only those edges are respected
+	 * that match any of the specified types.
+	 * 
+	 * @param node - The node for which to retrieve successors.
+	 * @param classes - The list of edge types that should be considered only.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findSuccessorsVia(Node node, Class<? extends Edge>... classes) {
+		findSuccessorsVia_recurse(node, classes, newHashSet).toSet
+	}
+	
+	/**
+	 * Cycle-aware recursion by following outgoing edges matching the specified types.
+	 */
+	private def Iterable<Node> findSuccessorsVia_recurse(Node node, Iterable<Class<? extends Edge>> classes, Set<Node> visited) {
+		if (!visited.add(node))
+			return #[]
+		val typecheck = [Edge edge | classes.exists[cls | !#[edge].filter(cls).isEmpty] ]
+		val successors = node.outgoing.filter(typecheck).map[targetElement]
+		successors + successors.map[findSuccessorsVia_recurse(classes, visited)].flatten
+	}
+	
+	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following incoming edges, recursively.
+	 * 
+	 * @param node - The node for which to retrieve predecessors.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findPredecessors(Node node) {
+		findPredecessorsVia(node, Edge)
+	}
+	
+	/**
+	 * Retrieves all nodes that are reachable from the specified node by
+	 * following incoming edges, recursively. Only those edges are respected
+	 * that match any of the specified types.
+	 * 
+	 * @param node - The node for which to retrieve predecessors.
+	 * @param classes - The list of edge types that should be considered only.
+	 * @return An iterable of reachable nodes.
+	 */
+	def findPredecessorsVia(Node node, Class<? extends Edge>... classes) {
+		findPredecessorsVia_recurse(node, classes, newHashSet).toSet
+	}
+	
+	/**
+	 * Cycle-aware recursion by following incoming edges matching the specified types.
+	 */
+	private def Iterable<Node> findPredecessorsVia_recurse(Node node, Iterable<Class<? extends Edge>> classes, Set<Node> visited) {
+		if (!visited.add(node))
+			return #[]
+		val typecheck = [Edge edge | classes.exists[cls | !#[edge].filter(cls).isEmpty] ]
+		val predecessors = node.incoming.filter(typecheck).map[sourceElement]
+		predecessors + predecessors.map[findPredecessorsVia_recurse(classes, visited)].flatten
+	}
+	
+	/**
+	 * Retrieves all possible paths from the specified node to any successor node
+	 * that matches the specified type by following outgoing edges, recursively.
+	 * 
+	 * @param node - The node for which to retrieve paths to successors.
+	 * @param clazz - The type of the relevant target nodes.
+	 * @return A list of lists that represent paths to reachable nodes. The paths do not
+	 *   include the starting node.
+	 */
+	def <T extends Node> findPathsTo(Node node, Class<T> clazz) {
+		val paths = newArrayList
+		node.successors.forEach[succ|
+			succ.collectPathsTo_recurse(clazz, [true], newArrayList, paths, false)
+		]
+		return paths
+	}
+	
+	/**
+	 * Retrieves all possible paths from the specified node to any successor node
+	 * that matches the specified type and fulfills the specified predicate by
+	 * following outgoing edges, recursively.
+	 * The search does not stop at the first find. Hence, a path may contain multiple
+	 * nodes that fulfills the given constraints.
+	 * 
+	 * @param node - The node for which to retrieve paths to successors.
+	 * @param clazz - The type of the relevant target nodes.
+	 * @param predicate - The predicate to hold for the relevant target nodes.
+	 * @return A list of lists that represent paths to reachable nodes. The paths do not
+	 *   include the starting node.
+	 */
+	def <T extends Node> findPathsTo(Node node, Class<T> clazz, (T)=>boolean predicate) {
+		val paths = newArrayList
+		node.successors.forEach[succ|
+			succ.collectPathsTo_recurse(clazz, predicate, newArrayList, paths, false)
+		]
+		return paths
+	}
+	
+	/**
+	 * Retrieves all possible paths from the specified node to the target node
+	 * by following outgoing edges, recursively.
+	 * 
+	 * @param node - The start node for which to retrieve the paths to the target node.
+	 * @param clazz - The type of the relevant target nodes.
+	 * @return A list of lists that represent paths to the target node. The paths do not
+	 *   include the starting node.
+	 */
+	def findPathsTo(Node startNode, Node targetNode) {
+		findPathsToFirst(startNode, targetNode.class, [it == targetNode])
+	}
+	
+	/**
+	 * Retrieves all possible paths from the specified node to any successor node
+	 * that matches the specified type by following outgoing edges, recursively.
+	 * The search stops at the first find. Hence, a path does not contain multiple
+	 * nodes that match the given type.
+	 * 
+	 * @param node - The node for which to retrieve paths to successors.
+	 * @param clazz - The type of the relevant target nodes.
+	 * @return A list of lists that represent paths to reachable nodes. The paths do not
+	 *   include the starting node.
+	 */
+	def <T extends Node> findPathsToFirst(Node node, Class<T> clazz) {
+		val paths = newArrayList
+		node.successors.forEach[succ|
+			succ.collectPathsTo_recurse(clazz, [true], newArrayList, paths, true)
+		]
+		return paths
+	}
+	
+	/**
+	 * Retrieves all possible paths from the specified node to any successor node
+	 * that matches the specified type and fulfills the specified predicate by
+	 * following outgoing edges, recursively.
+	 * The search stops at the first find. Hence, a path does not contain multiple
+	 * nodes that fulfills the given constraints.
+	 * 
+	 * @param node - The node for which to retrieve paths to successors.
+	 * @param clazz - The type of the relevant target nodes.
+	 * @param predicate - The predicate to hold for the relevant target nodes.
+	 * @return A list of lists that represent paths to reachable nodes. The paths do not
+	 *   include the starting node.
+	 */
+	def <T extends Node> findPathsToFirst(Node node, Class<T> clazz, (T)=>boolean predicate) {
+		val paths = newArrayList
+		node.successors.forEach[succ|
+			succ.collectPathsTo_recurse(clazz, predicate, newArrayList, paths, true)
+		]
+		return paths
+	}
+	
+	/**
+	 * Cycle-aware recursion by following outgoing edges matching the specified types.
+	 */
+	private def <T extends Node> void collectPathsTo_recurse(Node node, Class<T> clazz, (T)=>boolean predicate, List<Node> path, Collection<List<Node>> paths, boolean stopAtFirst) {
+		path.add(node)
+		if (clazz.isAssignableFrom(node.class) && predicate.apply(node as T)) {
+			paths.add(path)
+			if (stopAtFirst)
+				return;
+		}
+		node.successors.filter[!path.contains(it)].forEach[succ|
+			succ.collectPathsTo_recurse(clazz, predicate, newArrayList(path), paths, stopAtFirst)
+		]
+	}
+	
+	/**
 	 * A type-check via EObject-based reflection that compares the name of the
 	 * element's EClass as well as the name of all ESuperTypes with the name of
 	 * the specified EClass.
@@ -488,7 +665,7 @@ class GraphModelExtension {
 	 *  otherwise.
 	 */
 	def isInstanceOf(EObject obj, Class<? extends EObject> cls) {
-		obj != null && (
+		obj !== null && (
 			obj.eClass.name == cls.simpleName
 			|| obj.eClass.EAllSuperTypes.exists[name == cls.simpleName]
 		)
@@ -524,11 +701,11 @@ class GraphModelExtension {
 	 */
 	def getRootElement(Type type) {
 		var container = type.eContainer
-		while (!(container instanceof InternalGraphModel) && container != null) {
+		while (!(container instanceof InternalGraphModel) && container !== null) {
 			container = container.eContainer
 		}
 		
-		if (container == null) null else (container as InternalGraphModel).element
+		if (container === null) null else (container as InternalGraphModel).element
 	}
 	
 	/**
@@ -539,7 +716,7 @@ class GraphModelExtension {
 	 * its containing {@link ModelElement}.
 	 */
 	def getModelElement(Type t) {
-		if (t.eResource == null) return null
+		if (t.eResource === null) return null
 		var gm = new ResourceExtension().getGraphModel(t.eResource)
 		gm.modelElements.map[internalElement].filter[
 			containsType(t)

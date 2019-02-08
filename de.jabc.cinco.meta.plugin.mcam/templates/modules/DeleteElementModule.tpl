@@ -65,7 +65,7 @@ public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelNa
 			
 			${ModelElementName}DeleteChange change = new ${ModelElementName}DeleteChange();
 			change.id = id;
-			change.element = (${ModelElementName}) sourceModel.getElementById(id);
+			change.element = (${ModelElementName}) sourceModel.searchElementById(id);
 			change.containerId = sourceModel.getIdByString(change.element.getContainer().getId());
 			changes.add(change);
 		}

@@ -88,10 +88,16 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel> ex
 		this.path = path;
 	}
 
-	public EObject getElementById(T id) {
-		return id.getElement();
-//		if (id.getId().equals(getModel().getId()))
-//			return getModel();
+	public EObject searchElementById(T id) {
+		if (id.getId().equals(getModel().getId()))
+			return getModel();
+		for (ModelElement el : _graphModelExtension.find(getModel(), ModelElement.class)) {
+			if (el.getId().equals(id.getId())) return el;
+		}
+		throw new RuntimeException("Could not find element for '" + id + "'");
+		
+		//return id.getElement();
+//		
 //		TreeIterator<EObject> it = getModel().eAllContents();
 //		while (it.hasNext()) {
 //			Object obj = it.next();

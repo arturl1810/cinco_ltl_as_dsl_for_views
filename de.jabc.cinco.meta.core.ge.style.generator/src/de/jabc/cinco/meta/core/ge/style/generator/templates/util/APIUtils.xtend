@@ -24,7 +24,10 @@ import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.emf.ecore.util.EcoreUtil
 
+
+
 class APIUtils extends GeneratorUtils {
+
 
 	static var String packageName
 	static var String gmName

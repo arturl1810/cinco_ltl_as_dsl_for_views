@@ -363,6 +363,10 @@ class GraphModelExtension {
 		}
 	}
 	
+	def isList(Attribute attribute) {
+		attribute.upperBound != 1
+	}
+	
 	//================================================================================
     // Import Extensions
     //================================================================================

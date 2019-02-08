@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui,
  org.eclipse.graphiti.mm,
  de.jabc.cinco.meta.core.mgl.model,
- de.jabc.cinco.meta.core.utils
+ de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.referenceregistry,

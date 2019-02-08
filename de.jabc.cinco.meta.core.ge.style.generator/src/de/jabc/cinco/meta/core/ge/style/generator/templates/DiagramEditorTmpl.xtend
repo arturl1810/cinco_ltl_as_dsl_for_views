@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.editor.CincoDiagramEditor
-import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.GraphModel
 import org.eclipse.core.runtime.IProgressMonitor
@@ -37,8 +36,6 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	@Override
 	public void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
-		
-		«ReferenceRegistry.name».getInstance().registerListener();
 	
 		«EObject.name» bo = getDiagramTypeProvider().getDiagram().getLink().getBusinessObjects().get(0);
 		«TreeIterator.name»<«EObject.name»> eContents = bo.eAllContents();
@@ -68,7 +65,6 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	@Override
 	public void doSave(«IProgressMonitor.name» monitor) {
 		super.doSave(monitor);
-		«ReferenceRegistry.name».getInstance().save();
 		«IF gm.annotations.exists[name == "postSave"]»
 			«EObject.name» obj = getDiagramTypeProvider().getDiagram().eResource().getContents().get(1);
 			if (obj instanceof «gm.fqInternalBeanName») {

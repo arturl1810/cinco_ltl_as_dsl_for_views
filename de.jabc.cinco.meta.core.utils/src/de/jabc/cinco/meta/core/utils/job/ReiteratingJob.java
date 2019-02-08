@@ -99,6 +99,10 @@ public abstract class ReiteratingJob extends Job {
         paused = false;
         notify();
     }
+    
+    public boolean isPaused() {
+    	return paused;
+    }
 
     public void quit() {
     	quit(Status.OK_STATUS);

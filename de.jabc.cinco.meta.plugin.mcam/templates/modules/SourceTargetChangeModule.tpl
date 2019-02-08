@@ -40,10 +40,10 @@ public class ${ClassName} extends
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		${ModelElementName} edge = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} edge = (${ModelElementName}) model.searchElementById(id);
 
-		Object source = model.getElementById(newSource);
-		Object target = model.getElementById(newTarget);
+		Object source = model.searchElementById(newSource);
+		Object target = model.searchElementById(newTarget);
 
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
@@ -58,15 +58,15 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 		
-		Object source = model.getElementById(newSource);
+		Object source = model.searchElementById(newSource);
 		if (source == null)
 			return false;
 
-		Object target = model.getElementById(newTarget);
+		Object target = model.searchElementById(newTarget);
 		if (target == null)
 			return false;
 
@@ -87,10 +87,10 @@ public class ${ClassName} extends
 	
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} edge = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} edge = (${ModelElementName}) model.searchElementById(id);
 
-		Object source = model.getElementById(oldSource);
-		Object target = model.getElementById(oldTarget);
+		Object source = model.searchElementById(oldSource);
+		Object target = model.searchElementById(oldTarget);
 
 		<#list PossibleEdgeSources as source>
 		if (source instanceof ${source.getName()})
@@ -105,15 +105,15 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element_new = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_new = (${ModelElementName}) model.searchElementById(id);
 		if (element_new == null)
 			return false;
 		
-		Object source = model.getElementById(oldSource);
+		Object source = model.searchElementById(oldSource);
 		if (source == null)
 			return false;
 
-		Object target = model.getElementById(oldTarget);
+		Object target = model.searchElementById(oldTarget);
 		if (target == null)
 			return false;
 
@@ -147,9 +147,9 @@ public class ${ClassName} extends
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			${ModelElementName} sourceTransition = (${ModelElementName}) sourceModel
-					.getElementById(id);
+					.searchElementById(id);
 			${ModelElementName} targetTransition = (${ModelElementName}) targetModel
-					.getElementById(id);
+					.searchElementById(id);
 
 			${ClassName} change = new ${ClassName}();
 

@@ -11,6 +11,7 @@ abstract class FileContainerDescription<T extends IContainer> extends ProjectRes
 	@Accessors boolean deleteIfExistent = false
 	@Accessors Set<FileDescription> files = newHashSet
 	@Accessors Set<Pair<String,String>> filesFromBundles = newHashSet
+	@Accessors Set<Pair<String,String>> filesFromProjects = newHashSet
 	@Accessors Set<FolderDescription> folders = newLinkedHashSet
 	
 	new(String name) { super(name) }
@@ -23,8 +24,17 @@ abstract class FileContainerDescription<T extends IContainer> extends ProjectRes
 				getIResource.createFile(
 					file.substring(file.lastIndexOf('/') + 1), openStream)
 			]
+		
+		filesFromProjects
+			.map[workspaceRoot?.getProject(key)?.getFolder(value).files]
+			.flatten
+			.forEach[
+				copy(getIResource.fullPath.append(name), true, null)
+			]
+			
 		files.forEach[create(this)]
 	}
+	
 	
 	def createFolders() {
 		folders.forEach[create(this)]

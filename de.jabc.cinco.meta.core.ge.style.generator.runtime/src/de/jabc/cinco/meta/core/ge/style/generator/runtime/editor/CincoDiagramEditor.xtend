@@ -14,10 +14,12 @@ import org.eclipse.ui.IEditorInput
 import org.eclipse.ui.IEditorPart
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.api.CModelElement
+import org.eclipse.core.runtime.IConfigurationElement
 
 abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEditor, ResourceContributor {
 	
 	protected extension ResourceExtension = new ResourceExtension
+	protected extension WorkbenchExtension = new WorkbenchExtension
 	
 	CincoDiagramEditorActionBarContributor actionBarContributor
 	PageAwareDiagramBehavior diagramBehavior
@@ -41,7 +43,7 @@ abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEdit
 	}
 	
 	override mapEditorInput(IEditorInput input) {
-		new PageAwareDiagramEditorInput(new WorkbenchExtension().getURI(input));
+		new PageAwareDiagramEditorInput(input.URI);
 	}
 	
 	override getActionBarContributor() {
@@ -88,7 +90,7 @@ abstract class CincoDiagramEditor extends DiagramEditor implements PageAwareEdit
 	
 	override contributeToResource(Resource resource) {
 		val model = resource.getContent(InternalGraphModel)?.element
-		if (model != null) {
+		if (model !== null) {
 			val diagram = new DiagramBuilder(createDiagram, model).build(resource)
 			if (model instanceof CModelElement)
 				model.pictogramElement = diagram

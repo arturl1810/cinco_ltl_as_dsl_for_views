@@ -44,8 +44,8 @@ public class ${ClassName} extends
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		Object container = model.getElementById(newContainerId);
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		Object container = model.searchElementById(newContainerId);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 
 		if (container instanceof ModelElementContainer) {
 			element_target.moveTo((ModelElementContainer) container, newX, newY);
@@ -56,11 +56,11 @@ public class ${ClassName} extends
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
 
-		Object container = model.getElementById(newContainerId);
+		Object container = model.searchElementById(newContainerId);
 		if (container == null)
 			return false;
 
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 
@@ -74,9 +74,9 @@ public class ${ClassName} extends
 	
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		Object container = model.getElementById(oldContainerId);
+		Object container = model.searchElementById(oldContainerId);
 
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 
 		if (container instanceof ModelElementContainer) {
 			element_target.moveTo((ModelElementContainer) container, oldX, oldY);
@@ -86,11 +86,11 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		Object container = model.getElementById(oldContainerId);
+		Object container = model.searchElementById(oldContainerId);
 		if (container == null)
 			return false;
 
-		${ModelElementName} element_target = (${ModelElementName}) model.getElementById(id);
+		${ModelElementName} element_target = (${ModelElementName}) model.searchElementById(id);
 		if (element_target == null)
 			return false;
 		
@@ -118,9 +118,9 @@ public class ${ClassName} extends
 				continue;
 			
 			${ModelElementName} sourceElement = (${ModelElementName}) sourceModel
-					.getElementById(id);
+					.searchElementById(id);
 			${ModelElementName} targetElement = (${ModelElementName}) targetModel
-					.getElementById(id);
+					.searchElementById(id);
 
 			${ClassName} change = new ${ClassName}();
 
