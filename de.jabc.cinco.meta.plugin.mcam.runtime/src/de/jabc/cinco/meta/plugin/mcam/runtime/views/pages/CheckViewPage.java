@@ -56,6 +56,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 
 	private CheckViewResultTypeFilter resultTypeFilter = new CheckViewResultTypeFilter();
 	private DefaultOkResultFilter defaultOkResultFilter = new DefaultOkResultFilter();
+	
+	private CheckConfiguration checkConfiguration = new CheckConfiguration();
 
 	public CheckViewPage(String pageId) {
 		super(pageId);
@@ -92,6 +94,11 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 	public CheckViewResultTypeFilter getResultTypeFilter() {
 		return resultTypeFilter;
 	}
+	
+	public CheckConfiguration getCheckConfiguration() {
+		return checkConfiguration;
+	}
+	
 
 	/*
 	 * Methods
@@ -114,7 +121,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 			icons.put("resultWarning", new Image(EclipseUtils.getDisplay(),
 					checkWarningImgStream));
 			InputStream checkNotCheckedImgStream = FileLocator.openStream(
-					bundle, new Path("icons/info.png"), true);
+					bundle, new Path("icons/unchecked.png"), true);
 			icons.put("resultNotChecked", new Image(EclipseUtils.getDisplay(),
 					checkNotCheckedImgStream));
 			InputStream checkInfoImgStream = FileLocator.openStream(bundle,
@@ -294,7 +301,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 		@Override
 		public StyledString getStyledText(Object obj) {
 			StyledString styledString = new StyledString("unknown");
-
 			if (obj instanceof TreeNode == false)
 				return styledString;
 
@@ -317,9 +323,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 			}
 			if (element instanceof _CincoId) {
 				CheckProcess<?, ?> cp = getCheckProcessById((_CincoId) element);
-				CheckInformation<?, ?> checkInfo = cp.getCheckInformationMap()
-						.get(element);
-				styledString.append(
+				CheckInformation<?, ?> checkInfo = cp.getCheckInformationMap().get(element);
+				if (checkInfo != null) styledString.append(
 						" ("
 								// +
 								// checkInfo.getNumberOf(CheckResultType.FAILURE)
@@ -365,7 +370,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
-
+			
 			if (e1 instanceof String && e2 instanceof String) {
 				String s1 = (String) e1;
 				String s2 = (String) e2;
@@ -542,4 +547,18 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, A 
 
 	}
 
+	
+	public class CheckConfiguration {
+		
+		private boolean stopAtFirstError = false;
+
+		public boolean isStopAtFirstError() {
+			return stopAtFirstError;
+		}
+
+		public void switchStopAtFirstError() {
+			stopAtFirstError = !stopAtFirstError;
+		}
+		
+	}
 }

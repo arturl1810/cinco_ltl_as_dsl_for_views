@@ -17,6 +17,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.referenceregistry,
+ de.jabc.cinco.meta.core.utils.job,
+ de.jabc.cinco.meta.core.utils.registry,
  graphmodel,
  graphmodel.internal,
  info.scce.mcam.framework.adapter,
