@@ -148,13 +148,15 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 	}
 	
 	def register(String key, EObject obj) {
-		register(key, obj.eResource.URI, obj)
+		register(key, obj.eResource?.URI, obj)
 	}
 
 	def register(String key, URI resUri, EObject obj) {
-		val uri = resUri.toPlatformString
-		key_on_resURI.put(key, uri)
-		resURI_on_keys.get(uri).add(key)
+		val uri = resUri?.toPlatformString
+		if (uri !== null) {
+			key_on_resURI.put(key, uri)
+			resURI_on_keys.get(uri).add(key)
+		}
 		key_on_obj.put(key, obj)
 	}
 	
