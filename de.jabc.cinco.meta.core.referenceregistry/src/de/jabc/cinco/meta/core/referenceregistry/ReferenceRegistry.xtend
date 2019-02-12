@@ -68,10 +68,6 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 		?: loadFromResource(key) // load if URI is known
 		?: request(key) // create request for crawler
 		?: key_on_obj.get(key) // might have been found in the meantime
-		?: {
-			println("[ReferenceRegistry] Could not find object for key: " + key)
-			null
-		   }
 	}
 	
 	def EObject loadFromResource(String key) {
