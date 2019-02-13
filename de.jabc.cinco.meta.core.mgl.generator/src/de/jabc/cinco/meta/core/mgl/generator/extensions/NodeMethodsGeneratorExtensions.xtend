@@ -112,25 +112,25 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
 		if (lmNode != null){
 			val eTypeClass = map.get(lmNode.name).mainEClass
-			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent)
+			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, lmNode.getSuccessorsContent)
 		}
-		node.possibleSuccessors.toSet.forEach[
-			val successorClass = map.get(it.name).mainEClass
-			val methodName = "get"+it.name.toFirstUpper+"Successors"
-			internalNodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getInternalSuccessorsContent.toString)
-			nodeClass.createEOperation(methodName, successorClass, 0, -1, successorClass.getSuccessorsContent.toString)
+		node.possibleSuccessors.toSet.forEach[ predecessorNode |
+			val successorClass = map.get(predecessorNode.name).mainEClass
+			val methodName = "get"+predecessorNode.name.toFirstUpper+"Successors"
+			internalNodeClass.createEOperation(methodName, successorClass, 0, -1, predecessorNode.getInternalSuccessorsContent.toString)
+			nodeClass.createEOperation(methodName, successorClass, 0, -1, predecessorNode.getSuccessorsContent.toString)
 		]
 	}
 	
 	
 	
 
-	def getInternalSuccessorsContent(EClass eTypeClass) '''
-		return ((graphmodel.Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
+	def getInternalSuccessorsContent(Node node) '''
+		return ((graphmodel.Node)this.getElement()).getSuccessors(«node.fqBeanName».class);
 	'''
 	
-	def getSuccessorsContent(EClass eTypeClass) '''
-		return ((graphmodel.Node)this).getSuccessors(«eTypeClass.name».class);
+	def getSuccessorsContent(Node node) '''
+		return ((graphmodel.Node)this).getSuccessors(«node.fqBeanName».class);
 	'''
 	
 
@@ -141,23 +141,23 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val lmNode = node.possiblePredecessors.lowestMutualSuperNode
 		if (lmNode != null){
 			val eTypeClass = map.get(lmNode.name).mainEClass
-			nodeClass.createEOperation("getPredecessors", eTypeClass, 0, -1, eTypeClass.getPredecessorsContent)
+			nodeClass.createEOperation("getPredecessors", eTypeClass, 0, -1, lmNode.getPredecessorsContent)
 		}
-		node.possiblePredecessors.toSet.forEach[
-			val eTypeClass = map.get(it.name).mainEClass
-			val methodName = "get"+it.name.toFirstUpper+"Predecessors"
-			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.getPredecessorsContent.toString)
-			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, eTypeClass.internalePredecessorsContent.toString)
+		node.possiblePredecessors.toSet.forEach[ predecessorNode |
+			val eTypeClass = map.get(predecessorNode.name).mainEClass
+			val methodName = "get"+predecessorNode.name.toFirstUpper+"Predecessors"
+			nodeClass.createEOperation(methodName, eTypeClass, 0, -1, predecessorNode.getPredecessorsContent.toString)
+			internalNodeClass.createEOperation(methodName, eTypeClass, 0, -1, predecessorNode.internalePredecessorsContent.toString)
 		]
 		
 	}
 
-	def getPredecessorsContent(EClass eTypeClass) '''
-		return ((graphmodel.Node)this).getPredecessors(«eTypeClass.name».class);
+	def getPredecessorsContent(Node node) '''
+		return ((graphmodel.Node)this).getPredecessors(«node.fqBeanName».class);
 	'''
 
-	def getInternalePredecessorsContent(EClass eTypeClass) '''
-		return ((graphmodel.Node)this.getElement()).getPredecessors(«eTypeClass.name».class);
+	def getInternalePredecessorsContent(Node node) '''
+		return ((graphmodel.Node)this.getElement()).getPredecessors(«node.fqBeanName».class);
 	'''
 
 	def void connectionConstraints(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses) {
