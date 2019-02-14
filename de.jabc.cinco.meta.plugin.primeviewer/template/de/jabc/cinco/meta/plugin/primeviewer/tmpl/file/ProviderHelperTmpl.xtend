@@ -1,93 +1,83 @@
 package de.jabc.cinco.meta.plugin.primeviewer.tmpl.file
+
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import de.jabc.cinco.meta.plugin.template.FileTemplate
+import mgl.ModelElement
 import mgl.Node
-import mgl.ReferencedEClass
-import mgl.ReferencedModelElement
-import de.jabc.cinco.meta.core.utils.MGLUtil
+import mgl.ReferencedType
+import org.eclipse.emf.ecore.EClass
 
-class ProviderHelperTmpl extends FileTemplate{
+class ProviderHelperTmpl extends FileTemplate {
 	
 	static extension GeneratorUtils = new GeneratorUtils
-		
-	Node node
+	
+	ReferencedType referencedType
 	CharSequence primeTypeName
 	CharSequence primeTypeNameLower
-	CharSequence primeFqEPackageName
-	CharSequence primeEPackageName
 	
 	
 	new(Node primeNode) {
-		node = primeNode
-		primeTypeName = node.primeTypeName
-		primeFqEPackageName = node.graphModel.fqEPackageName
+		referencedType = MGLUtil.retrievePrimeReference(primeNode)
+		primeTypeName = primeNode.primeTypeName
 		primeTypeNameLower = primeTypeName.toString.toLowerCase
-		primeEPackageName = node.graphModel.ePackageName
 	}
 	
 	override getTargetFileName() {
 		'''«primeTypeName»ProviderHelper.java'''
 	}
 	
-	override template(){
-		val prime = MGLUtil.retrievePrimeReference(node)
-		switch prime {
-			ReferencedEClass : referencedEClassTemplate
-			ReferencedModelElement : referencedModelElementTemplate
+	override template() {
+		switch it:referencedType.type {
+			EClass : referencedEClassTemplate
+			ModelElement : referencedModelElementTemplate
 		}
 	}
 	
-	def referencedEClassTemplate(){
-	val primeEPackage = (MGLUtil.retrievePrimeReference(node) as ReferencedEClass).type.EPackage
-	val nsuri = primeEPackage.nsURI
-	return '''package «package»;
-			
-	import org.eclipse.emf.ecore.EClass;
-	import org.eclipse.emf.ecore.EObject;
-	
-	
-	public class «primeTypeName»ProviderHelper {
-		
-		static EClass «primeTypeNameLower»EClass() {
-			return (EClass)org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.getEPackage("«nsuri»").getEClassifier("«primeTypeName»");
-		}
-		
-		static boolean isA«primeTypeName»(EObject eObj) {
-			return eObj.eClass().equals(«primeTypeNameLower»EClass()) || eObj.eClass().getEAllSuperTypes().contains(«primeTypeNameLower»EClass());
+	def referencedEClassTemplate(EClass eClass) '''
+		package «package»;
 				
-		}
-			
+		import org.eclipse.emf.ecore.EClass;
+		import org.eclipse.emf.ecore.EObject;
 		
-	}
-	
-	
+		
+		public class «eClass.name»ProviderHelper {
+			
+			static EClass «primeTypeNameLower»EClass() {
+				return (EClass)org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.getEPackage("«eClass.EPackage.nsURI»").getEClassifier("«primeTypeName»");
+			}
+			
+			static boolean isA«primeTypeName»(EObject eObj) {
+				return eObj.eClass().equals(«primeTypeNameLower»EClass()) || eObj.eClass().getEAllSuperTypes().contains(«primeTypeNameLower»EClass());
+					
+			}
+				
+			
+		}
 	'''
-	}
 	
 	
-	def referencedModelElementTemplate()'''
-	package «package»;
-			
-	import org.eclipse.emf.ecore.EClass;
-	import org.eclipse.emf.ecore.EObject;
-	
-	import «primeFqEPackageName»;
-	
-	public class «primeTypeName»ProviderHelper {
-		
-		static EClass «primeTypeNameLower»EClass() {
-			return «primeEPackageName».eINSTANCE.get«primeTypeName»();
-		}
-		
-		static boolean isA«primeTypeName»(EObject eObj) {
-			return eObj.eClass().equals(«primeTypeNameLower»EClass()) || eObj.eClass().getEAllSuperTypes().contains(«primeTypeNameLower»EClass());
+	def referencedModelElementTemplate(ModelElement referenced) '''
+		package «package»;
 				
-		}
-			
+		import org.eclipse.emf.ecore.EClass;
+		import org.eclipse.emf.ecore.EObject;
 		
-	}
-	
-	
+		import «referenced.graphModel.fqEPackageName»;
+		
+		public class «primeTypeName»ProviderHelper {
+			
+			static EClass «primeTypeNameLower»EClass() {
+				return «referenced.graphModel.ePackageName».eINSTANCE.get«primeTypeName»();
+			}
+			
+			static boolean isA«primeTypeName»(EObject eObj) {
+				return eObj.eClass().equals(«primeTypeNameLower»EClass()) || eObj.eClass().getEAllSuperTypes().contains(«primeTypeNameLower»EClass());
+					
+			}
+				
+			
+		}
 	'''
 	
 }
