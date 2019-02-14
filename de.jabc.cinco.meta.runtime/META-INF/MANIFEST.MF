@@ -28,6 +28,7 @@ Export-Package: de.jabc.cinco.meta.runtime,
  de.jabc.cinco.meta.runtime.active,
  de.jabc.cinco.meta.runtime.contentadapter,
  de.jabc.cinco.meta.runtime.hook,
+ de.jabc.cinco.meta.runtime.layout,
  de.jabc.cinco.meta.runtime.provider,
  de.jabc.cinco.meta.runtime.xapi
 Bundle-ActivationPolicy: lazy
