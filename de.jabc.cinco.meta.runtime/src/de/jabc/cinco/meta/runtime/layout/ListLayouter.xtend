@@ -21,7 +21,7 @@ class ListLayouter extends CincoRuntimeBaseClass {
 	}
 	
 	def void layout(Container it, Map<LayoutConfiguration,Integer> layoutConf) {
-		layout(layoutConf, innerOrder ?: #[], ignoredChildren ?: #[])
+		layout(layoutConf ?: newHashMap, innerOrder ?: #[], ignoredChildren ?: #[])
 	}
 		
 	def void layout(Container container, Map<LayoutConfiguration,Integer> layoutConf, List<? extends Class<? extends Node>> order, List<? extends Class<? extends Node>> ignored) {
@@ -57,15 +57,15 @@ class ListLayouter extends CincoRuntimeBaseClass {
 	//
 	// ++++++++++++++++++++++++++++++++++++
 	
-	dispatch def getLayoutConfiguration(Container container) {
-		#{/* fallback to defaults */} as Map<LayoutConfiguration,Integer>
+	dispatch def Map<LayoutConfiguration,Integer> getLayoutConfiguration(Container container) {
+		null // fallback to defaults
 	}
 	
 	dispatch def List<? extends Class<? extends Node>> getInnerOrder(Container container) {
-		null
+		null // fallback to defaults
 	}
 	
 	dispatch def List<? extends Class<? extends Node>> getIgnoredChildren(Container container) {
-		null
+		null // fallback to defaults
 	}
 }
