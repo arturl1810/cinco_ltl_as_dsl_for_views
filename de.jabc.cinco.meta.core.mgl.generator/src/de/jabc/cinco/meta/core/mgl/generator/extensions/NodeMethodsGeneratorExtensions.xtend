@@ -662,9 +662,9 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	
 	def getPostDeleteFunctionContent(ModelElement me) {
 		val annot = me.getAnnotation("postDelete")
-		if (annot != null) '''
-		de.jabc.cinco.meta.runtime.hook.CincoPostDeleteHook<«me.fqBeanName»> postDeleteHook = new «annot.value.get(0)»();
-		return postDeleteHook.getPostDeleteFunction(this);
+		if (annot !== null) '''
+			de.jabc.cinco.meta.runtime.hook.CincoPostDeleteHook<? super «me.fqBeanName»> postDeleteHook = new «annot.value.get(0)»();
+			return postDeleteHook.getPostDeleteFunction(this);
 		'''
 		else "return () -> {};"
 		
