@@ -4,11 +4,13 @@ import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
-import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import org.eclipse.emf.common.util.EList;
 
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 

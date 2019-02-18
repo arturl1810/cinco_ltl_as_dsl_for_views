@@ -159,7 +159,6 @@ public class McamImplementationGenerator {
 				entityAttributes.get(container).add(attribute);
 			}
 		}
-		System.err.println("Hallo");
 	}
 
 	public String generate() {
@@ -449,14 +448,22 @@ public class McamImplementationGenerator {
 			data.put("AttributeType", data.get("GraphModelPackage") + "." + data.get("GraphModelName").toString().toLowerCase() + "." + getEnumType(attribute).getName());
 		} else {
 			data.put("AttributeCategory", "Normal");
+			
+			String attributeType;
 			if(attribute instanceof PrimitiveAttribute){
-				data.put("AttributeType", EcorePackage.eINSTANCE
-					.getEClassifier(((PrimitiveAttribute) attribute).getType().getName()).getInstanceClass().getName());
+				attributeType = EcorePackage.eINSTANCE.getEClassifier(((PrimitiveAttribute) attribute).getType().getName()).getInstanceClass().getName();
 			}else if(attribute instanceof ComplexAttribute){
-				data.put("AttributeType", ((ComplexAttribute) attribute).getType().getName());
+				attributeType = ((ComplexAttribute) attribute).getType().getName();
 			}else{
 				throw new RuntimeException(String.format("Attribute %s is neither PrimitiveAttibute nor ComplextAttribute", attribute.getName()));
 			}
+			
+			Integer upperBound = attribute.getUpperBound();
+			if (upperBound != null && upperBound != 1) {
+				attributeType = "EList<" + attributeType + ">";
+			}
+			
+			data.put("AttributeType", attributeType);
 		}
 
 		TemplateGenerator templateGen = new TemplateGenerator("templates/modules/AttributeChangeModule.tpl",
