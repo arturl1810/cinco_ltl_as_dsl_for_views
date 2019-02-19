@@ -344,7 +344,7 @@ class MGLUtil {
 	 	val gm = me.graphModel
 		var subTypes = gm.modelElements.map[ element | 
 	 		gm.modelElements.filter[ sub |
-	 			sub.allSuperTypes.toSet.contains(element)
+	 			sub.allSuperTypes.toSet.contains(me)
 	 		].toList
 	 	].flatten.toList
 	 	subClasses.put(me, subTypes)
