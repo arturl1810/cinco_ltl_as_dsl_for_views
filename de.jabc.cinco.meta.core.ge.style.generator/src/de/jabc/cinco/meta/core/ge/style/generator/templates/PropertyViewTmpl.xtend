@@ -55,7 +55,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		«CincoPropertyView.name».init_EStructuralFeatures(«gm.beanPackage».internal.impl.Internal«gm.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : gm.attributes.filter[!isAttributeHidden] SEPARATOR ","»
-«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«gm.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«gm.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
@@ -65,7 +64,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		«CincoPropertyView.name».init_EStructuralFeatures(«n.beanPackage».internal.impl.Internal«n.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : n.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
-«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«n.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«n.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
@@ -76,7 +74,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		«CincoPropertyView.name».init_EStructuralFeatures(«e.beanPackage».internal.impl.Internal«e.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : e.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
-«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«e.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«e.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
@@ -87,7 +84,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		«CincoPropertyView.name».init_EStructuralFeatures(«t.beanPackage».internal.impl.Internal«t.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : t.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
-«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«t.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
@@ -102,7 +98,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		});
 
 		«CincoPropertyView.name».init_ReadOnlyAttributes(new «EStructuralFeature.name»[] {
-«««		«FOR attr : gm.allModelAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
 		«FOR me : gm.modelElements.filter[allAttributes.exists[isAttributeReadOnly]] SEPARATOR ","»
 		«FOR attr : me.allAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«me.fuName»_«attr.name.toFirstUpper»()
@@ -112,7 +107,9 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		
 		«CincoPropertyView.name».init_FileAttributes(new «EStructuralFeature.name»[] {
 		«FOR attr : gm.allModelAttributes.filter[isAttributeFile] SEPARATOR ","»
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+			«FOR subtype : attr.modelElement.allSubclasses + #[attr.modelElement] SEPARATOR ","»
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«subtype.fuName»_«attr.name.toFirstUpper»()
+			«ENDFOR»
 		«ENDFOR»                        
 		});
 
@@ -190,9 +187,11 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
+			«FOR subType : attr.modelElement.allSubclasses + #[attr.modelElement]»
 			«CincoPropertyView.name».init_GrammarEditor(
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«subType.fuName»_«attr.name.toFirstUpper»(),
 				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
+			«ENDFOR»
 		«ENDFOR»
 		«ENDIF»
 		
