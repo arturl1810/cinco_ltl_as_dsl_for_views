@@ -38,7 +38,7 @@ import org.jooq.lambda.tuple.Tuple2
 
 class MGLUtil {
 
-	static var subClasses = new HashMap<ModelElement, List<ModelElement>>
+//	val subClasses = new HashMap<ModelElement, List<ModelElement>>
 
 	static extension GeneratorUtils = new GeneratorUtils
 
@@ -331,23 +331,17 @@ class MGLUtil {
 	}
 	 
 	 def static getAllSubclasses(ModelElement me) {
-	 	if (!subClasses.containsKey(me)) {
-	 		subClasses.computeSubclasses(me)
-	 		subClasses.forEach[element, subs|
-	 			println("Element: " + element +" and subtypes:\n " + subs)
-	 		]
-	 	}
-	 	subClasses.get(me)
+		computeSubclasses(me)
 	 }
 	 
-	 def static computeSubclasses(HashMap<ModelElement, List<ModelElement>> map, ModelElement me) {
+	 def static computeSubclasses(ModelElement me) {
 	 	val gm = me.graphModel
-		var subTypes = gm.modelElements.map[ element | 
+		gm.modelElements.map[ element | 
 	 		gm.modelElements.filter[ sub |
 	 			sub.allSuperTypes.toSet.contains(me)
 	 		].toList
-	 	].flatten.toList
-	 	subClasses.put(me, subTypes)
+	 	].flatten.toSet
+	 	
 	 }
 	 
 	 def static refactorIfPrimeAttribute(Node n,String s) {

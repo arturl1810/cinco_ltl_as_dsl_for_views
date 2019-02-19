@@ -187,8 +187,8 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 		
 		«IF gm.allModelAttributes.exists[isGrammarAttribute]»
 		«FOR attr : gm.allModelAttributes.filter[isGrammarAttribute]»
+			«FOR subType : attr.modelElement.allSubclasses + #[attr.modelElement]»
 			«CincoPropertyView.name».init_GrammarEditor(
-			«FOR subType : #[attr.modelElement] + attr.modelElement.allSubclasses SEPARATOR ","»
 			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«subType.fuName»_«attr.name.toFirstUpper»(),
 				 «attr.annotations.filter[name == "grammar"].head.value.get(1)».getInstance().getInjector("«attr.annotations.filter[name == "grammar"].head.value.get(0)»"));
 			«ENDFOR»
