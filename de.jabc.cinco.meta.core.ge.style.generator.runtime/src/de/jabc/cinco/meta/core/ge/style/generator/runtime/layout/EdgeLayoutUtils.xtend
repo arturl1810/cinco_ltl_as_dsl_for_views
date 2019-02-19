@@ -228,15 +228,15 @@ class EdgeLayoutUtils {
 	
 	static class Location {
 		
-		protected int x = 0;
-		protected int y = 0;
+		public int x = 0;
+		public int y = 0;
 		
 		def static Location toLocation(Point point) {
 			return new Location(point.getX(), point.getY());
 		}
 		
 		def static Iterable<Location> toLocation(Iterable<Point> points) {
-			if (points == null)
+			if (points === null)
 				newArrayList
 			else points.map[toLocation]
 		}
