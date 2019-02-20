@@ -18,7 +18,7 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.debug.core.model,
  org.eclipse.graphiti.ui.editor,
  org.eclipse.jface.dialogs
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Require-Bundle: org.eclipse.emf.codegen.ecore,
  de.jabc.cinco.meta.plugin
 Export-Package: de.jabc.cinco.meta.plugin.gratext,

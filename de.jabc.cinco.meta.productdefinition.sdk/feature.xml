@@ -2,7 +2,7 @@
 <feature
       id="de.jabc.cinco.meta.productdefinition.sdk"
       label="CPD SDK Feature "
-      version="1.0.0.qualifier">
+      version="1.1.0.qualifier">
 
    <plugin
          id="de.jabc.cinco.meta.productdefinition"

@@ -10,11 +10,11 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:export-ydpi="90"
-   inkscape:export-xdpi="90"
-   inkscape:export-filename="/home/naujokat/git/itmc/cinco-meta/de.jabc.cinco.meta.branding/about.png"
+   inkscape:export-ydpi="96"
+   inkscape:export-xdpi="96"
+   inkscape:export-filename="/home/naujokat/git/gitlab/cinco/de.jabc.cinco.meta.branding/about.png"
    sodipodi:docname="splash.svg"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.1"
    id="svg4020"
    height="330"
@@ -26,9 +26,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0000001"
-     inkscape:cx="245.80386"
-     inkscape:cy="189.96752"
+     inkscape:zoom="3.1337688"
+     inkscape:cx="254.90937"
+     inkscape:cy="150.71465"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1062,17 +1062,16 @@
        d="M 258.21429,212.14286 438.26237,75.917468 462.9079,114.73984 z"
        style="fill:#ffd48a;fill-opacity:1;stroke:none" />
     <text
-       sodipodi:linespacing="125%"
        id="text4130"
        y="828.32635"
        x="35.806236"
-       style="font-size:17.73182106px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Akkurat Office;-inkscape-font-specification:Akkurat Office"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'Akkurat Office';-inkscape-font-specification:'Akkurat Office';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="828.32635"
          x="35.806236"
          id="tspan4132"
          sodipodi:role="line"
-         style="font-size:17.73182106px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">SCCE Meta Tooling Suite</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.73182106px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial">SCCE Meta Tooling Suite</tspan></text>
     <path
        style="fill:#ff8582;fill-opacity:1;stroke:none"
        d="M 258.24274,934.48495 438.13288,746.4947 465.11126,781.20924 z"
@@ -1160,39 +1159,38 @@
        id="g3946">
       <text
          xml:space="preserve"
-         style="font-size:80.84482574px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
          x="32.544945"
          y="804.1037"
-         id="text4122"
-         sodipodi:linespacing="125%"><tspan
+         id="text4122"><tspan
            sodipodi:role="line"
            x="32.544945"
            y="804.1037"
-           id="tspan4126">C</tspan></text>
+           id="tspan4126"
+           style="font-size:80.84482574px;line-height:1.25">C</tspan></text>
       <text
          xml:space="preserve"
-         style="font-size:58.07323456px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
          x="91.991463"
          y="804.78961"
-         id="text4122-4"
-         sodipodi:linespacing="125%"><tspan
+         id="text4122-4"><tspan
            sodipodi:role="line"
            x="91.991463"
            y="804.78961"
-           id="tspan4126-6">INCO</tspan></text>
+           id="tspan4126-6"
+           style="font-size:58.07323456px;line-height:1.25">INCO</tspan></text>
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Akkurat Office';-inkscape-font-specification:'Akkurat Office';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'Akkurat Office';-inkscape-font-specification:'Akkurat Office';text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none"
        x="234.83325"
        y="843.15472"
-       id="text3930"
-       sodipodi:linespacing="125%"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1"
+       id="text3930"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1"
          sodipodi:role="line"
          x="234.83325"
          y="843.15472"
-         id="tspan9709">version 1.0 preview</tspan></text>
+         id="tspan9709">version 1.1 preview</tspan></text>
     <g
        id="g9632"
        transform="matrix(0.98984354,0.14216104,-0.14216104,0.98984354,158.13079,-110.50219)">
