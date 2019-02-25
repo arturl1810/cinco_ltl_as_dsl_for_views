@@ -35,9 +35,9 @@ delivery-nightly:
   script:
     - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/nightly/$(date +%F)-${CI_COMMIT_SHA:0:8}/
 
-delivery-stable:
+delivery-1.0:
   extends: .delivery
-  when: manual # Can be removed later, just for testing purposes
-  # only: release-1.0
+  only:
+    - release-1.0
   script:
     - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/releases/1.0.0/
