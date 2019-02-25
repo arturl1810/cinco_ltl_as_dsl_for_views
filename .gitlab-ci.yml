@@ -1,24 +1,43 @@
 build:
+  cache:
+    paths:
+      - /builds/scce/cinco/m2/repository
+    key: maven
+  artifacts:
+    paths:
+      - de.jabc.cinco.meta.product/target/products/*.zip
+  image: scce/maven:latest
+  stage: build
+  script:
+    - pushd de.jabc.cinco.meta.libraries
+    - mvn -Prelease -e clean deploy
+    - popd;
+    - mvn -Prelease -e clean deploy
+  variables:
+    MAVEN_LOCAL_REPOSITORY: "/builds/scce/cinco/m2/repository"
+
+.delivery:
+  variables:
+    DELIVERY_HOST: ls5vs001.cs.tu-dortmund.de
+  image: scce/maven:latest
+  stage: deploy
   before_script:
     # Run ssh-agent (inside the build environment)
     - eval $(ssh-agent -s)
     # Add the SSH key stored in $DELIVERY_CINCO_SSH_PRIVATE_KEY variable to the agent store
     - ssh-add <(echo "$DELIVERY_CINCO_SSH_PRIVATE_KEY")
-  cache:
-    paths:
-      - /builds/scce/cinco/m2/repository
-    key: maven
-  image: scce/maven:latest
+
+delivery-nightly:
+  extends: .delivery
   only:
     - schedules
     - web
-  stage: build
   script:
-    - pushd de.jabc.cinco.meta.libraries
-    - mvn -e clean deploy
-    - popd;
-    - mvn -e clean deploy
     - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/nightly/$(date +%F)-${CI_COMMIT_SHA:0:8}/
-  variables:
-    DELIVERY_HOST: ls5vs001.cs.tu-dortmund.de
-    MAVEN_LOCAL_REPOSITORY: "/builds/scce/cinco/m2/repository"
+
+delivery-stable:
+  extends: .delivery
+  when: manual # Can be removed later, just for testing purposes
+  # only: release-1.0
+  script:
+    - rsync -e "ssh" de.jabc.cinco.meta.product/target/products/*.zip cincodaily@$DELIVERY_HOST:/var/www/cinco/releases/1.0.0/
