@@ -1,8 +1,9 @@
 package de.jabc.cinco.meta.runtime.hook
 
 import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.runtime.CincoRuntimeBaseClass
 
-abstract class CincoPostResizeHook<T extends EObject> {
+abstract class CincoPostResizeHook<T extends EObject> extends CincoRuntimeBaseClass {
 	/** 
 	 * This method is called after resizing a graphical element on the canvas
 	 * @param cModelElement The modelElement which is linked to the resized graphical representation
