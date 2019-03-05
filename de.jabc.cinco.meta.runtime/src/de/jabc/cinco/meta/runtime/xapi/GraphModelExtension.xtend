@@ -36,7 +36,7 @@ class GraphModelExtension {
 	 * @return the result of the equals check.
 	 */
 	def ==(IdentifiableElement it, IdentifiableElement that) { 
-		(it === that) || (!(that === null) && id == that.id)
+		(it === that) || (it?.id == that?.id)
 	}
 	
 	/**
