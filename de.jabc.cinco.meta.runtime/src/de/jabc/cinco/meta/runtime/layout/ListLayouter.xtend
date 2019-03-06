@@ -25,9 +25,7 @@ class ListLayouter extends CincoRuntimeBaseClass {
 		
 	def void layout(Container container, Map<LayoutConfiguration,?> layoutConf, List<? extends Class<? extends Node>> order, List<? extends Class<? extends Node>> ignored) {
 		
-		if (DISABLE_RESIZE.from(layoutConf) != 1) {
-			container.applyWidthFrom(layoutConf)
-		}
+		container.applyWidthFrom(layoutConf)
 		
 		val nodes =
 			container.allNodes
@@ -37,7 +35,13 @@ class ListLayouter extends CincoRuntimeBaseClass {
 				.toList
 		
 		if (nodes.isEmpty) {
-			container.applyHeightFrom(layoutConf)
+			val desiredHeight
+				= if (SHRINK_TO_CHILDREN_HEIGHT.from(layoutConf) == 1)
+					MIN_HEIGHT.from(layoutConf)
+				  else container.height
+				  
+			container.applyHeightFrom(layoutConf, desiredHeight)
+			
 		} else {
 			var requiredHeight = nodes.map[height].reduce[h1,h2 | h1 + h2 + PADDING_Y.from(layoutConf)]
 			var paddingY = PADDING_Y.from(layoutConf)
@@ -53,7 +57,7 @@ class ListLayouter extends CincoRuntimeBaseClass {
 			
 			var x = PADDING_X.from(layoutConf)
 			var y = PADDING_TOP.from(layoutConf)
-			var toBeNodeWidth = container.width - 2 * PADDING_X.from(layoutConf)
+			var toBeNodeWidth = container.width - PADDING_LEFT.from(layoutConf) - PADDING_RIGHT.from(layoutConf)
 			for (node : nodes) {
 				if (x != node.x) node.x = x
 				if (y != node.y) node.y = y
@@ -81,16 +85,15 @@ class ListLayouter extends CincoRuntimeBaseClass {
 	
 	def void applyHeightFrom(Container container, Map<LayoutConfiguration,?> layoutConf, int desiredHeight) {
 		if (DISABLE_RESIZE.from(layoutConf) == 1
-			|| DISABLE_RESIZE_HEIGHT.from(layoutConf) == 1) {
-				
+				|| DISABLE_RESIZE_HEIGHT.from(layoutConf) == 1) {
 			return
 		}
+		var toBeHeight = desiredHeight
+		println(container.class.simpleName + " toBeHeight: " + toBeHeight)
 		val fixedHeight = FIXED_HEIGHT.from(layoutConf)
-		if (fixedHeight >= 0 && container.height != fixedHeight) {
-			container.height = fixedHeight
+		if (fixedHeight >= 0) {
+			toBeHeight = fixedHeight
 		} else {
-			var toBeHeight = desiredHeight
-			println(container.class.simpleName + " toBeHeight: " + toBeHeight)
 			val minHeight = MIN_HEIGHT.from(layoutConf)
 			val maxHeight = MAX_HEIGHT.from(layoutConf)
 			if (maxHeight >= 0 && maxHeight > minHeight && maxHeight < toBeHeight) {
@@ -99,25 +102,29 @@ class ListLayouter extends CincoRuntimeBaseClass {
 			if (minHeight >= 0 && minHeight > toBeHeight) {
 				toBeHeight = minHeight
 			}
-			if (container.height != toBeHeight) {
-				println(container.class.simpleName + " apply height: " + toBeHeight)
-				container.height = toBeHeight
-			}
+		}
+		if (container.height != toBeHeight) {
+			println(container.class.simpleName + " apply height: " + toBeHeight)
+			container.height = toBeHeight
 		}
 	}
 	
 	def void applyWidthFrom(Container container, Map<LayoutConfiguration,?> layoutConf) {
+		applyWidthFrom(container, layoutConf, container.width)
+	}
+	
+	def void applyWidthFrom(Container container, Map<LayoutConfiguration,?> layoutConf, int desiredWidth) {
 		if (DISABLE_RESIZE.from(layoutConf) == 1
-			|| DISABLE_RESIZE_WIDTH.from(layoutConf) == 1) {
-				
+				|| DISABLE_RESIZE_WIDTH.from(layoutConf) == 1) {
 			return
 		}
+		var toBeWidth = desiredWidth
+		println(container.class.simpleName + " toBeWidth: " + toBeWidth)
 		val fixedWidth = FIXED_WIDTH.from(layoutConf)
-		if (fixedWidth >= 0 && container.width != fixedWidth) {
-			container.width = fixedWidth
+		if (fixedWidth >= 0) {
+			toBeWidth = fixedWidth
 		} else {
 			val minWidth = MIN_WIDTH.from(layoutConf)
-			var toBeWidth = container.width
 			val maxWidth = MAX_WIDTH.from(layoutConf)
 			if (maxWidth >= 0 && maxWidth > minWidth && maxWidth < toBeWidth) {
 				toBeWidth = maxWidth
@@ -125,10 +132,23 @@ class ListLayouter extends CincoRuntimeBaseClass {
 			if (minWidth >= 0 && minWidth > toBeWidth) {
 				toBeWidth = minWidth
 			}
-			if (container.width != toBeWidth) {
-				container.width = toBeWidth
-			}
 		}
+		if (container.width != toBeWidth) {
+			println(container.class.simpleName + " apply width: " + toBeWidth)
+			container.width = toBeWidth
+		}
+	}
+	
+	def getMaxWidth(Container container, Map<LayoutConfiguration,?> layoutConf) {
+		if (DISABLE_RESIZE.from(layoutConf) == 1
+			|| DISABLE_RESIZE_WIDTH.from(layoutConf) == 1) {
+				
+			return container.width
+		}
+		if (FIXED_WIDTH.from(layoutConf) >= 0) {
+			return FIXED_WIDTH.from(layoutConf)
+		}
+		return MAX_WIDTH.from(layoutConf)
 	}
 	
 	def getMaxHeight(Container container, Map<LayoutConfiguration,?> layoutConf) {

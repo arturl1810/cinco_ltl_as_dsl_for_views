@@ -19,7 +19,9 @@ public enum LayoutConfiguration {
 	SHRINK_TO_CHILDREN_HEIGHT (1),
 	
 	PADDING_X (5),
-	PADDING_Y (1),
+	PADDING_Y (5),
+	PADDING_LEFT (5),
+	PADDING_RIGHT (5),
 	PADDING_TOP (5),
 	PADDING_BOTTOM (5);
 	
