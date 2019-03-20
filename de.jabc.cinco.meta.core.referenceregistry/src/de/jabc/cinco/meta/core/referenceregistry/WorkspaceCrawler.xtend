@@ -24,6 +24,7 @@ import static extension de.jabc.cinco.meta.core.referenceregistry.ReferenceRegis
 class WorkspaceCrawler extends Job {
 	
 	val ReferenceRegistry registry
+	public var Thread thread
 	
 	new(ReferenceRegistry registry) {
 		super("Update references")
@@ -45,6 +46,7 @@ class WorkspaceCrawler extends Job {
 	}
 	
 	override protected run(IProgressMonitor monitor) {
+		thread = Thread.currentThread
 		var uri = registry.uriQueue.poll
 		while (uri !== null) {
 			val map = uri.extractIds

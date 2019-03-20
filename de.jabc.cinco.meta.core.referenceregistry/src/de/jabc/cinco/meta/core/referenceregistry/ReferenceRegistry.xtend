@@ -210,7 +210,10 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 			return;
 		}
 		assertCrawler
-		try {
+		if (crawler?.thread == Thread.currentThread) {
+			// do NOT join if joining thread the same
+			return;
+		} else try {
 			crawler?.join
 		} catch (InterruptedException e) {
 			e.printStackTrace
