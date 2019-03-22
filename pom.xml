@@ -61,7 +61,7 @@
 	</modules>
 	<properties>
 		<tycho.version>1.2.0</tycho.version>
-		<xtext.version>2.14.0</xtext.version>
+		<xtext.version>2.17.0</xtext.version>
 		<mwe2.launch.version>2.9.1.201705291010</mwe2.launch.version>
 		<build-helper.version>1.8</build-helper.version>
 		<antrun.version>1.8</antrun.version>
