@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -115,6 +116,44 @@ public List<Attribute> getInheritedAttributes(ModelElement me) {
 		return null;
 	}
 	
+	public Edge getLowestMutualSuperEdge(Iterable<Edge> edges){
+		if(edges!=null){
+		HashSet<Edge> superEdges = new HashSet<Edge>();
+		boolean first = true;
+		for(Edge edge: edges){
+			if(first){
+				superEdges.addAll(getAllSuperEdges(edge));
+				first = false;
+			}else{
+				superEdges.retainAll(getAllSuperEdges(edge));
+			}
+			
+		}
+		if(superEdges.size()==1){
+			return superEdges.toArray(new Edge[1])[0];
+		}else if(superEdges.size()>1){
+			return sortEdgesByInheritance(Lists.newArrayList(superEdges)).get(superEdges.size()-1);
+		}else{
+			return null;
+		}
+		}
+		return null;
+	}
+	
+	private Collection<? extends Edge> getAllSuperEdges(Edge edge) {
+		HashSet<Edge> superEdges = new HashSet<Edge>();
+		superEdges.add(edge);
+		Edge superEdge = edge.getExtends();
+		List<String> checked = checkMGLInheritance(superEdge);
+		while(superEdge!=null && (checked == null || checked.isEmpty())){
+			superEdges.add(superEdge);
+			superEdge = superEdge.getExtends();
+		}
+		return superEdges;
+		
+	
+	}
+
 	private List<Node> sortByInheritance(List<Node> nodes) {
 		
 		nodes.sort(new Comparator<Node>() {
@@ -138,6 +177,33 @@ public List<Attribute> getInheritedAttributes(ModelElement me) {
 			
 		});
 		return nodes;
+		
+		
+	}
+	
+	private List<Edge> sortEdgesByInheritance(List<Edge> edges) {
+		
+		edges.sort(new Comparator<Edge>() {
+
+			@Override
+			public int compare(Edge o1, Edge o2) {
+				int j=0,i = 0;
+				Edge sn = o1.getExtends();
+				while(sn != null){
+					sn = sn.getExtends();
+					i++;
+				}
+				sn = o2.getExtends();
+				while(sn != null){
+					sn = sn.getExtends();
+					j++;
+				}
+				return Integer.compare(i, j);
+			}
+
+			
+		});
+		return edges;
 		
 		
 	}
