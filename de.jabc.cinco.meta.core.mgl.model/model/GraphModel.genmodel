@@ -50,8 +50,6 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Node/canEnd" body="return ((graphmodel.internal.InternalNode)getInternalElement()).canEnd(edgeType);">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/canEnd/edgeType"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncoming.1" body="return getIncoming(graphmodel.Edge.class);"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoing.1" body="return getOutgoing(graphmodel.Edge.class);"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/move" body="transact(&quot;Move&quot;, () -> {&#xA;&#x9;int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;&#x9;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;&#x9;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;&#x9;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);&#xA;});">
         <genParameters ecoreParameter="GraphModel.ecore#//Node/move/x"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/move/y"/>
@@ -118,6 +116,12 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/targetContainer"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/x"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncoming.1" body="return (EList&lt;T>)getIncoming(graphmodel.Edge.class);">
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getIncoming.1/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoing.1" body="return (EList&lt;T>)getOutgoing(graphmodel.Edge.class);">
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getOutgoing.1/T"/>
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">

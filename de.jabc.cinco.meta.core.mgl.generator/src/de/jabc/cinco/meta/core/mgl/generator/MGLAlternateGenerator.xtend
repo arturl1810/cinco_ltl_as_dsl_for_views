@@ -41,6 +41,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMet
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import java.util.HashSet
+import java.util.Set
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -259,11 +260,49 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def generateConnectionMethods(ElementEClasses classes, Node it) {
 		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
 			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
+			
+		outgoingEdges.specializeGetOutgoingMethod(classes,it)
 		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+		
 		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
-		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
+			drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
+		incomingEdges.specializeGetIncomingMethod(classes,it)	
 		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
 	}
+	
+	def void specializeGetOutgoingMethod(Set<Edge> edges,ElementEClasses classes, Node it){
+		val returnType = edges.lowestMutualSuperEdge
+		if(returnType!=null){
+			val eOp = classes.mainEClass.createEOperation("getOutgoing", null, 0, -1, outgoingGetterContent(returnType))
+			complexGetterParameterMap.put(eOp,returnType)	
+		}
+		
+		
+	}
+	
+	def outgoingGetterContent(Node node,Edge edge)'''
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
+				collect(java.util.stream.Collectors.toList()));
+		'''
+		
+	def void specializeGetIncomingMethod(Set<Edge> edges,ElementEClasses classes, Node it){
+		val returnType = edges.lowestMutualSuperEdge
+		if(returnType !== null){
+			val eOp = classes.mainEClass.createEOperation("getIncoming", null, 0, -1, incomingGetterContent(returnType))
+			complexGetterParameterMap.put(eOp,returnType)
+		
+		}
+		
+	}
+	
+	def incomingGetterContent(Node node,Edge edge)'''
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
+				collect(java.util.stream.Collectors.toList()));
+		'''
+	
+	
 
 	private def void createPrimeReference(ElementEClasses nc) {
 		val node = nc.modelElement as Node
@@ -330,7 +369,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def ElementEClasses createModelElementClasses(ModelElement element) {
 		val elementEClasses = new ElementEClasses
-		if (!(element instanceof Enumeration)) {
+		if(!(element instanceof Enumeration)){
 
 			elementEClasses.modelElement = element
 			elementEClasses.mainEClass = element.createEClass
@@ -339,11 +378,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			elementEClasses.mainView = createMainView(element, elementEClasses)
 			createParentViewMethods(element, elementEClasses)
 			element.nonConflictingAttributes.forEach[att| 
-				var ec = elementEClasses.mainEClass
-				ec.createGetter(ec,att)
-				ec.createSetter(ec, att)
-				if (att.upperBound !=1) {
-					ec.createAdder(ec, att, element instanceof UserDefinedType)
+				var ec= elementEClasses.mainEClass;
+				ec.createGetter(ec,att);
+				ec.createSetter(ec,att,element instanceof UserDefinedType);
+				if(att.upperBound !=1){
 					ec.createRemove(ec,att)
 				}
 			]
@@ -351,9 +389,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			elementEClasses.createTypedInternalGetter
 			elementEClasses.createIsExactlyMethods
 			eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
+
 		}
-		
-		return elementEClasses
+	elementEClasses
 	}
 	
 	private def createParentViewMethods(ModelElement element, ElementEClasses elementEClasses) {
@@ -392,9 +430,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				val feature = attr.internalEClassFeature(internalEClass)
 				if (feature !== null) {
 					view.createGetter(eClass, attr)
-					view.createSetter(eClass, attr)
-					if(attr.upperBound !=1 ){
-						view.createAdder(eClass, attr, element instanceof UserDefinedType)
+					view.createSetter(eClass, attr, element instanceof UserDefinedType)
+					if(attr.upperBound!=1){
 						view.createRemove(eClass,attr)
 					}
 				}
@@ -417,20 +454,22 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		inheritMap.put(element, element.extend)
 
 		modelElementsMap.put(element, eClass);
-		if(element.isIsAbstract) {
+		if(element.isIsAbstract)
 			eClass.abstract = true
-		}
 			
-		return eClass
+
+		eClass
 	}
-		
+	
+	
 	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
 
-		return internalEClass
+		internalEClass
 	}
+
 
 	private  def void createAttribute(EClass eClass, Attribute attribute) {
 		if (attribute instanceof ComplexAttribute) {
@@ -462,7 +501,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def void createEReferenceFromAttribute(EClass eClass, ComplexAttribute attribute) {
 		val containment = attribute.type instanceof UserDefinedType
-		val eReference = eClass.createReference(attribute.name, null, attribute.lowerBound, attribute.upperBound, containment, null)
+		val eReference = eClass.createReference(attribute.name, null, attribute.lowerBound, attribute.upperBound, containment,
+			null)
 		toReferenceMap.put(eReference, attribute.type)
 	}
 
@@ -474,10 +514,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass;
 			ec.generateTypedSourceGetter
-			ec.generateTypedTargetGetter
+			ec.generateTypedTargetGetter;
 		]
 
-		return edg
+		edg
+
 	}
 	
 	private def generateTypedSourceGetter(ElementEClasses ec) {
@@ -485,10 +526,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val bestSource = (mec.subTypes.map[it as Edge] + mec.iterable).map[allPossibleSources].flatten.lowestMutualSuperNode
 		if(bestSource!== null){
 			val beanName = bestSource.fqBeanName
-			val eOp = ec.mainEClass.createEOperation("getSourceElement", null, 0, 1, '''return(«beanName»)super.getSourceElement();''')
+			val eOp = ec.mainEClass.createEOperation("getSourceElement",null,0,1,'''return(«beanName»)super.getSourceElement();''')
 			putToGetterMap(eOp,bestSource)
 		}
 	}
+	
+	
+	
 
 	private def generateTypedTargetGetter(ElementEClasses ec){
 		val mec = (ec.modelElement as Edge)
@@ -500,6 +544,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		}
 		
 	}
+	
 	
 	private def generateTypedModelElementGetter(ElementEClasses ec){
 		val me = ec.modelElement
@@ -515,6 +560,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			}
 		}
 	}
+	
 	
 	private def typedModelElementGetterContent(CharSequence fqBeanName) '''
 		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
@@ -575,17 +621,85 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				return «view.name.toFirstLower»;
 	'''
 	
+	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr, boolean isUserDefinedType) {
+		val content = if (attr.upperBound == 1) {
+				createSetterContent(modelElementClass, attr.name, isUserDefinedType)
+			} else {
+				createAdderContent(modelElementClass, attr.name, isUserDefinedType)
+			}
+		val parameter = EcoreFactory.eINSTANCE.createEParameter
+//		Renaming parameter to prevent name collisions
+		parameter.name = "_arg"
+//		parameter.name = attr.name.toFirstLower
+		var setterName = if (attr.upperBound == 1) {
+				"set"
+			} else {
+				"add"
+			} 
+			setterName+= attr.name.toFirstUpper
+		parameter.upperBound = 1
+		parameter.lowerBound = 0
+		val opType = attr.type.EDataType
+		parameter.EType = opType
+		view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
+
+	}
+
+	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr, boolean isUserDefinedType){
+		var CharSequence content = if (attr.upperBound == 1) {
+				createSetterContent(modelElementClass, attr.name, isUserDefinedType)
+			} else {
+				createAdderContent(modelElementClass, attr.name, isUserDefinedType)
+			}
+		var setterName = if (attr.upperBound == 1) {
+				"set"
+			} else {
+				"add"
+			} 
+			setterName+= attr.name.toFirstUpper
+		val parameter = EcoreFactory.eINSTANCE.createEParameter
+		parameter.name = "_arg"
+//		parameter.name = attr.name.toFirstLower
+		parameter.upperBound = 1
+		parameter.lowerBound = 0
+		view.createEOperation(setterName, null, 0, 1, content, parameter)
+		putSetterParameter(parameter, attr.type)
+	}
+
+	private dispatch def Type putSetterParameter(EParameter parameter, Enumeration type) {
+		enumSetterParameterMap.put(parameter, type)
+	}
+
+	private dispatch def Type putSetterParameter(EParameter parameter, Type type) {
+		complexSetterParameterMap.put(parameter, type)
+	}
 	
+	private def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
+		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
+			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
+		});
+	'''
+
+	private def createSetterContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
+		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
+			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
+		});
+			
+	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
-		val content = createGetterContent(modelElementClass, attr.name, attr.getterPrefix)
+		val content = createGetterContent(modelElementClass, attr.name,attr.getterPrefix)
 		val getterName = attr.getterPrefix + attr.name.toFirstUpper
 		val opType = attr.type.EDataType
 		view.createEOperation(getterName, opType, attr.lowerBound, attr.upperBound, content.toString)
 
 	}
-	
-	private dispatch def createGetter(EClass view, EClass modelElementClass, ComplexAttribute attr) {
+
+	private def createGetterContent(EClass eClass, String attrName, CharSequence getterPrefix) '''
+	return getInternal«eClass.name»().«getterPrefix»«attrName.toFirstUpper»();
+	'''
+
+	private dispatch def createGetter(EClass view, EClass modelElementClass,ComplexAttribute attr) {
 		var CharSequence content
 		if(!(attr.type instanceof Enumeration)){
 			content = createComplexGetterContent(modelElementClass, attr)
@@ -597,11 +711,15 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		putToGetterMap(eOp,attr.type)
 
 	}
-
-	private def createGetterContent(EClass eClass, String attrName, CharSequence getterPrefix) '''
-	return getInternal«eClass.name»().«getterPrefix»«attrName.toFirstUpper»();
-	'''
 	
+	dispatch def putToGetterMap(EOperation eOp, Type type){
+		complexGetterParameterMap.put(eOp,type)	
+	}
+	
+	dispatch def putToGetterMap(EOperation eOp, Enumeration type){
+		enumGetterParameterMap.put(eOp,type)
+	}
+
 	private def createComplexGetterContent(EClass eClass, ComplexAttribute attr) '''
 «««	«attr.type.fqInternalBeanName» «attr.name.toLowerCase» = 
 	return getInternal«eClass.name»().get«attr.name.toFirstUpper»();
@@ -611,110 +729,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 «««		return null;
 «««	}
 	'''
-	
-	dispatch def putToGetterMap(EOperation eOp, Type type){
-		complexGetterParameterMap.put(eOp,type)	
-	}
-	
-	dispatch def putToGetterMap(EOperation eOp, Enumeration type){
-		enumGetterParameterMap.put(eOp,type)
-	}
-	
-	private dispatch def createSetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
-		var name = "set" + attr.name.toFirstUpper
-		
-		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = "_arg"
-//		parameter.name = attr.name.toFirstLower
-		parameter.lowerBound = 0
-		parameter.upperBound = attr.upperBound
-		
-		println("\t" + attr.type)
-		val opType = attr.type.EDataType
-		parameter.EType = opType
-		
-		var content = if (attr.upperBound == 1) { createSetterContent(modelElementClass, attr.name)     }
-		              else                      { createListSetterContent(modelElementClass, attr.name) } 
-		
-		view.createEOperation(name, null, 0, 1, content, parameter)
-	}
-
-	private dispatch def createSetter(EClass view, EClass modelElementClass, ComplexAttribute attr) {
-		var name = "set" + attr.name.toFirstUpper
-		
-		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = "_arg"
-//		parameter.name = attr.name.toFirstLower
-		parameter.lowerBound = 0
-		parameter.upperBound = attr.upperBound
-		
-		var content = if (attr.upperBound == 1) { createSetterContent(modelElementClass, attr.name)     }
-		              else                      { createListSetterContent(modelElementClass, attr.name) } 
-		
-		view.createEOperation(name, null, 0, 1, content, parameter)
-		putSetterParameter(parameter, attr.type)
-	}
-	
-	private def createSetterContent(EClass modelElementClass, String featureName) '''
-		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
-			getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(_arg);
-		});
-			
-	'''
-	
-	private def createListSetterContent(EClass modelElementClass, String featureName) '''
-		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
-			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().clear();
-			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().addAll(_arg);
-		});
-			
-	'''
-
-	private dispatch def Type putSetterParameter(EParameter parameter, Enumeration type) {
-		enumSetterParameterMap.put(parameter, type)
-	}
-
-	private dispatch def Type putSetterParameter(EParameter parameter, Type type) {
-		complexSetterParameterMap.put(parameter, type)
-	}
-
-	private dispatch def createAdder(EClass view, EClass modelElementClass, PrimitiveAttribute attr, boolean isUserDefinedType) {
-		var name = "add" + attr.name.toFirstUpper
-			
-		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = "_arg"
-//		parameter.name = attr.name.toFirstLower
-		parameter.lowerBound = 0
-		parameter.upperBound = 1
-		val opType = attr.type.EDataType
-		parameter.EType = opType
-			
-		var content = createAdderContent(modelElementClass, attr.name, isUserDefinedType)
-		
-		view.createEOperation(name, null, 0, 1, content, parameter)
-	}
-
-	private dispatch def createAdder(EClass view, EClass modelElementClass,ComplexAttribute attr, boolean isUserDefinedType) {
-		var name = "add" + attr.name.toFirstUpper
-			
-		val parameter = EcoreFactory.eINSTANCE.createEParameter
-		parameter.name = "_arg"
-//		parameter.name = attr.name.toFirstLower
-		parameter.lowerBound = 0	
-		parameter.upperBound = 1
-			
-		var content = createAdderContent(modelElementClass, attr.name, isUserDefinedType)
-		
-		view.createEOperation(name, null, 0, 1, content, parameter)
-		putSetterParameter(parameter, attr.type)
-	}
-	
-	private def createAdderContent(EClass modelElementClass, String featureName, boolean isUserDefinedType) '''
-		getInternal«modelElementClass.name»().getElement().transact("Set «featureName.toFirstUpper»", () -> {
-			getInternal«modelElementClass.name»().get«featureName.toFirstUpper»().add(_arg);
-		});
-	'''
-
 	dispatch def void createRemove(EClass view, EClass modelElementClass,ComplexAttribute attr){
 		var CharSequence content = removeContent(modelElementClass,attr.name)
 		val removeName = "remove"+ attr.name.toFirstUpper
@@ -725,6 +739,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		view.createEOperation(removeName, null, 0, 1, content, parameter)
 		putSetterParameter(parameter, attr.type)
 	}
+	
 	
 	dispatch def void createRemove(EClass view, EClass modelElementClass,PrimitiveAttribute attr){
 		val content = removeContent(modelElementClass,attr.name)
