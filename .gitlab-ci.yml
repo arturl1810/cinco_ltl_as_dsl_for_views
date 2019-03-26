@@ -1,4 +1,4 @@
-build:
+.build:
   cache:
     paths:
       - /builds/scce/cinco/m2/repository
@@ -8,6 +8,23 @@ build:
       - de.jabc.cinco.meta.product/target/products/*.zip
   image: scce/maven:latest
   stage: build
+  variables:
+    MAVEN_LOCAL_REPOSITORY: "/builds/scce/cinco/m2/repository"
+
+build-test:
+  extends: .build
+  except:
+    - schedules
+    - web
+    - release-1.0
+  script:
+    - pushd de.jabc.cinco.meta.libraries
+    - mvn -e clean package
+    - popd;
+    - mvn -e clean package
+
+build-deploy:
+  extends: .build
   only:
     - schedules
     - web
@@ -17,8 +34,6 @@ build:
     - mvn -Prelease -e clean deploy
     - popd;
     - mvn -Prelease -e clean deploy
-  variables:
-    MAVEN_LOCAL_REPOSITORY: "/builds/scce/cinco/m2/repository"
 
 .delivery:
   variables:
