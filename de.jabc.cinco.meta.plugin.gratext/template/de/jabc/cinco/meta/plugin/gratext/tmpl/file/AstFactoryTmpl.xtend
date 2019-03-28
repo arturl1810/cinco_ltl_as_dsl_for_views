@@ -56,7 +56,7 @@ class AstFactoryTmpl extends FileTemplate {
 					feature = feature.substring(8);
 					value = mapGratextFeatureValue(object, feature, value, ruleName, node);
 				}
-				if (node.getSemanticElement() instanceof InternalEdge) try {
+				if (node.getSemanticElement() instanceof InternalEdge && feature.equals("outgoingEdges")) try {
 					InternalEdge edge = (InternalEdge) node.getSemanticElement();
 					InternalNode source = (InternalNode) node.getParent().getSemanticElement();
 					Node sourceBase = (Node) createNonInternal(source);
