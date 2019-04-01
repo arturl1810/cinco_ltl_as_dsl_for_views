@@ -279,7 +279,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def outgoingGetterContent(Node node,Edge edge)'''
-		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+		EList<graphmodel.internal.InternalEdge> out = ((graphmodel.internal.Internal«IF node instanceof NodeContainer»Container«ELSE»Node«ENDIF»)getInternalElement()).getOutgoing();
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(out
 			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
 				collect(java.util.stream.Collectors.toList()));
 		'''
@@ -295,7 +296,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def incomingGetterContent(Node node,Edge edge)'''
-		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+		EList<graphmodel.internal.InternalEdge> in = ((graphmodel.internal.Internal«IF node instanceof NodeContainer»Container«ELSE»Node«ENDIF»)getInternalElement()).getIncoming();
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(in
 			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
 				collect(java.util.stream.Collectors.toList()));
 		'''
