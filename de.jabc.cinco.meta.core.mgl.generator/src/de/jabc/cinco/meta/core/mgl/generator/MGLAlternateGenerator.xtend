@@ -265,6 +265,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
 		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
 		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+		incomingEdges.specializeGetIncomingMethod(classes,it)
 	}
 	
 	def void specializeGetOutgoingMethod(Set<Edge> edges,ElementEClasses classes, Node it){
