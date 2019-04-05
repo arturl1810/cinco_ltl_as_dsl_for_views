@@ -39,8 +39,12 @@ import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalEdge
 import mgl.OutgoingEdgeElementConnection
 import mgl.MglPackage
+import java.util.Set
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
+
+	var possiblePredecessorsMap = new HashMap<Node,Iterable<Node>>
+	var possibleSuccessorsMap = new HashMap<Node,Iterable<Node>>
 
 	def void createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses) {
 		node.connectionConstraints(graphModel, elmClasses)
@@ -112,7 +116,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
 		if (lmNode != null){
 			val eTypeClass = map.get(lmNode.name).mainEClass
-			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, lmNode.getSuccessorsContent)
+			nodeClass.createGenericListEOperation("getSuccessors", eTypeClass, lmNode.getSuccessorsContent.toString)
 		}
 		node.possibleSuccessors.toSet.forEach[ predecessorNode |
 			val successorClass = map.get(predecessorNode.name).mainEClass
@@ -122,6 +126,35 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		]
 	}
 	
+	
+	def allNodesAndSubTypes(Iterable<Node> nodes){
+		nodes + nodes.allNodeSubTypes
+	}
+	
+	def allNodesSuperTypesAndSubTypes(Node node){
+		#[node] + #[node].allNodeSubTypes + node.allSuperNodes
+	}
+	
+	
+	def allOtherNodes(Iterable<Node> nodes){
+		if(!nodes.nullOrEmpty){
+			nodes.head.graphModel.nodes.drop[node| nodes.contains(node)]
+			
+		}
+			
+			
+		else
+			#[]
+	}
+	
+	def Iterable<? extends Node> allNodeSubTypes(Iterable<Node> it){
+		
+		allOtherNodes.map[node|
+			(node -> node.allSuperNodes)].
+			filter[pair|
+				pair.value.exists[v| it.contains(v)]
+			].map[key]
+	}
 	
 	
 
@@ -141,7 +174,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val lmNode = node.possiblePredecessors.lowestMutualSuperNode
 		if (lmNode != null){
 			val eTypeClass = map.get(lmNode.name).mainEClass
-			nodeClass.createEOperation("getPredecessors", eTypeClass, 0, -1, lmNode.getPredecessorsContent)
+			nodeClass.createGenericListEOperation("getPredecessors", eTypeClass, lmNode.getPredecessorsContent.toString)
 		}
 		node.possiblePredecessors.toSet.forEach[ predecessorNode |
 			val eTypeClass = map.get(predecessorNode.name).mainEClass
@@ -213,12 +246,10 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def createNewEdgeMethods(Node node, HashMap<String, ElementEClasses> elemClasses) {
 		val edges = node.outgoingConnectingEdges.map[subTypes  as Iterable<Edge> + #[it]].flatten.filter[!isIsAbstract].toSet
 		for (edge : edges) {
-			println('''«edge.name» possible is outgoing edge for Node «node.name»''')
 			val operationName = "new" + edge.fuName
 			val edgeEClass = elemClasses.get(edge.name).mainEClass
 			val sourceEClass = elemClasses.get(node.name).mainEClass
 			for (target : edge.allPossibleTargets) {
-				println('''«target.name» is possible target for edge: «edge.name»''')
 				val targetEClass = elemClasses.get(target.name).mainEClass
 				
 				sourceEClass.createEOperation(operationName, edgeEClass, 0, 1,
@@ -787,20 +818,50 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		vars.join(",")
 	}
 
-	def possibleSuccessors(Node node) {
-		node.outgoingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
-			connectingEdges.map [ edge |
+	def possibleSuccessors(Node it) {
+			var posSuc = possibleSuccessorsMap.get(it)
+		if(posSuc === null ){
+			posSuc = (allNodesSuperTypesAndSubTypes).map[node| node.outgoingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
+			connectingEdges.toSet.allEdgesSuperTypesAndSubTypes.map [ edge |
 				edge.edgeElementConnections.filter(IncomingEdgeElementConnection).map[connectedElement]
-			]
-		].flatten.flatten.map[it as Node]
+			]]
+		].flatten.flatten.flatten.map[it as Node]
+		possibleSuccessorsMap.put(it,posSuc)	
+		}
+		
+		return posSuc
+		
 		
 	}
-	def possiblePredecessors(Node node) {
-		node.incomingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
-			connectingEdges.map [ edge |
+	def Set<Edge> allEdgesSuperTypesAndSubTypes(Set<Edge> edges){
+		(edges +edges.allEdgeSuperTypes + edges.allEdgeSubTypes).toSet
+	}
+	def allEdgeSuperTypes(Iterable<Edge> edges){
+		edges.map[allSuperTypes.map[i| i as Edge]].flatten.toSet		
+	}		
+	
+	def allOtherEdges(Iterable<Edge> edges){
+		if(!edges.nullOrEmpty)
+			edges.head.graphModel.edges.drop[edge| edges.contains(edge)]
+		else
+			#[]
+	}
+	
+	def Iterable<? extends Edge> allEdgeSubTypes(Iterable<Edge> it){
+		allOtherEdges.map[edge|edge.allSuperTypes.map[i| i as Edge]].filter[edges|edges.exists[edge| it.contains(edge)]].flatten
+	}
+	def possiblePredecessors(Node it) {
+		var posPre=	possiblePredecessorsMap.get(it)
+		
+		if(posPre===null){
+			posPre = (allNodesSuperTypesAndSubTypes).map[node| node.incomingEdgeConnections.filter[upperBound>0 || upperBound==-1].map [
+			connectingEdges.toSet.allEdgesSuperTypesAndSubTypes.toSet.map [ edge |
 				edge.edgeElementConnections.filter(OutgoingEdgeElementConnection).map[connectedElement]
-			]
-		].flatten.flatten.map[it as Node]
+			]]
+		].flatten.flatten.flatten.map[it as Node]
+		possiblePredecessorsMap.put(it,posPre)
+		}
+		posPre
 		
 	}
 	/**
