@@ -258,18 +258,19 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	private def generateConnectionMethods(ElementEClasses classes, Node it) {
-		val outgoingEdges = outgoingEdgeConnections.drop[upperBound == 0].map[co|co.connectingEdges].flatten.
-			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet
+		val outgoingEdges = allNodesSuperTypesAndSubTypes.map[outgoingEdgeConnections.drop[upperBound == 0]].flatten.map[co|co.connectingEdges].flatten.
+			drop[edge|outgoingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0]].toSet.allEdgesSuperTypesAndSubTypes
 		outgoingEdges.specializeGetOutgoingMethod(classes,it)
 		outgoingEdges.forEach[edge|val op = classes.generateTypedOutgoingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
-		val incomingEdges = incomingEdgeConnections.drop[upperBound==0].map[co| co.connectingEdges].flatten.
-		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet
+		val incomingEdges = allNodesSuperTypesAndSubTypes.map[incomingEdgeConnections.drop[upperBound==0]].flatten.map[co| co.connectingEdges].flatten.
+		drop[edge|incomingEdgeConnections.exists[connectingEdges.contains(edge) && upperBound == 0 ]].toSet.allEdgesSuperTypesAndSubTypes
 		incomingEdges.forEach[edge|val op = classes.generateTypedIncomingEdgeMethod(edge);operationEdgeMap.put(op,edge)]
+		incomingEdges.specializeGetIncomingMethod(classes,it)
 	}
 	
 	def void specializeGetOutgoingMethod(Set<Edge> edges,ElementEClasses classes, Node it){
 		val returnType = edges.lowestMutualSuperEdge
-		if(returnType!=null){
+		if(returnType !== null){
 			val eOp = classes.mainEClass.createEOperation("getOutgoing", null, 0, -1, outgoingGetterContent(returnType))
 			complexGetterParameterMap.put(eOp,returnType)	
 		}
@@ -278,7 +279,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def outgoingGetterContent(Node node,Edge edge)'''
-		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+		EList<graphmodel.internal.InternalEdge> out = ((graphmodel.internal.Internal«IF node instanceof NodeContainer»Container«ELSE»Node«ENDIF»)getInternalElement()).getOutgoing();
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(out
 			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
 				collect(java.util.stream.Collectors.toList()));
 		'''
@@ -294,7 +296,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def incomingGetterContent(Node node,Edge edge)'''
-		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternal«node.name»().getOutgoing()
+		EList<graphmodel.internal.InternalEdge> in = ((graphmodel.internal.Internal«IF node instanceof NodeContainer»Container«ELSE»Node«ENDIF»)getInternalElement()).getIncoming();
+		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(in
 			.stream().map(me -> («edge.fqBeanName»)me.getElement()).
 				collect(java.util.stream.Collectors.toList()));
 		'''
