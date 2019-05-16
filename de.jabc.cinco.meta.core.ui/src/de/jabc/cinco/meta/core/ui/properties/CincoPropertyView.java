@@ -458,7 +458,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		combo.setLayoutData(textLayoutData);
 		ComboViewer cv = new ComboViewer(combo);
 		cv.setContentProvider(new ArrayContentProvider());
-		cv.setLabelProvider(getNameLabelProvider());
+		cv.setLabelProvider(getNameLabelProvider(ref));
 		
 		List<Object> input = new ArrayList<Object>();
 		Map<? extends Object, String> possibleValues = possibleValuesMap.get(ref);
@@ -648,7 +648,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
 			cv.setContentProvider(new ArrayContentProvider());
-			cv.setLabelProvider(getSpecialLabelProvider());
+			cv.setLabelProvider(getSpecialLabelProvider(attr));
 			
 			List<Object> input = new ArrayList<Object>();
 			Map<? extends Object, String> possibleValues = possibleValuesMap.get(attr);
@@ -841,7 +841,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		};
 	}
 
-	private LabelProvider getNameLabelProvider() {
+	private LabelProvider getNameLabelProvider(EReference ref) {
 		return new LabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -868,11 +868,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			}
 
 			private String getAlternativeLabel(Object element) {
-				for (Map<? extends Object, String> map : possibleValuesMap.values()) {
-					if (map.containsKey(element))
-						return map.get(element);
-				}
-				return null;
+				Map<? extends Object, String> map = possibleValuesMap.get(ref);
+				return map != null ? map.get(element) : null;
 			}
 
 			private EStructuralFeature getNameFeature(EObject element) {
@@ -888,7 +885,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	 * FIXME: Provide a nice solution
 	 * @return
 	 */
-	private LabelProvider getSpecialLabelProvider() {
+	private LabelProvider getSpecialLabelProvider(EAttribute attr) {
 		return new LabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -911,11 +908,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			}
 
 			private String getAlternativeLabel(Object element) {
-				for (Map<? extends Object, String> map : possibleValuesMap.values()) {
-					if (map.containsKey(element))
-						return map.get(element);
-				}
-				return null;
+				Map<? extends Object, String> map = possibleValuesMap.get(attr);
+				return map != null ? map.get(element) : null;
 			}
 
 			private EStructuralFeature getNameFeature(EObject element) {
