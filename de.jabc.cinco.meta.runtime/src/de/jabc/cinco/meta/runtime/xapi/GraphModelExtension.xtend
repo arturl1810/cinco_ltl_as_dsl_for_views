@@ -208,20 +208,46 @@ class GraphModelExtension {
 	 * @return  A set of elements of the specified type. Might be empty but never null.
 	 */
 	def <C extends IdentifiableElement> Iterable<C> findDeeply(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression) {
-		findDeeply_recurse(container, clazz, progression, newHashSet)
+		findDeeply_recurse(container, #{clazz}, progression, newHashSet)
+	}
+	
+	/**
+	 * Finds all elements of any of the specified types inside the specified container.
+	 * <br>Recurses into all sub-containers.
+	 * <br>Recurses into sub-models, as specified via the {@code progression} parameter.
+	 * <br>The type of each element is matched to the specified types via {@code instanceof}.
+	 * 
+	 * <br>The progression may be defined using a simple switch statement:
+	 * <pre>
+	 *   findDeeply(container, classes, [switch it {
+	 *     GUISIB: gui
+	 *     ProcessSIB: proMod
+	 *   }])
+	 * </pre>
+	 * 
+	 * <br>Containers that are handled by the progression function will additionally be
+	 * searched through the conventional way, i.e. by looking at its children.
+	 * 
+	 * @param container - The container holding the elements to be searched through.
+	 * @param classes - A list of classes. The elements to be found must be instance of at least one of them.
+	 * @param progression  A function that defines how to dig deeper.
+	 * @return  A set of elements of any of the specified types. Might be empty but never null.
+	 */
+	def <C extends IdentifiableElement> Iterable<C> findDeeply(ModelElementContainer container, Class<C>[] classes, (IdentifiableElement) => ModelElementContainer progression) {
+		findDeeply_recurse(container, classes, progression, newHashSet)
 	}
 
 	/**
 	 * Cycle-aware recursion by applying the specified progression. 
 	 */
-	private def <C extends IdentifiableElement> Iterable<C> findDeeply_recurse(ModelElementContainer container, Class<C> clazz, (IdentifiableElement) => ModelElementContainer progression, Set<ModelElementContainer> visited) {
+	private def <C extends IdentifiableElement> Iterable<C> findDeeply_recurse(ModelElementContainer container, Class<C>[] classes, (IdentifiableElement) => ModelElementContainer progression, Set<ModelElementContainer> visited) {
 		if (!visited.add(container))
 			return #[]
 		val candidates = container.plus(container.find(IdentifiableElement))
-		candidates.filter(clazz)
+		(candidates.filter[o | classes.exists[it.isInstance(o)]] as Iterable<? extends C>)
 			+ candidates
 				.map(progression).filterNull
-				.map[findDeeply_recurse(clazz, progression, visited)].flatten
+				.map[findDeeply_recurse(classes, progression, visited)].flatten
 	}
 	
 	/**
