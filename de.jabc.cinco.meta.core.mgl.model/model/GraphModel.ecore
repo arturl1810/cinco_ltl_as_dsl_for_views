@@ -546,7 +546,7 @@
       interface="true">
     <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return obj != null &amp;&amp; ((obj == this) || obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() == this.getId()&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName()));"/>
+        <details key="body" value="return (obj != null &amp;&amp; (obj == this))&#xA;&#x9;&#x9;&#x9;|| obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() != null&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId().equals(this.getId())&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName());"/>
       </eAnnotations>
       <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     </eOperations>

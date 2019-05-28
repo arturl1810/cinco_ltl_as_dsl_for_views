@@ -226,7 +226,7 @@
     <genClasses image="false" ecoreClass="GraphModel.ecore#//IdentifiableElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//IdentifiableElement/id"/>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/equals"
-          body="return obj != null &amp;&amp; ((obj == this) || obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() == this.getId()&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName()));">
+          body="return (obj != null &amp;&amp; (obj == this))&#xA;&#x9;&#x9;&#x9;|| obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() != null&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId().equals(this.getId())&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName());">
         <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/equals/obj"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/hashCode"
