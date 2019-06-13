@@ -29,11 +29,14 @@ public class CincoWizardUtils {
 			if (nameStatus.getCode() != IStatus.OK) {
 				return "Package Name: " + nameStatus.getMessage();
 			}
+			
 		} else {
 			return "Package Name: must not be empty";
 		}
 		return null;
 	}
+	
+	
 
 	public static String validateProjectName(String projectName) {
 		if (projectName.isEmpty())
@@ -47,6 +50,10 @@ public class CincoWizardUtils {
 		if (projectName.matches(".*[:/\\\\\"&<>\\?#,;].*")) {
 			return "The project name contains illegal characters (:/\"&<>?#,;)";
 		}
+		
+		if(!projectName.toLowerCase().equals(projectName)) {
+			return "Project/Package Name: must not contain upper case letters";
+		}	
 
 		return null;
 	}

@@ -77,6 +77,14 @@ class MGLValidator extends AbstractMGLValidator {
 			error('Package name must be present.',MglPackage.Literals::TYPE__NAME)
 		}
 	}
+	
+	@Check
+	def checkPackageNameContainsNoUpperCase(GraphModel model){
+		if(!model.package.toLowerCase.equals(model.package)){
+			error('Package name must not contain upper case letters.',MglPackage.Literals::GRAPH_MODEL__PACKAGE)
+		}
+	}
+	
 	@Check
 	def checkNamedElementNameStartsWithCapital(ModelElement namedElement){
 		if (!Character::isUpperCase(namedElement.name.charAt(0))) {
