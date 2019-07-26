@@ -11,12 +11,16 @@ class PageAwareEditorRegistry {
 	
 	public static final NonEmptyRegistry<String,Set<PageAwareEditorDescriptor>>
 		INSTANCE = new NonEmptyRegistry[fileName | newHashSet => [
+			try{
 			for (desc : PlatformUI.workbench.editorRegistry.getEditors(fileName)) {
 				if (desc instanceof EditorDescriptor) {
 					val editor = desc.createEditor
 					if (editor instanceof PageAwareEditor)
 						add(new PageAwareEditorDescriptor(editor as PageAwareEditor))
 				}
+			}
+			
+			}catch(IllegalStateException e){//e.printStackTrace}
 			}
 		]
 	]
