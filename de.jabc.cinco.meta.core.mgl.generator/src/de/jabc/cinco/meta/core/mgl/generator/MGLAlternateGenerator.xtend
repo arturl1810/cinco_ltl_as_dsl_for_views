@@ -548,16 +548,17 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			val l = me.allContainableNodes.lowestMutualSuperNode
 			var content = null as CharSequence
 			if(l!== null){
-				content = typedModelElementGetterContent(l.fqBeanName)
+				content = typedModelElementGetterContent(l.fqBeanName,l.fqInternalBeanName)
 				val eGen = ecl.createGenericListEOperation("getNodes",null,0,-1,content)
 				complexGenericGetterParameterMap.put(eGen,l)
 			}
 		}
 	}
 	
-	private def typedModelElementGetterContent(CharSequence fqBeanName) '''
+	private def typedModelElementGetterContent(CharSequence fqBeanName,CharSequence fqInternalBeanName
+	) '''
 		return org.eclipse.emf.common.util.ECollections.unmodifiableEList(getInternalContainerElement().getModelElements()
-				.stream().map(me -> («fqBeanName»)me.getElement()).
+				.stream().filter(me -> me instanceof graphmodel.internal.InternalNode).map(me -> («fqBeanName»)me.getElement()).
 					collect(java.util.stream.Collectors.toList()));
 	'''
 	
