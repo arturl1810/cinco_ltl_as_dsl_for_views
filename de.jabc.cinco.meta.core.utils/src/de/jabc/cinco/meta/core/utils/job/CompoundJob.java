@@ -553,26 +553,37 @@ public class CompoundJob extends Job {
 			.collect(Collectors.toList());
 	}
 	
-	private Display getDisplay() {
+	private Display getDisplayNotNull() {
 		return Display.getCurrent() != null
 			? Display.getCurrent()
 			: Display.getDefault();
 	}
-	
+	private Display getDisplay() {
+		return Display.getCurrent();
+	}	
 	private void showMessage(String message) {
 		Display display = getDisplay();
-		display.syncExec(() ->
+		if(display!=null) {
+			display.syncExec(() ->
 			MessageDialog.openInformation(display.getActiveShell(),
 				this.getName(), message)
-		);
+		);	
+		}else {
+			System.out.println(message);
+		}
+		
 	}
 	
 	private void showErrorMessage(String message) {
 		Display display = getDisplay();
-		display.syncExec(() ->
-			MessageDialog.openError(display.getActiveShell(),
-				this.getName(), message)
-		);
+		if(display!=null) {
+			display.syncExec(() ->
+				MessageDialog.openError(display.getActiveShell(),
+					this.getName(), message)
+			);
+		}else {
+			System.err.println(message);
+		}
 	}
 	
 	protected void wrapMonitor(IProgressMonitor pm) {

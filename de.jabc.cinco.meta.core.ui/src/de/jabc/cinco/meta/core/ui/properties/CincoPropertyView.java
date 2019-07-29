@@ -212,6 +212,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	}
 	
 	public static void addSelectionListener(ISelectionListener listener) {
+		try {
 		if (registeredListeners.contains(listener))
 			return;
 		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -224,6 +225,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		
 		activePage.addSelectionListener(listener);
 		registeredListeners.add(listener);
+		}catch (Exception e) {
+			System.out.println("Not In Graphical Model.");
+			return;
+		}
 	}
 	
 	public static void init_EStructuralFeatures(Class<? extends EObject> clazz,	EStructuralFeature... features) {
