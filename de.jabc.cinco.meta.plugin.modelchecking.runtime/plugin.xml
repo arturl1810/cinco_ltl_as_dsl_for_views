@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="de.jabc.cinco.meta.plugin.modelchecking.runtime.adapter" name="ModelCheckingAdapter" schema="schema/de.jabc.cinco.meta.plugin.modelchecking.runtime.adapter.exsd"/>
+   <extension-point id="de.jabc.cinco.meta.plugin.modelchecking.runtime.modelchecker" name="ModelChecker" schema="schema/de.jabc.cinco.meta.plugin.modelchecking.runtime.modelchecker.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="de.jabc.cinco.meta.plugin.modelchecking.runtime.views"
+            name="Model Validation">
+      </category>
+      <view
+            category="de.jabc.cinco.meta.plugin.modelchecking.runtime.views"
+            class="de.jabc.cinco.meta.plugin.modelchecking.runtime.views.ModelCheckingView"
+            id="de.jabc.cinco.meta.plugin.modelchecking.runtime.views.ModelCheckingView"
+            name="Model Checking View">
+      </view>
+   </extension>
+   <extension
+         point="de.jabc.cinco.meta.plugin.modelchecking.runtime.modelchecker">
+      <ModelChecker
+            class="de.jabc.cinco.meta.plugin.modelchecking.runtime.gear.GEARModelChecker">
+      </ModelChecker>
+   </extension>
+
+</plugin>

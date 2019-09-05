@@ -240,6 +240,16 @@
 			<artifactId>de.jabc.cinco.meta.util</artifactId>
 			<version>${cinco.snapshot-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.jabc.cinco</groupId>
+			<artifactId>de.jabc.cinco.meta.plugin.modelchecking</artifactId>
+			<version>${cinco.snapshot-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.jabc.cinco</groupId>
+			<artifactId>de.jabc.cinco.meta.plugin.modelchecking.runtime</artifactId>
+			<version>${cinco.snapshot-version}</version>
+		</dependency>
 	</dependencies>
 
     <build>

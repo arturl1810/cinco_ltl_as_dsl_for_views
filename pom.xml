@@ -58,6 +58,8 @@
 		<module>de.jabc.cinco.meta.libraries</module>
 		<module>de.jabc.cinco.meta.runtime</module>
 		<module>de.jabc.cinco.meta.util</module>
+		<module>de.jabc.cinco.meta.plugin.modelchecking</module>
+		<module>de.jabc.cinco.meta.plugin.modelchecking.runtime</module>
 	</modules>
 	<properties>
 		<tycho.version>1.2.0</tycho.version>

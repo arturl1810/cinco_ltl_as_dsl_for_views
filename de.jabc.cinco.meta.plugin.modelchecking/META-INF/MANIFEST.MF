@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ModelCheckingMetaPlugin
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.modelchecking;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="1.0.0"
+Automatic-Module-Name: de.jabc.cinco.meta.plugin.modelchecking
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: de.jabc.cinco.meta.plugin,
+ de.jabc.cinco.meta.plugin.modelchecking.runtime
