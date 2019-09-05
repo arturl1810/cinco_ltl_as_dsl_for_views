@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.core.referenceregistry
 
 import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupplier
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener
-import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.runtime.CincoRuntimeBaseClass
 import graphmodel.GraphModel
 import java.util.List
@@ -30,22 +29,23 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 	static val KNOWN_EXTENSIONS = <String> newHashSet
 	
 	protected val uriQueue = new LinkedTransferQueue<URI>
+	protected val inProcess = new ConcurrentHashMap<URI,Set<Thread>>
 	protected val keyRequests = new ConcurrentHashMap<String,List<KeyRequest>>
 	protected val uriRequests = new ConcurrentHashMap<URI,List<UriRequest>>
 	protected var WorkspaceCrawler crawler
 	protected val resourceListener = new RegistryResourceChangeListener
 	
-	var initializedOnStartup = false
-	var initializingOnStartup = false
+	var _initializedOnStartup = false
+	var _initializingOnStartup = false
 	
 	/** String key -> EObject instance **/
-	val key_on_obj = <String,EObject> newHashMap
+	protected val key_on_obj = new ConcurrentHashMap<String,EObject>
 	
 	/** String key -> resource URI **/
-	val key_on_resURI = <String,String> newHashMap
+	protected val key_on_resURI = new ConcurrentHashMap<String,String>
 	
 	/** resource URI -> String list keys **/
-	val resURI_on_keys = new NonEmptyRegistry<String,Set<String>> [newHashSet]
+	protected val resURI_on_keys = new ConcurrentHashMap<String,Set<String>>
 	
 	
 	/* 
@@ -61,6 +61,23 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 		
 		// init listener
 		workspace.addResourceChangeListener(resourceListener)
+	}
+	
+	synchronized def isInitializedOnStartup() {
+		this._initializedOnStartup
+	}
+	
+	synchronized def setInitializedOnStartup(boolean flag) {
+		this._initializedOnStartup = flag
+	}
+	
+	synchronized def isInitializingOnStartup() {
+		this._initializingOnStartup
+	}
+	
+	synchronized def setInitializingOnStartup(boolean flag) {
+		
+		this._initializingOnStartup = flag
 	}
 	
 	def EObject getEObject(String key) {
@@ -106,17 +123,17 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 	}
 	
 	def <T extends EObject> lookup(Class<T> clazz) {
-		waitForCrawler
-		key_on_obj.values.filter(clazz)
+		workForRequest(null)
+		key_on_obj.values.filter(clazz).toSet
 	}
 	
 	def <T extends EObject> lookup(URI uri, Class<T> clazz) {
 		var Iterable<T> result = null
 		val keys = resURI_on_keys.get(uri.toPlatformString)
 		if (!keys.nullOrEmpty) {
-			result = keys.map[key_on_obj.get(it)].filter(clazz)
+			result = keys.map[key_on_obj.get(it)].filter(clazz).toSet
 		}
-		return result ?: request(uri)?.values?.filter(clazz)
+		return result ?: request(uri)?.values?.filter(clazz)?.toSet
 	}
 	
 	protected def loadResource(URI uri) {
@@ -151,6 +168,11 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 		val uri = resUri?.toPlatformString
 		if (uri !== null) {
 			key_on_resURI.put(key, uri)
+			var keys = resURI_on_keys.get(uri)
+			if (keys === null) {
+				keys = newHashSet
+				resURI_on_keys.put(uri,keys)
+			}
 			resURI_on_keys.get(uri).add(key)
 		}
 		key_on_obj.put(key, obj)
@@ -168,70 +190,42 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 	}
 	
 	protected def request(String key) {
-		val request = new KeyRequest(key) => [
+		val request = new KeyRequest(key) => [ req |
 			if (!keyRequests.containsKey(key)) {
 				keyRequests.put(key, newArrayList)
 			}
-			keyRequests.get(key).add(it)
-			pause
-			start
-			waitForCrawler
+			keyRequests.get(key).add(req)
+			workForRequest(req)
 		]
 		return request.result
 	}
 	
 	protected def request(URI uri) {
-		val request = new UriRequest(uri) => [
+		val request = new UriRequest(uri) => [ req |
 			if (!uriRequests.containsKey(uri)) {
 				uriRequests.put(uri, newArrayList)
 			}
-			uriRequests.get(uri).add(it)
-			pause
-			start
-			waitForCrawler
+			uriRequests.get(uri).add(req)
+			workForRequest(req)
 		]
 		return request.result
 	}
 	
-	protected def waitForCrawler() {
-		if (!initializedOnStartup) {
-			if (!initializingOnStartup) {
-				initializeOnStartup
-			} else {
-				/*
-				 * The registry is currently initializing.
-				 * We need to process the queue by calling
-				 * run() instead of schedule() to do what the crawler
-				 * does but not on a separate job because concurrent
-				 * jobs are disabled on Eclipse startup
-				 */
-				crawler?.run
-			}
-			return;
-		}
-		assertCrawler
-		if (crawler?.thread == Thread.currentThread) {
-			// do NOT join if joining thread the same
-			return;
-		} else try {
-			crawler?.join
-		} catch (InterruptedException e) {
-			e.printStackTrace
-		}
-	}
-	
 	def void initializeOnStartup() {
-		println("[ReferenceRegistry] Initializing on startup...");
+		println("[RefReg-" + System.currentTimeMillis + "] Initializing on startup...");
 		initializingOnStartup = true
 		val debugTime = System.currentTimeMillis
 		crawler = new WorkspaceCrawler(this)
+		println("[RefReg-" + System.currentTimeMillis + "] Crawler: " +  crawler?.hashCode)
 		/*
-		 * run() instead of schedule() does what the crawler
-		 * does but not on a separate job because concurrent
-		 * jobs are disabled on Eclipse startup
+		 * workAndWait keeps the crawler busy because we cannot
+		 * join jobs at Eclipse startup
 		 */
-		crawler => [init; run]
-		println("[ReferenceRegistry] Initialized. "
+		crawler => [collectFiles; workAndWait]
+		
+		println("[RefReg-" + System.currentTimeMillis + "] Initialized. "
+			+ key_on_obj.size + " keys. "
+			+ resURI_on_keys.size + " URIs. "
 			+ "This took " + (System.currentTimeMillis - debugTime) + "ms of your lifetime.")
 		
 		initializedOnStartup = true
@@ -276,14 +270,14 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 	
 	static def isWhitelisted(IFile file) {
 		KNOWN_EXTENSIONS.contains(file.fileExtension)
-			|| KNOWN_EXTENSIONS.contains(file.name)
+		|| KNOWN_EXTENSIONS.contains(file.name)
 	}
 	
 	def void clearRegistry() {
 		key_on_resURI.clear
 		resURI_on_keys.clear
 		key_on_obj.clear
-		crawler = new WorkspaceCrawler(this) => [init; schedule]
+		crawler = new WorkspaceCrawler(this) => [collectFiles; schedule]
 	}
 	
 	def enqueue(URI uri) {
@@ -293,8 +287,19 @@ class ReferenceRegistry extends CincoRuntimeBaseClass {
 		}
 	}
 	
-	def assertCrawler() {
-		crawler ?: (crawler = new WorkspaceCrawler(this) => [schedule])
+	protected synchronized def assertCrawler() {
+		crawler ?: if (!uriQueue.isEmpty) {
+			crawler = new WorkspaceCrawler(this) => [ schedule ]
+		}
+	}
+	
+	protected def workForRequest(Request<?,?> request) {
+		if (!isInitializedOnStartup && !isInitializingOnStartup) {
+			initializeOnStartup
+			return
+		}
+		// go help the crawler instead of useless waiting
+		assertCrawler?.workForRequest(request)
 	}
 	
 	def void handleAdd(URI uri) {

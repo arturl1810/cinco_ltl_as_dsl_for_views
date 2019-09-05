@@ -33,7 +33,11 @@ class WorkbenchExtension {
 	 * @return The current workbench. Might be {@code null}.
 	 */
 	def getWorkbench() {
-		PlatformUI.workbench
+		try {
+			PlatformUI.workbench
+		} catch(IllegalStateException e) {
+			// do not print stacktrace nor console output
+		}
 	}
 	
 	/**
@@ -43,7 +47,7 @@ class WorkbenchExtension {
 	 *   whatever reason.
 	 */
 	def  getActiveWorkbenchWindow() {
-		if (Display.current == null)
+		if (Display.current === null)
 			System.err.println("Trying to retrieve active workbench window without using Display thread")
 		workbench?.activeWorkbenchWindow
 	}
@@ -97,7 +101,7 @@ class WorkbenchExtension {
 	 */
 	def getProject(IEditorPart editor) {
 		val res = editor.resource
-		if (res != null) {
+		if (res !== null) {
 			extension val ResourceExtension = new ResourceExtension
 			res.project
 		}
@@ -119,7 +123,7 @@ class WorkbenchExtension {
 	 */
 	def Resource getResource(IEditorPart editor) {
 		val domain = editor.editingDomain
-		if (domain != null) {
+		if (domain !== null) {
 			domain.resourceSet.resources.head
 		} else {
 			extension val FileExtension = new FileExtension
@@ -177,7 +181,7 @@ class WorkbenchExtension {
 			IURIEditorInput: createURI(new URL(input.URI.toString).toString)
 			IAdaptable: {
 				val file = input.getAdapter(IFile)
-				if (file != null) {
+				if (file !== null) {
 					new ResourceSetImpl().getURIConverter().normalize(
 						createPlatformResourceURI(file.fullPath.toString, true)
 					)

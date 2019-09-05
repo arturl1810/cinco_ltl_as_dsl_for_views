@@ -2,13 +2,17 @@ package de.jabc.cinco.meta.core.referenceregistry
 
 import java.util.List
 import java.util.Map
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
 import org.eclipse.core.resources.IContainer
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.emf.common.util.URI
@@ -23,32 +27,134 @@ import static extension de.jabc.cinco.meta.core.referenceregistry.ReferenceRegis
 
 class WorkspaceCrawler extends Job {
 	
+	static val showDebug = true
+	
 	val ReferenceRegistry registry
-	public var Thread thread
+	ExecutorService threadPool
+	val minions = ConcurrentHashMap.<Thread>newKeySet
+	val loadTime = new AtomicLong(0)
+	val readTime = new AtomicLong(0)
 	
 	new(ReferenceRegistry registry) {
 		super("Update references")
 		this.registry = registry
-	}
-	
-	protected def init() {
-		registry.uriQueue.clear
-		val files = newArrayList
-		collectFiles(ResourcesPlugin.workspace.root, files);
-		for (IFile f : files) {
-			val uri = URI.createPlatformResourceURI(f.fullPath.toString, true)
-			registry.uriQueue.add(uri)
-		}
-	}
-	
-	def protected run() {
-		run(new NullProgressMonitor)
+		debug("created")
 	}
 	
 	override protected run(IProgressMonitor monitor) {
-		thread = Thread.currentThread
-		var uri = registry.uriQueue.poll
+		debug("run")
+		return workWithMinions(false)
+	}
+	
+	def protected workAndWait() {
+		debug("work and wait, registry.uriQueue.size: " + registry.uriQueue.size)
+		workWithMinions(true)
+		registry.crawler = null
+		return Status.OK_STATUS
+	}
+	
+	def protected workWithMinions(boolean keepBusy) {
+		val debugTime = System.currentTimeMillis
+		val numProcessors = Runtime.runtime.availableProcessors
+		debug("work with minions, registry.uriQueue.size: " + registry.uriQueue.size + " available processors: " + numProcessors)
+		if (numProcessors > 1 && !registry.uriQueue.isEmpty) {
+			val numMinions = Math.min(registry.uriQueue.size - 1, numProcessors)
+			debug("submit new minions, queue size: " + registry.uriQueue.size + " num minions: " + numMinions)
+			threadPool = Executors.newFixedThreadPool(numProcessors)
+			for (i : 0..< numMinions) {
+				submitNewMinion
+			}
+		}
+		
+		workForRequest(null, keepBusy)
+		
+		debug("stop, return OK, runTime: " + (System.currentTimeMillis - debugTime) + " loadTime: " + loadTime.get + " extractTime: " + readTime.get)
+		registry.crawler = null
+		return Status.OK_STATUS
+	}
+	
+	def void submitNewMinion() {
+		threadPool.submit[
+			notifyStart
+			work
+			notifyDone
+			return true
+		]
+	}
+	
+	def notifyStart() {
+		minions.add(Thread.currentThread)
+	}
+	
+	def notifyDone() {
+		minions.remove(Thread.currentThread)
+	}
+	
+	def isWorkingMinion() {
+		minions.contains(Thread.currentThread)
+	}
+	
+	def work() {
+		workForRequest(null, false)
+	}
+	
+	def workForRequest(Request<?,?> request) {
+		workForRequest(null, true)
+	}
+	
+	def workForRequest(Request<?,?> request, boolean keepBusy) {
+		var uri = registry.uriQueue.poll ?: if (keepBusy) pollProcessedURI
 		while (uri !== null) {
+			work(uri)
+			uri = registry.uriQueue.poll ?: if (keepBusy) pollProcessedURI
+			if (request?.isProvided) {
+				return
+			}
+		}
+		if (registry.inProcess.isEmpty) {
+			debug("DONE keys: " + registry.key_on_obj.size + " URIs: " + registry.resURI_on_keys.size)
+			declineRemainingRequests
+		} else {
+			debug("no work but still processing: " + registry.inProcess.size + " threadPool.isShutdown: " + threadPool.isShutdown)
+			if (isWorkingMinion) {
+				debug("i am minion")
+			} else {
+				debug("i am NOT minion; working minions: " + minions.size)
+				if (minions.isEmpty) {
+					if (!threadPool.isShutdown) {
+						debug("shutdown thread pool")
+						threadPool.shutdown()
+					}
+					debug("await termination")
+					threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)
+					debug("thread pool terminated")
+				}
+			}
+		}
+		return
+	}
+	
+	def pollProcessedURI() {
+		for (uri : registry.inProcess.keySet) {
+			if (!registry.inProcess.get(uri)?.contains(Thread.currentThread)) {
+				return uri
+			}
+		}
+		if (!registry.inProcess.isEmpty) {
+			debug("declined to work for the same URI twice: " + registry.inProcess.keySet.head)
+		}
+		return null
+	}
+	
+	protected def work(URI uri) {
+		if (uri !== null) try {
+			
+			val threads = registry.inProcess.get(uri)
+			if (threads === null) {
+				registry.inProcess.put(uri, newHashSet)
+			}
+			registry.inProcess.get(uri).add(Thread.currentThread)
+			
 			val map = uri.extractIds
 			for (String id : map.keySet.filterNull) {
 				val obj = map.get(id)
@@ -60,14 +166,32 @@ class WorkspaceCrawler extends Job {
 			if (registry.uriRequests.containsKey(uri)) {
 				registry.uriRequests.remove(uri).forEach[provide(map)]
 			}
-			uri = registry.uriQueue.poll
+			
+		} catch(Exception e) {
+			e.printStackTrace
+			
+		} finally {
+			registry.inProcess.remove(uri)
 		}
-		// queue is now empty, decline unfulfilled requests
+	}
+	
+	protected def declineRemainingRequests() {
 		registry.keyRequests.values.flatten.forEach[decline]
 		registry.uriRequests.values.flatten.forEach[decline]
-		
-		registry.crawler = null
-		return Status.OK_STATUS
+	}
+	
+	protected def collectFiles() {
+		registry.uriQueue.clear
+		for (IFile f : workspaceFiles) {
+			val uri = URI.createPlatformResourceURI(f.fullPath.toString, true)
+			registry.uriQueue.add(uri)
+		}
+	}
+	
+	static def getWorkspaceFiles() {
+		val files = newArrayList
+		collectFiles(ResourcesPlugin.workspace.root, files)
+		return files
 	}
 	
 	static def void collectFiles(IContainer container, List<IFile> fileList) {
@@ -88,9 +212,20 @@ class WorkspaceCrawler extends Job {
 		}
 	}
 	
+	def Map<String, EObject> extractIds(Resource res) {
+		newHashMap => [
+			res?.extractIds(it)
+		]
+	}
+	
 	def Map<String, EObject> extractIds(URI uri) {
 		newHashMap => [
-			uri.loadResource?.extractIds(it)
+			val tLoad = System.currentTimeMillis
+			val res = uri.loadResource
+			loadTime.addAndGet(System.currentTimeMillis - tLoad)
+			val tRead = System.currentTimeMillis
+			res?.extractIds(it)
+			readTime.addAndGet(System.currentTimeMillis - tRead)
 		]
 	}
 	
@@ -122,11 +257,20 @@ class WorkspaceCrawler extends Job {
 	}
 	
 	def loadResource(URI uri) {
-		try {
-			new ResourceSetImpl().getResource(uri, true)
-		} catch (Exception e) {
-			println('''[WorkspaceCrawler] Failed to load resource for URI «uri»''')
-			return null
+		val maxAttempts = 5
+		for (i : 1..maxAttempts) try {
+			return new ResourceSetImpl().getResource(uri, true)
+		} catch (Throwable e) {
+			e.printStackTrace
+			debug('''[WorkspaceCrawler] Attempt «i» of «maxAttempts» failed to load resource for URI «uri»''')
 		}
+	}
+	
+	def debug(String message) {
+		if (showDebug) println(
+			"[WorkspaceCrawler-" + hashCode
+			+ " Thread-" + Thread.currentThread.hashCode + "] "
+			+ message
+		)
 	}
 }

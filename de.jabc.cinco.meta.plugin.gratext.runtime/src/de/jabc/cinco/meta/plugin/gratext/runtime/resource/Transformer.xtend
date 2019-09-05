@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyIdentityRegistry
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
@@ -10,6 +11,7 @@ import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalIdentifiableElement
 import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalType
 import java.util.ArrayList
@@ -22,28 +24,25 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EReference
 
 import static org.eclipse.emf.ecore.util.EcoreUtil.*
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.setID
-import graphmodel.internal.InternalModelElementContainer
-import de.jabc.cinco.meta.core.utils.registry.NonEmptyIdentityRegistry
 
 class Transformer {
 	
-//	private static val baseClassRegistry = <EClass, Class<?>> newHashMap
-	
-	private Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
-	private Map<String,InternalIdentifiableElement> baseElements = newHashMap
-	private Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
-	private Set<InternalIdentifiableElement> resolved = newHashSet
-	private List<InternalEdge> edges = newArrayList
+	Map<InternalIdentifiableElement,InternalIdentifiableElement> counterparts = new IdentityHashMap
+	Map<String,InternalIdentifiableElement> baseElements = newHashMap
+	Map<String,List<(String)=>void>> replacements = new NonEmptyRegistry[newArrayList]
+	Set<InternalIdentifiableElement> resolved = newHashSet
+	List<InternalEdge> edges = newArrayList
 	
 	val nodesInitialOrder = new NonEmptyIdentityRegistry<InternalModelElementContainer,List<InternalModelElement>>[newArrayList]
 	
-	private EFactory modelFactory
-	private EPackage modelPackage
-	private EClass modelClass
+	EFactory modelFactory
+	EPackage modelPackage
+	EClass modelClass
 	
 	new (EFactory modelFactory, EPackage modelPackage, EClass modelClass) {
 		this.modelFactory = modelFactory
@@ -76,7 +75,7 @@ class Transformer {
 	def void transferEdges(InternalNode node) {
 		node.references.filter[name == "outgoingEdges"].forEach[ref|
 			val edges = node.eGet(ref).transformValue
-			if (edges != null) {
+			if (edges !== null) {
 				this.edges.addAll(edges as List<InternalEdge>)
 			}
 		]
@@ -120,21 +119,15 @@ class Transformer {
 					refValue.baseElement?.element
 					?: {
 						addReplacementRequest(refValue.id) [theID|
-							val deliver = ref.eDeliver
-							ref.eSetDeliver(false)
-							baseInternal.eSet(ref, getBaseElement(theID).element)
-							ref.eSetDeliver(deliver)
+							baseInternal.setFeatureValue(ref, getBaseElement(theID).element)
 						]
 						refValue
 					}
 				}
 				default: refValue.transformValue
 			}
-			if (baseValue != null) {
-				val deliver = ref.eDeliver
-				ref.eSetDeliver(false)
-				baseInternal.eSet(ref, baseValue)
-				ref.eSetDeliver(deliver)
+			if (baseValue !== null) {
+				baseInternal.setFeatureValue(ref, baseValue)
 			}
 		]
 	}
@@ -150,13 +143,25 @@ class Transformer {
 		}
 	}
 	
+	private def setFeatureValue(InternalIdentifiableElement baseInternal, EReference ref, Object value) {
+		val refDeliver = ref.eDeliver
+		ref.eSetDeliver(false)
+		val baseDeliver = baseInternal.eDeliver
+		baseInternal.eSetDeliver(false)
+		
+		baseInternal.eSet(ref, value)
+		
+		baseInternal.eSetDeliver(baseDeliver)
+		ref.eSetDeliver(refDeliver)
+	}
+	
 	// additional dispatch method is generated
 	dispatch def int getIndex(Object it) {
 		-1
 	}
 	
 	def getInitialIndex(InternalModelElement elm) {
-		if (elm.container != null) {
+		if (elm.container !== null) {
 			nodesInitialOrder.get(elm.container).indexOf(elm)
 		} else -1
 	}
@@ -183,19 +188,8 @@ class Transformer {
 		return internal
 	}
 	
-//	def Class<?> getBaseClass(InternalIdentifiableElement elm) {
-//		baseClassRegistry.get(elm.eClass)
-//		?: elm.toBaseInternal.element.class => [
-//			baseClassRegistry.put(elm.eClass, it)
-//		]
-//	}
-	
 	private def knows(EPackage it, EClass elmClazz) {
 		eContents.filter(EClass).exists[name == elmClazz.name]
-	}
-	
-	private def getAttributes(EObject elm) {
-		elm?.eClass?.getEAllAttributes
 	}
 	
 	private def getReferences(EObject elm) {
