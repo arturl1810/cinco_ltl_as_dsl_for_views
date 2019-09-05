@@ -335,9 +335,10 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getSelectedModelElements(GraphModel model) {
 		model?.diagram?.selectedPictogramElements
-			.map[businessObject]
-			.filter(InternalModelElement)
-			.map[element]
+			?.map[businessObject]
+			?.filter(InternalModelElement)
+			?.map[element]
+		?: #[]
 	}
 	
 	/**
