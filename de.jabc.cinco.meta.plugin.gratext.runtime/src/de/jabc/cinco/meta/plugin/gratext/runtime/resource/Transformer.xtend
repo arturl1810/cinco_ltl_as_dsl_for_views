@@ -124,6 +124,9 @@ class Transformer {
 						refValue
 					}
 				}
+				InternalIdentifiableElement: {
+					refValue // do not transform
+				}
 				default: refValue.transformValue
 			}
 			if (baseValue !== null) {
