@@ -377,6 +377,12 @@
 									<version>3.2.1</version>
 									<type>jar</type>
 								</artifactItem>
+								<artifactItem>
+									<groupId>jabc.gear.core</groupId>
+									<artifactId>gear-core</artifactId>
+									<version>1.0</version>
+									<type>jar</type>
+								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${basedir}/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
