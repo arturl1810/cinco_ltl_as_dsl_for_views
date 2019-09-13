@@ -47,7 +47,7 @@ class WorkspaceCrawler extends Job {
 	}
 	
 	def protected workAndWait() {
-		debug("work and wait, registry.uriQueue.size: " + registry.uriQueue.size)
+		debug("work and wait")
 		workWithMinions(true)
 		registry.crawler = null
 		return Status.OK_STATUS
@@ -56,16 +56,17 @@ class WorkspaceCrawler extends Job {
 	def protected workWithMinions(boolean keepBusy) {
 		val debugTime = System.currentTimeMillis
 		val numProcessors = Runtime.runtime.availableProcessors
-		debug("work with minions, registry.uriQueue.size: " + registry.uriQueue.size + " available processors: " + numProcessors)
-		if (numProcessors > 1 && !registry.uriQueue.isEmpty) {
-			val numMinions = Math.min(registry.uriQueue.size - 1, numProcessors)
-			debug("submit new minions, queue size: " + registry.uriQueue.size + " num minions: " + numMinions)
+		debug("work with minions, uriQueue.size: " + registry.uriQueue.size + ", available processors: " + numProcessors)
+		if (numProcessors > 1) {
+			val numMinions = Math.min(registry.uriQueue.size, numProcessors) - 1
+			debug("submit " + numMinions + " minions")
 			threadPool = Executors.newFixedThreadPool(numProcessors)
 			for (i : 0..< numMinions) {
 				submitNewMinion
 			}
 		}
 		
+		debug("starting to work myself")
 		workForRequest(null, keepBusy)
 		
 		debug("stop, return OK, runTime: " + (System.currentTimeMillis - debugTime) + " loadTime: " + loadTime.get + " extractTime: " + readTime.get)
@@ -115,7 +116,7 @@ class WorkspaceCrawler extends Job {
 			debug("DONE keys: " + registry.key_on_obj.size + " URIs: " + registry.resURI_on_keys.size)
 			declineRemainingRequests
 		} else {
-			debug("no work but still processing: " + registry.inProcess.size + " threadPool.isShutdown: " + threadPool.isShutdown)
+			debug("no work left for me, but still " + registry.inProcess.size + " URIs in process")
 			if (isWorkingMinion) {
 				debug("i am minion")
 			} else {
@@ -182,7 +183,7 @@ class WorkspaceCrawler extends Job {
 	
 	protected def collectFiles() {
 		registry.uriQueue.clear
-		for (IFile f : workspaceFiles) {
+		for (IFile f : workspaceFiles.sortBy[fileSize].reverse) {
 			val uri = URI.createPlatformResourceURI(f.fullPath.toString, true)
 			registry.uriQueue.add(uri)
 		}
@@ -210,6 +211,10 @@ class WorkspaceCrawler extends Job {
 				IContainer: collectFiles(fileList)
 			}]
 		}
+	}
+	
+	def getFileSize(IFile file) {
+		file.rawLocation?.toFile?.length
 	}
 	
 	def Map<String, EObject> extractIds(Resource res) {
