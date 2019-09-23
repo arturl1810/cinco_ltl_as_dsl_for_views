@@ -149,7 +149,7 @@ class EdgeAddFeatures extends APIUtils {
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);
-			if (uf.canUpdate(uc))
+			if (hook && uf.canUpdate(uc))
 				«e.flName».getElement().updateGraphModel();
 			return connection;
 		}

@@ -56,9 +56,10 @@ abstract class LazyDiagram extends DiagramImpl {
 	
 	def assertInitialized() {
 		if (!initialized && !avoidInitialization && !initializing ) {
+			val time = System.currentTimeMillis
 			initializing = true
 			transact[ initialize ]
-			println('''[«this.class.simpleName»-«hashCode»] initialized''')
+			println('''[«this.class.simpleName»-«hashCode»] initialized in «(System.currentTimeMillis - time)» ms''')
 			initializing = false
 			initialized = true
 		}
