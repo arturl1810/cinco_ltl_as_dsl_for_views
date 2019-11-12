@@ -134,7 +134,7 @@ class ModelBuilderTmpl extends FileTemplate {
 					«IF providerExists»
 					Set<String> labels = providerHandler.getReplacementEdgeLabels(path, getEdgeLabelsOfPath(path));
 					«ELSE»
-					Set<String> labels = getEdgeLablsOfPath(path);
+					Set<String> labels = getEdgeLabelsOfPath(path);
 					«ENDIF»
 					addEdge(checkableModel, path.get(0).getId(), path.get(path.size() - 1).getId(), labels, includeNodes);
 				}

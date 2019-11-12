@@ -26,7 +26,7 @@ class TopicalityHelper implements ISelectionListener{
 	
 	ReiteratingThread thread
 	Resource activeResource
-	CheckableModel<?,?> activeCheckModel
+	CheckableModel<?,?> activeCheckableModel
 	ModelChecker<?,?,?> checker
 	ModelCheckingAdapter activeAdapter
 	ModelComparator<CheckableModel<?,?>> comparator
@@ -89,15 +89,15 @@ class TopicalityHelper implements ISelectionListener{
 		
 	}
 	
-	def refreshCheckModel(){
+	def refreshCheckableModel(){
 		if (activeAdapter !== null){
-			activeCheckModel = getActiveCheckModel
+			activeCheckableModel = getActiveCheckableModel
 			editState.set(EditState.NO_CHANGE)
 			unpause
 		}else{
 			//println("active adapter null")
 			pause
-			activeCheckModel = null
+			activeCheckableModel = null
 		}
 	}
 	
@@ -119,20 +119,20 @@ class TopicalityHelper implements ISelectionListener{
 	}
 	
 	
-	def isEqualCheckModel(){		
+	def isEqualCheckableModel(){		
 		
-		comparator.areEqualModels(getActiveCheckModel,activeCheckModel)
+		comparator.areEqualModels(getActiveCheckableModel,activeCheckableModel)
 	}
 	
-	def getActiveCheckModel(){
-		val newCheckModel = checker?.createCheckableModel
-		activeAdapter?.buildCheckableModel(newCheckModel,withSelection)
-		newCheckModel
+	def getActiveCheckableModel(){
+		val newCheckableModel = checker?.createCheckableModel
+		activeAdapter?.buildCheckableModel(newCheckableModel,withSelection)
+		newCheckableModel
 	}
 	def initThread() {
 		thread = new ReiteratingThread(2000){			
 			override protected work() {
-				if (activeCheckModel === null){
+				if (activeCheckableModel === null){
 					pause
 				}
 				if (editState.get == EditState.NO_CHANGE){
@@ -147,12 +147,12 @@ class TopicalityHelper implements ISelectionListener{
 						async[listeners.forEach[formulasChanged]]
 					}
 					
-					if (!isEqualCheckModel){
-						//println("[Thread] CheckModel changed")
-						async[listeners.forEach[checkModelChanged(false)]]	
+					if (!isEqualCheckableModel){
+						//println("[Thread] CheckableModel changed")
+						async[listeners.forEach[checkableModelChanged(false)]]	
 					}else{
-						//println("[Thread] CheckModel did not change")
-						async[listeners.forEach[checkModelChanged(true)]]
+						//println("[Thread] CheckableModel did not change")
+						async[listeners.forEach[checkableModelChanged(true)]]
 					}					
 				}
 			}
@@ -206,7 +206,7 @@ class TopicalityHelper implements ISelectionListener{
 	}
 	
 	interface TopicalityListener  {
-		def void checkModelChanged(boolean resultUpToDate)
+		def void checkableModelChanged(boolean resultUpToDate)
 		def void formulasChanged()
 	}
 }

@@ -408,7 +408,6 @@ class ModelCheckingView extends ViewPart implements TopicalityListener, IPartLis
 	
 	private def void setUpModelChecker(){
 		val checker = optionManager.modelChecker as ModelChecker<CheckableModel<?,?>,?,?>
-		execution.modelChecker = checker
 		topicalityHelper.modelChecker = checker
 	}
 	
@@ -425,20 +424,22 @@ class ModelCheckingView extends ViewPart implements TopicalityListener, IPartLis
 		handler.formulas.checkFormulas
 	}
 	
-	private def checkFormulas(List<CheckFormula> formulas) {
+	private def <N,E> checkFormulas(List<CheckFormula> formulas) {
 		labelStatus.text = "Status: checking..." 
 		refreshButtons
 		bottomComposite.layout()
 		frameComposite.layout()
 		val withSelection = withSelection
 		new Thread[
-			execution.executeFormulasCheck(activeAdapter, activeModel, formulas, withSelection )
+			execution.executeFormulasCheck(activeAdapter, optionManager.modelChecker as ModelChecker<CheckableModel<N,E>,N,E>, activeModel, formulas, withSelection )
 		].start
 	}
 	
 	def void autoCheckAllFormulas() {
-		state = State.AUTO_CHECK_ALL
-		handler.formulas.autoCheck 
+		if (withAutoCheck){
+			state = State.AUTO_CHECK_ALL
+			handler.formulas.autoCheck 
+		}		
 	}
 	
 	def void autoCheck(List<CheckFormula> formulas) {
@@ -624,7 +625,7 @@ class ModelCheckingView extends ViewPart implements TopicalityListener, IPartLis
 				var result = "" 
 				var formula = (element as CheckFormula) 
 				if (!resultUpToDate) {
-					result = ''' [out-of-date]''' 
+					result = '''*''' 
 				}
 				
 				switch (formula.result) {
@@ -902,7 +903,7 @@ class ModelCheckingView extends ViewPart implements TopicalityListener, IPartLis
 	
 	override onFinished() {
 		if (state == State.AUTO_CHECK_ALL || state == State.FORMULAS_CHECK){
-			topicalityHelper.refreshCheckModel
+			topicalityHelper.refreshCheckableModel
 			resultUpToDate = true
 			clearHighlight
 			var datetime = LocalDateTime.now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) 
@@ -912,12 +913,9 @@ class ModelCheckingView extends ViewPart implements TopicalityListener, IPartLis
 			state = State.IDLE 
 			refreshAll
 		}
-		
-		state = State.IDLE 
-		
 	}
 	
-	override checkModelChanged(boolean resultUpToDate) { 
+	override checkableModelChanged(boolean resultUpToDate) { 
 		if (withAutoCheck && !resultUpToDate) {
 			autoCheckAllFormulas
 		} else {
