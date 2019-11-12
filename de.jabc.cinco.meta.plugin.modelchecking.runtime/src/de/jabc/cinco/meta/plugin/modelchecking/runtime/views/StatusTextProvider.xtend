@@ -18,7 +18,7 @@ class StatusTextProvider {
 		var outOfDateText= "";
 		
 		if (viewerSelection.toList.exists[!resultUpToDate]) {
-			outOfDateText = " [out-of-date]"
+			outOfDateText = "*"
 		}
 		
 		val selectedNodes = selectedElementIds.size();
@@ -35,8 +35,8 @@ class StatusTextProvider {
 				
 				
 				switch (formula.getResult() ) {
-					case TRUE: statusText.append(" Result").append(outOfDateText).append(": true.")
-					case FALSE: statusText.append(" Result").append(outOfDateText).append(": false.")
+					case TRUE: statusText.append(" Result").append(": true").append(outOfDateText).append(".")
+					case FALSE: statusText.append(" Result").append(": false").append(outOfDateText).append(".")
 					case ERROR: statusText.append(" Error: ").append(formula.getErrorMessage()).append(".")
 					case NOT_CHECKED: statusText.append(" Not checked.")
 				}
@@ -55,8 +55,8 @@ class StatusTextProvider {
 				}
 				
 				switch(result) {
-					case TRUE: statusText.append(" Result of conjunction").append(outOfDateText).append(": true.")
-					case FALSE: statusText.append(" Result of conjunction").append(outOfDateText).append(": false.")
+					case TRUE: statusText.append(" Result of conjunction").append(": true").append(outOfDateText).append(".")
+					case FALSE: statusText.append(" Result of conjunction").append(": false").append(outOfDateText).append(".")
 					case NOT_CHECKED: statusText.append(" Not every selected formula is checked yet.")
 					case ERROR: statusText.append(" Selection contains errors.")
 				}

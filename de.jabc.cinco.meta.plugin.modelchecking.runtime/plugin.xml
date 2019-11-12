@@ -20,7 +20,7 @@
    <extension
          point="de.jabc.cinco.meta.plugin.modelchecking.runtime.modelchecker">
       <ModelChecker
-            class="de.jabc.cinco.meta.plugin.modelchecking.runtime.gear.GEARModelChecker">
+            class="de.jabc.cinco.meta.plugin.modelchecking.runtime.gear.GearModelChecker">
       </ModelChecker>
    </extension>
 

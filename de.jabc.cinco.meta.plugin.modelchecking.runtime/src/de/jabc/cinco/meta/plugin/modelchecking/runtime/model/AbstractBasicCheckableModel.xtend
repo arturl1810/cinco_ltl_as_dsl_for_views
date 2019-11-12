@@ -24,15 +24,15 @@ abstract class AbstractBasicCheckableModel<N extends AbstractBasicCheckableNode<
 	}
 	
 	override addNewNode(String id, boolean isStartNode, Set<String> atomicPropositions) {
-		val checkNode = createNode(id, isStartNode, atomicPropositions)	
-		nodes.add(checkNode)
+		val checkableNode = createNode(id, isStartNode, atomicPropositions)	
+		nodes.add(checkableNode)
 	}
 	
 	override addNewEdge(N source, N target, Set<String> labels) {
-		val checkEdge = createEdge(source, target, labels)
-		source.addOutgoing(checkEdge)
-		target.addIncoming(checkEdge)
-		edges.add(checkEdge)
+		val checkableEdge = createEdge(source, target, labels)
+		source.addOutgoing(checkableEdge)
+		target.addIncoming(checkableEdge)
+		edges.add(checkableEdge)
 	}
 	
 	override getNodes() {

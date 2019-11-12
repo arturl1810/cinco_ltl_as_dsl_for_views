@@ -120,9 +120,9 @@ class ModelCheckingExtension {
 	
 	def getFulfillmentConstraint(GraphModel model){
 		switch(model.getAnnotationValues("mcFulfillmentConstraint").head){
-			case "DEFAULT" : return FulfillmentConstraint.ALL_NODES
-			case "ANY" : return FulfillmentConstraint.ANY_STARTNODE
-			case "EACH" : return FulfillmentConstraint.EACH_STARTNODE
+			case "ALL_NODES" : return FulfillmentConstraint.ALL_NODES
+			case "ANY_STARTNODE" : return FulfillmentConstraint.ANY_STARTNODE
+			case "EACH_STARTNODE" : return FulfillmentConstraint.EACH_STARTNODE
 			default: return FulfillmentConstraint.defaultValue
 		}
 	}
