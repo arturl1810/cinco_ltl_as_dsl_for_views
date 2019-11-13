@@ -193,7 +193,7 @@ class Serializer {
 			InternalModelElement: nonInternalID
 			Type: internalElement.toGratextValue
 			String: '"' + replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
-			Date: '"' + new SimpleDateFormat("HH:mm:ss MM/dd/yyyy").format(it) + '"'
+			Date: '"' + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(it) + '"'
 			EObject: '''
 				«name» «nonInternalID» {
 						«attributes»

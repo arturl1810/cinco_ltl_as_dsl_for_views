@@ -238,7 +238,8 @@ class GrammarTmpl extends FileTemplate {
 		;
 		
 		_EString returns _ecore::EString:
-			_STRING;
+			_STRING
+		;
 		
 		_EInt returns _ecore::EInt:
 			_SIGN? _INT
@@ -258,6 +259,10 @@ class GrammarTmpl extends FileTemplate {
 		
 		_EBoolean returns _ecore::EBoolean:
 			'true' | 'false'
+		;
+		
+		_EDate returns _ecore::EDate:
+			_STRING
 		;
 		
 		terminal _ID : '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')* ;

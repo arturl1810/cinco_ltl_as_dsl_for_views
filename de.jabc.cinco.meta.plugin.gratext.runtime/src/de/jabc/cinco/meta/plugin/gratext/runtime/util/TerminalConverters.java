@@ -52,7 +52,7 @@ public class TerminalConverters extends AbstractDeclarativeValueConverterService
 	public IValueConverter<Date> EDate() {
 		return new AbstractNullSafeConverter<Date>() {
 
-			final String pattern = "HH:mm:ss MM/dd/yyyy";
+			final String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 			
             @Override
             protected String internalToString(Date value) {
