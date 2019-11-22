@@ -6,6 +6,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 
 import mgl.GraphModel;
+import productDefinition.Annotation;
 import productDefinition.CincoProduct;
 
 public interface ICPDMetaPlugin {
@@ -13,5 +14,5 @@ public interface ICPDMetaPlugin {
 	 * Executes the metaPlugin
 	 * @param mglList - list of MGL GraphModels 
 	 */
-	public void execute(Set<GraphModel> mglList,CincoProduct arguments,IProject project);
+	public void execute(Annotation annotation, Set<GraphModel> mglList,CincoProduct arguments,IProject project);
 }

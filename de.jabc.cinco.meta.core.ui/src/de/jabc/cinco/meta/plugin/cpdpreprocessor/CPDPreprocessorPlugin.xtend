@@ -7,13 +7,14 @@ import mgl.ModelElement
 import org.eclipse.core.resources.IProject
 import productDefinition.CincoProduct
 import mgl.MglFactory
+import productDefinition.Annotation
 
 class CPDPreprocessorPlugin implements ICPDMetaPlugin {
 	new() {}
 
-	override void execute(Set<GraphModel> mglList, CincoProduct product, IProject project) {
+	override void execute(Annotation anno, Set<GraphModel> mglList, CincoProduct product, IProject project) {
 		val prepAnnot = product.annotations.filter[name == "preprocessor"].head
-		if(prepAnnot == null) return;
+		if(prepAnnot === null) return;
 		
 		val mode = prepAnnot.value.head
 

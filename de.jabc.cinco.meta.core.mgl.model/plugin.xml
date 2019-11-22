@@ -14,8 +14,7 @@
       <!-- @generated MGL -->
       <package
             uri="http://www.jabc.de/cinco/meta/core/mgl"
-            class="mgl.MglPackage"
-            genModel="model/MGL.genmodel"/>
+            class="mgl.MglPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">

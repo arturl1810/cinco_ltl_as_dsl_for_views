@@ -63,6 +63,7 @@ import de.jabc.cinco.meta.util.xapi.FileExtension;
 import mgl.GraphModel;
 import mgl.Import;
 import mgl.MglPackage;
+import productDefinition.Annotation;
 import productDefinition.CincoProduct;
 import productDefinition.MGLDescriptor;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -271,7 +272,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			final Set<GraphModel> graphModels = new LinkedHashSet<>(
 					mgls.stream().map(n -> fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toList()));
 
-			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+			new CPDPreprocessorPlugin().execute(null,graphModels, cpd, cpdFile.getProject());
 
 			graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
 				try {
@@ -304,10 +305,19 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 
 		Set<GraphModel> graphModels = mgls.stream().map(n -> fileHelper.getContent(n, GraphModel.class))
 				.collect(Collectors.toSet());
-		PluginRegistry.getInstance().getPluginCPDGenerators().stream()
-				.filter(n -> cpd.getAnnotations().stream().filter(e -> e.getName().equals(n.getAnnotationName()))
-						.findAny().isPresent())
-				.forEach(n -> n.getPlugin().execute(graphModels, cpd, cpdFile.getProject()));
+//		PluginRegistry.getInstance().getPluginCPDGenerators().stream()
+//				.filter(n -> cpd.getAnnotations().stream().filter(e -> e.getName().equals(n.getAnnotationName()))
+//						.findAny().isPresent())
+//				.forEach(n -> n.getPlugin().execute(graphModels, cpd, cpdFile.getProject()));
+		List<Pair<Annotation, List<CPDAnnotation>>> annos = cpd.getAnnotations().stream()
+				.map(anno -> Pair.of(anno,
+						PluginRegistry.getInstance().getPluginCPDGenerators().stream()
+								.filter(cpdGen -> cpdGen.getAnnotationName().equals(anno.getName()))
+								.collect(Collectors.toList())))
+				.collect(Collectors.toList());
+		
+		annos.stream().forEach(anno ->  anno.getValue().stream().forEach(cpdAnno -> cpdAnno.getPlugin().execute(anno.getKey(), graphModels, cpd, cpdFile.getProject())));
+
 	}
 
 	private void readCPDFile() {

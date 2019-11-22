@@ -9,6 +9,7 @@ import java.util.Set
 import mgl.GraphModel
 import org.eclipse.core.resources.IProject
 import productDefinition.CincoProduct
+import productDefinition.Annotation
 
 abstract class CincoPlugin extends CincoMetaContext implements IMetaPlugin, ICPDMetaPlugin {
 	
@@ -25,7 +26,7 @@ abstract class CincoPlugin extends CincoMetaContext implements IMetaPlugin, ICPD
 		}
 	}
 	
-	override execute(Set<GraphModel> mglList, CincoProduct cpd, IProject project) {
+	override execute(Annotation anno, Set<GraphModel> mglList, CincoProduct cpd, IProject project) {
 		try {
 			this.cpd = cpd
 			this.run
