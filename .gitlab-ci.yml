@@ -1,3 +1,7 @@
+stages:
+  - build
+  - deploy
+
 .build:
   cache:
     paths:
@@ -10,6 +14,11 @@
   stage: build
   variables:
     MAVEN_LOCAL_REPOSITORY: "/builds/scce/cinco/m2/repository"
+  script:
+    - pushd de.jabc.cinco.meta.libraries
+    - "$MAVEN_COMMAND"
+    - popd
+    - "$MAVEN_COMMAND"
 
 build-test:
   extends: .build
@@ -17,23 +26,23 @@ build-test:
     - schedules
     - web
     - release-1.0
-  script:
-    - pushd de.jabc.cinco.meta.libraries
-    - mvn -e clean package
-    - popd;
-    - mvn -e clean package
+  variables:
+    MAVEN_COMMAND: "mvn -e clean package"
 
-build-deploy:
+build-deploy-nightly:
   extends: .build
   only:
     - schedules
     - web
+  variables:
+    MAVEN_COMMAND: "mvn -e clean deploy"
+
+build-deploy-release:
+  extends: .build
+  only:
     - release-1.0
-  script:
-    - pushd de.jabc.cinco.meta.libraries
-    - mvn -Prelease -e clean deploy
-    - popd;
-    - mvn -Prelease -e clean deploy
+  variables:
+    MAVEN_COMMAND: "mvn -Prelease -e clean deploy"
 
 .delivery:
   variables:
