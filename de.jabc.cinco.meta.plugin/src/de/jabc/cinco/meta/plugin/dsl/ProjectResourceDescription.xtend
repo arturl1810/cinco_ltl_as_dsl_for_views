@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.dsl
 import de.jabc.cinco.meta.plugin.CincoMetaContext
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.core.resources.IResource
+import org.eclipse.core.runtime.NullProgressMonitor
 
 abstract class ProjectResourceDescription<T extends IResource> extends CincoMetaContext {
 	
@@ -47,5 +48,9 @@ abstract class ProjectResourceDescription<T extends IResource> extends CincoMeta
 			setProject(parent.getProject)
 		}
 		return this
+	}
+	
+	protected def getMonitor() {
+		new NullProgressMonitor
 	}
 }

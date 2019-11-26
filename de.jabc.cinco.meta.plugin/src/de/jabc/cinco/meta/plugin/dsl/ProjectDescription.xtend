@@ -1,12 +1,11 @@
 package de.jabc.cinco.meta.plugin.dsl
 
+import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 import java.util.Set
 import org.eclipse.core.resources.IProject
-import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static de.jabc.cinco.meta.plugin.dsl.ProjectType.*
-import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 
 class ProjectDescription extends FileContainerDescription<IProject> {
 
@@ -80,10 +79,6 @@ class ProjectDescription extends FileContainerDescription<IProject> {
 			manifest.create(this)
 		if (type.isBuildPropertiesRequired)
 			buildProperties.create(this)
-	}
-	
-	protected def getMonitor() {
-		new NullProgressMonitor
 	}
 	
 	override add(FileDescription file) {

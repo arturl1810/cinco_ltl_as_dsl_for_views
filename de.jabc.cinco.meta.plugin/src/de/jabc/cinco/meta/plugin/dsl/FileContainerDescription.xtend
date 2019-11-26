@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.dsl
 
 import java.util.Set
 import org.eclipse.core.resources.IContainer
+import org.eclipse.core.runtime.Path
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static extension org.eclipse.core.runtime.Platform.getBundle
@@ -37,7 +38,14 @@ abstract class FileContainerDescription<T extends IContainer> extends ProjectRes
 	
 	
 	def createFolders() {
-		folders.forEach[create(this)]
+		folders.forEach[ foldDesc |
+			if (foldDesc.isDeleteIfExistent) {
+				IResource.getFolder(new Path(foldDesc.name)) => [ folder |
+					if (folder?.exists) folder.delete(true, monitor)
+				]
+			}
+			foldDesc.create(this)
+		]
 	}
 	
 	def Iterable<FileContainerDescription<?>> getHierarchy() {
