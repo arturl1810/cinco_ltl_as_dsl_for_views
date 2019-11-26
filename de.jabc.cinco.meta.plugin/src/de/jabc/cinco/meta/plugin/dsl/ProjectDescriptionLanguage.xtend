@@ -35,7 +35,7 @@ class ProjectDescriptionLanguage {
 		container => [ add(new FileDescription(template) => [it.overwrite = overwrite]) ]
 	}
 	
-	def <T extends FileContainerDescription<?>> file(T container, Pair<Class<? extends FileTemplate>, CharSequence> template) {
+	def <T extends FileContainerDescription<?>> file(T container, Pair<CharSequence, Class<? extends FileTemplate>> template) {
 		container => [ add(new FileDescription(template.value?.toString, template.key)) ]
 	}
 	
@@ -47,7 +47,7 @@ class ProjectDescriptionLanguage {
 		container => [ templates.map[new FileDescription(it)].forEach[container.add(it)] ]
 	}
 	
-	def <T extends FileContainerDescription<?>> setFiles(T container, Pair<Class<? extends FileTemplate>, CharSequence>[] templates) {
+	def <T extends FileContainerDescription<?>> setFiles(T container, Pair<CharSequence, Class<? extends FileTemplate>>[] templates) {
 		container => [ templates.map[new FileDescription(value?.toString, key)].forEach[container.add(it)] ]
 	}
 	
