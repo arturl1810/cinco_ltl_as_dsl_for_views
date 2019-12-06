@@ -115,9 +115,11 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name», �
 
 		«IF gm.allModelAttributes.exists[isAttributeFile]»
 		«FOR attr : gm.allModelAttributes.filter[isAttributeFile]»
-			«CincoPropertyView.name».init_FileAttributesExtensionFilters(
-			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»(),
-				new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"});
+			«FOR subtype : attr.modelElement.allSubclasses + #[attr.modelElement]»
+				«CincoPropertyView.name».init_FileAttributesExtensionFilters(
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«subtype.fuName»_«attr.name.toFirstUpper»(),
+					new String[] {"«attr.annotations.filter[name == "file"].map[value].flatten.join("\",\"")»"});
+			«ENDFOR»
 		«ENDFOR»
 		«ENDIF»
 	
