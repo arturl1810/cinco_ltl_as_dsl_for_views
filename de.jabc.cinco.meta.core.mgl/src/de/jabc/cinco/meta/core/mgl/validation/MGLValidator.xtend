@@ -603,6 +603,20 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
+	def checkExternalMGLIsStealth(Import imp){
+		if(!PathValidator.isRelativePath(imp, imp.importURI)){
+			if(!PathValidator.checkSameProjects(imp,imp.importURI)&& imp.importURI.mglImport && !imp.isStealth){
+				error("MGLs imported from foreign Projects must be imported stealthy",MglPackage.Literals.IMPORT__IMPORT_URI);
+			}
+		} 
+			
+	}
+	
+	def isMglImport(String importURI){
+		importURI.endsWith(".mgl")
+	}
+	
+	@Check
 	def checkGraphModelNameFileName(GraphModel gm) {
 		val gmName = gm.name
 		if (!gm.eResource.URI.trimFileExtension.lastSegment.equals(gmName)) {

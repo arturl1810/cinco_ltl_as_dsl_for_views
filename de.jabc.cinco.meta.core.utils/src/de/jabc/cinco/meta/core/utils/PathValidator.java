@@ -18,6 +18,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import de.jabc.cinco.meta.util.xapi.ResourceExtension;
+
 public class PathValidator {
 
 	private static IWorkspaceRoot root;
@@ -59,6 +61,7 @@ public class PathValidator {
 			return fileExists;
 		}
 	}
+	
 
 	public static synchronized URI getURIForString(EObject o, String path) {
 		root = ResourcesPlugin.getWorkspace().getRoot();
@@ -297,5 +300,19 @@ public class PathValidator {
         	return root.getFolder(new Path(uri.toPlatformString(true)));
         else
         	return resFile.getProject().getFolder(path);
+	}
+	@SuppressWarnings("all")
+	public static boolean checkSameProjects(EObject eObj, String path) {
+		root = ResourcesPlugin.getWorkspace().getRoot();
+		res = eObj.eResource();
+		ResourceExtension reEx = new ResourceExtension();
+		
+		IFile importedFile = getFile(path);
+		IProject importedProject = importedFile.getProject();
+		if(importedProject == null || !importedProject.equals(reEx.getFile(res).getProject())){
+			return false;
+		}
+		
+		return true;
 	}
 }
