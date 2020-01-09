@@ -7,13 +7,14 @@ import org.eclipse.core.resources.IProject
 import de.jabc.cinco.meta.core.pluginregistry.ICPDMetaPlugin
 import mgl.GraphModel
 import productDefinition.CincoProduct
+import productDefinition.Annotation
 
 class CPDMetaPlugin implements ICPDMetaPlugin {
 	new() {
 		println("[Pyro] Awaiting your command")
 	}
 
-	override void execute(Set<GraphModel> mglList, CincoProduct arguments, IProject project) {
+	override void execute(Annotation anno,Set<GraphModel> mglList, CincoProduct arguments, IProject project) {
 		var CreatePyroPlugin cpp = new CreatePyroPlugin()
 		val pyroAnnotation = arguments.annotations.findFirst[name.equals("pyro")]
 		if(pyroAnnotation==null){
