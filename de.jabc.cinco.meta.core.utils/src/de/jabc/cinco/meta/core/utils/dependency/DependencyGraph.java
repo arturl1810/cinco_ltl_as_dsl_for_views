@@ -17,7 +17,7 @@ public class DependencyGraph<T> {
 		nodes.put(node.getPath(),node);
 	}
 	
-	public  DependencyGraph<T> createGraph(Iterable<DependencyNode<T>> nodes){
+	public DependencyGraph<T> createGraph(Iterable<DependencyNode<T>> nodes){
 		DependencyGraph<T> dpg = new DependencyGraph<T>();
 		nodes.forEach(node -> dpg.addNode(node));
 		
@@ -55,7 +55,7 @@ public class DependencyGraph<T> {
  			if(!toRemove.isEmpty())
  				toVisit.removeAll(toRemove);
  			else
- 				throw new RuntimeException(String.format("Could not resolve Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
+ 				throw new RuntimeException(String.format("Could not resolve Dependencies, Dependency Graph contains cycles, including '%s'.",lastCurrent));
 		}
 		return stck;
 	}
