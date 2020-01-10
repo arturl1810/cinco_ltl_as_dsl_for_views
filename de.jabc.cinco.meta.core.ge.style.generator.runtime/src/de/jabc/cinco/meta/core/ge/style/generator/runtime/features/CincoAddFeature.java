@@ -1,5 +1,10 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -77,5 +82,17 @@ public class CincoAddFeature extends AbstractAddFeature {
 			};
 		}
 		connection.eAdapters().add(bendpointSynchronizer);
+	}
+	
+	public static Set<Class<?>> getAllSuperInterfaces(Class<?> clazz) {
+		Set<Class<?>> interfaces = new HashSet<>();
+		while (clazz != null) {
+			interfaces.addAll(Arrays.asList(clazz.getInterfaces()));
+			for (Class<?> i : clazz.getInterfaces())
+				interfaces.addAll(getAllSuperInterfaces(i));
+			clazz = clazz.getSuperclass();
+			
+		}
+		return interfaces;
 	}
 }
