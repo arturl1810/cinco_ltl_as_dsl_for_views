@@ -142,11 +142,17 @@ public class AddFeaturePrime«n.fuName» extends «CincoAddFeaturePrime.name» {
 		if (bo instanceof «InternalIdentifiableElement.name»)
 			element = ((«InternalIdentifiableElement.name») bo).getElement();
 			
-		if((element.eClass().getName().equals("«n.retrievePrimeReference.primeTypeElement»")
-				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeTypeElement»"))))
-				&& element.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))
+		if(
+			((element.eClass().getName().equals("«n.retrievePrimeReference.primeTypeElement»")
+				|| (element.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.retrievePrimeReference.primeTypeElement»")))
+				&& element.eClass().getEPackage().getNsURI().equals("«n.retrievePrimeReference.nsURI»"))))
+				return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
+			«IF (n.retrievePrimeReference.primeTypeElement.equals("EObject") && n.retrievePrimeReference.nsURI.equals("http://www.eclipse.org/emf/2002/Ecore"))»
+			if (element.eClass().getName().equals("EObject")
+				|| getAllSuperInterfaces(element.getClass()).stream().anyMatch(_superClass -> _superClass.getName().equals("org.eclipse.emf.ecore.EObject")))
+				return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
+			«ENDIF»
 		
-			return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 		return false;
 	}
 	
