@@ -263,15 +263,20 @@ class MGLGenerator extends MainTemplate{
 	def String getStyle(ModelElement annotatable)
 	{
 		if(annotatable.isIsAbstract){
-			var style = ""
-			switch(annotatable){
-				case Edge:style="defaultEdge"
-				default:style="defaultNode"
-			}
-			return '''@style(«style»,"«annotatable.name»")'''
+			return annotatable.getAbstractStyle
 		}
 		val anno = annotatable.annotations.filter[n|n.name.equals("style")].get(0);	
 		return '''@style(«anno.value.get(0)»«IF anno.value.size>1»,«anno.value.drop(1).map[n|n.statify].join('''"''',''',''','''"''')[n|n]»«ENDIF»)''';
+	}
+	
+	def String getAbstractStyle(ModelElement annotatable) {
+		var style = ""
+		if(annotatable instanceof Edge) {
+			style = "defaultEdge"
+		}else {
+			style = "defaultNode"
+		}
+		return '''@style(«style»,"«annotatable.name»")'''
 	}
 	
 	def String getStatify(String string) {
