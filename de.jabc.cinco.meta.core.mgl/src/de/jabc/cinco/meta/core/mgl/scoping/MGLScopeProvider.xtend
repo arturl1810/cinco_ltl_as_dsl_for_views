@@ -109,7 +109,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				try{
 					res = CincoUtil::getResource(refType.imprt.importURI, refType.eResource)
 				}catch(Exception e){
-					return null;
+					return scope
 				}
 				
 				if(res!=null){
