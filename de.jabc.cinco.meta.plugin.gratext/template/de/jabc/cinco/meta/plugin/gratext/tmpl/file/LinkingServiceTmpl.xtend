@@ -40,7 +40,7 @@ class LinkingServiceTmpl extends FileTemplate {
 			Transformer _transformer;
 			
 			private void assertTransformer(EObject model) {
-				if (model instanceof «model.name»)
+				if (model instanceof GratextInternal«model.name»)
 					_transformer = «model.name»GratextResource.transformers.get(model); // create transformer if not existent
 			}
 			

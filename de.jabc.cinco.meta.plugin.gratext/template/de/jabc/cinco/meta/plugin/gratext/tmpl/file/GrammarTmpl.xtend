@@ -35,7 +35,7 @@ class GrammarTmpl extends FileTemplate {
 	def modelRule() {
 		val containables = model.containables.drop[isAbstract]
 		'''
-			«model.name» returns «model.name»:{«model.name»}
+			«model.name» returns GratextInternal«model.name»:{GratextInternal«model.name»}
 			'«model.name»' (id = _ID)?
 			('{'
 				«attributes(model)»
@@ -57,7 +57,7 @@ class GrammarTmpl extends FileTemplate {
 		val outEdges = node.outgoingEdges.drop[isAbstract]
 		val containables = node.containables.drop[isAbstract]
 		'''
-			«node.name» returns «node.name»:{«node.name»}
+			«node.name» returns GratextInternal«node.name»:{GratextInternal«node.name»}
 			'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
 					& ('size' width=_EInt ',' height=_EInt)?
 					& ('index' index=_EInt)? 
@@ -90,7 +90,7 @@ class GrammarTmpl extends FileTemplate {
 	def nodeRule(Node node) {
 		val outEdges = node.outgoingEdges.drop[isAbstract]
 		'''
-			«node.name» returns «node.name»:{«node.name»}
+			«node.name» returns GratextInternal«node.name»:{GratextInternal«node.name»}
 			'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
 				& ('size' width=_EInt ',' height=_EInt)?
 				& ('index' index=_EInt)? 
@@ -112,7 +112,7 @@ class GrammarTmpl extends FileTemplate {
 	}
 
 	def edgeRule(Edge edge) '''
-		«edge.name» returns «edge.name»:{«edge.name»}
+		«edge.name» returns GratextInternal«edge.name»:{GratextInternal«edge.name»}
 		'-«edge.name»->' _targetElement = [_graphmodel::InternalNode|_ID]
 		('via' (bendpoints += _Point)+)?
 		(decorators += _Decoration)*
@@ -124,7 +124,7 @@ class GrammarTmpl extends FileTemplate {
 	'''
 
 	def typeRule(UserDefinedType type) '''
-		«type.name» returns «type.name»:{«type.name»}
+		«type.name» returns GratextInternal«type.name»:{GratextInternal«type.name»}
 		'«type.name»' (id = _ID)? '{'
 			«attributes(type)»
 		'}'

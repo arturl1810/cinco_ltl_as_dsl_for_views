@@ -54,7 +54,7 @@ class EcoreTmpl extends FileTemplate {
 				«IF ((upperBound < 0) || (upperBound > 1))»
 					upperBound="-1"
 				«ENDIF»
-				name="gratext_«name»" eType="#//«type.name»" containment="true"/>
+				name="gratext_«name»" eType="#//GratextInternal«type.name»" containment="true"/>
 			'''].join("\n") ?: ""
 	}
 
@@ -70,12 +70,12 @@ class EcoreTmpl extends FileTemplate {
 «««			    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
 «««			    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
 			</eAnnotations>
-			<eClassifiers xsi:type="ecore:EClass" name="«model.name»">
+			<eClassifiers xsi:type="ecore:EClass" name="GratextInternal«model.name»">
 				<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«model.name»"/>
 				«model.typeAttributes»
 			</eClassifiers>
 			«FOR it:model.nodes»
-				<eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isIsAbstract»">
+				<eClassifiers xsi:type="ecore:EClass" name="GratextInternal«name»" abstract="«isIsAbstract»">
 «««			  <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
 					<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
 					«interfaces»
@@ -83,14 +83,14 @@ class EcoreTmpl extends FileTemplate {
 				</eClassifiers>
 			«ENDFOR»
 			«FOR it:model.edges»
-				<eClassifiers xsi:type="ecore:EClass" name="«name»">
+				<eClassifiers xsi:type="ecore:EClass" name="GratextInternal«name»">
 					<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
 					<eSuperTypes href="#//_Edge"/>
 					«typeAttributes»
 				</eClassifiers>
 			«ENDFOR»
 			«FOR it:model.userDefinedTypes»
-				<eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isIsAbstract»">
+				<eClassifiers xsi:type="ecore:EClass" name="GratextInternal«name»" abstract="«isIsAbstract»">
 					<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«name»"/>
 					«typeAttributes»
 				</eClassifiers>

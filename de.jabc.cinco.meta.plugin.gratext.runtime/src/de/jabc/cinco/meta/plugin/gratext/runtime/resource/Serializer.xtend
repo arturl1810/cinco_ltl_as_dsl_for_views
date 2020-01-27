@@ -84,7 +84,10 @@ class Serializer {
 	}
 	
 	def name(EObject obj) {
-		obj.eClass.name.replaceFirst("Internal","")
+		switch it : obj {
+			InternalIdentifiableElement: eClass.name.replaceAll("^Gratext","").replaceAll("^Internal","")
+			default: eClass.name
+		}
 	}
 	
 	def String attributes(EObject obj) {

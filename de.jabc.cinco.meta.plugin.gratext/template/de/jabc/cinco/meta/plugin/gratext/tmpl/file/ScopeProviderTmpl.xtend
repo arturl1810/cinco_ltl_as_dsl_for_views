@@ -22,7 +22,7 @@ class ScopeProviderTmpl extends FileTemplate {
 			.filter[model.containsModelElement(type.name)]
 			.filter[!model.containsUserDefinedType(type.name)]
 		if (me instanceof Edge || !modelElementRefs.isEmpty) '''
-			dispatch def IScope getScope(^«me.name» element, String refName) {
+			dispatch def IScope getScope(^GratextInternal«me.name» element, String refName) {
 				switch refName {
 					«if (me instanceof Edge) '''
 					case "_targetElement": element.scopeForContents(
