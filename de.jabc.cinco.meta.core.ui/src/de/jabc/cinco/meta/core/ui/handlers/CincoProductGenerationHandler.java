@@ -110,31 +110,41 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	synchronized public Object execute(ExecutionEvent executionEvent) throws ExecutionException {
 		long startTime = System.nanoTime();
 		this.event = executionEvent;
-		
 		/*
 		 * INITIALIZATION
 		 */
-		this.readCPDFile();
-		this.readCincoProperties();
-		this.deleteFolders();
-		this.readGenerationTimestamp();
-		this.calculateMGL_Sets();
-		if (generateMGLs.size() == 0) {
-			Display display = getDisplay();
-			if (MessageDialog.openQuestion(display.getActiveShell(), "Cinco Product Generator",
-					"No model changes! \n \n Generate anyways? :-$")) {
-				deleteGenerationTimestamp();
-				calculateMGL_Sets();
-			} else {
-				return null;
+		try {
+
+			this.readCPDFile();
+			this.readCincoProperties();
+			this.deleteFolders();
+			this.readGenerationTimestamp();
+			this.calculateMGL_Sets();
+
+			if (generateMGLs.size() == 0) {
+				Display display = getDisplay();
+				if (MessageDialog.openQuestion(display.getActiveShell(), "Cinco Product Generator",
+						"No model changes! \n \n Generate anyways? :-$")) {
+					deleteGenerationTimestamp();
+					calculateMGL_Sets();
+				} else {
+					return null;
+				}
 			}
+
+		}catch(RuntimeException e) {
+			Display display = getDisplay();
+			String errorMessage = String.format("Unable to initialize CINCO Product Generation:\n\n%s",e.getMessage());
+			String errorTitle = "CPD Generation Error";
+			MessageDialog.openError(display.getActiveShell(), errorTitle, errorMessage);
+			return null;
 		}
 
 		/*
 		 * SET UP
 		 */
-		Workload job = job("Generate Cinco Product").consume(10, "Initializing...")
-				.task("Disabling auto-build...", this::disableAutoBuild);
+		
+		Workload job = job("Generate Cinco Product").consume(10, "Initializing...").task("Disabling auto-build...", this::disableAutoBuild);
 		
 		
 		/*
@@ -527,12 +537,15 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 		}
 		DependencyGraph<String> dg = new DependencyGraph<String>().createGraph(dns);
+		try {
 		List<IFile> topSortMGLs = dg.topSort().stream().map(path -> cpdFile.getProject().getFile(path))
 				.collect(Collectors.toList());
-		
 		this.allMGLs = new ArrayList<IFile>(topSortMGLs);
 		topSortMGLs.removeAll(this.ignoredMGLs);
 		this.generateMGLs = topSortMGLs;
+		}catch(RuntimeException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private EPackage getEPackageForMGL(IFile mglFile, IProject project) {
