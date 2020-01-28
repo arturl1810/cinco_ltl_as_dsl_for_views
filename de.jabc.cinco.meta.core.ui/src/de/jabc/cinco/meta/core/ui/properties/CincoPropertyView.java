@@ -120,6 +120,7 @@ import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 import graphmodel.Type;
 import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalIdentifiableElement;
 import graphmodel.internal.InternalModelElement;
 import graphmodel.internal.InternalType;
 
@@ -807,9 +808,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					return super.getText(element);
 				if (element instanceof ModelElement)
 					element = ((ModelElement)element).getInternalElement();
-				if (element instanceof InternalModelElement || element instanceof InternalGraphModel)
-					return element.getClass().getSimpleName()
-							.replace("Internal", "").replace("Impl", "");
+				if (element instanceof InternalIdentifiableElement)
+					return ((InternalIdentifiableElement) element).getElement().eClass().getName();
 				
 				EObject eObject = (EObject) element;
 				EObject eContainer = eObject.eContainer();
