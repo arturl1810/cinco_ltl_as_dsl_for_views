@@ -3,6 +3,9 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.layout
 import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import graphmodel.Edge
 import graphmodel.ModelElement
+import graphmodel.Node
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalFactory
 import org.eclipse.graphiti.features.IFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IContext
@@ -22,26 +25,10 @@ class EdgeLayoutUtils {
 		pictogramElement?.graphicsAlgorithm
 	}
 	
-	def getX(ModelElement it) {
-		graphicsAlgorithm?.x
-	}
-	
-	def getY(ModelElement it) {
-		graphicsAlgorithm?.y
-	}
-	
-	def getHeight(ModelElement it) {
-		graphicsAlgorithm?.height
-	}
-	
-	def getWidth(ModelElement it) {
-		graphicsAlgorithm?.width
-	}
-	
-	def Location getAbsoluteLocation(ModelElement elm) {
-		val loc = new Location(elm.x, elm.y)
-		var container = elm.container
-		while (container instanceof ModelElement) {
+	def Location getAbsoluteLocation(Node node) {
+		val loc = new Location(node.x, node.y)
+		var container = node.container
+		while (container instanceof Node) {
 			loc.x += container.x
 			loc.y += container.y
 			container = container.container
@@ -96,7 +83,7 @@ class EdgeLayoutUtils {
 	}
 	
 	def getBendpoints(Edge edge) {
-		edge.connection?.bendpoints ?: #[]
+		edge.internalBendpointsList.map[new Location(x,y)].toList
 	}
 	
 	def FreeFormConnection getConnection(Edge it) {
@@ -106,7 +93,7 @@ class EdgeLayoutUtils {
 	}
 	
 	def replaceBendpoints(Edge it, Location... locs) {
-		val fp = diagram.diagramTypeProvider.featureProvider
+		val fp = diagram?.featureProvider
 		transact("Bendpoint editing") [
 			removeBendpoints(fp)
 			locs.forEach[loc|addBendpoint(loc.x, loc.y, fp)]
@@ -114,23 +101,28 @@ class EdgeLayoutUtils {
 	}
 	
 	def addBendpoints(Edge it, Location... locs) {
-		val fp = diagram.diagramTypeProvider.featureProvider
+		val fp = diagram?.featureProvider
 		transact("Add bendpoints")[
 			locs.forEach[loc|addBendpoint(loc.x, loc.y, fp)]
 		]
 	}
 	
 	def addBendpoint(Edge it, int x, int y) {
-		addBendpoint(x, y, diagram.diagramTypeProvider.featureProvider)
+		addBendpoint(x, y, diagram?.featureProvider)
 	}
 	
 	private def addBendpoint(Edge it, int x, int y, IFeatureProvider fp) {
-		val ctx = new AddBendpointContext(connection, x, y, bendpoints.size)
-		fp.getAddBendpointFeature(ctx).executeWithContext(ctx)
+		if (fp !== null) {
+			val ctx = new AddBendpointContext(connection, x, y, bendpoints.size)
+			fp.getAddBendpointFeature(ctx).executeWithContext(ctx)
+		}
+		else internalBendpointsList.add(
+			InternalFactory.eINSTANCE.create_Point => [ it.x = x; it.y = y]
+		)
 	}
 	
 	def removeBendpoints(Edge it) {
-		removeBendpoints(diagram.diagramTypeProvider.featureProvider)
+		removeBendpoints(diagram?.featureProvider)
 	}
 	
 	def removeBendpoints(Edge it, IFeatureProvider fp) {
@@ -141,18 +133,21 @@ class EdgeLayoutUtils {
 	}
 	
 	def removeBendpoint(Edge it, int index) {
-		removeBendpoint(index, diagram.diagramTypeProvider.featureProvider)
+		removeBendpoint(index, diagram?.featureProvider)
 	}
 	
 	private def removeBendpoint(Edge it, int index, IFeatureProvider fp) {
-		val ctx = new RemoveBendpointContext(connection, null) => [
-			bendpointIndex = index
-		]
-		fp.getRemoveBendpointFeature(ctx).executeWithContext(ctx)
+		if (fp !== null) {
+			val ctx = new RemoveBendpointContext(connection, null) => [
+				bendpointIndex = index
+			]
+			fp.getRemoveBendpointFeature(ctx).executeWithContext(ctx)
+		}
+		else internalBendpointsList.remove(index)
 	}
 	
 	def moveBendpoints(Edge it, (Location) => Location move) {
-		val fp = diagram.diagramTypeProvider.featureProvider
+		val fp = diagram?.featureProvider
 		transact("Move bendpoints")[
 			for (i: 0 ..< bendpoints.size)
 				moveBendpoint(i, move, fp)
@@ -160,17 +155,23 @@ class EdgeLayoutUtils {
 	}
 	
 	def moveBendpoint(Edge it, int index, (Location) => Location move) {
-		moveBendpoint(index, move, diagram.diagramTypeProvider.featureProvider)
+		moveBendpoint(index, move, diagram?.featureProvider)
 	}
 	
 	def moveBendpoint(Edge edge, int index, (Location) => Location move, IFeatureProvider fp) {
-		val loc = move.apply(Location.toLocation(edge.bendpoints.get(index)))
-		val ctx = new MoveBendpointContext(null) => [
-			connection = edge.connection
-			bendpointIndex = index
-			setLocation(loc.x, loc.y)
+		val loc = move.apply(edge.bendpoints.get(index))
+		if (fp !== null) {
+			val ctx = new MoveBendpointContext(null) => [
+				connection = edge.connection
+				bendpointIndex = index
+				setLocation(loc.x, loc.y)
+			]
+			fp.getMoveBendpointFeature(ctx).executeWithContext(ctx)
+		}
+		else edge.internalBendpointsList.get(index) => [
+			it.x = loc.x
+			it.y = loc.y
 		]
-		fp.getMoveBendpointFeature(ctx).executeWithContext(ctx)
 	}
 	
 	private def executeWithContext(IFeature it, IContext ctx) {
@@ -178,51 +179,55 @@ class EdgeLayoutUtils {
 		db.executeFeature(it, ctx)
 	}
 	
-	def Location getTopLeft(ModelElement elm) {
-		elm.absoluteLocation
+	private def getInternalBendpointsList(Edge it) {
+		(internalElement as InternalEdge).bendpoints
 	}
 	
-	def Location getTopCenter(ModelElement elm) {
-		elm.absoluteLocation => [x += elm.width/2]
+	def Location getTopLeft(Node node) {
+		node.absoluteLocation
 	}
 	
-	def Location getTopRight(ModelElement elm) {
-		elm.absoluteLocation => [x += elm.width]
+	def Location getTopCenter(Node node) {
+		node.absoluteLocation => [x += node.width/2]
 	}
 	
-	def Location getMiddleLeft(ModelElement elm) {
-		elm.absoluteLocation => [y += elm.height/2]
+	def Location getTopRight(Node node) {
+		node.absoluteLocation => [x += node.width]
 	}
 	
-	def Location getMiddleCenter(ModelElement elm) {
-		elm.absoluteLocation => [
-			x += elm.width/2
-			y += elm.height/2
+	def Location getMiddleLeft(Node node) {
+		node.absoluteLocation => [y += node.height/2]
+	}
+	
+	def Location getMiddleCenter(Node node) {
+		node.absoluteLocation => [
+			x += node.width/2
+			y += node.height/2
 		]
 	}
 	
-	def Location getMiddleRight(ModelElement elm) {
-		elm.absoluteLocation => [
-			x += elm.width
-			y += elm.height/2
+	def Location getMiddleRight(Node node) {
+		node.absoluteLocation => [
+			x += node.width
+			y += node.height/2
 		]
 	}
 	
-	def Location getBottomLeft(ModelElement elm) {
-		elm.absoluteLocation => [y += elm.height]
+	def Location getBottomLeft(Node node) {
+		node.absoluteLocation => [y += node.height]
 	}
 	
-	def Location getBottomCenter(ModelElement elm) {
-		elm.absoluteLocation => [
-			x += elm.width/2
-			y += elm.height
+	def Location getBottomCenter(Node node) {
+		node.absoluteLocation => [
+			x += node.width/2
+			y += node.height
 		]
 	}
 	
-	def Location getBottomRight(ModelElement elm) {
-		elm.absoluteLocation => [
-			x += elm.width
-			y += elm.height
+	def Location getBottomRight(Node node) {
+		node.absoluteLocation => [
+			x += node.width
+			y += node.height
 		]
 	}
 	
