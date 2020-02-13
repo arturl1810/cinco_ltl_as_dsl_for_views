@@ -386,10 +386,10 @@ public class Highlight {
 		for (PictogramElement pe : new HashSet<>(affected)) {
 			off(pe, false);
 		}
-		refreshAll(() -> {
-			affected.clear();
-			on = false;
-		});
+		List<PictogramElement> orgAffected = new ArrayList<>(this.affected);
+		affected.clear();
+		on = false;
+		refreshAll(orgAffected);
 	}
 
 	protected Highlight diagramOn(Diagram diagram) {
@@ -450,11 +450,10 @@ public class Highlight {
 	}
 	
 	public void refreshAll() {
-		refreshAll(null);
+		refreshAll(new ArrayList<>(this.affected));
 	}
 	
-	public void refreshAll(final Runnable onDone) {
-		final List<PictogramElement> affected = new ArrayList<>(this.affected);
+	public void refreshAll(List<PictogramElement> affected) {
 		workbenchX.async(() -> {
 			if (!affected.isEmpty()) {
 				PictogramElement pe = affected.iterator().next();
@@ -464,8 +463,6 @@ public class Highlight {
 						refreshRenderingDecorators(db, p);
 				else System.err.println("[Highlight] No DiagramBehavior found for pictogram: " + pe);
 			}
-			if (onDone != null)
-				onDone.run();
 		});
 	}
 	
