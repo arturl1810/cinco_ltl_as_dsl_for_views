@@ -212,8 +212,11 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	public «PictogramElement.name» fetchPictogramElement(«ModelElement.name» me) {
-		
-		«List.name»<«PictogramElement.name»> pes = «Graphiti.name».getLinkService().getPictogramElements(getDiagram(), me);
+		«Diagram.name» diagram = getDiagram();
+		if (diagram == null) {
+			return null;
+		}
+		«List.name»<«PictogramElement.name»> pes = «Graphiti.name».getLinkService().getPictogramElements(diagram, me);
 		if (pes != null && pes.size() > 0 )
 			return pes.get(0);
 		return null;
