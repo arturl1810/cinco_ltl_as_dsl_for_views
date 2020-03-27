@@ -40,6 +40,8 @@ class ModelCheckingAdapterTmpl extends FileTemplate{
 		
 			@Override
 			public void buildCheckableModel(GraphModel model, CheckableModel<?,?> checkableModel, boolean withSelection) {
+				System.out.println("Hello this part is inserted");
+				System.out.println("Hello this part is inserted too");
 				if (canHandle(model)) {
 					«model.name»ModelBuilder builder = new «model.name»ModelBuilder();
 					builder.buildModel((«model.fqBeanName») model, checkableModel, withSelection);

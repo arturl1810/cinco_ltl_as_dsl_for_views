@@ -22,6 +22,9 @@
       <ModelChecker
             class="de.jabc.cinco.meta.plugin.modelchecking.runtime.gear.GearModelChecker">
       </ModelChecker>
+      <ModelChecker
+            class="de.jabc.cinco.meta.plugin.modelchecking.runtime.kts.TransitionsystemChecker">
+      </ModelChecker>
    </extension>
 
 </plugin>
