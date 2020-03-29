@@ -11,6 +11,4 @@ class BasicCheckableModel extends AbstractBasicCheckableModel<BasicCheckableNode
 	override createEdge(BasicCheckableNode source, BasicCheckableNode target, Set<String> labels) {
 		new BasicCheckableEdge(source, target, labels)
 	}
-	
-
 }

@@ -20,6 +20,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.plugin.modelchecking.runtime,
  de.jabc.cinco.meta.plugin.modelchecking.runtime.core,
  de.jabc.cinco.meta.plugin.modelchecking.runtime.formulas,
+ de.jabc.cinco.meta.plugin.modelchecking.runtime.kts,
  de.jabc.cinco.meta.plugin.modelchecking.runtime.model,
  de.jabc.cinco.meta.plugin.modelchecking.runtime.modelchecker,
  de.jabc.cinco.meta.plugin.modelchecking.runtime.util
