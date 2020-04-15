@@ -32,6 +32,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/mglPath"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/dontGenerate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/forceGenerate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/sosTargetMgl"/>
     </genClasses>
     <genClasses ecoreClass="ProductDefinition.ecore#//About">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//About/imagePath"/>
