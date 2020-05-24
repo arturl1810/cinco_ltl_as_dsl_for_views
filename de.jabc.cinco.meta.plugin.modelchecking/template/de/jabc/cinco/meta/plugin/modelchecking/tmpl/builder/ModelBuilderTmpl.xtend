@@ -30,6 +30,7 @@ class ModelBuilderTmpl extends FileTemplate {
 		
 		import org.eclipse.emf.common.util.EList;
 		
+		import de.jabc.cinco.meta.plugin.modelchecking.runtime.kts.LinkedBasicCheckableNode;
 		import de.jabc.cinco.meta.plugin.modelchecking.runtime.model.*;	
 		import de.jabc.cinco.meta.plugin.modelchecking.runtime.util.ModelCheckingRuntimeExtension;
 		
@@ -63,80 +64,93 @@ class ModelBuilderTmpl extends FileTemplate {
 			@Override
 			public void buildModel(«model.fqBeanName» model, CheckableModel<?,?> checkableModel, boolean withSelection){
 				init(withSelection);
+				if (checkableModel.getClass().toString()
+						.equals("class de.jabc.cinco.meta.plugin.modelchecking.runtime.kts.TransitionsystemModel")) {
+					ProgramGraph<Configuration> transitionSystem = (new «model.name»Translator()).execute(model);
 				
-				Set<Node> supportNodes = new HashSet<>();
-				Set<Node> includeNodesWithSupportNodeSuccs = new HashSet<>();
-				Set<Node> includeNodesWithSupportNodePreds = new HashSet<>();
-				Set<Node> includeNodes = new HashSet<>();
+					for (GraphNode<Configuration> n : transitionSystem.getNodes()) {
+						checkableModel.addNewNode(n.getContentModelID(), transitionSystem.getStart().equals(n),
+								getAtomicPropositions(n));
+					}
+					for (GraphEdge e : transitionSystem.getEdges()) {
+						addEdge(checkableModel, e.getStart(), e.getEnd());
+					}
+				} else {
 				
-				«FOR node : supportNodes SEPARATOR '\n'»
-				model.get«node.name»s().stream().filter(node -> toInclude(node))
-				.forEach(node -> supportNodes.add(node));
-				«ENDFOR»
-				
-				«FOR node : nodes.filter[!supportNode && model.canContain(it)] SEPARATOR '\n'»
-				model.get«node.name»s().stream().filter(node -> toInclude(node))
-				.forEach(node -> {
-					«IF providerExists»
-					if (providerHandler.isSupportNode(node)) {
-						supportNodes.add(node);
-					}else{
+					Set<Node> supportNodes = new HashSet<>();
+					Set<Node> includeNodesWithSupportNodeSuccs = new HashSet<>();
+					Set<Node> includeNodesWithSupportNodePreds = new HashSet<>();
+					Set<Node> includeNodes = new HashSet<>();
+					
+					«FOR node : supportNodes SEPARATOR '\n'»
+					model.get«node.name»s().stream().filter(node -> toInclude(node))
+					.forEach(node -> supportNodes.add(node));
+					«ENDFOR»
+					
+					«FOR node : nodes.filter[!supportNode && model.canContain(it)] SEPARATOR '\n'»
+					model.get«node.name»s().stream().filter(node -> toInclude(node))
+					.forEach(node -> {
+						«IF providerExists»
+						if (providerHandler.isSupportNode(node)) {
+							supportNodes.add(node);
+						}else{
+							includeNodes.add(node);
+						}
+						«ELSE»
 						includeNodes.add(node);
+						«ENDIF»
+					});
+					«ENDFOR»
+					
+					includeNodes.stream().filter(node -> node.getSuccessors().stream()
+						.anyMatch(succ -> supportNodes.contains(succ))
+					)
+					.forEach(node -> includeNodesWithSupportNodeSuccs.add(node));
+					
+					includeNodes.stream().filter(node -> node.getPredecessors().stream()
+						.anyMatch(pred -> supportNodes.contains(pred))
+					)
+					.forEach(node -> includeNodesWithSupportNodePreds.add(node));
+					
+					for (Node node : includeNodes) {
+						checkableModel.addNewNode(node.getId(), isStartNode(node), getAtomicPropositions(node));
+					}			
+					
+					for (Edge edge : model.getAllEdges()) {
+						if (isRelevantEdge(edge)) {
+							addEdge(checkableModel, edge.getSourceElement().getId(), edge.getTargetElement().getId(), getEdgeLabels(edge), includeNodes);
+						}
 					}
-					«ELSE»
-					includeNodes.add(node);
-					«ENDIF»
-				});
-				«ENDFOR»
-				
-				includeNodes.stream().filter(node -> node.getSuccessors().stream()
-					.anyMatch(succ -> supportNodes.contains(succ))
-				)
-				.forEach(node -> includeNodesWithSupportNodeSuccs.add(node));
-				
-				includeNodes.stream().filter(node -> node.getPredecessors().stream()
-					.anyMatch(pred -> supportNodes.contains(pred))
-				)
-				.forEach(node -> includeNodesWithSupportNodePreds.add(node));
-				
-				for (Node node : includeNodes) {
-					checkableModel.addNewNode(node.getId(), isStartNode(node), getAtomicPropositions(node));
-				}			
-				
-				for (Edge edge : model.getAllEdges()) {
-					if (isRelevantEdge(edge)) {
-						addEdge(checkableModel, edge.getSourceElement().getId(), edge.getTargetElement().getId(), getEdgeLabels(edge), includeNodes);
-					}
-				}
-		
-				«IF providerExists»
-				for(Edge edge: providerHandler.getReplacementEdges(model)){
-					if (isRelevantEdge(edge)) {
-						addEdge(checkableModel, edge.getSourceElement().getId(), edge.getTargetElement().getId(), getEdgeLabels(edge), includeNodes);
-					}
-				}
-				«ENDIF»	
-				
-				List<List<Node>> replacementPaths = new ArrayList<List<Node>>();
-				for (Node node : includeNodesWithSupportNodeSuccs) {
-					List<List<Node>> paths = xapi.findPathsToFirst(node, Node.class, n-> includeNodesWithSupportNodePreds.contains(n))
-							.stream()
-							.filter(path -> path.size() > 1)
-							.filter(path -> path.subList(0, path.size()-2)
-										.stream()
-										.allMatch(supportNode -> supportNodes.contains(supportNode)))
-							.collect(Collectors.toList());
-					paths.forEach(path -> path.add(0, node));
-					replacementPaths.addAll(paths);
-				}
-				
-				for (List<Node>  path : replacementPaths) {
+			
 					«IF providerExists»
-					Set<String> labels = providerHandler.getReplacementEdgeLabels(path, getEdgeLabelsOfPath(path));
-					«ELSE»
-					Set<String> labels = getEdgeLabelsOfPath(path);
-					«ENDIF»
-					addEdge(checkableModel, path.get(0).getId(), path.get(path.size() - 1).getId(), labels, includeNodes);
+					for(Edge edge: providerHandler.getReplacementEdges(model)){
+						if (isRelevantEdge(edge)) {
+							addEdge(checkableModel, edge.getSourceElement().getId(), edge.getTargetElement().getId(), getEdgeLabels(edge), includeNodes);
+						}
+					}
+					«ENDIF»	
+					
+					List<List<Node>> replacementPaths = new ArrayList<List<Node>>();
+					for (Node node : includeNodesWithSupportNodeSuccs) {
+						List<List<Node>> paths = xapi.findPathsToFirst(node, Node.class, n-> includeNodesWithSupportNodePreds.contains(n))
+								.stream()
+								.filter(path -> path.size() > 1)
+								.filter(path -> path.subList(0, path.size()-2)
+											.stream()
+											.allMatch(supportNode -> supportNodes.contains(supportNode)))
+								.collect(Collectors.toList());
+						paths.forEach(path -> path.add(0, node));
+						replacementPaths.addAll(paths);
+					}
+					
+					for (List<Node>  path : replacementPaths) {
+						«IF providerExists»
+						Set<String> labels = providerHandler.getReplacementEdgeLabels(path, getEdgeLabelsOfPath(path));
+						«ELSE»
+						Set<String> labels = getEdgeLabelsOfPath(path);
+						«ENDIF»
+						addEdge(checkableModel, path.get(0).getId(), path.get(path.size() - 1).getId(), labels, includeNodes);
+					}
 				}
 			}
 			
@@ -259,7 +273,33 @@ class ModelBuilderTmpl extends FileTemplate {
 			private String getType(ModelElement element) {
 				return element.getClass().getSimpleName().substring(1);
 			}
+			
+			// new:
+			private <N, E> void addEdge(CheckableModel<N, E> checkableModel, GraphNode<Configuration> source,
+						GraphNode<Configuration> target) {
+					checkableModel.addNewEdge(getNodeFromModel(checkableModel, source), getNodeFromModel(checkableModel, target),
+							new HashSet<>());
+			}
+			private <N, E> N getNodeFromModel(CheckableModel<N, E> checkableModel, GraphNode<Configuration> graphNode) {
+					return checkableModel.getNodes().stream().filter(node -> {
+						boolean equalId = checkableModel.getId(node).equals(graphNode.getContentModelID());
+						LinkedBasicCheckableNode casted = (LinkedBasicCheckableNode) node;
+			
+						List<String> allPropsOfGraphNode = graphNode.getAdditionalData().keySet().stream()
+								.filter(s -> graphNode.getAdditionalData().get(s)).collect(Collectors.toList());
+			
+						boolean containsAll1 = casted.getAtomicPropositions().containsAll(allPropsOfGraphNode);
+						boolean containsAll2 = allPropsOfGraphNode.containsAll(casted.getAtomicPropositions());
+			
+						return equalId && containsAll1 && containsAll2;
+					}).findFirst().orElse(null);
+				}
 		}
+		
+			private Set<String> getAtomicPropositions(GraphNode<Configuration> node) {
+				return node.getAdditionalData().keySet().stream().filter(key -> node.getAdditionalData().get(key))
+						.map(value -> value.toString()).collect(Collectors.toSet());
+			}
 	'''
 
 

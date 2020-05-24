@@ -1,13 +1,19 @@
 package de.jabc.cinco.meta.plugin.modelchecking.tmpl.project
 
-import de.jabc.cinco.meta.plugin.template.ProjectTemplate
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.ConfigurationTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.GraphEdgeTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.GraphNodeTmpl
 import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.ModelBuilderTmpl
-import de.jabc.cinco.meta.plugin.modelchecking.util.ModelCheckingExtension
-import de.jabc.cinco.meta.plugin.modelchecking.tmpl.formulas.FormulaFactoryTmpl
-import de.jabc.cinco.meta.plugin.modelchecking.tmpl.formulas.FormulaHandlerTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.ModelCheckingAdditionalDataTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.ProgramGraphTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.builder.TranslatorTmpl
 import de.jabc.cinco.meta.plugin.modelchecking.tmpl.file.ActivatorTmpl
 import de.jabc.cinco.meta.plugin.modelchecking.tmpl.file.ModelCheckingAdapterTmpl
 import de.jabc.cinco.meta.plugin.modelchecking.tmpl.file.PluginXmlTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.formulas.FormulaFactoryTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.tmpl.formulas.FormulaHandlerTmpl
+import de.jabc.cinco.meta.plugin.modelchecking.util.ModelCheckingExtension
+import de.jabc.cinco.meta.plugin.template.ProjectTemplate
 
 class ModelCheckingProjectTmpl extends ProjectTemplate{
 	
@@ -22,6 +28,12 @@ class ModelCheckingProjectTmpl extends ProjectTemplate{
 				]
 				pkg (subPackage("builder")) [
 					file (ModelBuilderTmpl)
+					file (ConfigurationTmpl)
+					file (GraphEdgeTmpl)
+					file (GraphNodeTmpl)
+					file (ModelCheckingAdditionalDataTmpl)
+					file (ProgramGraphTmpl)
+					file (TranslatorTmpl)
 				]
 				if (model.formulasExist){
 					pkg (subPackage("formulas")) [
